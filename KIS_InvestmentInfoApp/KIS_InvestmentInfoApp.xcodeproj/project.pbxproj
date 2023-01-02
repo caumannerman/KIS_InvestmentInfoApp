@@ -27,6 +27,7 @@
 		A5558006296273B100919868 /* ShowDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5558005296273B000919868 /* ShowDataViewController.swift */; };
 		A555800C29627B9300919868 /* ButtonListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A555800B29627B9300919868 /* ButtonListViewCell.swift */; };
 		A555800E29627BA400919868 /* ButtonListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A555800D29627BA400919868 /* ButtonListView.swift */; };
+		A55580112962957B00919868 /* ButtonListViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55580102962957B00919868 /* ButtonListViewLayout.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,7 @@
 		A5558005296273B000919868 /* ShowDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDataViewController.swift; sourceTree = "<group>"; };
 		A555800B29627B9300919868 /* ButtonListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonListViewCell.swift; sourceTree = "<group>"; };
 		A555800D29627BA400919868 /* ButtonListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonListView.swift; sourceTree = "<group>"; };
+		A55580102962957B00919868 /* ButtonListViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonListViewLayout.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,6 +185,7 @@
 			children = (
 				A555800D29627BA400919868 /* ButtonListView.swift */,
 				A555800B29627B9300919868 /* ButtonListViewCell.swift */,
+				A55580102962957B00919868 /* ButtonListViewLayout.swift */,
 			);
 			path = ButtonList;
 			sourceTree = "<group>";
@@ -269,6 +272,7 @@
 				A53EA6A529624EFD00F0E24A /* TestViewController.swift in Sources */,
 				A555800E29627BA400919868 /* ButtonListView.swift in Sources */,
 				A5557FF1296250BE00919868 /* GetERNetwork.swift in Sources */,
+				A55580112962957B00919868 /* ButtonListViewLayout.swift in Sources */,
 				A53EA69329624D3600F0E24A /* ViewController.swift in Sources */,
 				A5557FF3296250C900919868 /* ExchangeRate.swift in Sources */,
 				A555800C29627B9300919868 /* ButtonListViewCell.swift in Sources */,
