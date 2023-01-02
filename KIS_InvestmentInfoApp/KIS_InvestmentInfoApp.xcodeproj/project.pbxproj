@@ -25,6 +25,8 @@
 		A5557FFE296257A900919868 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5557FFD296257A900919868 /* SettingsViewController.swift */; };
 		A5558003296257F300919868 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5558002296257F300919868 /* HomeViewController.swift */; };
 		A5558006296273B100919868 /* ShowDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5558005296273B000919868 /* ShowDataViewController.swift */; };
+		A555800C29627B9300919868 /* ButtonListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A555800B29627B9300919868 /* ButtonListViewCell.swift */; };
+		A555800E29627BA400919868 /* ButtonListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A555800D29627BA400919868 /* ButtonListView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +48,8 @@
 		A5557FFD296257A900919868 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		A5558002296257F300919868 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		A5558005296273B000919868 /* ShowDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDataViewController.swift; sourceTree = "<group>"; };
+		A555800B29627B9300919868 /* ButtonListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonListViewCell.swift; sourceTree = "<group>"; };
+		A555800D29627BA400919868 /* ButtonListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,11 +92,11 @@
 				A53EA69C29624D3B00F0E24A /* Info.plist */,
 				A53EA6A229624EBE00F0E24A /* MainTabBarController.swift */,
 				A5558004296257F500919868 /* HomeView */,
+				A5558007296273B500919868 /* ShowDataView */,
 				A5557FF6296250E000919868 /* TestView */,
 				A5557FFF296257AB00919868 /* ChartView */,
 				A5558000296257B100919868 /* MyFilesView */,
 				A5558001296257B700919868 /* SettingsView */,
-				A5558007296273B500919868 /* ShowDataView */,
 			);
 			path = KIS_InvestmentInfoApp;
 			sourceTree = "<group>";
@@ -161,8 +165,26 @@
 			isa = PBXGroup;
 			children = (
 				A5558005296273B000919868 /* ShowDataViewController.swift */,
+				A555800829627B4600919868 /* SubComponents */,
 			);
 			path = ShowDataView;
+			sourceTree = "<group>";
+		};
+		A555800829627B4600919868 /* SubComponents */ = {
+			isa = PBXGroup;
+			children = (
+				A555800F29627BAC00919868 /* ButtonList */,
+			);
+			path = SubComponents;
+			sourceTree = "<group>";
+		};
+		A555800F29627BAC00919868 /* ButtonList */ = {
+			isa = PBXGroup;
+			children = (
+				A555800D29627BA400919868 /* ButtonListView.swift */,
+				A555800B29627B9300919868 /* ButtonListViewCell.swift */,
+			);
+			path = ButtonList;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -245,9 +267,11 @@
 			files = (
 				A5557FEF296250B500919868 /* GetERAPI.swift in Sources */,
 				A53EA6A529624EFD00F0E24A /* TestViewController.swift in Sources */,
+				A555800E29627BA400919868 /* ButtonListView.swift in Sources */,
 				A5557FF1296250BE00919868 /* GetERNetwork.swift in Sources */,
 				A53EA69329624D3600F0E24A /* ViewController.swift in Sources */,
 				A5557FF3296250C900919868 /* ExchangeRate.swift in Sources */,
+				A555800C29627B9300919868 /* ButtonListViewCell.swift in Sources */,
 				A5557FF5296250D300919868 /* ExchangeRateCellData.swift in Sources */,
 				A53EA68F29624D3600F0E24A /* AppDelegate.swift in Sources */,
 				A53EA6A329624EBE00F0E24A /* MainTabBarController.swift in Sources */,
