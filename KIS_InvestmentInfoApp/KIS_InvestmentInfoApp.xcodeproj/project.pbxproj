@@ -20,6 +20,10 @@
 		A5557FF1296250BE00919868 /* GetERNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5557FF0296250BE00919868 /* GetERNetwork.swift */; };
 		A5557FF3296250C900919868 /* ExchangeRate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5557FF2296250C900919868 /* ExchangeRate.swift */; };
 		A5557FF5296250D300919868 /* ExchangeRateCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5557FF4296250D300919868 /* ExchangeRateCellData.swift */; };
+		A5557FFA2962578F00919868 /* ChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5557FF92962578F00919868 /* ChartViewController.swift */; };
+		A5557FFC2962579F00919868 /* MyFilesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5557FFB2962579F00919868 /* MyFilesViewController.swift */; };
+		A5557FFE296257A900919868 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5557FFD296257A900919868 /* SettingsViewController.swift */; };
+		A5558003296257F300919868 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5558002296257F300919868 /* HomeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +40,10 @@
 		A5557FF0296250BE00919868 /* GetERNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetERNetwork.swift; sourceTree = "<group>"; };
 		A5557FF2296250C900919868 /* ExchangeRate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRate.swift; sourceTree = "<group>"; };
 		A5557FF4296250D300919868 /* ExchangeRateCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExchangeRateCellData.swift; sourceTree = "<group>"; };
+		A5557FF92962578F00919868 /* ChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewController.swift; sourceTree = "<group>"; };
+		A5557FFB2962579F00919868 /* MyFilesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFilesViewController.swift; sourceTree = "<group>"; };
+		A5557FFD296257A900919868 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		A5558002296257F300919868 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,7 +85,11 @@
 				A53EA69929624D3B00F0E24A /* LaunchScreen.storyboard */,
 				A53EA69C29624D3B00F0E24A /* Info.plist */,
 				A53EA6A229624EBE00F0E24A /* MainTabBarController.swift */,
+				A5558004296257F500919868 /* HomeView */,
 				A5557FF6296250E000919868 /* TestView */,
+				A5557FFF296257AB00919868 /* ChartView */,
+				A5558000296257B100919868 /* MyFilesView */,
+				A5558001296257B700919868 /* SettingsView */,
 			);
 			path = KIS_InvestmentInfoApp;
 			sourceTree = "<group>";
@@ -108,6 +120,38 @@
 				A5557FF4296250D300919868 /* ExchangeRateCellData.swift */,
 			);
 			path = Entities;
+			sourceTree = "<group>";
+		};
+		A5557FFF296257AB00919868 /* ChartView */ = {
+			isa = PBXGroup;
+			children = (
+				A5557FF92962578F00919868 /* ChartViewController.swift */,
+			);
+			path = ChartView;
+			sourceTree = "<group>";
+		};
+		A5558000296257B100919868 /* MyFilesView */ = {
+			isa = PBXGroup;
+			children = (
+				A5557FFB2962579F00919868 /* MyFilesViewController.swift */,
+			);
+			path = MyFilesView;
+			sourceTree = "<group>";
+		};
+		A5558001296257B700919868 /* SettingsView */ = {
+			isa = PBXGroup;
+			children = (
+				A5557FFD296257A900919868 /* SettingsViewController.swift */,
+			);
+			path = SettingsView;
+			sourceTree = "<group>";
+		};
+		A5558004296257F500919868 /* HomeView */ = {
+			isa = PBXGroup;
+			children = (
+				A5558002296257F300919868 /* HomeViewController.swift */,
+			);
+			path = HomeView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -196,7 +240,11 @@
 				A5557FF5296250D300919868 /* ExchangeRateCellData.swift in Sources */,
 				A53EA68F29624D3600F0E24A /* AppDelegate.swift in Sources */,
 				A53EA6A329624EBE00F0E24A /* MainTabBarController.swift in Sources */,
+				A5557FFC2962579F00919868 /* MyFilesViewController.swift in Sources */,
 				A53EA69129624D3600F0E24A /* SceneDelegate.swift in Sources */,
+				A5557FFA2962578F00919868 /* ChartViewController.swift in Sources */,
+				A5558003296257F300919868 /* HomeViewController.swift in Sources */,
+				A5557FFE296257A900919868 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
