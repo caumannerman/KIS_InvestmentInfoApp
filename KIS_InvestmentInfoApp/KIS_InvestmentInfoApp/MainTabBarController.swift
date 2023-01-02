@@ -15,7 +15,7 @@ class MainTabBarController: UITabBarController{
     
     private lazy var firstViewController: UIViewController = {
         let vc = TestViewController()
-        let tabBarItem = UITabBarItem(title: "menu1", image: UIImage(systemName: "house"), tag: 0)
+        let tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 0)
         
         vc.tabBarItem = tabBarItem
         return vc
@@ -23,7 +23,7 @@ class MainTabBarController: UITabBarController{
     
     private lazy var secondViewController: UIViewController = {
         let vc = ViewController()
-        let tabBarItem = UITabBarItem(title: "menu2", image: UIImage(systemName: "mappin.circle"), tag: 0)
+        let tabBarItem = UITabBarItem(title: "charts", image: UIImage(systemName: "chart.bar.xaxis"), tag: 0)
         
         vc.tabBarItem = tabBarItem
         return vc
@@ -36,7 +36,7 @@ class MainTabBarController: UITabBarController{
     
     private lazy var thirdViewController: UIViewController = {
         let vc = ViewController()
-        let tabBarItem = UITabBarItem(title: "menu3", image: UIImage(systemName: "pin.circle"), tag: 0)
+        let tabBarItem = UITabBarItem(title: "내파일", image: UIImage(systemName: "folder.fill"), tag: 0)
         
         vc.tabBarItem = tabBarItem
         return vc
@@ -44,7 +44,7 @@ class MainTabBarController: UITabBarController{
     
     private lazy var fourthViewController: UIViewController = {
         let vc = ViewController()
-        let tabBarItem = UITabBarItem(title: "menu4", image: UIImage(systemName: "apps.iphone.badge.plus"), tag: 0)
+        let tabBarItem = UITabBarItem(title: "settings", image: UIImage(systemName: "gearshape.fill"), tag: 0)
         
         vc.tabBarItem = tabBarItem
         return vc
