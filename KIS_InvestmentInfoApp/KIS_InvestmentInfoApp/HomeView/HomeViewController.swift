@@ -87,7 +87,7 @@ class HomeViewController: UIViewController {
     
     private func attribute(){
         button.setTitle("넘어가기", for: .normal)
-        button.backgroundColor = .blue
+        button.backgroundColor = .lightGray
         button.addTarget(self, action: #selector(pushVC), for: .touchUpInside)
     }
     

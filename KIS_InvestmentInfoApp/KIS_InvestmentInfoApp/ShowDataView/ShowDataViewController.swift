@@ -10,7 +10,9 @@ import SnapKit
 import Alamofire
 
 class ShowDataViewController: UIViewController {
-   
+    
+    //TODO: dataTitles를 가져오는 api 항목에 맞게 따로 불러오는 기능 구현해야함
+    private var dataTitles: [String] = ["cur_unit", "ttb", "tts", "deal_bas_r", "bkpr", "yy_efee_r", "ten_dd_efee_r", "kftc_bkpr", "kftc_deal_bas_r", "cur_nm"]
     private var erData: [ExchangeRateCellData] = []
     // ------------------------------ UI Components ------------------------------ //
     
@@ -67,7 +69,8 @@ class ShowDataViewController: UIViewController {
     
     
     func attribute(){
-        view.backgroundColor = .yellow
+        view.backgroundColor = .systemBackground
+        tableView.backgroundColor = .lightGray
         getDataButton.backgroundColor = UIColor(red: 155/255.0, green: 202/255.0, blue: 184/255.0, alpha: 1.0)
         getDataButton.setTitle("get!", for: .normal)
         getDataButton.addTarget(self, action: #selector(getfunc), for: .touchUpInside)
@@ -118,12 +121,15 @@ class ShowDataViewController: UIViewController {
 
 extension ShowDataViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return erData.count
+        return erData.count + 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.row == 0 {
+            return UITableViewCell()
+        }
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "Cell")
-        let er = erData[indexPath.row]
+        let er = erData[indexPath.row - 1]
         cell.textLabel?.text = er.cur_nm
         cell.detailTextLabel?.text = er.bkpr
         return cell
