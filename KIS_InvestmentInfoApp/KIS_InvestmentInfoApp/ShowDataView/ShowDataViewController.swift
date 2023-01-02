@@ -38,6 +38,20 @@ class ShowDataViewController: UIViewController {
         return tableView
     }()
     
+    private lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        
+//        collectionView.delegate = self
+//        collectionView.dataSource = self
+        collectionView.backgroundColor = .systemPink
+        
+        collectionView.register(ButtonListViewCell.self, forCellWithReuseIdentifier: "ButtonListViewCell")
+        return collectionView
+    }()
+    
+ 
+    
     // ------------------------------ UI Components ------------------------------ //
     
     // ------------------------------ Rx Traits ------------------------------ //
@@ -71,6 +85,7 @@ class ShowDataViewController: UIViewController {
     func attribute(){
         view.backgroundColor = .systemBackground
         tableView.backgroundColor = .lightGray
+        collectionView.backgroundColor = .systemYellow
         getDataButton.backgroundColor = UIColor(red: 155/255.0, green: 202/255.0, blue: 184/255.0, alpha: 1.0)
         getDataButton.setTitle("get!", for: .normal)
         getDataButton.addTarget(self, action: #selector(getfunc), for: .touchUpInside)
@@ -93,7 +108,7 @@ class ShowDataViewController: UIViewController {
             $0.edges.equalToSuperview()
         }
         
-        [getDataButton, tableView].forEach{
+        [getDataButton, tableView, collectionView].forEach{
             stackView.addArrangedSubview($0)
         }
         
@@ -107,6 +122,12 @@ class ShowDataViewController: UIViewController {
             $0.top.equalTo(getDataButton.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(250)
+        }
+        
+        collectionView.snp.makeConstraints{
+            $0.top.equalTo(tableView.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(500)
         }
     }
 
@@ -165,3 +186,11 @@ extension ShowDataViewController{
     }
 }
 
+//extension ShowDataViewController: UICollectionViewDataSource{
+//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ButtonListViewCell", for: indexPath) as? ButtonListViewCell else { return UICollectionViewCell()}
+//
+//        let now_data = erData[indexPath.item]
+//        cell.setup
+//    }
+//}

@@ -35,7 +35,7 @@ class MainTabBarController: UITabBarController{
     }()
     
     private lazy var thirdViewController: UIViewController = {
-        let vc = ViewController()
+        let vc = MyFilesViewController()
         let tabBarItem = UITabBarItem(title: "내파일", image: UIImage(systemName: "folder.fill"), tag: 0)
         
         vc.tabBarItem = tabBarItem
