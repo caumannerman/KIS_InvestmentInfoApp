@@ -54,9 +54,9 @@ class MainTabBarController: UITabBarController{
         super.viewDidLoad()
         
         self.setupMiddleButton()
-        self.tabBar.tintColor = UIColor(red: 216/255.0, green: 116/255.0, blue: 152/255.0, alpha: 1.0)
+        self.tabBar.tintColor = UIColor(red: 0/255.0, green: 204/255.0, blue: 204/255.0, alpha: 1.0)
         self.tabBar.barTintColor = .white
-        self.tabBar.unselectedItemTintColor = UIColor(red: 200/255.0, green: 166/255.0, blue: 121/255.0, alpha: 1.0)
+        self.tabBar.unselectedItemTintColor = UIColor(red: 153/255.0, green: 76/255.0, blue: 0/255.0, alpha: 1.0)
         
         let nav0 = UINavigationController(rootViewController: firstViewController)
         let nav1 = UINavigationController(rootViewController: secondViewController)
