@@ -14,7 +14,7 @@ class MainTabBarController: UITabBarController{
     let centerButton = UIButton()
     
     private lazy var firstViewController: UIViewController = {
-        let vc = TestViewController()
+        let vc = HomeViewController()
         let tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 0)
         
         vc.tabBarItem = tabBarItem
