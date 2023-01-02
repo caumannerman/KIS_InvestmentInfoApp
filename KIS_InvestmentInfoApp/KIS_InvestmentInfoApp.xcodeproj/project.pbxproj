@@ -28,6 +28,8 @@
 		A555800C29627B9300919868 /* ButtonListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A555800B29627B9300919868 /* ButtonListViewCell.swift */; };
 		A55580112962957B00919868 /* ButtonListViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55580102962957B00919868 /* ButtonListViewLayout.swift */; };
 		A55580142962B52600919868 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = A55580132962B52600919868 /* Charts */; };
+		A55580162962E7D000919868 /* AddHeaderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55580152962E7D000919868 /* AddHeaderViewCell.swift */; };
+		A55580192962E7ED00919868 /* AddHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55580182962E7ED00919868 /* AddHeaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +53,8 @@
 		A5558005296273B000919868 /* ShowDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDataViewController.swift; sourceTree = "<group>"; };
 		A555800B29627B9300919868 /* ButtonListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonListViewCell.swift; sourceTree = "<group>"; };
 		A55580102962957B00919868 /* ButtonListViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonListViewLayout.swift; sourceTree = "<group>"; };
+		A55580152962E7D000919868 /* AddHeaderViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHeaderViewCell.swift; sourceTree = "<group>"; };
+		A55580182962E7ED00919868 /* AddHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +163,7 @@
 			isa = PBXGroup;
 			children = (
 				A5558002296257F300919868 /* HomeViewController.swift */,
+				A55580172962E7D400919868 /* AddHeaderView */,
 			);
 			path = HomeView;
 			sourceTree = "<group>";
@@ -187,6 +192,15 @@
 				A55580102962957B00919868 /* ButtonListViewLayout.swift */,
 			);
 			path = ButtonList;
+			sourceTree = "<group>";
+		};
+		A55580172962E7D400919868 /* AddHeaderView */ = {
+			isa = PBXGroup;
+			children = (
+				A55580152962E7D000919868 /* AddHeaderViewCell.swift */,
+				A55580182962E7ED00919868 /* AddHeaderView.swift */,
+			);
+			path = AddHeaderView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -279,12 +293,14 @@
 				A5557FF5296250D300919868 /* ExchangeRateCellData.swift in Sources */,
 				A53EA68F29624D3600F0E24A /* AppDelegate.swift in Sources */,
 				A53EA6A329624EBE00F0E24A /* MainTabBarController.swift in Sources */,
+				A55580162962E7D000919868 /* AddHeaderViewCell.swift in Sources */,
 				A5557FFC2962579F00919868 /* MyFilesViewController.swift in Sources */,
 				A53EA69129624D3600F0E24A /* SceneDelegate.swift in Sources */,
 				A5557FFA2962578F00919868 /* ChartViewController.swift in Sources */,
 				A5558003296257F300919868 /* HomeViewController.swift in Sources */,
 				A5557FFE296257A900919868 /* SettingsViewController.swift in Sources */,
 				A5558006296273B100919868 /* ShowDataViewController.swift in Sources */,
+				A55580192962E7ED00919868 /* AddHeaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

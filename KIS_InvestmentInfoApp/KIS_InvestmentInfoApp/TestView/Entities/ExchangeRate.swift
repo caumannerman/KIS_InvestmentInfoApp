@@ -19,5 +19,6 @@ struct ExchangeRate: Decodable {
     let kftc_bkpr: String?
     let kftc_deal_bas_r: String?
     let cur_nm: String?
-   
 }
+
+

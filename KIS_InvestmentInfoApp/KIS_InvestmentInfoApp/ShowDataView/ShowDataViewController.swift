@@ -75,7 +75,10 @@ class ShowDataViewController: UIViewController {
         super.viewDidLoad()
 //        view.backgroundColor = .blue
     }
-    
+    //api 주소를 잘 전달했다는 것을 보여주기 위한 것
+    func setup(apiUrl: String){
+        getDataButton.setTitle(apiUrl, for: .normal)
+    }
     func bind(){
         
 

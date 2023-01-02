@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import SnapKit
+import Alamofire
 
 class HomeViewController: UIViewController {
 
@@ -22,6 +24,16 @@ class HomeViewController: UIViewController {
             return false
         }
     }
+    
+    private lazy var addHeaderTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.backgroundColor = .yellow
+        
+        return tableView
+    }()
+    
     private let button = UIButton()
     //prefix가 같은 url들을 UserDefaults에서 불러와 뿌려줄 TableView
 //    private lazy var urlTableView: UITableView = {
@@ -32,24 +44,31 @@ class HomeViewController: UIViewController {
 //        tableView.backgroundColor = .blue
 //        return tableView
 //    }()
-    private var urlTableView = UITableView()
+    private lazy var urlTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.isHidden = true
+        tableView.backgroundColor = .blue
+        
+        return tableView
+        
+    }()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
 
-//        urlsArr = UserDefaults.standard.array(forKey: "urls") as? [String] ?? ["저장된 URL이 없음"]
-
-
+        let ur = UserDefaults.standard.array(forKey: "urls") as? [String] ?? ["저장된 URL이 없음"]
+        print(type(of: ur))
+        print(ur)
     }
     
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        urlTableView.dataSource = self
-        urlTableView.delegate = self
-        urlTableView.isHidden = true
-        urlTableView.backgroundColor = .blue
+        view.backgroundColor = .white
+        
         let isFT = isFirstTime()
         print(isFT)
         // 앱 실행이 처음이라면
@@ -62,7 +81,6 @@ class HomeViewController: UIViewController {
 //        urlTableView.reloadData()
         
         
-        view.backgroundColor = .white
         setNavigationItems()
         attribute()
         layout()
@@ -86,7 +104,7 @@ class HomeViewController: UIViewController {
     }
     
     private func attribute(){
-        button.setTitle("넘어가기", for: .normal)
+        button.setTitle("요청 URL 입력", for: .normal)
         button.backgroundColor = .lightGray
         button.addTarget(self, action: #selector(pushVC), for: .touchUpInside)
     }
@@ -96,14 +114,21 @@ class HomeViewController: UIViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     private func layout(){
-        [button, urlTableView].forEach{
+        [addHeaderTableView, button, urlTableView].forEach{
             view.addSubview($0)
         }
-        button.snp.makeConstraints{
+        addHeaderTableView.snp.makeConstraints{
             $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.trailing.equalToSuperview()
+            //$0.height.equalTo(100)
+        }
+        
+        button.snp.makeConstraints{
+            $0.top.equalTo(addHeaderTableView.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(50)
         }
+        
         urlTableView.snp.makeConstraints{
             $0.top.equalTo(button.snp.bottom)
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
@@ -124,7 +149,7 @@ extension HomeViewController: UISearchBarDelegate{
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         urlTableView.isHidden = true
         //나중에 다시 검색창을 켰을 때, 이전에 검색했던 지하철역들이 TableView에 그대로 보이지 않도록 리스트 비워줌
-        //urlsArr = []
+        urlsArr = []
     }
     //text가 바뀔 때마다 request를 Alamofire를 이용해 보내아고 받아옴
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
@@ -133,7 +158,7 @@ extension HomeViewController: UISearchBarDelegate{
         }
         //TODO: 여기서 UserDefaults에서 prefix가 같은 것들 검색해와서 tableVIew reload
         
-//        requestStationName(from: searchText)
+        requestStationName()
     }
     
 }
@@ -156,8 +181,20 @@ extension HomeViewController: UITableViewDataSource {
 extension HomeViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let url = urlsArr[indexPath.row]
-        print(url)
+        let vc = ShowDataViewController()
+        vc.setup(apiUrl: url)
+        navigationController?.pushViewController(vc, animated: true)
+        
         //TODO: 여기서 채팅창에 url을 넘겨줘야함
         
     }
 }
+
+extension HomeViewController {
+    private func requestStationName(){
+        self.urlsArr = ["url1", "url2","url3","url4", "url5", "url6"]
+        //테이블 뷰 다시 그려줌
+        self.urlTableView.reloadData()
+        }
+}
+
