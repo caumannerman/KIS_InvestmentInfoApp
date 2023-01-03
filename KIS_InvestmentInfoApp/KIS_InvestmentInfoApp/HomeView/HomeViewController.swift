@@ -174,9 +174,17 @@ extension HomeViewController: UISearchBarDelegate{
         
         requestStationName()
     }
+    //검색 버튼을 눌렀을 때
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         print("searchButton clicked!!")
         print(searchBar.text)
+        
+        //검색을 했을 시, 지역 변수 배열 두가지에 검색한 url에 대하여 값을 append하고, 이를 UserDefaults에도 갱신해준다.
+        self.urlsArr.append(searchBar.text ?? "")
+        self.urlsAlias.append("새로 검색한 url")
+        //UserDefaults에도 값 갱신
+        UserDefaults.standard.set(urlsArr, forKey: "urls")
+        UserDefaults.standard.set(urlsAlias, forKey: "urlAlias")
         let url = searchBar.text?.trimmingCharacters(in: .whitespaces) ?? ""
         let vc = ShowDataViewController()
         vc.setup(apiUrl: url)
