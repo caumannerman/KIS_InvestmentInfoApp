@@ -11,6 +11,8 @@ import Alamofire
 
 class HomeViewController: UIViewController {
 
+    // urlsAlias와 urlsArr은 갯수를 항상 동일하게맞추어야한다.
+    private var urlsAlias: [String] = []
     //검색했던 URL들을 담을 배열
     private var urlsArr: [String] = []
     //header를 담기위한 dictionary
@@ -45,10 +47,8 @@ class HomeViewController: UIViewController {
         let tableView = UITableView()
         tableView.dataSource = self
         tableView.delegate = self
-//        tableView.isHidden = true
         tableView.backgroundColor = .blue
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "urlTableViewCell")
-        tableView.tag = 2
+        tableView.isHidden = false
         return tableView
         
     }()
@@ -83,11 +83,14 @@ class HomeViewController: UIViewController {
         print(isFT)
         // 앱 실행이 처음이라면
         if isFT{
-            UserDefaults.standard.set(["url1", "url2","url3","url4", "url5"], forKey: "urls")
+            UserDefaults.standard.set(["https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey=BlCJAvGJ4IuXS30CPGMFIjQpiCuDTbjb&searchdate=20221227&data=AP01", "https://www.koreaexim.go.kr/site/program/financial/interestJSON?authkey=4qVtBPk7TdjRIHVUfFXJWXg6rrbt80zj&searchdata=20221227&data=AP02","https://opendart.fss.or.kr/api/list.json?crtfc_key=4f00bd74671058d76697c90e95c123d088e36610","url4", "url5"], forKey: "urls")
+            
+            UserDefaults.standard.set(["현재환율_수출입은행", "대출금리_수출입은행","openDart", "url4Alias","url5Alias"], forKey: "urlAlias")
         }
         print(urlsArr)
         print(UserDefaults.standard.array(forKey: "urls") as? [String] ?? ["정보가 없습니다"])
-//        self.urlsArr = UserDefaults.standard.array(forKey: "urls") as? [String] ?? ["정보가 없습니다"]
+        self.urlsArr = UserDefaults.standard.array(forKey: "urls") as? [String] ?? ["정보가 없습니다"]
+        self.urlsAlias = UserDefaults.standard.array(forKey: "urlAlias") as? [String] ?? ["정보가 없습니다"]
 //        urlTableView.reloadData()
 
         setNavigationItems()
@@ -157,7 +160,7 @@ extension HomeViewController: UISearchBarDelegate{
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         urlTableView.isHidden = true
         //나중에 다시 검색창을 켰을 때, 이전에 검색했던 지하철역들이 TableView에 그대로 보이지 않도록 리스트 비워줌
-        urlsArr = []
+//        urlsArr = []
         
     }
     //text가 바뀔 때마다 request를 Alamofire를 이용해 보내아고 받아옴
@@ -166,12 +169,19 @@ extension HomeViewController: UISearchBarDelegate{
             return
         }
         //TODO: 여기서 UserDefaults에서 prefix가 같은 것들 검색해와서 tableVIew reload
+        let now_text = searchBar.text ?? ""
+        urlsAlias[0] = now_text
         
         requestStationName()
     }
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         print("searchButton clicked!!")
         print(searchBar.text)
+        let url = searchBar.text?.trimmingCharacters(in: .whitespaces) ?? ""
+        let vc = ShowDataViewController()
+        vc.setup(apiUrl: url)
+        navigationController?.pushViewController(vc, animated: true)
+
     }
     
 }
@@ -179,7 +189,7 @@ extension HomeViewController: UISearchBarDelegate{
 //TableView에 대한 delegate설정
 extension HomeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return urlsArr.count
+            return urlsArr.count + 1
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // addHeaderTableView
@@ -190,9 +200,19 @@ extension HomeViewController: UITableViewDataSource {
 
         // urlTableView
             let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "Cell")
-
-            let url = urlsArr[indexPath.row]
-            cell.textLabel?.text = "url별칭"
+        // 첫 cell에는 현재 검색하고있는 내용을 실시간으로 작성해줄 것이다.
+        
+        if indexPath.row == 0 {
+            let url = "검색url"
+            let url_alias = "검색중"
+            cell.textLabel?.text = url_alias
+            cell.detailTextLabel?.text = url
+            return cell
+        }
+            let url = urlsArr[indexPath.row - 1]
+        let url_alias = urlsAlias[indexPath.row - 1]
+            
+            cell.textLabel?.text = url_alias
             cell.detailTextLabel?.text = url
             return cell
         
@@ -215,7 +235,9 @@ extension HomeViewController: UITableViewDelegate{
 
 extension HomeViewController {
     private func requestStationName(){
-        self.urlsArr = ["url1", "url2","url3","url4", "url5", "url6"]
+//        self.urlsArr.append("newUrl")
+//        self.urlsAlias.append("newUrlAlias")
+        print("revised")
         //테이블 뷰 다시 그려줌
         self.urlTableView.reloadData()
         }
