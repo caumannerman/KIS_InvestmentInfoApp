@@ -13,6 +13,8 @@ class HomeViewController: UIViewController {
 
     //검색했던 URL들을 담을 배열
     private var urlsArr: [String] = []
+    //header를 담기위한 dictionary
+    private var headerDict: [String: String] = [:]
     
     private func isFirstTime() -> Bool {
         let defaults = UserDefaults.standard
@@ -30,6 +32,7 @@ class HomeViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.backgroundColor = .yellow
+        tableView.register(AddHeaderViewCell.self, forCellReuseIdentifier: "AddHeaderViewCell")
         
         return tableView
     }()
@@ -50,6 +53,7 @@ class HomeViewController: UIViewController {
         tableView.delegate = self
         tableView.isHidden = true
         tableView.backgroundColor = .blue
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "urlTableViewCel")
         
         return tableView
         
@@ -68,6 +72,9 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        // DataSource, Delegate 설정 시 구분을 위해 tag 설정
+        addHeaderTableView.tag = 1
+        urlTableView.tag = 2
         
         let isFT = isFirstTime()
         print(isFT)
@@ -166,15 +173,29 @@ extension HomeViewController: UISearchBarDelegate{
 //TableView에 대한 delegate설정
 extension HomeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return urlsArr.count
+        if tableView.tag == 1{
+            return headerDict.count + 1
+        }
+        else {
+            return urlsArr.count
+        }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        //기본 cell 사용
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "Cell")
-        let url = urlsArr[indexPath.row]
-        cell.textLabel?.text = "url별칭"
-        cell.detailTextLabel?.text = url
-        return cell
+        // addHeaderTableView
+        if tableView.tag == 1{
+            let cell = AddHeaderViewCell()
+            return cell
+        }
+               
+        // urlTableView
+        else {
+            let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "Cell")
+            let url = urlsArr[indexPath.row]
+            cell.textLabel?.text = "url별칭"
+            cell.detailTextLabel?.text = url
+            return cell
+        }
+       
     }
 }
 

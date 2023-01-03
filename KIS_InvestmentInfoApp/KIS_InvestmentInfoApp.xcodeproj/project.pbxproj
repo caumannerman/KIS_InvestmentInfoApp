@@ -29,7 +29,6 @@
 		A55580112962957B00919868 /* ButtonListViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55580102962957B00919868 /* ButtonListViewLayout.swift */; };
 		A55580142962B52600919868 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = A55580132962B52600919868 /* Charts */; };
 		A55580162962E7D000919868 /* AddHeaderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55580152962E7D000919868 /* AddHeaderViewCell.swift */; };
-		A55580192962E7ED00919868 /* AddHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55580182962E7ED00919868 /* AddHeaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,7 +53,6 @@
 		A555800B29627B9300919868 /* ButtonListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonListViewCell.swift; sourceTree = "<group>"; };
 		A55580102962957B00919868 /* ButtonListViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonListViewLayout.swift; sourceTree = "<group>"; };
 		A55580152962E7D000919868 /* AddHeaderViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHeaderViewCell.swift; sourceTree = "<group>"; };
-		A55580182962E7ED00919868 /* AddHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,7 +196,6 @@
 			isa = PBXGroup;
 			children = (
 				A55580152962E7D000919868 /* AddHeaderViewCell.swift */,
-				A55580182962E7ED00919868 /* AddHeaderView.swift */,
 			);
 			path = AddHeaderView;
 			sourceTree = "<group>";
@@ -300,7 +297,6 @@
 				A5558003296257F300919868 /* HomeViewController.swift in Sources */,
 				A5557FFE296257A900919868 /* SettingsViewController.swift in Sources */,
 				A5558006296273B100919868 /* ShowDataViewController.swift in Sources */,
-				A55580192962E7ED00919868 /* AddHeaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
