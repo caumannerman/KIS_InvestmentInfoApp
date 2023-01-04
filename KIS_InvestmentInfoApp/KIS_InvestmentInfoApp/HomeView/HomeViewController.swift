@@ -11,6 +11,9 @@ import Alamofire
 
 class HomeViewController: UIViewController {
 
+    
+    private let alert = UIAlertController(title: "api별칭 입력", message: "별칭을 입력해주세요", preferredStyle: .alert)
+    private var ok = UIAlertAction()
     // urlsAlias와 urlsArr은 갯수를 항상 동일하게맞추어야한다.
     private var urlsAlias: [String] = []
     //검색했던 URL들을 담을 배열
@@ -67,25 +70,25 @@ class HomeViewController: UIViewController {
         let ur = UserDefaults.standard.array(forKey: "urls") as? [String] ?? ["저장된 URL이 없음"]
         print(type(of: ur))
         print(ur)
-        
-     
     }
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         // DataSource, Delegate 설정 시 구분을 위해 tag 설정
+        alert.addTextField{
+            $0.placeholder = "별칭을 입력하세요"
+            $0.isSecureTextEntry = false
+        }
         
         
         let isFT = isFirstTime()
         print(isFT)
         // 앱 실행이 처음이라면
         if isFT{
-            UserDefaults.standard.set(["https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey=BlCJAvGJ4IuXS30CPGMFIjQpiCuDTbjb&searchdate=20221227&data=AP01", "https://www.koreaexim.go.kr/site/program/financial/interestJSON?authkey=4qVtBPk7TdjRIHVUfFXJWXg6rrbt80zj&searchdata=20221227&data=AP02","https://opendart.fss.or.kr/api/list.json?crtfc_key=4f00bd74671058d76697c90e95c123d088e36610","url4", "url5"], forKey: "urls")
+            UserDefaults.standard.set(["", "https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey=BlCJAvGJ4IuXS30CPGMFIjQpiCuDTbjb&searchdate=20221227&data=AP01", "https://www.koreaexim.go.kr/site/program/financial/interestJSON?authkey=4qVtBPk7TdjRIHVUfFXJWXg6rrbt80zj&searchdata=20221227&data=AP02","https://opendart.fss.or.kr/api/list.json?crtfc_key=4f00bd74671058d76697c90e95c123d088e36610","url4", "url5"], forKey: "urls")
             
-            UserDefaults.standard.set(["현재환율_수출입은행", "대출금리_수출입은행","openDart", "url4Alias","url5Alias"], forKey: "urlAlias")
+            UserDefaults.standard.set(["별칭", "현재환율_수출입은행", "대출금리_수출입은행","openDart", "url4Alias","url5Alias"], forKey: "urlAlias")
         }
         print(urlsArr)
         print(UserDefaults.standard.array(forKey: "urls") as? [String] ?? ["정보가 없습니다"])
@@ -96,6 +99,23 @@ class HomeViewController: UIViewController {
         setNavigationItems()
         attribute()
         layout()
+        
+        ok = UIAlertAction(title: "OK", style: .default){
+            action in print("OK")
+            self.urlsArr.append(self.uiSc.searchBar.text ?? "")
+            self.urlsAlias.append(self.alert.textFields?[0].text ?? "")
+            
+            self.urlsArr[0] = ""
+            self.urlsAlias[0] = "별칭"
+            //UserDefaults에도 값 갱신
+            UserDefaults.standard.set(self.urlsArr, forKey: "urls")
+            UserDefaults.standard.set(self.urlsAlias, forKey: "urlAlias")
+            let url = self.urlsArr.last!
+            let vc = ShowDataViewController()
+            vc.setup(apiUrl: url)
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        alert.addAction(ok)
         
     }
     
@@ -170,7 +190,7 @@ extension HomeViewController: UISearchBarDelegate{
         }
         //TODO: 여기서 UserDefaults에서 prefix가 같은 것들 검색해와서 tableVIew reload
         let now_text = searchBar.text ?? ""
-        urlsAlias[0] = now_text
+        urlsArr[0] = now_text
         
         requestStationName()
     }
@@ -179,16 +199,25 @@ extension HomeViewController: UISearchBarDelegate{
         print("searchButton clicked!!")
         print(searchBar.text)
         
+        self.present(alert, animated: true){
+            print("kkkkkk")
+        }
+        
+        print("여기까지 됨")
         //검색을 했을 시, 지역 변수 배열 두가지에 검색한 url에 대하여 값을 append하고, 이를 UserDefaults에도 갱신해준다.
-        self.urlsArr.append(searchBar.text ?? "")
-        self.urlsAlias.append("새로 검색한 url")
-        //UserDefaults에도 값 갱신
-        UserDefaults.standard.set(urlsArr, forKey: "urls")
-        UserDefaults.standard.set(urlsAlias, forKey: "urlAlias")
-        let url = searchBar.text?.trimmingCharacters(in: .whitespaces) ?? ""
-        let vc = ShowDataViewController()
-        vc.setup(apiUrl: url)
-        navigationController?.pushViewController(vc, animated: true)
+        // OK쪽 콜백으로 옮김
+//        self.urlsArr.append(searchBar.text ?? "")
+//        self.urlsAlias.append("새로 검색한 url")
+//
+//        self.urlsArr[0] = ""
+//        self.urlsAlias[0] = "별칭"
+//        //UserDefaults에도 값 갱신
+//        UserDefaults.standard.set(urlsArr, forKey: "urls")
+//        UserDefaults.standard.set(urlsAlias, forKey: "urlAlias")
+//        let url = searchBar.text?.trimmingCharacters(in: .whitespaces) ?? ""
+//        let vc = ShowDataViewController()
+//        vc.setup(apiUrl: url)
+//        navigationController?.pushViewController(vc, animated: true)
 
     }
     
@@ -197,7 +226,7 @@ extension HomeViewController: UISearchBarDelegate{
 //TableView에 대한 delegate설정
 extension HomeViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return urlsArr.count + 1
+            return urlsArr.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // addHeaderTableView
@@ -210,15 +239,15 @@ extension HomeViewController: UITableViewDataSource {
             let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "Cell")
         // 첫 cell에는 현재 검색하고있는 내용을 실시간으로 작성해줄 것이다.
         
-        if indexPath.row == 0 {
-            let url = "검색url"
-            let url_alias = "검색중"
-            cell.textLabel?.text = url_alias
-            cell.detailTextLabel?.text = url
-            return cell
-        }
-            let url = urlsArr[indexPath.row - 1]
-        let url_alias = urlsAlias[indexPath.row - 1]
+//        if indexPath.row == 0 {
+//            let url = "검색url"
+//            let url_alias = "검색중"
+//            cell.textLabel?.text = url_alias
+//            cell.detailTextLabel?.text = url
+//            return cell
+//        }
+            let url = urlsArr[indexPath.row ]
+        let url_alias = urlsAlias[indexPath.row ]
             
             cell.textLabel?.text = url_alias
             cell.detailTextLabel?.text = url

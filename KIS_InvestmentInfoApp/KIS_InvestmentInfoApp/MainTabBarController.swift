@@ -22,7 +22,7 @@ class MainTabBarController: UITabBarController{
     }()
     
     private lazy var secondViewController: UIViewController = {
-        let vc = ViewController()
+        let vc = ChartViewController()
         let tabBarItem = UITabBarItem(title: "charts", image: UIImage(systemName: "chart.bar.xaxis"), tag: 0)
         
         vc.tabBarItem = tabBarItem
