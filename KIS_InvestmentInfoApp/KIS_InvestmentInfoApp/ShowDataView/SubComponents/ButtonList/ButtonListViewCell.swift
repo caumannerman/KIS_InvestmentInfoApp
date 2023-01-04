@@ -8,29 +8,70 @@
 import UIKit
 import SnapKit
 
-final class ButtonListViewCell: UICollectionViewCell{
-    private lazy var titleLabel: UIButton = {
-        let button = UIButton()
-        button.setTitleColor(.black, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 13.0, weight: .bold)
-        button.backgroundColor = .cyan
-        button.layer.cornerRadius = 12.0
+final class ButtonListViewCell: UITableViewCell{
+    
+    private var buttonElementsArr: [String] = ["1","2","3","4","5","6","7","1","2","3","4","5","6","7"]
+    
+    private lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        //layout.sectionInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
+        layout.minimumLineSpacing = 10
+        layout.minimumInteritemSpacing = 10
+        layout.scrollDirection = .horizontal
         
-        return button
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(ButtonListViewCellCell.self, forCellWithReuseIdentifier: "ButtonListViewCellCell")
+        collectionView.dataSource = self
+        collectionView.delegate = self
+//        collectionView.isPagingEnabled = true
+        collectionView.showsHorizontalScrollIndicator = true
+        
+        collectionView.backgroundColor = .lightGray
+        
+        
+        
+        return collectionView
+        
     }()
     
-    func setup(title: String){
+    func setup(){
         setupLayout()
-        titleLabel.setTitle(title, for: .normal)
+//        titleLabel.setTitle(title, for: .normal)
     }
-}
-
-private extension ButtonListViewCell{
+    
     func setupLayout(){
-        [ titleLabel].forEach{ addSubview($0)}
+        [ collectionView].forEach{ addSubview($0)}
         
-        titleLabel.snp.makeConstraints{
+        collectionView.snp.makeConstraints{
             $0.edges.equalToSuperview()
+            $0.height.equalTo(30)
         }
     }
 }
+
+extension ButtonListViewCell: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        buttonElementsArr.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ButtonListViewCellCell", for: indexPath) as? ButtonListViewCellCell else { return UICollectionViewCell() }
+        
+        cell.setup(title: buttonElementsArr[indexPath.row])
+        
+        return cell
+    }
+}
+
+extension ButtonListViewCell: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 30, height: 26)
+    }
+}
+    
+    //extension ButtonListViewCell: UITableViewDelegate{
+    //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    //
+    //    }
+    //}
+

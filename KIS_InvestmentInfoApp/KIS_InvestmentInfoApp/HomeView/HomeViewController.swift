@@ -50,8 +50,8 @@ class HomeViewController: UIViewController {
         let tableView = UITableView()
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.backgroundColor = .blue
-        tableView.isHidden = false
+//        tableView.backgroundColor = UIColor(red: 223/255.0, green: 156/255.0, blue: 50/255.0, alpha: 1.0)
+        tableView.backgroundColor = UIColor(patternImage: UIImage(named: "splash")!)
         return tableView
         
     }()
@@ -70,11 +70,16 @@ class HomeViewController: UIViewController {
         let ur = UserDefaults.standard.array(forKey: "urls") as? [String] ?? ["저장된 URL이 없음"]
         print(type(of: ur))
         print(ur)
+        self.uiSc.isActive = true
+        self.uiSc.isEditing = true
+       
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        setNavigationItems()
+        
+        view.backgroundColor = .systemBackground
         // DataSource, Delegate 설정 시 구분을 위해 tag 설정
         alert.addTextField{
             $0.placeholder = "별칭을 입력하세요"
@@ -86,9 +91,9 @@ class HomeViewController: UIViewController {
         print(isFT)
         // 앱 실행이 처음이라면
         if isFT{
-            UserDefaults.standard.set(["", "https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey=BlCJAvGJ4IuXS30CPGMFIjQpiCuDTbjb&searchdate=20221227&data=AP01", "https://www.koreaexim.go.kr/site/program/financial/interestJSON?authkey=4qVtBPk7TdjRIHVUfFXJWXg6rrbt80zj&searchdata=20221227&data=AP02","https://opendart.fss.or.kr/api/list.json?crtfc_key=4f00bd74671058d76697c90e95c123d088e36610","url4", "url5"], forKey: "urls")
+            UserDefaults.standard.set(["", "https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey=BlCJAvGJ4IuXS30CPGMFIjQpiCuDTbjb&searchdate=20221227&data=AP01", "https://www.koreaexim.go.kr/site/program/financial/interestJSON?authkey=4qVtBPk7TdjRIHVUfFXJWXg6rrbt80zj&searchdata=20221227&data=AP02","https://opendart.fss.or.kr/api/list.json?crtfc_key=4f00bd74671058d76697c90e95c123d088e36610"], forKey: "urls")
             
-            UserDefaults.standard.set(["별칭", "현재환율_수출입은행", "대출금리_수출입은행","openDart", "url4Alias","url5Alias"], forKey: "urlAlias")
+            UserDefaults.standard.set(["검색", "현재환율_수출입은행", "대출금리_수출입은행","openDart"], forKey: "urlAlias")
         }
         print(urlsArr)
         print(UserDefaults.standard.array(forKey: "urls") as? [String] ?? ["정보가 없습니다"])
@@ -96,7 +101,7 @@ class HomeViewController: UIViewController {
         self.urlsAlias = UserDefaults.standard.array(forKey: "urlAlias") as? [String] ?? ["정보가 없습니다"]
 //        urlTableView.reloadData()
 
-        setNavigationItems()
+        
         attribute()
         layout()
         
@@ -104,9 +109,11 @@ class HomeViewController: UIViewController {
             action in print("OK")
             self.urlsArr.append(self.uiSc.searchBar.text ?? "")
             self.urlsAlias.append(self.alert.textFields?[0].text ?? "")
+            self.uiSc.searchBar.text = ""
             
+           
             self.urlsArr[0] = ""
-            self.urlsAlias[0] = "별칭"
+            self.urlsAlias[0] = "검색중"
             //UserDefaults에도 값 갱신
             UserDefaults.standard.set(self.urlsArr, forKey: "urls")
             UserDefaults.standard.set(self.urlsAlias, forKey: "urlAlias")
@@ -114,8 +121,10 @@ class HomeViewController: UIViewController {
             let vc = ShowDataViewController()
             vc.setup(apiUrl: url)
             self.navigationController?.pushViewController(vc, animated: true)
+            
         }
         alert.addAction(ok)
+       
         
     }
     

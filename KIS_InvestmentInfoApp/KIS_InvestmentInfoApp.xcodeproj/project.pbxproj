@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A5200E6929658CAC00FBFCAF /* ButtonListViewCellCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5200E6829658CAC00FBFCAF /* ButtonListViewCellCell.swift */; };
 		A53EA68F29624D3600F0E24A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53EA68E29624D3600F0E24A /* AppDelegate.swift */; };
 		A53EA69129624D3600F0E24A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53EA69029624D3600F0E24A /* SceneDelegate.swift */; };
 		A53EA69329624D3600F0E24A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53EA69229624D3600F0E24A /* ViewController.swift */; };
@@ -32,6 +33,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A5200E6829658CAC00FBFCAF /* ButtonListViewCellCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonListViewCellCell.swift; sourceTree = "<group>"; };
 		A53EA68B29624D3600F0E24A /* KIS_InvestmentInfoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KIS_InvestmentInfoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A53EA68E29624D3600F0E24A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A53EA69029624D3600F0E24A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -187,6 +189,7 @@
 			isa = PBXGroup;
 			children = (
 				A555800B29627B9300919868 /* ButtonListViewCell.swift */,
+				A5200E6829658CAC00FBFCAF /* ButtonListViewCellCell.swift */,
 				A55580102962957B00919868 /* ButtonListViewLayout.swift */,
 			);
 			path = ButtonList;
@@ -286,6 +289,7 @@
 				A55580112962957B00919868 /* ButtonListViewLayout.swift in Sources */,
 				A53EA69329624D3600F0E24A /* ViewController.swift in Sources */,
 				A5557FF3296250C900919868 /* ExchangeRate.swift in Sources */,
+				A5200E6929658CAC00FBFCAF /* ButtonListViewCellCell.swift in Sources */,
 				A555800C29627B9300919868 /* ButtonListViewCell.swift in Sources */,
 				A5557FF5296250D300919868 /* ExchangeRateCellData.swift in Sources */,
 				A53EA68F29624D3600F0E24A /* AppDelegate.swift in Sources */,

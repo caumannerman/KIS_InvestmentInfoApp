@@ -34,22 +34,24 @@ class ShowDataViewController: UIViewController {
         let tableView = UITableView()
         tableView.dataSource = self
 //        tableView.delegate = self
-        
+        tableView.backgroundColor = .yellow
+        tableView.register(ButtonListViewCell.self, forCellReuseIdentifier: "ButtonListViewCell")
+        tableView.rowHeight = 30
         return tableView
     }()
     
-    private lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        
-//        collectionView.delegate = self
-//        collectionView.dataSource = self
-        collectionView.backgroundColor = .systemPink
-        
-        collectionView.register(ButtonListViewCell.self, forCellWithReuseIdentifier: "ButtonListViewCell")
-        return collectionView
-    }()
-    
+//    private lazy var collectionView: UICollectionView = {
+//        let layout = UICollectionViewFlowLayout()
+//        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+//
+////        collectionView.delegate = self
+////        collectionView.dataSource = self
+//        collectionView.backgroundColor = .systemPink
+//
+//        collectionView.register(ButtonListViewCell.self, forCellWithReuseIdentifier: "ButtonListViewCell")
+//        return collectionView
+//    }()
+//
  
     
     // ------------------------------ UI Components ------------------------------ //
@@ -74,6 +76,19 @@ class ShowDataViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 //        view.backgroundColor = .blue
+        setNavigationItems()
+    }
+    
+    private func setNavigationItems(){
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.title = "URL 응답 데이터"
+
+        
+//        let searchController = UISearchController()
+//        searchController.searchBar.placeholder = "요청 URL을 입력해주세요"
+//        //화면 어두워지지 않도록 false 처리
+//        searchController.obscuresBackgroundDuringPresentation = false
+        
     }
     //api 주소를 잘 전달했다는 것을 보여주기 위한 것
     func setup(apiUrl: String){
@@ -88,7 +103,7 @@ class ShowDataViewController: UIViewController {
     func attribute(){
         view.backgroundColor = .systemBackground
         tableView.backgroundColor = .lightGray
-        collectionView.backgroundColor = .systemYellow
+//        collectionView.backgroundColor = .systemYellow
         getDataButton.backgroundColor = UIColor(red: 155/255.0, green: 202/255.0, blue: 184/255.0, alpha: 1.0)
         getDataButton.setTitle("get!", for: .normal)
         getDataButton.addTarget(self, action: #selector(getfunc), for: .touchUpInside)
@@ -97,7 +112,7 @@ class ShowDataViewController: UIViewController {
     func layout(){
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints{
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.bottom.leading.trailing.equalToSuperview()
         }
         scrollView.addSubview(contentView)
@@ -111,14 +126,14 @@ class ShowDataViewController: UIViewController {
             $0.edges.equalToSuperview()
         }
         
-        [getDataButton, tableView, collectionView].forEach{
+        [getDataButton, tableView].forEach{
             stackView.addArrangedSubview($0)
         }
         
         getDataButton.snp.makeConstraints{
-            $0.leading.top.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.top.equalToSuperview()
             $0.height.equalTo(30)
-            $0.width.equalTo(60)
         }
         
         tableView.snp.makeConstraints{
@@ -127,11 +142,11 @@ class ShowDataViewController: UIViewController {
             $0.height.equalTo(250)
         }
         
-        collectionView.snp.makeConstraints{
-            $0.top.equalTo(tableView.snp.bottom)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(500)
-        }
+//        collectionView.snp.makeConstraints{
+//            $0.top.equalTo(tableView.snp.bottom)
+//            $0.leading.trailing.equalToSuperview()
+//            $0.height.equalTo(500)
+//        }
     }
 
     @objc func getfunc(){
@@ -152,10 +167,15 @@ extension ShowDataViewController: UITableViewDataSource{
         if indexPath.row == 0 {
             return UITableViewCell()
         }
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "Cell")
-        let er = erData[indexPath.row - 1]
-        cell.textLabel?.text = er.cur_nm
-        cell.detailTextLabel?.text = er.bkpr
+//        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "Cell")
+//        let er = erData[indexPath.row - 1]
+//        cell.textLabel?.text = er.cur_nm
+//        cell.detailTextLabel?.text = er.bkpr
+//        return cell
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonListViewCell", for: indexPath) as? ButtonListViewCell else { return UITableViewCell() }
+        
+        cell.setup()
+        
         return cell
     }
 }
