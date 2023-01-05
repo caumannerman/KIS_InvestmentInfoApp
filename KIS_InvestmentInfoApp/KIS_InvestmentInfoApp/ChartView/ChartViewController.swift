@@ -100,6 +100,19 @@ class ChartViewController: UIViewController {
         return tf
     }()
     
+    let requestButton: UIButton = {
+        let btn = UIButton()
+        btn.layer.cornerRadius = 3.0
+        btn.layer.borderWidth = 2.0
+        btn.layer.borderColor = UIColor(red: 255/255.0, green: 255/255.0, blue: 255/255.0, alpha: 1.0).cgColor
+        btn.backgroundColor = UIColor(red: 0/255.0, green: 204/255.0, blue: 204/255.0, alpha: 1.0)
+        btn.setTitle("조회", for: .normal)
+//        btn.setTitleColor(.black, for: .normal)
+        btn.titleLabel?.font = .systemFont(ofSize: 14.0, weight: .semibold)
+        btn.addTarget(self, action: #selector(reqButtonClicked), for: .touchUpInside)
+        return btn
+    }()
+    
     let purchaseDateLabel: UILabel = {
         let label = UILabel()
         label.backgroundColor = .systemBackground
@@ -267,6 +280,12 @@ class ChartViewController: UIViewController {
         // embed UISearchController
 //        navigationItem.searchController = uiSc
     }
+    @objc func reqButtonClicked(){
+        print("조회 버튼 클릭")
+        print(itemNmTextField.text ?? "nil")
+        print(startDateTextField.text ?? "nil")
+        print(endDateTextField.text ?? "nil")
+    }
    
     
     private func attribute(){
@@ -297,7 +316,7 @@ class ChartViewController: UIViewController {
             $0.edges.equalToSuperview()
         }
         
-        [ barGraphView, itemNmLabel, itemNmTextField, startDateLabel, startDateTextField, endDateLabel, endDateTextField, purchaseDateLabel, purchaseDateTextField, sellDateLabel, sellDateTextField, profitLabel, profitTextField, topProfitDateLabel, topProfitDateTextField, worstProfitDateLabel, worstProfitDateTextField].forEach{
+        [ barGraphView, itemNmLabel, itemNmTextField, startDateLabel, startDateTextField, endDateLabel, endDateTextField, requestButton, purchaseDateLabel, purchaseDateTextField, sellDateLabel, sellDateTextField, profitLabel, profitTextField, topProfitDateLabel, topProfitDateTextField, worstProfitDateLabel, worstProfitDateTextField].forEach{
 //            view.addSubview($0)
             stackView.addArrangedSubview($0)
         }
@@ -350,6 +369,12 @@ class ChartViewController: UIViewController {
             $0.leading.equalTo(itemNmLabel.snp.trailing).offset(10)
             $0.height.equalTo(34)
             $0.trailing.equalToSuperview().inset(20)
+        }
+        requestButton.snp.makeConstraints{
+//            $0.top.equalTo(endDateTextField.snp.bottom).offset(20)
+            $0.leading.equalTo(itemNmLabel.snp.trailing).inset(40)
+            $0.height.equalTo(34)
+            $0.trailing.equalToSuperview().inset(40)
         }
         purchaseDateLabel.snp.makeConstraints{
             $0.leading.equalToSuperview().inset(10)
