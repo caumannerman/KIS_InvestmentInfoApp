@@ -24,6 +24,10 @@ class ChartViewController: UIViewController {
     var chartDataSet = BarChartDataSet()
     var chartData = BarChartData()
     
+    // 그래프 이외의 Component들
+    let tickerLabel = UILabel()
+    let tickerTextField = UITextField()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,17 +53,55 @@ class ChartViewController: UIViewController {
                 
                 
         barGraphView.data = chartData
-        
+        setNavigationItems()
+        attribute()
         layout()
     }
     
-    func layout(){
-        [barGraphView].forEach{
+    private func setNavigationItems(){
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.title = "투자전략 시뮬레이션"
+        //TODO: title color
+        
+//        let searchController = UISearchController()
+//        searchController.searchBar.placeholder = "요청 URL을 입력해주세요"
+//        //화면 어두워지지 않도록 false 처리
+//        searchController.obscuresBackgroundDuringPresentation = false
+//        uiSc.searchBar.delegate = self
+        
+        // embed UISearchController
+//        navigationItem.searchController = uiSc
+    }
+    
+    private func attribute(){
+        
+        tickerLabel.backgroundColor = .red
+        tickerTextField.layer.borderWidth = 2.0
+        tickerTextField.layer.borderColor = UIColor.black.cgColor
+        tickerTextField.backgroundColor = .yellow
+    }
+    
+    private func layout(){
+        [barGraphView, tickerLabel, tickerTextField].forEach{
             view.addSubview($0)
         }
         barGraphView.snp.makeConstraints{
             $0.top.bottom.equalTo(view.safeAreaLayoutGuide).inset(100)
             $0.leading.trailing.equalToSuperview().inset(30)
+        }
+        
+        tickerLabel.snp.makeConstraints{
+            $0.top.equalTo(barGraphView.snp.bottom)
+            $0.leading.equalToSuperview().inset(20)
+            $0.height.equalTo(30)
+            $0.width.equalTo(80)
+        }
+        
+        tickerTextField.snp.makeConstraints{
+            $0.top.equalTo(barGraphView.snp.bottom)
+            $0.leading.equalTo(tickerLabel.snp.trailing).offset(10)
+            $0.height.equalTo(30)
+            $0.trailing.equalToSuperview().inset(20)
         }
     }
     

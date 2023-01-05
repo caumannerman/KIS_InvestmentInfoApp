@@ -195,6 +195,10 @@ class ShowDataViewController: UIViewController {
     @objc func savefunc(){
         print("저장 버튼 클릭")
         //TODO: csv로 저장하는 것
+//        DispatchQueue.main.async{ [weak self] in
+//            guard let currentCell = self?.tableView.cellForRow(at: IndexPath(index: 1)) as? ButtonListViewCell else { return }
+//            currentCell.collectionView.
+//        }
     }
 
 }
