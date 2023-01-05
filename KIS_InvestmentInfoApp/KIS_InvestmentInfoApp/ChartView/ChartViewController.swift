@@ -220,18 +220,13 @@ class ChartViewController: UIViewController {
     }
     
     private func layout(){
-        [barGraphView, scrollView].forEach {
+        [ scrollView].forEach {
             view.addSubview($0)
         }
         
-        barGraphView.snp.makeConstraints{
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.leading.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(300)
-        }
-        
+       
         scrollView.snp.makeConstraints{
-            $0.top.equalTo(barGraphView.snp.bottom)
+            $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
@@ -246,15 +241,22 @@ class ChartViewController: UIViewController {
             $0.edges.equalToSuperview()
         }
         
-        [ itemNmLabel, tickerTextField, tickerLabel2, tickerTextField2, tickerLabel3, tickerTextField3, purchaseDateLabel, purchaseDateTextField, sellDateLabel, sellDateTextField, profitLabel, profitTextField, topProfitLabel, topProfitTextField, worstProfitLabel, worstProfitTextField].forEach{
+        [ barGraphView, itemNmLabel, tickerTextField, tickerLabel2, tickerTextField2, tickerLabel3, tickerTextField3, purchaseDateLabel, purchaseDateTextField, sellDateLabel, sellDateTextField, profitLabel, profitTextField, topProfitLabel, topProfitTextField, worstProfitLabel, worstProfitTextField].forEach{
 //            view.addSubview($0)
             stackView.addArrangedSubview($0)
         }
+        barGraphView.snp.makeConstraints{
+//            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.top.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.height.equalTo(300)
+        }
+        
         
         
         itemNmLabel.snp.makeConstraints{
 //            $0.top.equalTo(barGraphView.snp.bottom).offset(30)
-            $0.leading.equalToSuperview().inset(10)
+//            $0.leading.equalToSuperview().inset(10)
             $0.height.equalTo(34)
             $0.width.equalTo(80)
         }
@@ -359,6 +361,8 @@ class ChartViewController: UIViewController {
     
     
 }
+
+
 
 //class CandleStickChartViewController: DemoBaseViewController {
 //
