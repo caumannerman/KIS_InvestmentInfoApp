@@ -120,6 +120,54 @@ class ChartViewController: UIViewController {
         return tf
     }()
     
+    let profitLabel: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .systemBackground
+        label.text = "이익 (원)"
+        label.font = UIFont.systemFont(ofSize: 14)
+        return label
+    }()
+    let profitTextField: UITextField = {
+        let tf = UITextField()
+        tf.layer.borderWidth = 2.0
+        tf.layer.borderColor = UIColor(red: 0/255, green: 192/255, blue: 210/255, alpha: 1).cgColor
+        tf.layer.cornerRadius = 12.0
+        tf.backgroundColor = .systemBackground
+        return tf
+    }()
+    
+    let topProfitLabel: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .systemBackground
+        label.text = "최고 수익일"
+        label.font = UIFont.systemFont(ofSize: 14)
+        return label
+    }()
+    let topProfitTextField: UITextField = {
+        let tf = UITextField()
+        tf.layer.borderWidth = 2.0
+        tf.layer.borderColor = UIColor(red: 0/255, green: 192/255, blue: 210/255, alpha: 1).cgColor
+        tf.layer.cornerRadius = 12.0
+        tf.backgroundColor = .systemBackground
+        return tf
+    }()
+    
+    let worstProfitLabel: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .systemBackground
+        label.text = "최저 수익일"
+        label.font = UIFont.systemFont(ofSize: 14)
+        return label
+    }()
+    let worstProfitTextField: UITextField = {
+        let tf = UITextField()
+        tf.layer.borderWidth = 2.0
+        tf.layer.borderColor = UIColor(red: 0/255, green: 192/255, blue: 210/255, alpha: 1).cgColor
+        tf.layer.cornerRadius = 12.0
+        tf.backgroundColor = .systemBackground
+        return tf
+    }()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -198,7 +246,7 @@ class ChartViewController: UIViewController {
             $0.edges.equalToSuperview()
         }
         
-        [ itemNmLabel, tickerTextField, tickerLabel2, tickerTextField2, tickerLabel3, tickerTextField3, purchaseDateLabel, purchaseDateTextField, sellDateLabel, sellDateTextField].forEach{
+        [ itemNmLabel, tickerTextField, tickerLabel2, tickerTextField2, tickerLabel3, tickerTextField3, purchaseDateLabel, purchaseDateTextField, sellDateLabel, sellDateTextField, profitLabel, profitTextField, topProfitLabel, topProfitTextField, worstProfitLabel, worstProfitTextField].forEach{
 //            view.addSubview($0)
             stackView.addArrangedSubview($0)
         }
@@ -267,6 +315,46 @@ class ChartViewController: UIViewController {
             $0.height.equalTo(34)
             $0.trailing.equalToSuperview().inset(20)
         }
+        
+        profitLabel.snp.makeConstraints{
+            $0.leading.equalToSuperview().inset(10)
+            $0.height.equalTo(34)
+            $0.width.equalTo(80)
+        }
+        
+        profitTextField.snp.makeConstraints{
+            $0.leading.equalTo(itemNmLabel.snp.trailing).offset(10)
+            $0.height.equalTo(34)
+            $0.trailing.equalToSuperview().inset(20)
+        }
+        
+        topProfitLabel.snp.makeConstraints{
+            $0.leading.equalToSuperview().inset(10)
+            $0.height.equalTo(34)
+            $0.width.equalTo(80)
+        }
+        
+        topProfitTextField.snp.makeConstraints{
+            $0.leading.equalTo(itemNmLabel.snp.trailing).offset(10)
+            $0.height.equalTo(34)
+            $0.trailing.equalToSuperview().inset(20)
+        }
+        
+        worstProfitLabel.snp.makeConstraints{
+            $0.leading.equalToSuperview().inset(10)
+            $0.height.equalTo(34)
+            $0.width.equalTo(80)
+        }
+        
+        worstProfitTextField.snp.makeConstraints{
+            $0.leading.equalTo(itemNmLabel.snp.trailing).offset(10)
+            $0.height.equalTo(34)
+            $0.trailing.equalToSuperview().inset(20)
+        }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
     
     
