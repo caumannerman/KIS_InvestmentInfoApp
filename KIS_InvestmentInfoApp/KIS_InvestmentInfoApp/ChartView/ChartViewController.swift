@@ -44,46 +44,59 @@ class ChartViewController: UIViewController {
         label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
-    let tickerTextField: UITextField = {
+    let itemNmTextField: UITextField = {
         let tf = UITextField()
         tf.layer.borderWidth = 2.0
         tf.layer.borderColor = UIColor(red: 0/255, green: 192/255, blue: 210/255, alpha: 1).cgColor
         tf.layer.cornerRadius = 12.0
         tf.backgroundColor = .systemBackground
+        //textField 앞에 inset을 줘서 text가 자연스럽게 보이도록
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: tf.frame.height))
+        tf.leftView = paddingView
+        tf.leftViewMode = .always
         return tf
     }()
     
     // 그래프 이외의 Component들
-    let tickerLabel2: UILabel = {
+    let startDateLabel: UILabel = {
         let label = UILabel()
         label.backgroundColor = .systemBackground
         label.text = "차트조회 시작일"
         label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
-    let tickerTextField2: UITextField = {
+    let startDateTextField: UITextField = {
         let tf = UITextField()
         tf.layer.borderWidth = 2.0
         tf.layer.borderColor = UIColor(red: 0/255, green: 192/255, blue: 210/255, alpha: 1).cgColor
         tf.layer.cornerRadius = 12.0
         tf.backgroundColor = .systemBackground
+        //textField 앞에 inset을 줘서 text가 자연스럽게 보이도록
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: tf.frame.height))
+        tf.leftView = paddingView
+        tf.leftViewMode = .always
         return tf
     }()
     
     // 그래프 이외의 Component들
-    let tickerLabel3: UILabel = {
+    let endDateLabel: UILabel = {
         let label = UILabel()
         label.backgroundColor = .systemBackground
         label.text = "차트조회 종료일"
         label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
-    let tickerTextField3: UITextField = {
+    
+    let endDateTextField: UITextField = {
         let tf = UITextField()
         tf.layer.borderWidth = 2.0
         tf.layer.borderColor = UIColor(red: 0/255, green: 192/255, blue: 210/255, alpha: 1).cgColor
         tf.layer.cornerRadius = 12.0
         tf.backgroundColor = .systemBackground
+        //textField 앞에 inset을 줘서 text가 자연스럽게 보이도록
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: tf.frame.height))
+        tf.leftView = paddingView
+        tf.leftViewMode = .always
         return tf
     }()
     
@@ -101,6 +114,10 @@ class ChartViewController: UIViewController {
         tf.layer.borderColor = UIColor(red: 0/255, green: 192/255, blue: 210/255, alpha: 1).cgColor
         tf.layer.cornerRadius = 12.0
         tf.backgroundColor = .systemBackground
+        //textField 앞에 inset을 줘서 text가 자연스럽게 보이도록
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: tf.frame.height))
+        tf.leftView = paddingView
+        tf.leftViewMode = .always
         return tf
     }()
     
@@ -117,6 +134,10 @@ class ChartViewController: UIViewController {
         tf.layer.borderColor = UIColor(red: 0/255, green: 192/255, blue: 210/255, alpha: 1).cgColor
         tf.layer.cornerRadius = 12.0
         tf.backgroundColor = .systemBackground
+        //textField 앞에 inset을 줘서 text가 자연스럽게 보이도록
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: tf.frame.height))
+        tf.leftView = paddingView
+        tf.leftViewMode = .always
         return tf
     }()
     
@@ -133,6 +154,10 @@ class ChartViewController: UIViewController {
         tf.layer.borderColor = UIColor(red: 0/255, green: 192/255, blue: 210/255, alpha: 1).cgColor
         tf.layer.cornerRadius = 12.0
         tf.backgroundColor = .systemBackground
+        //textField 앞에 inset을 줘서 text가 자연스럽게 보이도록
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: tf.frame.height))
+        tf.leftView = paddingView
+        tf.leftViewMode = .always
         return tf
     }()
     
@@ -149,6 +174,10 @@ class ChartViewController: UIViewController {
         tf.layer.borderColor = UIColor(red: 0/255, green: 192/255, blue: 210/255, alpha: 1).cgColor
         tf.layer.cornerRadius = 12.0
         tf.backgroundColor = .systemBackground
+        //textField 앞에 inset을 줘서 text가 자연스럽게 보이도록
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: tf.frame.height))
+        tf.leftView = paddingView
+        tf.leftViewMode = .always
         return tf
     }()
     
@@ -165,9 +194,15 @@ class ChartViewController: UIViewController {
         tf.layer.borderColor = UIColor(red: 0/255, green: 192/255, blue: 210/255, alpha: 1).cgColor
         tf.layer.cornerRadius = 12.0
         tf.backgroundColor = .systemBackground
+        //textField 앞에 inset을 줘서 text가 자연스럽게 보이도록
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: tf.frame.height))
+        tf.leftView = paddingView
+        tf.leftViewMode = .always
         return tf
     }()
     
+    private let datePicker = UIDatePicker()
+    private var diaryDate: Date?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -194,6 +229,8 @@ class ChartViewController: UIViewController {
                 
         barGraphView.data = chartData
         setNavigationItems()
+        setupDatePicker()
+        
         attribute()
         layout()
     }
@@ -211,6 +248,33 @@ class ChartViewController: UIViewController {
         
         // embed UISearchController
 //        navigationItem.searchController = uiSc
+    }
+    private func setupDatePicker(){
+        //날짜만 나오게 ( 시간 제외 )
+        self.datePicker.datePickerMode = .date
+        self.datePicker.preferredDatePickerStyle = .inline
+        //for에는 어떤 event가 일어났을 때 action에 정의한 메서드를 호출할 것인지
+        // 첫 번째 parameter에는 target
+        self.datePicker.addTarget(
+            self,
+            action: #selector(datePickerValueDidChange(_:)),
+            for: .valueChanged
+        )
+        //연-월-일 순으로 + 한글
+        self.datePicker.locale = Locale(identifier: "ko-KR")
+        //dateTextField를 눌렀을 때, keyboard가 아닌 datePicker가 나오게 된다!
+        self.startDateTextField.inputView = self.datePicker
+    }
+    //datePicker 선택값이 달라지면 호출될 메서드
+    @objc func datePickerValueDidChange(_ datePicker: UIDatePicker){
+        //날짜, text를 반환해주는 역할
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy 년 MM월 dd일(EEEEE)"
+        formatter.locale = Locale(identifier: "ko_KR")
+        self.diaryDate = datePicker.date
+        self.startDateTextField.text = formatter.string(from: datePicker.date)
+        // 다른 날짜를 선택해도,키보드로 텍스트를 입력받은 것이 아니기 때문에 dateTextFieldDidChange가 #selector에서 정상적으로 호출되지 않는다. 따라서 pick한 날짜가 변하면, .editingChanged 이벤트를 인위적으로 발생시켜준다.
+        self.startDateTextField.sendActions(for: .editingChanged)
     }
     
     private func attribute(){
@@ -241,7 +305,7 @@ class ChartViewController: UIViewController {
             $0.edges.equalToSuperview()
         }
         
-        [ barGraphView, itemNmLabel, tickerTextField, tickerLabel2, tickerTextField2, tickerLabel3, tickerTextField3, purchaseDateLabel, purchaseDateTextField, sellDateLabel, sellDateTextField, profitLabel, profitTextField, topProfitLabel, topProfitTextField, worstProfitLabel, worstProfitTextField].forEach{
+        [ barGraphView, itemNmLabel, itemNmTextField, startDateLabel, startDateTextField, endDateLabel, endDateTextField, purchaseDateLabel, purchaseDateTextField, sellDateLabel, sellDateTextField, profitLabel, profitTextField, topProfitLabel, topProfitTextField, worstProfitLabel, worstProfitTextField].forEach{
 //            view.addSubview($0)
             stackView.addArrangedSubview($0)
         }
@@ -261,35 +325,35 @@ class ChartViewController: UIViewController {
             $0.width.equalTo(80)
         }
         
-        tickerTextField.snp.makeConstraints{
+        itemNmTextField.snp.makeConstraints{
 //            $0.top.equalTo(itemNmLabel.snp.bottom).offset(30)
             $0.leading.equalTo(itemNmLabel.snp.trailing).offset(10)
             $0.height.equalTo(34)
             $0.trailing.equalToSuperview().inset(20)
         }
         
-        tickerLabel2.snp.makeConstraints{
+        startDateLabel.snp.makeConstraints{
 //            $0.top.equalTo(tickerTextField.snp.bottom).offset(30)
             $0.leading.equalToSuperview().inset(10)
             $0.height.equalTo(34)
             $0.width.equalTo(80)
         }
         
-        tickerTextField2.snp.makeConstraints{
+        startDateTextField.snp.makeConstraints{
 //            $0.top.equalTo(tickerLabel2.snp.bottom).offset(30)
             $0.leading.equalTo(itemNmLabel.snp.trailing).offset(10)
             $0.height.equalTo(34)
             $0.trailing.equalToSuperview().inset(20)
         }
         
-        tickerLabel3.snp.makeConstraints{
+        endDateLabel.snp.makeConstraints{
 //            $0.top.equalTo(tickerTextField2.snp.bottom).offset(30)
             $0.leading.equalToSuperview().inset(10)
             $0.height.equalTo(34)
             $0.width.equalTo(80)
         }
         
-        tickerTextField3.snp.makeConstraints{
+        endDateTextField.snp.makeConstraints{
 //            $0.top.equalTo(tickerLabel3.snp.bottom).offset(30)
             $0.leading.equalTo(itemNmLabel.snp.trailing).offset(10)
             $0.height.equalTo(34)
@@ -360,6 +424,12 @@ class ChartViewController: UIViewController {
     }
     
     
+}
+
+extension ChartViewController: UITextFieldDelegate{
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        print(textField.text ?? "lll")
+    }
 }
 
 
