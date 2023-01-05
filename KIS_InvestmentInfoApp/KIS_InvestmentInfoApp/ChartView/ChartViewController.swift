@@ -11,6 +11,7 @@ import SnapKit
 
 
 class ChartViewController: UIViewController {
+    
     private var barGraphView = BarChartView()
     
     var dataPoints: [String] = ["일","월", "화","수","목", "금","토"]
@@ -24,9 +25,100 @@ class ChartViewController: UIViewController {
     var chartDataSet = BarChartDataSet()
     var chartData = BarChartData()
     
+    private let scrollView = UIScrollView()
+    private let contentView = UIView()
+
+    private lazy var stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .fill
+        stackView.spacing = 0.0
+        return stackView
+    }()
+    
     // 그래프 이외의 Component들
-    let tickerLabel = UILabel()
-    let tickerTextField = UITextField()
+    let itemNmLabel: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .systemBackground
+        label.text = "종목명"
+        label.font = UIFont.systemFont(ofSize: 14)
+        return label
+    }()
+    let tickerTextField: UITextField = {
+        let tf = UITextField()
+        tf.layer.borderWidth = 2.0
+        tf.layer.borderColor = UIColor(red: 0/255, green: 192/255, blue: 210/255, alpha: 1).cgColor
+        tf.layer.cornerRadius = 12.0
+        tf.backgroundColor = .systemBackground
+        return tf
+    }()
+    
+    // 그래프 이외의 Component들
+    let tickerLabel2: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .systemBackground
+        label.text = "차트조회 시작일"
+        label.font = UIFont.systemFont(ofSize: 14)
+        return label
+    }()
+    let tickerTextField2: UITextField = {
+        let tf = UITextField()
+        tf.layer.borderWidth = 2.0
+        tf.layer.borderColor = UIColor(red: 0/255, green: 192/255, blue: 210/255, alpha: 1).cgColor
+        tf.layer.cornerRadius = 12.0
+        tf.backgroundColor = .systemBackground
+        return tf
+    }()
+    
+    // 그래프 이외의 Component들
+    let tickerLabel3: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .systemBackground
+        label.text = "차트조회 종료일"
+        label.font = UIFont.systemFont(ofSize: 14)
+        return label
+    }()
+    let tickerTextField3: UITextField = {
+        let tf = UITextField()
+        tf.layer.borderWidth = 2.0
+        tf.layer.borderColor = UIColor(red: 0/255, green: 192/255, blue: 210/255, alpha: 1).cgColor
+        tf.layer.cornerRadius = 12.0
+        tf.backgroundColor = .systemBackground
+        return tf
+    }()
+    
+    let purchaseDateLabel: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .systemBackground
+        label.text = "매수 시점"
+        label.font = UIFont.systemFont(ofSize: 14)
+        return label
+    }()
+    
+    let purchaseDateTextField: UITextField = {
+        let tf = UITextField()
+        tf.layer.borderWidth = 2.0
+        tf.layer.borderColor = UIColor(red: 0/255, green: 192/255, blue: 210/255, alpha: 1).cgColor
+        tf.layer.cornerRadius = 12.0
+        tf.backgroundColor = .systemBackground
+        return tf
+    }()
+    
+    let sellDateLabel: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .systemBackground
+        label.text = "매도 시점"
+        label.font = UIFont.systemFont(ofSize: 14)
+        return label
+    }()
+    let sellDateTextField: UITextField = {
+        let tf = UITextField()
+        tf.layer.borderWidth = 2.0
+        tf.layer.borderColor = UIColor(red: 0/255, green: 192/255, blue: 210/255, alpha: 1).cgColor
+        tf.layer.cornerRadius = 12.0
+        tf.backgroundColor = .systemBackground
+        return tf
+    }()
     
     
     override func viewDidLoad() {
@@ -75,32 +167,104 @@ class ChartViewController: UIViewController {
     
     private func attribute(){
         
-        tickerLabel.backgroundColor = .red
-        tickerTextField.layer.borderWidth = 2.0
-        tickerTextField.layer.borderColor = UIColor.black.cgColor
-        tickerTextField.backgroundColor = .yellow
+       
+        
     }
     
     private func layout(){
-        [barGraphView, tickerLabel, tickerTextField].forEach{
+        [barGraphView, scrollView].forEach {
             view.addSubview($0)
         }
+        
         barGraphView.snp.makeConstraints{
-            $0.top.bottom.equalTo(view.safeAreaLayoutGuide).inset(100)
-            $0.leading.trailing.equalToSuperview().inset(30)
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.height.equalTo(300)
         }
         
-        tickerLabel.snp.makeConstraints{
+        scrollView.snp.makeConstraints{
             $0.top.equalTo(barGraphView.snp.bottom)
-            $0.leading.equalToSuperview().inset(20)
-            $0.height.equalTo(30)
+            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
+        }
+        scrollView.addSubview(contentView)
+        contentView.snp.makeConstraints{
+            $0.edges.equalToSuperview()
+            //가로를 고정시켜주어 세로스크롤 뷰가 된다.
+            $0.width.equalToSuperview()
+        }
+        contentView.addSubview(stackView)
+        stackView.snp.makeConstraints{
+            $0.edges.equalToSuperview()
+        }
+        
+        [ itemNmLabel, tickerTextField, tickerLabel2, tickerTextField2, tickerLabel3, tickerTextField3, purchaseDateLabel, purchaseDateTextField, sellDateLabel, sellDateTextField].forEach{
+//            view.addSubview($0)
+            stackView.addArrangedSubview($0)
+        }
+        
+        
+        itemNmLabel.snp.makeConstraints{
+//            $0.top.equalTo(barGraphView.snp.bottom).offset(30)
+            $0.leading.equalToSuperview().inset(10)
+            $0.height.equalTo(34)
             $0.width.equalTo(80)
         }
         
         tickerTextField.snp.makeConstraints{
-            $0.top.equalTo(barGraphView.snp.bottom)
-            $0.leading.equalTo(tickerLabel.snp.trailing).offset(10)
-            $0.height.equalTo(30)
+//            $0.top.equalTo(itemNmLabel.snp.bottom).offset(30)
+            $0.leading.equalTo(itemNmLabel.snp.trailing).offset(10)
+            $0.height.equalTo(34)
+            $0.trailing.equalToSuperview().inset(20)
+        }
+        
+        tickerLabel2.snp.makeConstraints{
+//            $0.top.equalTo(tickerTextField.snp.bottom).offset(30)
+            $0.leading.equalToSuperview().inset(10)
+            $0.height.equalTo(34)
+            $0.width.equalTo(80)
+        }
+        
+        tickerTextField2.snp.makeConstraints{
+//            $0.top.equalTo(tickerLabel2.snp.bottom).offset(30)
+            $0.leading.equalTo(itemNmLabel.snp.trailing).offset(10)
+            $0.height.equalTo(34)
+            $0.trailing.equalToSuperview().inset(20)
+        }
+        
+        tickerLabel3.snp.makeConstraints{
+//            $0.top.equalTo(tickerTextField2.snp.bottom).offset(30)
+            $0.leading.equalToSuperview().inset(10)
+            $0.height.equalTo(34)
+            $0.width.equalTo(80)
+        }
+        
+        tickerTextField3.snp.makeConstraints{
+//            $0.top.equalTo(tickerLabel3.snp.bottom).offset(30)
+            $0.leading.equalTo(itemNmLabel.snp.trailing).offset(10)
+            $0.height.equalTo(34)
+            $0.trailing.equalToSuperview().inset(20)
+        }
+        purchaseDateLabel.snp.makeConstraints{
+            $0.leading.equalToSuperview().inset(10)
+            $0.height.equalTo(34)
+            $0.width.equalTo(80)
+        }
+        
+        purchaseDateTextField.snp.makeConstraints{
+            $0.leading.equalTo(itemNmLabel.snp.trailing).offset(10)
+            $0.height.equalTo(34)
+            $0.trailing.equalToSuperview().inset(20)
+        }
+        sellDateLabel.snp.makeConstraints{
+            $0.leading.equalToSuperview().inset(10)
+            $0.height.equalTo(34)
+            $0.width.equalTo(80)
+        }
+        
+        sellDateTextField.snp.makeConstraints{
+            $0.leading.equalTo(itemNmLabel.snp.trailing).offset(10)
+            $0.height.equalTo(34)
             $0.trailing.equalToSuperview().inset(20)
         }
     }
