@@ -16,19 +16,17 @@ class ShowDataViewController: UIViewController {
     private var erData: [ExchangeRateCellData] = []
     // ------------------------------ UI Components ------------------------------ //
     
-    private let scrollView = UIScrollView()
-    private let contentView = UIView()
-    
-    private lazy var stackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.distribution = .fill
-        stackView.spacing = 0.0
-        return stackView
-    }()
-    
-    
-    let getDataButton = UIButton()
+//    private let scrollView = UIScrollView()
+//    private let contentView = UIView()
+//
+//    private lazy var stackView: UIStackView = {
+//        let stackView = UIStackView()
+//        stackView.axis = .vertical
+//        stackView.distribution = .fill
+//        stackView.spacing = 0.0
+//        return stackView
+//    }()
+//
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -39,6 +37,34 @@ class ShowDataViewController: UIViewController {
         tableView.rowHeight = 30
         return tableView
     }()
+    
+    private lazy var callButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Call", for: .normal)
+        button.backgroundColor = UIColor(red: 195/255.0, green: 222/255.0, blue: 194/255.0, alpha: 1.0)
+        button.layer.borderColor = UIColor(red: 153/255.0, green: 76/255.0, blue: 0/255.0, alpha: 1.0).cgColor
+        button.layer.borderWidth = 2.0
+        button.layer.cornerRadius = 10.0
+        button.addTarget(self, action: #selector(getfunc), for: .touchUpInside)
+        
+        return button
+        
+    }()
+    
+    private lazy var saveButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Save", for: .normal)
+        button.backgroundColor = UIColor(red: 195/255.0, green: 222/255.0, blue: 194/255.0, alpha: 1.0)
+        button.layer.borderColor = UIColor(red: 153/255.0, green: 76/255.0, blue: 0/255.0, alpha: 1.0).cgColor
+        button.layer.borderWidth = 2.0
+        button.layer.cornerRadius = 10.0
+        button.addTarget(self, action: #selector(savefunc), for: .touchUpInside)
+        
+        return button
+        
+    }()
+    
+   
     
 //    private lazy var collectionView: UICollectionView = {
 //        let layout = UICollectionViewFlowLayout()
@@ -75,7 +101,7 @@ class ShowDataViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        view.backgroundColor = .blue
+        view.backgroundColor = .systemBackground
         setNavigationItems()
     }
     
@@ -92,7 +118,8 @@ class ShowDataViewController: UIViewController {
     }
     //api 주소를 잘 전달했다는 것을 보여주기 위한 것
     func setup(apiUrl: String){
-        getDataButton.setTitle(apiUrl, for: .normal)
+        print(apiUrl)
+//        saveButton.setTitle(apiUrl, for: .normal)
     }
     func bind(){
         
@@ -104,42 +131,51 @@ class ShowDataViewController: UIViewController {
         view.backgroundColor = .systemBackground
         tableView.backgroundColor = .lightGray
 //        collectionView.backgroundColor = .systemYellow
-        getDataButton.backgroundColor = UIColor(red: 155/255.0, green: 202/255.0, blue: 184/255.0, alpha: 1.0)
-        getDataButton.setTitle("get!", for: .normal)
-        getDataButton.addTarget(self, action: #selector(getfunc), for: .touchUpInside)
+        
     }
     
     func layout(){
-        view.addSubview(scrollView)
-        scrollView.snp.makeConstraints{
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.bottom.leading.trailing.equalToSuperview()
-        }
-        scrollView.addSubview(contentView)
-        contentView.snp.makeConstraints{
-            $0.edges.equalToSuperview()
-            //가로를 고정시켜주어 세로스크롤 뷰가 된다.
-            $0.width.equalToSuperview()
-        }
-        contentView.addSubview(stackView)
-        stackView.snp.makeConstraints{
-            $0.edges.equalToSuperview()
-        }
+//        view.addSubview(scrollView)
+//        scrollView.snp.makeConstraints{
+//            $0.top.equalTo(view.safeAreaLayoutGuide)
+//            $0.bottom.leading.trailing.equalToSuperview()
+//        }
+//        scrollView.addSubview(contentView)
+//        contentView.snp.makeConstraints{
+//            $0.edges.equalToSuperview()
+//            //가로를 고정시켜주어 세로스크롤 뷰가 된다.
+//            $0.width.equalToSuperview()
+//        }
+//        contentView.addSubview(stackView)
+//        stackView.snp.makeConstraints{
+//            $0.edges.equalToSuperview()
+//        }
         
-        [getDataButton, tableView].forEach{
-            stackView.addArrangedSubview($0)
-        }
-        
-        getDataButton.snp.makeConstraints{
-            $0.leading.trailing.equalToSuperview().inset(20)
-            $0.top.equalToSuperview()
-            $0.height.equalTo(30)
+        [tableView, callButton, saveButton].forEach{
+            view.addSubview($0)
         }
         
         tableView.snp.makeConstraints{
-            $0.top.equalTo(getDataButton.snp.bottom)
+//            $0.top.equalTo(getDataButton.snp.bottom)
+            $0.top.equalToSuperview()
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(250)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(100)
+        }
+        
+        callButton.snp.makeConstraints{
+            $0.top.equalTo(tableView.snp.bottom).offset(20)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(30)
+            $0.leading.equalToSuperview().inset(60)
+            $0.width.equalTo(120)
+//            $0.height.equalTo(40)
+        }
+        
+        saveButton.snp.makeConstraints{
+            $0.top.equalTo(tableView.snp.bottom).offset(20)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(30)
+            $0.trailing.equalToSuperview().inset(60)
+            $0.width.equalTo(120)
+//            $0.height.equalTo(40)
         }
         
 //        collectionView.snp.makeConstraints{
@@ -154,6 +190,11 @@ class ShowDataViewController: UIViewController {
 //        let result = GetERNetwork().getErData()
         requestAPI()
 //        print(result)
+    }
+    
+    @objc func savefunc(){
+        print("저장 버튼 클릭")
+        //TODO: csv로 저장하는 것
     }
 
 }
