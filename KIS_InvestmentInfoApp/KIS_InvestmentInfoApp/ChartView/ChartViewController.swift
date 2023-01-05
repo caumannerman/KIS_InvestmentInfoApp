@@ -161,14 +161,14 @@ class ChartViewController: UIViewController {
         return tf
     }()
     
-    let topProfitLabel: UILabel = {
+    let topProfitDateLabel: UILabel = {
         let label = UILabel()
         label.backgroundColor = .systemBackground
         label.text = "최고 수익일"
         label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
-    let topProfitTextField: UITextField = {
+    let topProfitDateTextField: UITextField = {
         let tf = UITextField()
         tf.layer.borderWidth = 2.0
         tf.layer.borderColor = UIColor(red: 0/255, green: 192/255, blue: 210/255, alpha: 1).cgColor
@@ -181,14 +181,14 @@ class ChartViewController: UIViewController {
         return tf
     }()
     
-    let worstProfitLabel: UILabel = {
+    let worstProfitDateLabel: UILabel = {
         let label = UILabel()
         label.backgroundColor = .systemBackground
         label.text = "최저 수익일"
         label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
-    let worstProfitTextField: UITextField = {
+    let worstProfitDateTextField: UITextField = {
         let tf = UITextField()
         tf.layer.borderWidth = 2.0
         tf.layer.borderColor = UIColor(red: 0/255, green: 192/255, blue: 210/255, alpha: 1).cgColor
@@ -201,8 +201,20 @@ class ChartViewController: UIViewController {
         return tf
     }()
     
-    private let datePicker = UIDatePicker()
-    private var diaryDate: Date?
+    
+    private let startDateDatePicker = UIDatePicker()
+    private let endDateDatePicker = UIDatePicker()
+    private let purchaseDateDatePicker = UIDatePicker()
+    private let sellDateDatePicker = UIDatePicker()
+    private let topProfitDateDatePicker = UIDatePicker()
+    private let worstProfitDateDatePicker = UIDatePicker()
+    
+    private var startDate: Date?
+    private var endDate: Date?
+    private var purchaseDate: Date?
+    private var sellDate: Date?
+    private var topProfitDate: Date?
+    private var worstProfitDate: Date?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -229,7 +241,13 @@ class ChartViewController: UIViewController {
                 
         barGraphView.data = chartData
         setNavigationItems()
-        setupDatePicker()
+        //DatePicker 초기화
+        setupStartDateDatePicker()
+        setupEndDateDatePicker()
+        setupPurchaseDateDatePicker()
+        setupSellDateDatePicker()
+        setupTopProfitDateDatePicker()
+        setupWorstProfitDateDatePicker()
         
         attribute()
         layout()
@@ -249,33 +267,7 @@ class ChartViewController: UIViewController {
         // embed UISearchController
 //        navigationItem.searchController = uiSc
     }
-    private func setupDatePicker(){
-        //날짜만 나오게 ( 시간 제외 )
-        self.datePicker.datePickerMode = .date
-        self.datePicker.preferredDatePickerStyle = .inline
-        //for에는 어떤 event가 일어났을 때 action에 정의한 메서드를 호출할 것인지
-        // 첫 번째 parameter에는 target
-        self.datePicker.addTarget(
-            self,
-            action: #selector(datePickerValueDidChange(_:)),
-            for: .valueChanged
-        )
-        //연-월-일 순으로 + 한글
-        self.datePicker.locale = Locale(identifier: "ko-KR")
-        //dateTextField를 눌렀을 때, keyboard가 아닌 datePicker가 나오게 된다!
-        self.startDateTextField.inputView = self.datePicker
-    }
-    //datePicker 선택값이 달라지면 호출될 메서드
-    @objc func datePickerValueDidChange(_ datePicker: UIDatePicker){
-        //날짜, text를 반환해주는 역할
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy 년 MM월 dd일(EEEEE)"
-        formatter.locale = Locale(identifier: "ko_KR")
-        self.diaryDate = datePicker.date
-        self.startDateTextField.text = formatter.string(from: datePicker.date)
-        // 다른 날짜를 선택해도,키보드로 텍스트를 입력받은 것이 아니기 때문에 dateTextFieldDidChange가 #selector에서 정상적으로 호출되지 않는다. 따라서 pick한 날짜가 변하면, .editingChanged 이벤트를 인위적으로 발생시켜준다.
-        self.startDateTextField.sendActions(for: .editingChanged)
-    }
+   
     
     private func attribute(){
         
@@ -305,7 +297,7 @@ class ChartViewController: UIViewController {
             $0.edges.equalToSuperview()
         }
         
-        [ barGraphView, itemNmLabel, itemNmTextField, startDateLabel, startDateTextField, endDateLabel, endDateTextField, purchaseDateLabel, purchaseDateTextField, sellDateLabel, sellDateTextField, profitLabel, profitTextField, topProfitLabel, topProfitTextField, worstProfitLabel, worstProfitTextField].forEach{
+        [ barGraphView, itemNmLabel, itemNmTextField, startDateLabel, startDateTextField, endDateLabel, endDateTextField, purchaseDateLabel, purchaseDateTextField, sellDateLabel, sellDateTextField, profitLabel, profitTextField, topProfitDateLabel, topProfitDateTextField, worstProfitDateLabel, worstProfitDateTextField].forEach{
 //            view.addSubview($0)
             stackView.addArrangedSubview($0)
         }
@@ -394,25 +386,25 @@ class ChartViewController: UIViewController {
             $0.trailing.equalToSuperview().inset(20)
         }
         
-        topProfitLabel.snp.makeConstraints{
+        topProfitDateLabel.snp.makeConstraints{
             $0.leading.equalToSuperview().inset(10)
             $0.height.equalTo(34)
             $0.width.equalTo(80)
         }
         
-        topProfitTextField.snp.makeConstraints{
+        topProfitDateTextField.snp.makeConstraints{
             $0.leading.equalTo(itemNmLabel.snp.trailing).offset(10)
             $0.height.equalTo(34)
             $0.trailing.equalToSuperview().inset(20)
         }
         
-        worstProfitLabel.snp.makeConstraints{
+        worstProfitDateLabel.snp.makeConstraints{
             $0.leading.equalToSuperview().inset(10)
             $0.height.equalTo(34)
             $0.width.equalTo(80)
         }
         
-        worstProfitTextField.snp.makeConstraints{
+        worstProfitDateTextField.snp.makeConstraints{
             $0.leading.equalTo(itemNmLabel.snp.trailing).offset(10)
             $0.height.equalTo(34)
             $0.trailing.equalToSuperview().inset(20)
@@ -432,6 +424,208 @@ extension ChartViewController: UITextFieldDelegate{
     }
 }
 
+
+extension ChartViewController{
+    
+    private func setupStartDateDatePicker(){
+        //날짜만 나오게 ( 시간 제외 )
+        self.startDateDatePicker.datePickerMode = .date
+        self.startDateDatePicker.preferredDatePickerStyle = .inline
+        //for에는 어떤 event가 일어났을 때 action에 정의한 메서드를 호출할 것인지
+        // 첫 번째 parameter에는 target
+        self.startDateDatePicker.addTarget(
+            self,
+            action: #selector(startDateDatePickerValueDidChange(_:) ),
+            for: .valueChanged
+        )
+        //연-월-일 순으로 + 한글
+        self.startDateDatePicker.locale = Locale(identifier: "ko-KR")
+        //dateTextField를 눌렀을 때, keyboard가 아닌 datePicker가 나오게 된다!
+        self.startDateTextField.inputView = self.startDateDatePicker
+//        self.endDateTextField.inputView = self.startDateDatePicker
+//        self.purchaseDateTextField.inputView = self.startDateDatePicker
+//        self.sellDateTextField.inputView = self.startDateDatePicker
+//        self.topProfitTextField.inputView = self.startDateDatePicker
+//        self.worstProfitTextField.inputView = self.startDateDatePicker
+    }
+    //datePicker 선택값이 달라지면 호출될 메서드
+    @objc func startDateDatePickerValueDidChange(_ datePicker: UIDatePicker){
+        //날짜, text를 반환해주는 역할
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy 년 MM월 dd일(EEEEE)"
+        formatter.locale = Locale(identifier: "ko_KR")
+
+        self.startDate = datePicker.date
+        self.startDateTextField.text = formatter.string(from: datePicker.date)
+        // 다른 날짜를 선택해도,키보드로 텍스트를 입력받은 것이 아니기 때문에 dateTextFieldDidChange가 #selector에서 정상적으로 호출되지 않는다. 따라서 pick한 날짜가 변하면, .editingChanged 이벤트를 인위적으로 발생시켜준다.
+        self.endDateTextField.sendActions(for: .editingChanged)
+        print(self.endDateTextField.isFocused)
+    }
+    
+    private func setupEndDateDatePicker(){
+        //날짜만 나오게 ( 시간 제외 )
+        self.endDateDatePicker.datePickerMode = .date
+        self.endDateDatePicker.preferredDatePickerStyle = .inline
+        //for에는 어떤 event가 일어났을 때 action에 정의한 메서드를 호출할 것인지
+        // 첫 번째 parameter에는 target
+        self.endDateDatePicker.addTarget(
+            self,
+            action: #selector(endDateDatePickerValueDidChange(_:) ),
+            for: .valueChanged
+        )
+        //연-월-일 순으로 + 한글
+        self.endDateDatePicker.locale = Locale(identifier: "ko-KR")
+        //dateTextField를 눌렀을 때, keyboard가 아닌 datePicker가 나오게 된다!
+        self.endDateTextField.inputView = self.endDateDatePicker
+//        self.endDateTextField.inputView = self.startDateDatePicker
+//        self.purchaseDateTextField.inputView = self.startDateDatePicker
+//        self.sellDateTextField.inputView = self.startDateDatePicker
+//        self.topProfitTextField.inputView = self.startDateDatePicker
+//        self.worstProfitTextField.inputView = self.startDateDatePicker
+    }
+    //datePicker 선택값이 달라지면 호출될 메서드
+    @objc func endDateDatePickerValueDidChange(_ datePicker: UIDatePicker){
+        //날짜, text를 반환해주는 역할
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy 년 MM월 dd일(EEEEE)"
+        formatter.locale = Locale(identifier: "ko_KR")
+
+        self.endDate = datePicker.date
+        self.endDateTextField.text = formatter.string(from: datePicker.date)
+        // 다른 날짜를 선택해도,키보드로 텍스트를 입력받은 것이 아니기 때문에 dateTextFieldDidChange가 #selector에서 정상적으로 호출되지 않는다. 따라서 pick한 날짜가 변하면, .editingChanged 이벤트를 인위적으로 발생시켜준다.
+        self.endDateTextField.sendActions(for: .editingChanged)
+    }
+    
+    private func setupPurchaseDateDatePicker(){
+        //날짜만 나오게 ( 시간 제외 )
+        self.purchaseDateDatePicker.datePickerMode = .date
+        self.purchaseDateDatePicker.preferredDatePickerStyle = .inline
+        //for에는 어떤 event가 일어났을 때 action에 정의한 메서드를 호출할 것인지
+        // 첫 번째 parameter에는 target
+        self.purchaseDateDatePicker.addTarget(
+            self,
+            action: #selector(purchaseDateDatePickerValueDidChange(_:) ),
+            for: .valueChanged
+        )
+        //연-월-일 순으로 + 한글
+        self.purchaseDateDatePicker.locale = Locale(identifier: "ko-KR")
+        //dateTextField를 눌렀을 때, keyboard가 아닌 datePicker가 나오게 된다!
+//        self.endDateTextField.inputView = self.endDateDatePicker
+//        self.endDateTextField.inputView = self.startDateDatePicker
+        self.purchaseDateTextField.inputView = self.purchaseDateDatePicker
+//        self.sellDateTextField.inputView = self.startDateDatePicker
+//        self.topProfitTextField.inputView = self.startDateDatePicker
+//        self.worstProfitTextField.inputView = self.startDateDatePicker
+    }
+    @objc func purchaseDateDatePickerValueDidChange(_ datePicker: UIDatePicker){
+        //날짜, text를 반환해주는 역할
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy 년 MM월 dd일(EEEEE)"
+        formatter.locale = Locale(identifier: "ko_KR")
+
+        self.purchaseDate = datePicker.date
+        self.purchaseDateTextField.text = formatter.string(from: datePicker.date)
+        // 다른 날짜를 선택해도,키보드로 텍스트를 입력받은 것이 아니기 때문에 dateTextFieldDidChange가 #selector에서 정상적으로 호출되지 않는다. 따라서 pick한 날짜가 변하면, .editingChanged 이벤트를 인위적으로 발생시켜준다.
+        self.purchaseDateTextField.sendActions(for: .editingChanged)
+    }
+    private func setupSellDateDatePicker(){
+        //날짜만 나오게 ( 시간 제외 )
+        self.sellDateDatePicker.datePickerMode = .date
+        self.sellDateDatePicker.preferredDatePickerStyle = .inline
+        //for에는 어떤 event가 일어났을 때 action에 정의한 메서드를 호출할 것인지
+        // 첫 번째 parameter에는 target
+        self.sellDateDatePicker.addTarget(
+            self,
+            action: #selector(sellDateDatePickerValueDidChange(_:) ),
+            for: .valueChanged
+        )
+        //연-월-일 순으로 + 한글
+        self.sellDateDatePicker.locale = Locale(identifier: "ko-KR")
+        //dateTextField를 눌렀을 때, keyboard가 아닌 datePicker가 나오게 된다!
+//        self.endDateTextField.inputView = self.endDateDatePicker
+//        self.endDateTextField.inputView = self.startDateDatePicker
+//        self.purchaseDateTextField.inputView = self.purchaseDateDatePicker
+        self.sellDateTextField.inputView = self.startDateDatePicker
+//        self.topProfitTextField.inputView = self.startDateDatePicker
+//        self.worstProfitTextField.inputView = self.startDateDatePicker
+    }
+    @objc func sellDateDatePickerValueDidChange(_ datePicker: UIDatePicker){
+        //날짜, text를 반환해주는 역할
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy 년 MM월 dd일(EEEEE)"
+        formatter.locale = Locale(identifier: "ko_KR")
+
+        self.sellDate = datePicker.date
+        self.sellDateTextField.text = formatter.string(from: datePicker.date)
+        // 다른 날짜를 선택해도,키보드로 텍스트를 입력받은 것이 아니기 때문에 dateTextFieldDidChange가 #selector에서 정상적으로 호출되지 않는다. 따라서 pick한 날짜가 변하면, .editingChanged 이벤트를 인위적으로 발생시켜준다.
+        self.sellDateTextField.sendActions(for: .editingChanged)
+    }
+    private func setupTopProfitDateDatePicker(){
+        //날짜만 나오게 ( 시간 제외 )
+        self.topProfitDateDatePicker.datePickerMode = .date
+        self.topProfitDateDatePicker.preferredDatePickerStyle = .inline
+        //for에는 어떤 event가 일어났을 때 action에 정의한 메서드를 호출할 것인지
+        // 첫 번째 parameter에는 target
+        self.topProfitDateDatePicker.addTarget(
+            self,
+            action: #selector(topProfitDateDatePickerValueDidChange(_:) ),
+            for: .valueChanged
+        )
+        //연-월-일 순으로 + 한글
+        self.topProfitDateDatePicker.locale = Locale(identifier: "ko-KR")
+        //dateTextField를 눌렀을 때, keyboard가 아닌 datePicker가 나오게 된다!
+//        self.endDateTextField.inputView = self.endDateDatePicker
+//        self.endDateTextField.inputView = self.startDateDatePicker
+        self.topProfitDateTextField.inputView = self.topProfitDateDatePicker
+//        self.sellDateTextField.inputView = self.startDateDatePicker
+//        self.topProfitTextField.inputView = self.startDateDatePicker
+//        self.worstProfitTextField.inputView = self.startDateDatePicker
+    }
+    @objc func topProfitDateDatePickerValueDidChange(_ datePicker: UIDatePicker){
+        //날짜, text를 반환해주는 역할
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy 년 MM월 dd일(EEEEE)"
+        formatter.locale = Locale(identifier: "ko_KR")
+
+        self.topProfitDate = datePicker.date
+        self.topProfitDateTextField.text = formatter.string(from: datePicker.date)
+        // 다른 날짜를 선택해도,키보드로 텍스트를 입력받은 것이 아니기 때문에 dateTextFieldDidChange가 #selector에서 정상적으로 호출되지 않는다. 따라서 pick한 날짜가 변하면, .editingChanged 이벤트를 인위적으로 발생시켜준다.
+        self.topProfitDateTextField.sendActions(for: .editingChanged)
+    }
+    private func setupWorstProfitDateDatePicker(){
+        //날짜만 나오게 ( 시간 제외 )
+        self.worstProfitDateDatePicker.datePickerMode = .date
+        self.worstProfitDateDatePicker.preferredDatePickerStyle = .inline
+        //for에는 어떤 event가 일어났을 때 action에 정의한 메서드를 호출할 것인지
+        // 첫 번째 parameter에는 target
+        self.worstProfitDateDatePicker.addTarget(
+            self,
+            action: #selector(worstProfitDateDatePickerValueDidChange(_:) ),
+            for: .valueChanged
+        )
+        //연-월-일 순으로 + 한글
+        self.worstProfitDateDatePicker.locale = Locale(identifier: "ko-KR")
+        //dateTextField를 눌렀을 때, keyboard가 아닌 datePicker가 나오게 된다!
+//        self.endDateTextField.inputView = self.endDateDatePicker
+//        self.endDateTextField.inputView = self.startDateDatePicker
+        self.worstProfitDateTextField.inputView = self.worstProfitDateDatePicker
+//        self.sellDateTextField.inputView = self.startDateDatePicker
+//        self.topProfitTextField.inputView = self.startDateDatePicker
+//        self.worstProfitTextField.inputView = self.startDateDatePicker
+    }
+    @objc func worstProfitDateDatePickerValueDidChange(_ datePicker: UIDatePicker){
+        //날짜, text를 반환해주는 역할
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy 년 MM월 dd일(EEEEE)"
+        formatter.locale = Locale(identifier: "ko_KR")
+
+        self.worstProfitDate = datePicker.date
+        self.worstProfitDateTextField.text = formatter.string(from: datePicker.date)
+        // 다른 날짜를 선택해도,키보드로 텍스트를 입력받은 것이 아니기 때문에 dateTextFieldDidChange가 #selector에서 정상적으로 호출되지 않는다. 따라서 pick한 날짜가 변하면, .editingChanged 이벤트를 인위적으로 발생시켜준다.
+        self.worstProfitDateTextField.sendActions(for: .editingChanged)
+    }
+    
+}
 
 
 //class CandleStickChartViewController: DemoBaseViewController {
