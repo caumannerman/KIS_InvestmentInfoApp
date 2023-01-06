@@ -1,5 +1,5 @@
 //
-//  SecurityData.swift
+//  SecurityDataCellData.swift
 //  KIS_InvestmentInfoApp
 //
 //  Created by 양준식 on 2023/01/06.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SecurityData: Decodable {
+struct SecurityDataCellData {
     // 날짜정보 ex) 20221228
     let basDt: String?
     // 종목코드
