@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A5200E6929658CAC00FBFCAF /* ButtonListViewCellCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5200E6829658CAC00FBFCAF /* ButtonListViewCellCell.swift */; };
+		A53D3E882967A2A90030C6A3 /* SecurityData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53D3E872967A2A90030C6A3 /* SecurityData.swift */; };
 		A53EA68F29624D3600F0E24A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53EA68E29624D3600F0E24A /* AppDelegate.swift */; };
 		A53EA69129624D3600F0E24A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53EA69029624D3600F0E24A /* SceneDelegate.swift */; };
 		A53EA69329624D3600F0E24A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53EA69229624D3600F0E24A /* ViewController.swift */; };
@@ -34,6 +35,7 @@
 
 /* Begin PBXFileReference section */
 		A5200E6829658CAC00FBFCAF /* ButtonListViewCellCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonListViewCellCell.swift; sourceTree = "<group>"; };
+		A53D3E872967A2A90030C6A3 /* SecurityData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityData.swift; sourceTree = "<group>"; };
 		A53EA68B29624D3600F0E24A /* KIS_InvestmentInfoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KIS_InvestmentInfoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A53EA68E29624D3600F0E24A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A53EA69029624D3600F0E24A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -71,6 +73,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A53D3E892967A2AD0030C6A3 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				A53D3E872967A2A90030C6A3 /* SecurityData.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
 		A53EA68229624D3600F0E24A = {
 			isa = PBXGroup;
 			children = (
@@ -139,6 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				A5557FF92962578F00919868 /* ChartViewController.swift */,
+				A53D3E892967A2AD0030C6A3 /* Entity */,
 			);
 			path = ChartView;
 			sourceTree = "<group>";
@@ -297,6 +308,7 @@
 				A55580162962E7D000919868 /* AddHeaderViewCell.swift in Sources */,
 				A5557FFC2962579F00919868 /* MyFilesViewController.swift in Sources */,
 				A53EA69129624D3600F0E24A /* SceneDelegate.swift in Sources */,
+				A53D3E882967A2A90030C6A3 /* SecurityData.swift in Sources */,
 				A5557FFA2962578F00919868 /* ChartViewController.swift in Sources */,
 				A5558003296257F300919868 /* HomeViewController.swift in Sources */,
 				A5557FFE296257A900919868 /* SettingsViewController.swift in Sources */,

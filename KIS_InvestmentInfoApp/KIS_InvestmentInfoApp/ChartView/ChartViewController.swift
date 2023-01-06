@@ -657,21 +657,21 @@ extension ChartViewController{
         print(url)
         return
         //addingPercentEncoding은 한글(영어 이외의 값) 이 url에 포함되었을 때 오류나는 것을 막아준다.
-//        AF.request(url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
-//            .responseDecodable(of: [ExchangeRate].self){ [weak self] response in
-//                // success 이외의 응답을 받으면, else문에 걸려 함수 종료
-//                guard
-//                    let self = self,
-//                    case .success(let data) = response.result else { return }
-//                //데이터 받아옴
-//                self.erData = data.map{ er -> ExchangeRateCellData in
-//                    let temp = ExchangeRateCellData(cur_unit: er.cur_unit, ttb: er.ttb, tts: er.tts, deal_bas_r: er.deal_bas_r, bkpr: er.bkpr, yy_efee_r: er.yy_efee_r, ten_dd_efee_r: er.ten_dd_efee_r, kftc_bkpr: er.kftc_bkpr, kftc_deal_bas_r: er.kftc_deal_bas_r, cur_nm: er.cur_nm)
-//                    return temp
-//                }
-//                //테이블 뷰 다시 그려줌
-//                self.tableView.reloadData()
-//            }
-//            .resume()
+        AF.request(url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
+            .responseDecodable(of: [ExchangeRate].self){ [weak self] response in
+                // success 이외의 응답을 받으면, else문에 걸려 함수 종료
+                guard
+                    let self = self,
+                    case .success(let data) = response.result else { return }
+                //데이터 받아옴
+                self.erData = data.map{ er -> ExchangeRateCellData in
+                    let temp = ExchangeRateCellData(cur_unit: er.cur_unit, ttb: er.ttb, tts: er.tts, deal_bas_r: er.deal_bas_r, bkpr: er.bkpr, yy_efee_r: er.yy_efee_r, ten_dd_efee_r: er.ten_dd_efee_r, kftc_bkpr: er.kftc_bkpr, kftc_deal_bas_r: er.kftc_deal_bas_r, cur_nm: er.cur_nm)
+                    return temp
+                }
+                //테이블 뷰 다시 그려줌
+                self.tableView.reloadData()
+            }
+            .resume()
     }
 }
 
