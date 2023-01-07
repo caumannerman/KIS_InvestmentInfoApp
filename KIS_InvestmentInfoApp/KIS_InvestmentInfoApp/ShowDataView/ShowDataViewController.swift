@@ -11,8 +11,10 @@ import Alamofire
 
 class ShowDataViewController: UIViewController {
     
+    //한 출에 표시할 데이터 수
+    final let numRow: Int = 12
     //TODO: dataTitles를 가져오는 api 항목에 맞게 따로 불러오는 기능 구현해야함
-    private var dataTitles: [String] = ["cur_unit", "ttb", "tts", "deal_bas_r", "bkpr", "yy_efee_r", "ten_dd_efee_r", "kftc_bkpr", "kftc_deal_bas_r", "cur_nm"]
+    private var dataTitles: [String] = ["cur_unit", "ttb", "tts", "deal_bas_r", "bkpr", "yy_efee_r", "ten_dd_efee_r", "kftc_bkpr", "kftc_deal_bas_r", "cur_nm", "cur_unit", "ttb", "tts", "deal_bas_r", "bkpr", "yy_efee_r", "ten_dd_efee_r", "kftc_bkpr", "kftc_deal_bas_r", "cur_nm"]
     private var erData: [ExchangeRateCellData] = []
     // ------------------------------ UI Components ------------------------------ //
     
@@ -335,18 +337,27 @@ extension ShowDataViewController: UICollectionViewDataSource, UICollectionViewDe
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ShowDataViewCollectionViewCell", for: indexPath) as? ShowDataViewCollectionViewCell else { return UICollectionViewCell() }
 //        let a = indexPath.row
         if indexPath.row == 0 {
-            cell.setup(isFirstRow: true, isFirstColumn: false, title: "rowt")
+            cell.setup(isFirstRow: true, isFirstColumn: true, title: "선택")
         }
-        else{
+        //첫 열
+        else if indexPath.row > 0 && indexPath.row <= numRow{
             cell.setup(isFirstRow: false, isFirstColumn: true, title: String(indexPath.row))
         }
-        
+        //첫 행
+        else if indexPath.row % ( numRow + 1) == 0 {
+            let now_title_sunseo_idx = indexPath.row / ( numRow + 1) - 1
+            cell.setup(isFirstRow: true, isFirstColumn: false, title: dataTitles[now_title_sunseo_idx])
+        }
+        //일반 cell
+        else{
+            cell.setup(isFirstRow: false, isFirstColumn: false, title: "일반")
+        }
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let height = ( (collectionView.frame.height - 24) / 13 )
+        let height = ( (collectionView.frame.height - CGFloat(numRow * 2)) / CGFloat(numRow + 1) )
         let width = height * 2
 //                let itemsPerRow: CGFloat = 2
 //                let widthPadding = sectionInsets.left * (itemsPerRow + 1)
