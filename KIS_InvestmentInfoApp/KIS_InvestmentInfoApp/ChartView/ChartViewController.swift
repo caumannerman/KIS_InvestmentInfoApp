@@ -10,21 +10,31 @@ import Charts
 import SnapKit
 import Alamofire
 
-
 class ChartViewController: UIViewController {
     
-    private var barGraphView = BarChartView()
+    // 원하는 기간의 주가정보를 받아와 저장할 배열
+    private var securityDataArr: [SecurityDataCellData] = []
     
     var dataPoints: [String] = ["일","월", "화","수","목", "금","토"]
     var dataEntries: [BarChartDataEntry] = []
     var dataArray: [Int] = [10, 5, 6, 13, 15, 8, 2]
     
+  
+    
+    private var barGraphView = BarChartView()
+    var chartDataSet = BarChartDataSet()
+    var chartData = BarChartData()
+    
     let valFormatter = NumberFormatter()
     
     var formatter = DefaultValueFormatter()
     
-    var chartDataSet = BarChartDataSet()
-    var chartData = BarChartData()
+    // candleGraphView를 선언함
+    private var candleGraphView = CandleStickChartView()
+    var candleChartDataSet = CandleChartDataSet()
+    var candleChartData = CandleChartData()
+    
+    
     
     private let scrollView = UIScrollView()
     private let contentView = UIView()
@@ -41,7 +51,7 @@ class ChartViewController: UIViewController {
     let itemNmLabel: UILabel = {
         let label = UILabel()
         label.backgroundColor = .systemBackground
-        label.text = "종목명"
+        label.text = "종목코드"
         label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
@@ -215,6 +225,15 @@ class ChartViewController: UIViewController {
         return tf
     }()
     
+    let tempTextView: UITextView = {
+        let tv = UITextView()
+        tv.layer.borderWidth = 1
+        tv.layer.borderColor = UIColor(red: 0/255, green: 192/255, blue: 210/255, alpha: 1).cgColor
+        tv.layer.cornerRadius = 12.0
+        
+        return tv
+    }()
+    
     
     private let startDateDatePicker = UIDatePicker()
     private let endDateDatePicker = UIDatePicker()
@@ -238,7 +257,6 @@ class ChartViewController: UIViewController {
             dataEntries.append(dataEntry)
         }
         
-        
         valFormatter.numberStyle = .currency
         valFormatter.maximumFractionDigits = 2
         valFormatter.currencySymbol = "$"
@@ -251,9 +269,16 @@ class ChartViewController: UIViewController {
         chartData = BarChartData(dataSet: chartDataSet)
         chartData.setValueFormatter(formatter)
         barGraphView.leftAxis.valueFormatter = DefaultAxisValueFormatter(formatter: valFormatter)
-                
-                
         barGraphView.data = chartData
+        
+        
+//        candleChartDataSet = CandleChartDataSet(entries: dataEntries, label: "제발")
+//        candleChartData = CandleChartData(dataSet: candleChartDataSet)
+//        candleChartData.setValueFormatter(formatter)
+//        candleGraphView.leftAxis.valueFormatter = DefaultAxisValueFormatter(formatter: valFormatter)
+//        candleGraphView.data = candleChartData
+        
+        
         setNavigationItems()
         //DatePicker 초기화
         setupStartDateDatePicker()
@@ -286,7 +311,7 @@ class ChartViewController: UIViewController {
         print(itemNmTextField.text ?? "nil")
         print(startDateTextField.text ?? "nil")
         print(endDateTextField.text ?? "nil")
-        requestAPI(itemName: itemNmTextField.text ?? "nil", startDate: startDateTextField.text ?? "nil", endDate: endDateTextField.text ?? "nil" )
+        requestAPI(itemCode: itemNmTextField.text ?? "nil", startDate: startDate, endDate: endDate )
     }
     
     private func attribute(){
@@ -315,7 +340,7 @@ class ChartViewController: UIViewController {
             $0.edges.equalToSuperview()
         }
         
-        [ barGraphView, itemNmLabel, itemNmTextField, startDateLabel, startDateTextField, endDateLabel, endDateTextField, requestButton, purchaseDateLabel, purchaseDateTextField, sellDateLabel, sellDateTextField, profitLabel, profitTextField, topProfitDateLabel, topProfitDateTextField, worstProfitDateLabel, worstProfitDateTextField].forEach{
+        [ barGraphView, candleGraphView, tempTextView, itemNmLabel, itemNmTextField, startDateLabel, startDateTextField, endDateLabel, endDateTextField, requestButton, purchaseDateLabel, purchaseDateTextField, sellDateLabel, sellDateTextField, profitLabel, profitTextField, topProfitDateLabel, topProfitDateTextField, worstProfitDateLabel, worstProfitDateTextField].forEach{
 //            view.addSubview($0)
             stackView.addArrangedSubview($0)
         }
@@ -324,6 +349,16 @@ class ChartViewController: UIViewController {
             $0.top.equalToSuperview()
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(300)
+        }
+        candleGraphView.snp.makeConstraints{
+            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.height.equalTo(300)
+        }
+        
+        tempTextView.snp.makeConstraints{
+//            $0.top.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.height.equalTo(100)
         }
         
         
@@ -477,6 +512,7 @@ extension ChartViewController{
         //날짜, text를 반환해주는 역할
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy 년 MM월 dd일(EEEEE)"
+//        formatter.dateFormat = "yyyyMMdd"
         formatter.locale = Locale(identifier: "ko_KR")
 
         self.startDate = datePicker.date
@@ -652,145 +688,57 @@ extension ChartViewController{
 }
 
 extension ChartViewController{
-    private func requestAPI(itemName: String, startDate: String, endDate: String){
-        let url = "apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo?resultType=json&serviceKey=58gH4iQz85Z0SMkhvh%2Fc7ZdxJ874fTSCDdyGoEI61Wzs9DiSzrhtZTWxEhKxwQjwsdF%2BUvPnWc6ZUKwgLc56xA%3D%3D&itmsNm=" + itemName.trimmingCharacters(in: .whitespaces) + "&beginBasDt=" + startDate + "&endBasDt=" + endDate
-        print(url)
-        return
+    
+    private func requestAPI(itemCode: String, startDate: Date?, endDate: Date?){
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMdd"
+        formatter.locale = Locale(identifier: "ko_KR")
+        
+        let sDateText = formatter.string(from: startDate!)
+        let eDateText = formatter.string(from: endDate!)
+        
+        let url = "http://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo" + "?numOfRows=365&resultType=json&serviceKey=58gH4iQz85Z0SMkhvh%2Fc7ZdxJ874fTSCDdyGoEI61Wzs9DiSzrhtZTWxEhKxwQjwsdF%2BUvPnWc6ZUKwgLc56xA%3D%3D&likeSrtnCd=" + itemCode.trimmingCharacters(in: .whitespaces) + "&beginBasDt=" + sDateText + "&endBasDt=" + eDateText
+        
+        print("url = " + url)
+        let encoded = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed.union( CharacterSet(["%"])))
+        print(encoded)
+        
+       
         //addingPercentEncoding은 한글(영어 이외의 값) 이 url에 포함되었을 때 오류나는 것을 막아준다.
-        AF.request(url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
-            .responseDecodable(of: [ExchangeRate].self){ [weak self] response in
+        AF.request(url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed.union( CharacterSet(["%"]))) ?? "")
+            .responseDecodable(of: SecurityResponse.self){ [weak self] response in
                 // success 이외의 응답을 받으면, else문에 걸려 함수 종료
+                
+                print(response)
+                return
                 guard
                     let self = self,
-                    case .success(let data) = response.result else { return }
+                    case .success(let data) = response.result else {
+                    print("실패ㅜㅜ")
+                          return }
                 //데이터 받아옴
-                self.erData = data.map{ er -> ExchangeRateCellData in
-                    let temp = ExchangeRateCellData(cur_unit: er.cur_unit, ttb: er.ttb, tts: er.tts, deal_bas_r: er.deal_bas_r, bkpr: er.bkpr, yy_efee_r: er.yy_efee_r, ten_dd_efee_r: er.ten_dd_efee_r, kftc_bkpr: er.kftc_bkpr, kftc_deal_bas_r: er.kftc_deal_bas_r, cur_nm: er.cur_nm)
+                // [SecurityData] 형태임
+                let now_arr = data.response.body.items.item
+                
+                self.securityDataArr = now_arr.map{ sd -> SecurityDataCellData in
+                    let temp = SecurityDataCellData(basDt: sd.basDt, strnCd: sd.srtnCd, itmsNm: sd.itmsNm, mrktCtg: sd.mrktCtg, mkp: sd.mkp, clpr: sd.clpr, hipr: sd.hipr, lopr: sd.lopr)
                     return temp
                 }
+                
+                var now_p_result: String = ""
+                for i in self.securityDataArr {
+                    now_p_result += i.itmsNm!
+                }
+                
+                print(now_p_result)
                 //테이블 뷰 다시 그려줌
-                self.tableView.reloadData()
+//                self.tableView.reloadData()
             }
             .resume()
     }
+    
 }
-
-
-//class CandleStickChartViewController: DemoBaseViewController {
-//
-//    @IBOutlet var chartView: CandleStickChartView!
-//    @IBOutlet var sliderX: UISlider!
-//    @IBOutlet var sliderY: UISlider!
-//    @IBOutlet var sliderTextX: UITextField!
-//    @IBOutlet var sliderTextY: UITextField!
-//
-//    override func viewDidLoad() {
-//        super.viewDidLoad()
-//
-//        // Do any additional setup after loading the view.
-//        self.title = "Candle Stick Chart"
-//        self.options = [.toggleValues,
-//                        .toggleIcons,
-//                        .toggleHighlight,
-//                        .animateX,
-//                        .animateY,
-//                        .animateXY,
-//                        .saveToGallery,
-//                        .togglePinchZoom,
-//                        .toggleAutoScaleMinMax,
-//                        .toggleShadowColorSameAsCandle,
-//                        .toggleShowCandleBar,
-//                        .toggleData]
-//
-//        chartView.delegate = self
-//
-//        chartView.chartDescription.enabled = false
-//
-//        chartView.dragEnabled = false
-//        chartView.setScaleEnabled(true)
-//        chartView.maxVisibleCount = 200
-//        chartView.pinchZoomEnabled = true
-//
-//        chartView.legend.horizontalAlignment = .right
-//        chartView.legend.verticalAlignment = .top
-//        chartView.legend.orientation = .vertical
-//        chartView.legend.drawInside = false
-//        chartView.legend.font = UIFont(name: "HelveticaNeue-Light", size: 10)!
-//
-//        chartView.leftAxis.labelFont = UIFont(name: "HelveticaNeue-Light", size: 10)!
-//        chartView.leftAxis.spaceTop = 0.3
-//        chartView.leftAxis.spaceBottom = 0.3
-//        chartView.leftAxis.axisMinimum = 0
-//
-//        chartView.rightAxis.enabled = false
-//
-//        chartView.xAxis.labelPosition = .bottom
-//        chartView.xAxis.labelFont = UIFont(name: "HelveticaNeue-Light", size: 10)!
-//
-//        sliderX.value = 10
-//        sliderY.value = 50
-//        slidersValueChanged(nil)
-//    }
-//
-//    override func updateChartData() {
-//        if self.shouldHideData {
-//            chartView.data = nil
-//            return
-//        }
-//
-//        self.setDataCount(Int(sliderX.value), range: UInt32(sliderY.value))
-//    }
-//
-//    func setDataCount(_ count: Int, range: UInt32) {
-//        let yVals1 = (0..<count).map { (i) -> CandleChartDataEntry in
-//            let mult = range + 1
-//            let val = Double(arc4random_uniform(40) + mult)
-//            let high = Double(arc4random_uniform(9) + 8)
-//            let low = Double(arc4random_uniform(9) + 8)
-//            let open = Double(arc4random_uniform(6) + 1)
-//            let close = Double(arc4random_uniform(6) + 1)
-//            let even = i % 2 == 0
-//
-//            return CandleChartDataEntry(x: Double(i), shadowH: val + high, shadowL: val - low, open: even ? val + open : val - open, close: even ? val - close : val + close, icon: UIImage(named: "icon")!)
-//        }
-//
-//        let set1 = CandleChartDataSet(entries: yVals1, label: "Data Set")
-//        set1.axisDependency = .left
-//        set1.setColor(UIColor(white: 80/255, alpha: 1))
-//        set1.drawIconsEnabled = false
-//        set1.shadowColor = .darkGray
-//        set1.shadowWidth = 0.7
-//        set1.decreasingColor = .red
-//        set1.decreasingFilled = true
-//        set1.increasingColor = UIColor(red: 122/255, green: 242/255, blue: 84/255, alpha: 1)
-//        set1.increasingFilled = false
-//        set1.neutralColor = .blue
-//
-//        let data = CandleChartData(dataSet: set1)
-//        chartView.data = data
-//    }
-//
-//    override func optionTapped(_ option: Option) {
-//        switch option {
-//        case .toggleShadowColorSameAsCandle:
-//            for case let set as CandleChartDataSet in chartView.data! {
-//                set.shadowColorSameAsCandle = !set.shadowColorSameAsCandle
-//            }
-//            chartView.notifyDataSetChanged()
-//        case .toggleShowCandleBar:
-//            for set in chartView.data!.dataSets as! [CandleChartDataSet] {
-//                set.showCandleBar = !set.showCandleBar
-//            }
-//            chartView.notifyDataSetChanged()
-//        default:
-//            super.handleOption(option, forChartView: chartView)
-//        }
-//    }
-//
-//    // MARK: - Actions
-//    @IBAction func slidersValueChanged(_ sender: Any?) {
-//        sliderTextX.text = "\(Int(sliderX.value))"
-//        sliderTextY.text = "\(Int(sliderY.value))"
-//
-//        self.updateChartData()
-//    }}
+    
+    
+    

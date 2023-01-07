@@ -21,22 +21,84 @@ class ShowDataViewController: UIViewController {
 //
 //    private lazy var stackView: UIStackView = {
 //        let stackView = UIStackView()
-//        stackView.axis = .vertical
+//        stackView.axis = .horizontal
+////        stackView.axis = .vertical
 //        stackView.distribution = .fill
 //        stackView.spacing = 0.0
+//        stackView.backgroundColor = .blue
 //        return stackView
 //    }()
-//
+
     
-    private lazy var tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.dataSource = self
-//        tableView.delegate = self
-        tableView.backgroundColor = .yellow
-        tableView.register(ButtonListViewCell.self, forCellReuseIdentifier: "ButtonListViewCell")
-        tableView.rowHeight = 30
-        return tableView
+//    private lazy var tableView: UITableView = {
+//        let tableView = UITableView()
+//        tableView.dataSource = self
+////        tableView.delegate = self
+//        tableView.backgroundColor = .brown
+//        tableView.register(ButtonListViewCell.self, forCellReuseIdentifier: "ButtonListViewCell")
+//        tableView.rowHeight = 30
+//        return tableView
+//    }()
+    
+    private lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        //layout.sectionInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
+        layout.minimumLineSpacing = 10
+        layout.minimumInteritemSpacing = 10
+        layout.scrollDirection = .horizontal
+
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(ButtonListViewCellCell.self, forCellWithReuseIdentifier: "ButtonListViewCellCell")
+        collectionView.dataSource = self
+//        collectionView.delegate = self
+//        collectionView.isPagingEnabled = true
+        collectionView.showsHorizontalScrollIndicator = true
+
+        collectionView.backgroundColor = .lightGray
+        
+        collectionView.register(ShowDataViewCollectionViewCell.self, forCellWithReuseIdentifier: "ShowDataViewCollectionViewCell")
+//        collectionView.isScrollEnabled = false
+        return collectionView
     }()
+    
+    //TODO: 임시로 버튼 하나만 해놓은 것이고, 나중에 컬렉션뷰에 버튼들 가로로 나열해야함
+    private lazy var pageButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("1", for: .normal)
+        button.backgroundColor = UIColor(red: 195/255.0, green: 222/255.0, blue: 194/255.0, alpha: 1.0)
+        button.layer.borderColor = UIColor(red: 153/255.0, green: 76/255.0, blue: 0/255.0, alpha: 1.0).cgColor
+        button.layer.borderWidth = 1.0
+        button.layer.cornerRadius = 8.0
+        button.addTarget(self, action: #selector(pageChangeButtonClicked), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    private lazy var pageButton2: UIButton = {
+        let button = UIButton()
+        button.setTitle("2", for: .normal)
+        button.backgroundColor = UIColor(red: 195/255.0, green: 222/255.0, blue: 194/255.0, alpha: 1.0)
+        button.layer.borderColor = UIColor(red: 153/255.0, green: 76/255.0, blue: 0/255.0, alpha: 1.0).cgColor
+        button.layer.borderWidth = 1.0
+        button.layer.cornerRadius = 8.0
+        button.addTarget(self, action: #selector(pageChangeButtonClicked), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    
+    private lazy var pageButton3: UIButton = {
+        let button = UIButton()
+        button.setTitle("3", for: .normal)
+        button.backgroundColor = UIColor(red: 195/255.0, green: 222/255.0, blue: 194/255.0, alpha: 1.0)
+        button.layer.borderColor = UIColor(red: 153/255.0, green: 76/255.0, blue: 0/255.0, alpha: 1.0).cgColor
+        button.layer.borderWidth = 1.0
+        button.layer.cornerRadius = 8.0
+        button.addTarget(self, action: #selector(pageChangeButtonClicked), for: .touchUpInside)
+        
+        return button
+    }()
+    
     
     private lazy var callButton: UIButton = {
         let button = UIButton()
@@ -48,7 +110,6 @@ class ShowDataViewController: UIViewController {
         button.addTarget(self, action: #selector(getfunc), for: .touchUpInside)
         
         return button
-        
     }()
     
     private lazy var saveButton: UIButton = {
@@ -61,7 +122,6 @@ class ShowDataViewController: UIViewController {
         button.addTarget(self, action: #selector(savefunc), for: .touchUpInside)
         
         return button
-        
     }()
     
    
@@ -82,10 +142,6 @@ class ShowDataViewController: UIViewController {
     
     // ------------------------------ UI Components ------------------------------ //
     
-    // ------------------------------ Rx Traits ------------------------------ //
-    
-    
-    // ------------------------------ Rx Traits ------------------------------ //
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -103,12 +159,13 @@ class ShowDataViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setNavigationItems()
+//        scrollView.backgroundColor = .yellow
+//        contentView.backgroundColor = .green
     }
     
     private func setNavigationItems(){
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "URL 응답 데이터"
-
         
 //        let searchController = UISearchController()
 //        searchController.searchBar.placeholder = "요청 URL을 입력해주세요"
@@ -122,61 +179,121 @@ class ShowDataViewController: UIViewController {
 //        saveButton.setTitle(apiUrl, for: .normal)
     }
     func bind(){
-        
 
     }
     
-    
     func attribute(){
         view.backgroundColor = .systemBackground
-        tableView.backgroundColor = .lightGray
+//        tableView.backgroundColor = .lightGray
 //        collectionView.backgroundColor = .systemYellow
-        
     }
     
     func layout(){
 //        view.addSubview(scrollView)
 //        scrollView.snp.makeConstraints{
 //            $0.top.equalTo(view.safeAreaLayoutGuide)
-//            $0.bottom.leading.trailing.equalToSuperview()
+////            $0.bottom.leading.trailing.equalToSuperview()
+//            $0.leading.trailing.equalToSuperview()
+//            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(100)
 //        }
 //        scrollView.addSubview(contentView)
 //        contentView.snp.makeConstraints{
 //            $0.edges.equalToSuperview()
-//            //가로를 고정시켜주어 세로스크롤 뷰가 된다.
-//            $0.width.equalToSuperview()
+//            //세로를 고정시켜주어 세로스크롤 뷰가 된다.
+//            $0.height.equalToSuperview()
 //        }
 //        contentView.addSubview(stackView)
 //        stackView.snp.makeConstraints{
 //            $0.edges.equalToSuperview()
 //        }
         
-        [tableView, callButton, saveButton].forEach{
+        [collectionView].forEach{
+            view.addSubview($0)
+//            stackView.addArrangedSubview($0)
+//            stackView.addSubview($0)
+        }
+        
+        collectionView.snp.makeConstraints{
+//            $0.edges.equalToSuperview()
+            
+//            $0.top.equalTo(getDataButton.snp.bottom)
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.leading.equalToSuperview()
+            $0.trailing.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(100)
+//            $0.width.equalTo(scrollView.snp.width)
+        }
+        
+//        tableView.snp.makeConstraints{
+////            $0.edges.equalToSuperview()
+//
+////            $0.top.equalTo(getDataButton.snp.bottom)
+//            $0.top.equalTo(view.safeAreaLayoutGuide)
+//            $0.leading.equalToSuperview()
+//            $0.trailing.equalToSuperview()
+//            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(100)
+////            $0.width.equalTo(scrollView.snp.width)
+//        }
+//
+        [pageButton, pageButton2, pageButton3, callButton, saveButton].forEach{
             view.addSubview($0)
         }
         
-        tableView.snp.makeConstraints{
-//            $0.top.equalTo(getDataButton.snp.bottom)
-            $0.top.equalToSuperview()
-            $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(100)
+        pageButton.snp.makeConstraints{
+            $0.top.equalTo(collectionView.snp.bottom).offset(10)
+//            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(30)
+            $0.leading.equalToSuperview().inset(60)
+            $0.width.equalTo(20)
+            $0.height.equalTo(20)
         }
         
+        pageButton2.snp.makeConstraints{
+            $0.top.equalTo(collectionView.snp.bottom).offset(10)
+//            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(30)
+            $0.leading.equalTo(pageButton.snp.trailing).offset(6)
+            $0.width.equalTo(20)
+            $0.height.equalTo(20)
+        }
+        
+        pageButton3.snp.makeConstraints{
+            $0.top.equalTo(collectionView.snp.bottom).offset(10)
+//            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(30)
+            $0.leading.equalTo(pageButton2 .snp.trailing).offset(6)
+            $0.width.equalTo(20)
+            $0.height.equalTo(20)
+        }
+        
+        
         callButton.snp.makeConstraints{
-            $0.top.equalTo(tableView.snp.bottom).offset(20)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(30)
+            $0.top.equalTo(pageButton.snp.bottom).offset(12)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)
             $0.leading.equalToSuperview().inset(60)
             $0.width.equalTo(120)
 //            $0.height.equalTo(40)
         }
         
         saveButton.snp.makeConstraints{
-            $0.top.equalTo(tableView.snp.bottom).offset(20)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(30)
+            $0.top.equalTo(pageButton.snp.bottom).offset(12)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)
             $0.trailing.equalToSuperview().inset(60)
             $0.width.equalTo(120)
 //            $0.height.equalTo(40)
         }
+//        callButton.snp.makeConstraints{
+//            $0.top.equalTo(tableView.snp.bottom).offset(20)
+//            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(30)
+//            $0.leading.equalToSuperview().inset(60)
+//            $0.width.equalTo(120)
+////            $0.height.equalTo(40)
+//        }
+//
+//        saveButton.snp.makeConstraints{
+//            $0.top.equalTo(tableView.snp.bottom).offset(20)
+//            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(30)
+//            $0.trailing.equalToSuperview().inset(60)
+//            $0.width.equalTo(120)
+////            $0.height.equalTo(40)
+//        }
         
 //        collectionView.snp.makeConstraints{
 //            $0.top.equalTo(tableView.snp.bottom)
@@ -189,6 +306,7 @@ class ShowDataViewController: UIViewController {
         print("호출 버튼 클릭")
 //        let result = GetERNetwork().getErData()
         requestAPI()
+        print("호출완료!!!!")
 //        print(result)
     }
     
@@ -200,30 +318,48 @@ class ShowDataViewController: UIViewController {
 //            currentCell.collectionView.
 //        }
     }
-
+    
+    @objc func pageChangeButtonClicked(){
+        print("페이지 변경 버튼 클릭")
+    }
 }
 
-extension ShowDataViewController: UITableViewDataSource{
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return erData.count + 1
+
+extension ShowDataViewController: UICollectionViewDataSource{
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        erData.count * 4
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == 0 {
-            return UITableViewCell()
-        }
-//        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "Cell")
-//        let er = erData[indexPath.row - 1]
-//        cell.textLabel?.text = er.cur_nm
-//        cell.detailTextLabel?.text = er.bkpr
-//        return cell
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonListViewCell", for: indexPath) as? ButtonListViewCell else { return UITableViewCell() }
-        
-        cell.setup()
-        
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ShowDataViewCollectionViewCell", for: indexPath) as? ShowDataViewCollectionViewCell else { return UICollectionViewCell() }
         return cell
     }
 }
+
+// 원래 쓰던 TableView datasource
+//extension ShowDataViewController: UITableViewDataSource{
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+////        return erData.count + 1
+//        return 10
+//
+//    }
+//
+//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//        if indexPath.row == 0 {
+//            return UITableViewCell()
+//        }
+////        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "Cell")
+////        let er = erData[indexPath.row - 1]
+////        cell.textLabel?.text = er.cur_nm
+////        cell.detailTextLabel?.text = er.bkpr
+////        return cell
+//        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonListViewCell", for: indexPath) as? ButtonListViewCell else { return UITableViewCell() }
+//
+//        cell.setup()
+//
+//        return cell
+//    }
+//}
 
 //extension TestViewController: UITableViewDelegate{
 //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -236,6 +372,8 @@ extension ShowDataViewController{
     private func requestAPI(){
         let url = "https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey=BlCJAvGJ4IuXS30CPGMFIjQpiCuDTbjb&searchdate=20221227&data=AP01"
         //addingPercentEncoding은 한글(영어 이외의 값) 이 url에 포함되었을 때 오류나는 것을 막아준다.
+        
+        
         AF.request(url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
             .responseDecodable(of: [ExchangeRate].self){ [weak self] response in
                 // success 이외의 응답을 받으면, else문에 걸려 함수 종료
@@ -248,7 +386,7 @@ extension ShowDataViewController{
                     return temp
                 }
                 //테이블 뷰 다시 그려줌
-                self.tableView.reloadData()
+                self.collectionView.reloadData()
             }
             .resume()
     }

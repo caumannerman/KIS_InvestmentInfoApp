@@ -25,4 +25,11 @@ struct SecurityDataCellData {
     let hipr: String?
     //하루 중 최저가
     let lopr: String?
+    
+    
+//    var data: String {
+//        get {
+//            return basDt ?? "nil" + " " + strnCd ?? "nil" + " " + itmsNm ?? "nil" + " " + mrktCtg ?? "nil" + " " + mkp ?? "nil" + " " + clpr ?? "nil" + " " + hipr ?? "nil" + " " + lopr ?? "nil"
+//        }
+//    }
 }

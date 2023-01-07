@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A5200E6929658CAC00FBFCAF /* ButtonListViewCellCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5200E6829658CAC00FBFCAF /* ButtonListViewCellCell.swift */; };
-		A53D3E882967A2A90030C6A3 /* SecurityData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53D3E872967A2A90030C6A3 /* SecurityData.swift */; };
+		A53D3E882967A2A90030C6A3 /* SecurityResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53D3E872967A2A90030C6A3 /* SecurityResponse.swift */; };
 		A53D3E8B2967A5A50030C6A3 /* SecurityDataCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53D3E8A2967A5A50030C6A3 /* SecurityDataCellData.swift */; };
 		A53EA68F29624D3600F0E24A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53EA68E29624D3600F0E24A /* AppDelegate.swift */; };
 		A53EA69129624D3600F0E24A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53EA69029624D3600F0E24A /* SceneDelegate.swift */; };
@@ -30,13 +30,14 @@
 		A5558006296273B100919868 /* ShowDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5558005296273B000919868 /* ShowDataViewController.swift */; };
 		A555800C29627B9300919868 /* ButtonListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A555800B29627B9300919868 /* ButtonListViewCell.swift */; };
 		A55580112962957B00919868 /* ButtonListViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55580102962957B00919868 /* ButtonListViewLayout.swift */; };
-		A55580142962B52600919868 /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = A55580132962B52600919868 /* Charts */; };
 		A55580162962E7D000919868 /* AddHeaderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55580152962E7D000919868 /* AddHeaderViewCell.swift */; };
+		A5D1BC11296975B80045045B /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = A5D1BC10296975B80045045B /* Charts */; };
+		A5D1BC13296982480045045B /* ShowDataViewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D1BC12296982480045045B /* ShowDataViewCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		A5200E6829658CAC00FBFCAF /* ButtonListViewCellCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonListViewCellCell.swift; sourceTree = "<group>"; };
-		A53D3E872967A2A90030C6A3 /* SecurityData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityData.swift; sourceTree = "<group>"; };
+		A53D3E872967A2A90030C6A3 /* SecurityResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityResponse.swift; sourceTree = "<group>"; };
 		A53D3E8A2967A5A50030C6A3 /* SecurityDataCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityDataCellData.swift; sourceTree = "<group>"; };
 		A53EA68B29624D3600F0E24A /* KIS_InvestmentInfoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KIS_InvestmentInfoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A53EA68E29624D3600F0E24A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -59,6 +60,7 @@
 		A555800B29627B9300919868 /* ButtonListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonListViewCell.swift; sourceTree = "<group>"; };
 		A55580102962957B00919868 /* ButtonListViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonListViewLayout.swift; sourceTree = "<group>"; };
 		A55580152962E7D000919868 /* AddHeaderViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHeaderViewCell.swift; sourceTree = "<group>"; };
+		A5D1BC12296982480045045B /* ShowDataViewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDataViewCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,7 +69,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A53EA6A829624F6800F0E24A /* Alamofire in Frameworks */,
-				A55580142962B52600919868 /* Charts in Frameworks */,
+				A5D1BC11296975B80045045B /* Charts in Frameworks */,
 				A53EA6AB29624F9000F0E24A /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -78,7 +80,7 @@
 		A53D3E892967A2AD0030C6A3 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
-				A53D3E872967A2A90030C6A3 /* SecurityData.swift */,
+				A53D3E872967A2A90030C6A3 /* SecurityResponse.swift */,
 				A53D3E8A2967A5A50030C6A3 /* SecurityDataCellData.swift */,
 			);
 			path = Entity;
@@ -186,6 +188,7 @@
 			isa = PBXGroup;
 			children = (
 				A5558005296273B000919868 /* ShowDataViewController.swift */,
+				A5D1BC12296982480045045B /* ShowDataViewCollectionViewCell.swift */,
 				A555800829627B4600919868 /* SubComponents */,
 			);
 			path = ShowDataView;
@@ -236,7 +239,7 @@
 			packageProductDependencies = (
 				A53EA6A729624F6800F0E24A /* Alamofire */,
 				A53EA6AA29624F9000F0E24A /* SnapKit */,
-				A55580132962B52600919868 /* Charts */,
+				A5D1BC10296975B80045045B /* Charts */,
 			);
 			productName = KIS_InvestmentInfoApp;
 			productReference = A53EA68B29624D3600F0E24A /* KIS_InvestmentInfoApp.app */;
@@ -269,7 +272,7 @@
 			packageReferences = (
 				A53EA6A629624F6800F0E24A /* XCRemoteSwiftPackageReference "Alamofire" */,
 				A53EA6A929624F9000F0E24A /* XCRemoteSwiftPackageReference "SnapKit" */,
-				A55580122962B52600919868 /* XCRemoteSwiftPackageReference "Charts" */,
+				A5D1BC0F296975B80045045B /* XCRemoteSwiftPackageReference "Charts" */,
 			);
 			productRefGroup = A53EA68C29624D3600F0E24A /* Products */;
 			projectDirPath = "";
@@ -306,13 +309,14 @@
 				A5557FF3296250C900919868 /* ExchangeRate.swift in Sources */,
 				A5200E6929658CAC00FBFCAF /* ButtonListViewCellCell.swift in Sources */,
 				A555800C29627B9300919868 /* ButtonListViewCell.swift in Sources */,
+				A5D1BC13296982480045045B /* ShowDataViewCollectionViewCell.swift in Sources */,
 				A5557FF5296250D300919868 /* ExchangeRateCellData.swift in Sources */,
 				A53EA68F29624D3600F0E24A /* AppDelegate.swift in Sources */,
 				A53EA6A329624EBE00F0E24A /* MainTabBarController.swift in Sources */,
 				A55580162962E7D000919868 /* AddHeaderViewCell.swift in Sources */,
 				A5557FFC2962579F00919868 /* MyFilesViewController.swift in Sources */,
 				A53EA69129624D3600F0E24A /* SceneDelegate.swift in Sources */,
-				A53D3E882967A2A90030C6A3 /* SecurityData.swift in Sources */,
+				A53D3E882967A2A90030C6A3 /* SecurityResponse.swift in Sources */,
 				A5557FFA2962578F00919868 /* ChartViewController.swift in Sources */,
 				A5558003296257F300919868 /* HomeViewController.swift in Sources */,
 				A5557FFE296257A900919868 /* SettingsViewController.swift in Sources */,
@@ -542,7 +546,7 @@
 				minimumVersion = 5.0.0;
 			};
 		};
-		A55580122962B52600919868 /* XCRemoteSwiftPackageReference "Charts" */ = {
+		A5D1BC0F296975B80045045B /* XCRemoteSwiftPackageReference "Charts" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/danielgindi/Charts.git";
 			requirement = {
@@ -563,9 +567,9 @@
 			package = A53EA6A929624F9000F0E24A /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
 		};
-		A55580132962B52600919868 /* Charts */ = {
+		A5D1BC10296975B80045045B /* Charts */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = A55580122962B52600919868 /* XCRemoteSwiftPackageReference "Charts" */;
+			package = A5D1BC0F296975B80045045B /* XCRemoteSwiftPackageReference "Charts" */;
 			productName = Charts;
 		};
 /* End XCSwiftPackageProductDependency section */

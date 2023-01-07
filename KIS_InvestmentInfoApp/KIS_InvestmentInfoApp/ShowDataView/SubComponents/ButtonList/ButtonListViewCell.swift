@@ -12,15 +12,38 @@ final class ButtonListViewCell: UITableViewCell{
     
     private var buttonElementsArr: [String] = ["1","2","3","4","5","6","7","1","2","3","4","5","6","7"]
     
-    private var collectionView = UICollectionView()
-//    private lazy var collectionView: UICollectionView = {
+//    private var collectionView = UICollectionView()
+    private lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        //layout.sectionInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
+        layout.minimumLineSpacing = 10
+        layout.minimumInteritemSpacing = 10
+        layout.scrollDirection = .horizontal
+
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(ButtonListViewCellCell.self, forCellWithReuseIdentifier: "ButtonListViewCellCell")
+        collectionView.dataSource = self
+        collectionView.delegate = self
+//        collectionView.isPagingEnabled = true
+        collectionView.showsHorizontalScrollIndicator = true
+
+        collectionView.backgroundColor = .lightGray
+//        collectionView.isScrollEnabled = false
+        return collectionView
+    }()
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        setupLayout()
+        
 //        let layout = UICollectionViewFlowLayout()
 //        //layout.sectionInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
 //        layout.minimumLineSpacing = 10
 //        layout.minimumInteritemSpacing = 10
 //        layout.scrollDirection = .horizontal
 //
-//        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+//        collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
 //        collectionView.register(ButtonListViewCellCell.self, forCellWithReuseIdentifier: "ButtonListViewCellCell")
 //        collectionView.dataSource = self
 //        collectionView.delegate = self
@@ -28,27 +51,6 @@ final class ButtonListViewCell: UITableViewCell{
 //        collectionView.showsHorizontalScrollIndicator = true
 //
 //        collectionView.backgroundColor = .lightGray
-//
-//        return collectionView
-//
-//    }()
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-            let layout = UICollectionViewFlowLayout()
-            //layout.sectionInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
-            layout.minimumLineSpacing = 10
-            layout.minimumInteritemSpacing = 10
-            layout.scrollDirection = .horizontal
-    
-            collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-            collectionView.register(ButtonListViewCellCell.self, forCellWithReuseIdentifier: "ButtonListViewCellCell")
-            collectionView.dataSource = self
-            collectionView.delegate = self
-    //        collectionView.isPagingEnabled = true
-            collectionView.showsHorizontalScrollIndicator = true
-    
-            collectionView.backgroundColor = .lightGray
     }
     
     required init?(coder: NSCoder) {
@@ -56,7 +58,7 @@ final class ButtonListViewCell: UITableViewCell{
     }
     
     func setup(){
-        setupLayout()
+//        setupLayout()
 //        titleLabel.setTitle(title, for: .normal)
     }
     
@@ -94,10 +96,5 @@ extension ButtonListViewCell: UICollectionViewDelegateFlowLayout {
 extension ButtonListViewCell: UICollectionViewDelegate{
 
 }
-    
-    //extension ButtonListViewCell: UITableViewDelegate{
-    //    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    //
-    //    }
-    //}
+
 
