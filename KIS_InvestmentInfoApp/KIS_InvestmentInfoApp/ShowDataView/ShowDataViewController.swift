@@ -50,7 +50,8 @@ class ShowDataViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(ButtonListViewCellCell.self, forCellWithReuseIdentifier: "ButtonListViewCellCell")
         collectionView.dataSource = self
-//        collectionView.delegate = self
+        collectionView.delegate = self
+        
 //        collectionView.isPagingEnabled = true
         collectionView.showsHorizontalScrollIndicator = true
 
@@ -343,9 +344,19 @@ extension ShowDataViewController: UICollectionViewDataSource, UICollectionViewDe
         return cell
     }
     
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//
-//    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let height = ( (collectionView.frame.height - 24) / 13 )
+        let width = height * 2
+//                let itemsPerRow: CGFloat = 2
+//                let widthPadding = sectionInsets.left * (itemsPerRow + 1)
+//                let itemsPerColumn: CGFloat = 3
+//                let heightPadding = sectionInsets.top * (itemsPerColumn + 1)
+//                let cellWidth = (width - widthPadding) / itemsPerRow
+//                let cellHeight = (height - heightPadding) / itemsPerColumn
+                
+        return CGSize(width: width, height: height)
+    }
 
 }
 
