@@ -44,18 +44,16 @@ class ShowDataViewCollectionViewCell: UICollectionViewCell{
         self.titleButton.backgroundColor = .brown
     }
     
-    func setup(title: String){
-        titleButton.setTitle(title, for: .normal)
-    }
+   
     
     // firstColumn인 경우에는 인덱스 번호를( 날짜 정보를 다 받아와줄 수는 없다. json에 날짜가 없을 수 있으니), firstRow인 경우에는 column이름들을 출력해줘야할 것이다.
     // FirstColumn 혹은 FirstRow인 경우에는 모드 Clickable,  둘 다 False인 경우에는 모두 UnClickable이어야한다.
     func setup(isFirstRow: Bool, isFirstColumn: Bool, title: String){
         if isFirstRow && isFirstColumn{
-            titleButton.setTitle("선택", for: .normal)
+            titleButton.setTitle(title, for: .normal)
         }
         else if isFirstRow && !isFirstColumn{
-            titleButton.setTitle("col", for: .normal)
+            titleButton.setTitle(title, for: .normal)
             //클릭 가능하게
             titleButton.isEnabled = true
         }

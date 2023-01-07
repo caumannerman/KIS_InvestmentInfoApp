@@ -332,7 +332,14 @@ extension ShowDataViewController: UICollectionViewDataSource, UICollectionViewDe
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ShowDataViewCollectionViewCell", for: indexPath) as? ShowDataViewCollectionViewCell else { return UICollectionViewCell() }
-        C
+//        let a = indexPath.row
+        if indexPath.row == 0 {
+            cell.setup(isFirstRow: true, isFirstColumn: false, title: "rowt")
+        }
+        else{
+            cell.setup(isFirstRow: false, isFirstColumn: true, title: String(indexPath.row))
+        }
+        
         return cell
     }
     
