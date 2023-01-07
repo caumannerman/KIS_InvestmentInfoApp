@@ -29,7 +29,7 @@ class ShowDataViewCollectionViewCell: UICollectionViewCell{
         titleButton.backgroundColor = .cyan
         titleButton.layer.cornerRadius = 12.0
         titleButton.addTarget(self, action: #selector(btnClicked), for: .touchUpInside)
-        
+        titleButton.isEnabled = false
     }
     
     private func layout() {
@@ -48,9 +48,27 @@ class ShowDataViewCollectionViewCell: UICollectionViewCell{
         titleButton.setTitle(title, for: .normal)
     }
     
-    //TODO: 나중에 setup할 사항이 있는 경우에 사용
-    func setup(){
-        
+    // firstColumn인 경우에는 인덱스 번호를( 날짜 정보를 다 받아와줄 수는 없다. json에 날짜가 없을 수 있으니), firstRow인 경우에는 column이름들을 출력해줘야할 것이다.
+    // FirstColumn 혹은 FirstRow인 경우에는 모드 Clickable,  둘 다 False인 경우에는 모두 UnClickable이어야한다.
+    func setup(isFirstRow: Bool, isFirstColumn: Bool, title: String){
+        if isFirstRow && isFirstColumn{
+            titleButton.setTitle("선택", for: .normal)
+        }
+        else if isFirstRow && !isFirstColumn{
+            titleButton.setTitle("col", for: .normal)
+            //클릭 가능하게
+            titleButton.isEnabled = true
+        }
+        else if !isFirstRow && isFirstColumn{
+            //인덱스 번호를 매개변수로 받아올 것이며 1,2,3,4 차례로 설정할 것
+            titleButton.setTitle(title, for: .normal)
+            //클릭 가능하게
+            titleButton.isEnabled = true
+        }
+        else{
+            //이미 비활되어있으므로, title만 바꿔주면 됨
+            titleButton.setTitle(title, for: .normal)
+        }
     }
     
 }

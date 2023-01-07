@@ -43,8 +43,8 @@ class ShowDataViewController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         //layout.sectionInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
-        layout.minimumLineSpacing = 10
-        layout.minimumInteritemSpacing = 10
+        layout.minimumLineSpacing = 4
+        layout.minimumInteritemSpacing = 2
         layout.scrollDirection = .horizontal
 
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -325,15 +325,21 @@ class ShowDataViewController: UIViewController {
 }
 
 
-extension ShowDataViewController: UICollectionViewDataSource{
+extension ShowDataViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         erData.count * 4
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ShowDataViewCollectionViewCell", for: indexPath) as? ShowDataViewCollectionViewCell else { return UICollectionViewCell() }
+        C
         return cell
     }
+    
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//
+//    }
+
 }
 
 // 원래 쓰던 TableView datasource
@@ -385,6 +391,11 @@ extension ShowDataViewController{
                     let temp = ExchangeRateCellData(cur_unit: er.cur_unit, ttb: er.ttb, tts: er.tts, deal_bas_r: er.deal_bas_r, bkpr: er.bkpr, yy_efee_r: er.yy_efee_r, ten_dd_efee_r: er.ten_dd_efee_r, kftc_bkpr: er.kftc_bkpr, kftc_deal_bas_r: er.kftc_deal_bas_r, cur_nm: er.cur_nm)
                     return temp
                 }
+                
+                print( "총 row 수 = " + String(self.erData.count))
+                print( "0번째 인덱스 " )
+                print( self.erData[0] )
+              
                 //테이블 뷰 다시 그려줌
                 self.collectionView.reloadData()
             }
