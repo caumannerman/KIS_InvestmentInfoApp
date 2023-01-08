@@ -51,6 +51,7 @@ class ShowDataViewCollectionViewCell: UICollectionViewCell{
     func setup(isFirstRow: Bool, isFirstColumn: Bool, title: String){
         if isFirstRow && isFirstColumn{
             titleButton.setTitle(title, for: .normal)
+            titleButton.isEnabled = false
         }
         else if isFirstRow && !isFirstColumn{
             titleButton.setTitle(title, for: .normal)
@@ -66,6 +67,7 @@ class ShowDataViewCollectionViewCell: UICollectionViewCell{
         else{
             //이미 비활되어있으므로, title만 바꿔주면 됨
             titleButton.setTitle(title, for: .normal)
+            titleButton.isEnabled = false
         }
     }
     

@@ -121,11 +121,8 @@ class HomeViewController: UIViewController {
             let vc = ShowDataViewController()
             vc.setup(apiUrl: url)
             self.navigationController?.pushViewController(vc, animated: true)
-            
         }
         alert.addAction(ok)
-       
-        
     }
     
     private func setNavigationItems(){
