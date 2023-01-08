@@ -69,6 +69,7 @@ class MyFilesViewController: UIViewController {
             $0.isSecureTextEntry = false
         }
         
+        //아래처럼, 사용자가 제목을 입력하고, ok버튼을 누르면 해당 제목을 변수에 저장한 후, createCSV()를 호출하여 csv파일을 생성한다.
         ok = UIAlertAction(title: "OK", style: .default){
             action in print("OK")
             // 저장할 파일 ㅇ제목을 받고
@@ -145,12 +146,25 @@ class MyFilesViewController: UIViewController {
     
     @objc func getCsv(){
         requestAPI()
+        
+//        guard let docsUrl = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+//        let dirUrl = docsUrl.appendingPathComponent("KIS_Finance_Info")
+//        let saveUrl = dirUrl.appendingPathComponent("MyFileSaveName.mp4")
+        
+        let documentPicker = UIDocumentPickerViewController(documentTypes: ["csv"], in: .import)
+        documentPicker.delegate = self
+        documentPicker.allowsMultipleSelection = false
+        present(documentPicker, animated: true){
+            
+        }
     }
     
     @objc func saveCsv(){
+        //save버튼 누르면 저장할 파일 제목 입력할 alert창을 띄워줘야한다.
         self.present(alert, animated: true){
             print("kkkkkk")
         }
+        
         
 //        exportAction()
     }
@@ -289,5 +303,12 @@ extension MyFilesViewController{
                 self.collectionView.reloadData()
             }
             .resume()
+    }
+}
+
+extension MyFilesViewController: UIDocumentPickerDelegate {
+    
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+        
     }
 }
