@@ -48,4 +48,6 @@ final class ButtonListViewCellCell: UICollectionViewCell{
         titleButton.setTitle(title, for: .normal)
     }
     
+   
+    
 }

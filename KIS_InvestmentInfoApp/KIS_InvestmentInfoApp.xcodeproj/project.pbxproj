@@ -33,6 +33,7 @@
 		A55580162962E7D000919868 /* AddHeaderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55580152962E7D000919868 /* AddHeaderViewCell.swift */; };
 		A5D1BC11296975B80045045B /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = A5D1BC10296975B80045045B /* Charts */; };
 		A5D1BC13296982480045045B /* ShowDataViewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D1BC12296982480045045B /* ShowDataViewCollectionViewCell.swift */; };
+		A5D1BC80296BD3480045045B /* GridCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D1BC7F296BD3480045045B /* GridCollectionViewLayout.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +62,7 @@
 		A55580102962957B00919868 /* ButtonListViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonListViewLayout.swift; sourceTree = "<group>"; };
 		A55580152962E7D000919868 /* AddHeaderViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHeaderViewCell.swift; sourceTree = "<group>"; };
 		A5D1BC12296982480045045B /* ShowDataViewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDataViewCollectionViewCell.swift; sourceTree = "<group>"; };
+		A5D1BC7F296BD3480045045B /* GridCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewLayout.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +191,8 @@
 			children = (
 				A5558005296273B000919868 /* ShowDataViewController.swift */,
 				A5D1BC12296982480045045B /* ShowDataViewCollectionViewCell.swift */,
+				A5D1BC7F296BD3480045045B /* GridCollectionViewLayout.swift */,
+				A5200E6829658CAC00FBFCAF /* ButtonListViewCellCell.swift */,
 				A555800829627B4600919868 /* SubComponents */,
 			);
 			path = ShowDataView;
@@ -206,7 +210,6 @@
 			isa = PBXGroup;
 			children = (
 				A555800B29627B9300919868 /* ButtonListViewCell.swift */,
-				A5200E6829658CAC00FBFCAF /* ButtonListViewCellCell.swift */,
 				A55580102962957B00919868 /* ButtonListViewLayout.swift */,
 			);
 			path = ButtonList;
@@ -310,6 +313,7 @@
 				A5200E6929658CAC00FBFCAF /* ButtonListViewCellCell.swift in Sources */,
 				A555800C29627B9300919868 /* ButtonListViewCell.swift in Sources */,
 				A5D1BC13296982480045045B /* ShowDataViewCollectionViewCell.swift in Sources */,
+				A5D1BC80296BD3480045045B /* GridCollectionViewLayout.swift in Sources */,
 				A5557FF5296250D300919868 /* ExchangeRateCellData.swift in Sources */,
 				A53EA68F29624D3600F0E24A /* AppDelegate.swift in Sources */,
 				A53EA6A329624EBE00F0E24A /* MainTabBarController.swift in Sources */,

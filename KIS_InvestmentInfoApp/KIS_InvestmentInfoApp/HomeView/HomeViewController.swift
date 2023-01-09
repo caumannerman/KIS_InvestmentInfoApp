@@ -10,7 +10,6 @@ import SnapKit
 import Alamofire
 
 class HomeViewController: UIViewController {
-
     
     private let alert = UIAlertController(title: "api별칭 입력", message: "별칭을 입력해주세요", preferredStyle: .alert)
     private var ok = UIAlertAction()

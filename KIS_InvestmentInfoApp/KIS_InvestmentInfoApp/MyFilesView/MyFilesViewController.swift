@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Alamofire
+import UniformTypeIdentifiers
 
 class MyFilesViewController: UIViewController {
 
@@ -83,7 +84,6 @@ class MyFilesViewController: UIViewController {
         cancel = UIAlertAction(title: "Cancel", style: .destructive)
         alert.addAction(ok)
         alert.addAction(cancel)
-        
     }
     
     func attribute(){
@@ -150,11 +150,13 @@ class MyFilesViewController: UIViewController {
 //        guard let docsUrl = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first else { return }
 //        let dirUrl = docsUrl.appendingPathComponent("KIS_Finance_Info")
 //        let saveUrl = dirUrl.appendingPathComponent("MyFileSaveName.mp4")
-        
-        let documentPicker = UIDocumentPickerViewController(documentTypes: ["csv"], in: .import)
+        let suppertedFiles: [UTType] = [UTType.data]
+        let documentPicker = UIDocumentPickerViewController(forOpeningContentTypes: suppertedFiles, asCopy: true)
+      
         documentPicker.delegate = self
         documentPicker.allowsMultipleSelection = false
         present(documentPicker, animated: true){
+            print("url name")
             
         }
     }
@@ -308,7 +310,17 @@ extension MyFilesViewController{
 
 extension MyFilesViewController: UIDocumentPickerDelegate {
     
-    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+//    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+//        guard let selectedFileURL = urls.first else {
+//            return
+//        }
+//        let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+//
+//    }
+    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
+        print("a file was selected")
+        let rows = NSArray(
+        )
         
     }
 }

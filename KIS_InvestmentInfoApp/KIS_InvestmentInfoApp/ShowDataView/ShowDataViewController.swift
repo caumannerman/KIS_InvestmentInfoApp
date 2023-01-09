@@ -11,6 +11,24 @@ import Alamofire
 
 class ShowDataViewController: UIViewController {
     
+    
+    
+    
+    var records: [[String]] = (0 ..< 50).map { row in
+        (0 ..< 6).map {
+            column in
+            "Row \(row) columnssssssssdfdfaddffa \(column)"
+        }
+    }
+
+    var cellWidths: [CGFloat] = [ 180, 200, 180, 160, 200, 200 ]
+    
+    
+    
+    
+    
+    
+    
     //한 출에 표시할 데이터 수
     final let numRow: Int = 12
     //TODO: dataTitles를 가져오는 api 항목에 맞게 따로 불러오는 기능 구현해야함
@@ -43,23 +61,24 @@ class ShowDataViewController: UIViewController {
 //    }()
     
     private lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
+        let layout = GridLayout()
+        layout.cellHeight = 44
+        layout.cellWidths = cellWidths
         //layout.sectionInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
-        layout.minimumLineSpacing = 4
-        layout.minimumInteritemSpacing = 2
-        layout.scrollDirection = .horizontal
+//        layout.minimumLineSpacing = 4
+//        layout.minimumInteritemSpacing = 2
+//        layout.scrollDirection = .horizontal
 
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
+        collectionView.isDirectionalLockEnabled = true
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//        collectionView.register(ShowDataViewCollectionViewCell.self, forCellWithReuseIdentifier: "ShowDataViewCollectionViewCell")
         collectionView.register(ButtonListViewCellCell.self, forCellWithReuseIdentifier: "ButtonListViewCellCell")
         collectionView.dataSource = self
         collectionView.delegate = self
-        
 //        collectionView.isPagingEnabled = true
         collectionView.showsHorizontalScrollIndicator = true
-
         collectionView.backgroundColor = .lightGray
-        
-        collectionView.register(ShowDataViewCollectionViewCell.self, forCellWithReuseIdentifier: "ShowDataViewCollectionViewCell")
 //        collectionView.isScrollEnabled = false
         return collectionView
     }()
@@ -329,45 +348,60 @@ class ShowDataViewController: UIViewController {
 
 
 extension ShowDataViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        erData.count * 4
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return records.count
     }
-    
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return records[section].count
+    }
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ShowDataViewCollectionViewCell", for: indexPath) as? ShowDataViewCollectionViewCell else { return UICollectionViewCell() }
-//        let a = indexPath.row
-        if indexPath.row == 0 {
-            cell.setup(isFirstRow: true, isFirstColumn: true, title: "선택")
-        }
-        //첫 열
-        else if indexPath.row > 0 && indexPath.row <= numRow{
-            cell.setup(isFirstRow: false, isFirstColumn: true, title: String(indexPath.row))
-        }
-        //첫 행
-        else if indexPath.row % ( numRow + 1) == 0 {
-            let now_title_sunseo_idx = indexPath.row / ( numRow + 1) - 1
-            cell.setup(isFirstRow: true, isFirstColumn: false, title: dataTitles[now_title_sunseo_idx])
-        }
-        //일반 cell
-        else{
-            cell.setup(isFirstRow: false, isFirstColumn: false, title: "일반")
-        }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ButtonListViewCellCell", for: indexPath) as? ButtonListViewCellCell else { return UICollectionViewCell() }
+        
+//        cell.setRecord(records[indexPath.section][indexPath.item])
+        cell.setup(title: records[indexPath.section][indexPath.item])
         return cell
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        let height = ( (collectionView.frame.height - CGFloat(numRow * 2)) / CGFloat(numRow + 1) )
-        let width = height * 2
-//                let itemsPerRow: CGFloat = 2
-//                let widthPadding = sectionInsets.left * (itemsPerRow + 1)
-//                let itemsPerColumn: CGFloat = 3
-//                let heightPadding = sectionInsets.top * (itemsPerColumn + 1)
-//                let cellWidth = (width - widthPadding) / itemsPerRow
-//                let cellHeight = (height - heightPadding) / itemsPerColumn
-                
-        return CGSize(width: width, height: height)
-    }
+//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        erData.count * 4
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+//        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ShowDataViewCollectionViewCell", for: indexPath) as? ShowDataViewCollectionViewCell else { return UICollectionViewCell() }
+////        let a = indexPath.row
+//        if indexPath.row == 0 {
+//            cell.setup(isFirstRow: true, isFirstColumn: true, title: "선택")
+//        }
+//        //첫 열
+//        else if indexPath.row > 0 && indexPath.row <= numRow{
+//            cell.setup(isFirstRow: false, isFirstColumn: true, title: String(indexPath.row))
+//        }
+//        //첫 행
+//        else if indexPath.row % ( numRow + 1) == 0 {
+//            let now_title_sunseo_idx = indexPath.row / ( numRow + 1) - 1
+//            cell.setup(isFirstRow: true, isFirstColumn: false, title: dataTitles[now_title_sunseo_idx])
+//        }
+//        //일반 cell
+//        else{
+//            cell.setup(isFirstRow: false, isFirstColumn: false, title: "일반")
+//        }
+//        return cell
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//
+//        let height = ( (collectionView.frame.height - CGFloat(numRow * 2)) / CGFloat(numRow + 1) )
+//        let width = height * 2
+////                let itemsPerRow: CGFloat = 2
+////                let widthPadding = sectionInsets.left * (itemsPerRow + 1)
+////                let itemsPerColumn: CGFloat = 3
+////                let heightPadding = sectionInsets.top * (itemsPerColumn + 1)
+////                let cellWidth = (width - widthPadding) / itemsPerRow
+////                let cellHeight = (height - heightPadding) / itemsPerColumn
+//
+//        return CGSize(width: width, height: height)
+//    }
 
 }
 
