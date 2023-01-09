@@ -9,6 +9,7 @@ import UIKit
 import Charts
 import SnapKit
 import Alamofire
+import SwiftUI
 
 class ChartViewController: UIViewController {
     
@@ -121,6 +122,19 @@ class ChartViewController: UIViewController {
 //        btn.setTitleColor(.black, for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 14.0, weight: .semibold)
         btn.addTarget(self, action: #selector(reqButtonClicked), for: .touchUpInside)
+        return btn
+    }()
+    
+    let showChartButton: UIButton = {
+        let btn = UIButton()
+        btn.layer.cornerRadius = 3.0
+        btn.layer.borderWidth = 2.0
+        btn.layer.borderColor = UIColor(red: 255/255.0, green: 255/255.0, blue: 255/255.0, alpha: 1.0).cgColor
+        btn.backgroundColor = UIColor(red: 0/255.0, green: 204/255.0, blue: 204/255.0, alpha: 1.0)
+        btn.setTitle("Show Chart", for: .normal)
+//        btn.setTitleColor(.black, for: .normal)
+        btn.titleLabel?.font = .systemFont(ofSize: 18.0, weight: .bold)
+        btn.addTarget(self, action: #selector(showChartButtonClicked), for: .touchUpInside)
         return btn
     }()
     
@@ -313,6 +327,19 @@ class ChartViewController: UIViewController {
         print(endDateTextField.text ?? "nil")
         requestAPI(itemCode: itemNmTextField.text ?? "nil", startDate: startDate, endDate: endDate )
     }
+    // 차트 SwiftUI ViewController present
+    @objc func showChartButtonClicked(){
+        print("차트 조회 버튼 클릭")
+        let hostingController = UIHostingController(rootView: SwiftUIView())
+        if #available(iOS 16.0, *) {
+            hostingController.sizingOptions = .preferredContentSize
+        } else {
+            // Fallback on earlier versions
+        }
+        hostingController.modalPresentationStyle = .popover
+        self.present(hostingController, animated: true)
+//        requestAPI(itemCode: itemNmTextField.text ?? "nil", startDate: startDate, endDate: endDate )
+    }
     
     private func attribute(){
         
@@ -340,7 +367,7 @@ class ChartViewController: UIViewController {
             $0.edges.equalToSuperview()
         }
         
-        [ barGraphView, candleGraphView, tempTextView, itemNmLabel, itemNmTextField, startDateLabel, startDateTextField, endDateLabel, endDateTextField, requestButton, purchaseDateLabel, purchaseDateTextField, sellDateLabel, sellDateTextField, profitLabel, profitTextField, topProfitDateLabel, topProfitDateTextField, worstProfitDateLabel, worstProfitDateTextField].forEach{
+        [ barGraphView, candleGraphView, tempTextView, itemNmLabel, itemNmTextField, startDateLabel, startDateTextField, endDateLabel, endDateTextField, requestButton, showChartButton, purchaseDateLabel, purchaseDateTextField, sellDateLabel, sellDateTextField, profitLabel, profitTextField, topProfitDateLabel, topProfitDateTextField, worstProfitDateLabel, worstProfitDateTextField].forEach{
 //            view.addSubview($0)
             stackView.addArrangedSubview($0)
         }
@@ -410,6 +437,14 @@ class ChartViewController: UIViewController {
             $0.height.equalTo(34)
             $0.trailing.equalToSuperview().inset(40)
         }
+        
+        showChartButton.snp.makeConstraints{
+//            $0.top.equalTo(endDateTextField.snp.bottom).offset(20)
+            $0.leading.equalTo(itemNmLabel.snp.trailing).inset(40)
+            $0.height.equalTo(34)
+            $0.trailing.equalToSuperview().inset(40)
+        }
+        
         purchaseDateLabel.snp.makeConstraints{
             $0.leading.equalToSuperview().inset(10)
             $0.height.equalTo(34)
