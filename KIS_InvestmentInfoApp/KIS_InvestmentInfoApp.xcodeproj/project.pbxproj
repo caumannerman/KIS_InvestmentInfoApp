@@ -33,8 +33,9 @@
 		A55580162962E7D000919868 /* AddHeaderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55580152962E7D000919868 /* AddHeaderViewCell.swift */; };
 		A5D1BC13296982480045045B /* ShowDataViewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D1BC12296982480045045B /* ShowDataViewCollectionViewCell.swift */; };
 		A5D1BC80296BD3480045045B /* GridCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D1BC7F296BD3480045045B /* GridCollectionViewLayout.swift */; };
-		A5D1BC86296BDD0B0045045B /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = A5D1BC85296BDD0B0045045B /* Charts */; };
-		A5D1BC88296BE1210045045B /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D1BC87296BE1210045045B /* SwiftUIView.swift */; };
+		A5D1BC8A296BE7EE0045045B /* SiteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D1BC89296BE7EE0045045B /* SiteView.swift */; };
+		A5D1BC8D296BE8220045045B /* SwiftUIChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D1BC8C296BE8220045045B /* SwiftUIChartView.swift */; };
+		A5D1BC92296BEBDE0045045B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D1BC91296BEBDE0045045B /* ContentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,7 +65,9 @@
 		A55580152962E7D000919868 /* AddHeaderViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHeaderViewCell.swift; sourceTree = "<group>"; };
 		A5D1BC12296982480045045B /* ShowDataViewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDataViewCollectionViewCell.swift; sourceTree = "<group>"; };
 		A5D1BC7F296BD3480045045B /* GridCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewLayout.swift; sourceTree = "<group>"; };
-		A5D1BC87296BE1210045045B /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
+		A5D1BC89296BE7EE0045045B /* SiteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteView.swift; sourceTree = "<group>"; };
+		A5D1BC8C296BE8220045045B /* SwiftUIChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIChartView.swift; sourceTree = "<group>"; };
+		A5D1BC91296BEBDE0045045B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,7 +76,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A53EA6A829624F6800F0E24A /* Alamofire in Frameworks */,
-				A5D1BC86296BDD0B0045045B /* Charts in Frameworks */,
 				A53EA6AB29624F9000F0E24A /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -229,9 +231,19 @@
 		A5D1BC83296BDBE40045045B /* SwiftUIChart */ = {
 			isa = PBXGroup;
 			children = (
-				A5D1BC87296BE1210045045B /* SwiftUIView.swift */,
+				A5D1BC91296BEBDE0045045B /* ContentView.swift */,
+				A5D1BC8C296BE8220045045B /* SwiftUIChartView.swift */,
+				A5D1BC8B296BE7F10045045B /* Entity */,
 			);
 			path = SwiftUIChart;
+			sourceTree = "<group>";
+		};
+		A5D1BC8B296BE7F10045045B /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				A5D1BC89296BE7EE0045045B /* SiteView.swift */,
+			);
+			path = Entity;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -253,7 +265,6 @@
 			packageProductDependencies = (
 				A53EA6A729624F6800F0E24A /* Alamofire */,
 				A53EA6AA29624F9000F0E24A /* SnapKit */,
-				A5D1BC85296BDD0B0045045B /* Charts */,
 			);
 			productName = KIS_InvestmentInfoApp;
 			productReference = A53EA68B29624D3600F0E24A /* KIS_InvestmentInfoApp.app */;
@@ -286,7 +297,6 @@
 			packageReferences = (
 				A53EA6A629624F6800F0E24A /* XCRemoteSwiftPackageReference "Alamofire" */,
 				A53EA6A929624F9000F0E24A /* XCRemoteSwiftPackageReference "SnapKit" */,
-				A5D1BC84296BDD0B0045045B /* XCRemoteSwiftPackageReference "Charts" */,
 			);
 			productRefGroup = A53EA68C29624D3600F0E24A /* Products */;
 			projectDirPath = "";
@@ -315,14 +325,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				A5557FEF296250B500919868 /* GetERAPI.swift in Sources */,
+				A5D1BC92296BEBDE0045045B /* ContentView.swift in Sources */,
 				A53D3E8B2967A5A50030C6A3 /* SecurityDataCellData.swift in Sources */,
-				A5D1BC88296BE1210045045B /* SwiftUIView.swift in Sources */,
 				A53EA6A529624EFD00F0E24A /* TestViewController.swift in Sources */,
 				A5557FF1296250BE00919868 /* GetERNetwork.swift in Sources */,
 				A55580112962957B00919868 /* ButtonListViewLayout.swift in Sources */,
+				A5D1BC8D296BE8220045045B /* SwiftUIChartView.swift in Sources */,
 				A53EA69329624D3600F0E24A /* ViewController.swift in Sources */,
 				A5557FF3296250C900919868 /* ExchangeRate.swift in Sources */,
 				A5200E6929658CAC00FBFCAF /* ButtonListViewCellCell.swift in Sources */,
+				A5D1BC8A296BE7EE0045045B /* SiteView.swift in Sources */,
 				A555800C29627B9300919868 /* ButtonListViewCell.swift in Sources */,
 				A5D1BC13296982480045045B /* ShowDataViewCollectionViewCell.swift in Sources */,
 				A5D1BC80296BD3480045045B /* GridCollectionViewLayout.swift in Sources */,
@@ -404,7 +416,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -458,7 +470,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -562,14 +574,6 @@
 				minimumVersion = 5.0.0;
 			};
 		};
-		A5D1BC84296BDD0B0045045B /* XCRemoteSwiftPackageReference "Charts" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/danielgindi/Charts.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.1.0;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -582,11 +586,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = A53EA6A929624F9000F0E24A /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
-		};
-		A5D1BC85296BDD0B0045045B /* Charts */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = A5D1BC84296BDD0B0045045B /* XCRemoteSwiftPackageReference "Charts" */;
-			productName = Charts;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -13,27 +13,31 @@ import SwiftUI
 
 class ChartViewController: UIViewController {
     
+    var api_result: String = ""
+    private var erData: [ExchangeRateCellData] = []
+    
+    
     // 원하는 기간의 주가정보를 받아와 저장할 배열
     private var securityDataArr: [SecurityDataCellData] = []
     
     var dataPoints: [String] = ["일","월", "화","수","목", "금","토"]
-    var dataEntries: [BarChartDataEntry] = []
+//    var dataEntries: [BarChartDataEntry] = []
     var dataArray: [Int] = [10, 5, 6, 13, 15, 8, 2]
     
   
     
-    private var barGraphView = BarChartView()
-    var chartDataSet = BarChartDataSet()
-    var chartData = BarChartData()
+//    private var barGraphView = BarChartView()
+//    var chartDataSet = BarChartDataSet()
+//    var chartData = BarChartData()
     
-    let valFormatter = NumberFormatter()
+//    let valFormatter = NumberFormatter()
     
-    var formatter = DefaultValueFormatter()
+//    var formatter = DefaultValueFormatter()
     
     // candleGraphView를 선언함
-    private var candleGraphView = CandleStickChartView()
-    var candleChartDataSet = CandleChartDataSet()
-    var candleChartData = CandleChartData()
+//    private var candleGraphView = CandleStickChartView()
+//    var candleChartDataSet = CandleChartDataSet()
+//    var candleChartData = CandleChartData()
     
     
     
@@ -266,33 +270,25 @@ class ChartViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        for i in 0...6 {
-            let dataEntry = BarChartDataEntry(x: Double(i), y: Double(dataArray[i]))
-            dataEntries.append(dataEntry)
-        }
-        
-        valFormatter.numberStyle = .currency
-        valFormatter.maximumFractionDigits = 2
-        valFormatter.currencySymbol = "$"
-                
-        let format = NumberFormatter()
-        format.numberStyle = .none
-        formatter = DefaultValueFormatter(formatter: format)
-        
-        chartDataSet = BarChartDataSet(entries:dataEntries, label: "그래프 값 명칭")
-        chartData = BarChartData(dataSet: chartDataSet)
-        chartData.setValueFormatter(formatter)
-        barGraphView.leftAxis.valueFormatter = DefaultAxisValueFormatter(formatter: valFormatter)
-        barGraphView.data = chartData
-        
-        
-//        candleChartDataSet = CandleChartDataSet(entries: dataEntries, label: "제발")
-//        candleChartData = CandleChartData(dataSet: candleChartDataSet)
-//        candleChartData.setValueFormatter(formatter)
-//        candleGraphView.leftAxis.valueFormatter = DefaultAxisValueFormatter(formatter: valFormatter)
-//        candleGraphView.data = candleChartData
-        
-        
+//        for i in 0...6 {
+//            let dataEntry = BarChartDataEntry(x: Double(i), y: Double(dataArray[i]))
+//            dataEntries.append(dataEntry)
+//        }
+//
+//        valFormatter.numberStyle = .currency
+//        valFormatter.maximumFractionDigits = 2
+//        valFormatter.currencySymbol = "$"
+//
+//        let format = NumberFormatter()
+//        format.numberStyle = .none
+//        formatter = DefaultValueFormatter(formatter: format)
+//
+//        chartDataSet = BarChartDataSet(entries:dataEntries, label: "그래프 값 명칭")
+//        chartData = BarChartData(dataSet: chartDataSet)
+//        chartData.setValueFormatter(formatter)
+//        barGraphView.leftAxis.valueFormatter = DefaultAxisValueFormatter(formatter: valFormatter)
+//        barGraphView.data = chartData
+      
         setNavigationItems()
         //DatePicker 초기화
         setupStartDateDatePicker()
@@ -325,19 +321,24 @@ class ChartViewController: UIViewController {
         print(itemNmTextField.text ?? "nil")
         print(startDateTextField.text ?? "nil")
         print(endDateTextField.text ?? "nil")
-        requestAPI(itemCode: itemNmTextField.text ?? "nil", startDate: startDate, endDate: endDate )
+//        requestAPIs()
+        requestAPI()
+//        requestAPI(itemCode: itemNmTextField.text ?? "nil", startDate: startDate, endDate: endDate )
     }
     // 차트 SwiftUI ViewController present
     @objc func showChartButtonClicked(){
         print("차트 조회 버튼 클릭")
-        let hostingController = UIHostingController(rootView: SwiftUIView())
-        if #available(iOS 16.0, *) {
-            hostingController.sizingOptions = .preferredContentSize
-        } else {
-            // Fallback on earlier versions
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            // SwiftUI View를 출력하려면 UIHostingController로 감싸서 띄워야한다.
+            let hostingController = UIHostingController(rootView: SwiftUIChartView())
+            if #available(iOS 16.0, *) {
+                hostingController.sizingOptions = .preferredContentSize
+            } else {
+                // Fallback on earlier versions
+            }
+            hostingController.modalPresentationStyle = .popover
+            self.present(hostingController, animated: true)
         }
-        hostingController.modalPresentationStyle = .popover
-        self.present(hostingController, animated: true)
 //        requestAPI(itemCode: itemNmTextField.text ?? "nil", startDate: startDate, endDate: endDate )
     }
     
@@ -367,20 +368,20 @@ class ChartViewController: UIViewController {
             $0.edges.equalToSuperview()
         }
         
-        [ barGraphView, candleGraphView, tempTextView, itemNmLabel, itemNmTextField, startDateLabel, startDateTextField, endDateLabel, endDateTextField, requestButton, showChartButton, purchaseDateLabel, purchaseDateTextField, sellDateLabel, sellDateTextField, profitLabel, profitTextField, topProfitDateLabel, topProfitDateTextField, worstProfitDateLabel, worstProfitDateTextField].forEach{
+        [  tempTextView, itemNmLabel, itemNmTextField, startDateLabel, startDateTextField, endDateLabel, endDateTextField, requestButton, showChartButton, purchaseDateLabel, purchaseDateTextField, sellDateLabel, sellDateTextField, profitLabel, profitTextField, topProfitDateLabel, topProfitDateTextField, worstProfitDateLabel, worstProfitDateTextField].forEach{
 //            view.addSubview($0)
             stackView.addArrangedSubview($0)
         }
-        barGraphView.snp.makeConstraints{
-//            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.top.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(300)
-        }
-        candleGraphView.snp.makeConstraints{
-            $0.leading.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(300)
-        }
+//        barGraphView.snp.makeConstraints{
+////            $0.top.equalTo(view.safeAreaLayoutGuide)
+//            $0.top.equalToSuperview()
+//            $0.leading.trailing.equalToSuperview().inset(20)
+//            $0.height.equalTo(300)
+//        }
+//        candleGraphView.snp.makeConstraints{
+//            $0.leading.trailing.equalToSuperview().inset(20)
+//            $0.height.equalTo(300)
+//        }
         
         tempTextView.snp.makeConstraints{
 //            $0.top.equalToSuperview()
@@ -724,24 +725,63 @@ extension ChartViewController{
 
 extension ChartViewController{
     
-    private func requestAPI(itemCode: String, startDate: Date?, endDate: Date?){
+    private func requestAPIs(){
+        
+        let url = "https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey=BlCJAvGJ4IuXS30CPGMFIjQpiCuDTbjb&searchdate=20221227&data=AP01"
+        //addingPercentEncoding은 한글(영어 이외의 값) 이 url에 포함되었을 때 오류나는 것을 막아준다.
+        
+        
+        AF.request(url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
+            .responseDecodable(of: [ExchangeRate].self){ [weak self] response in
+                // success 이외의 응답을 받으면, else문에 걸려 함수 종료
+                guard
+                    let self = self,
+                    case .success(let data) = response.result else { return }
+                //데이터 받아옴
+
+                self.erData = data.map{ er -> ExchangeRateCellData in
+                    let temp = ExchangeRateCellData(cur_unit: er.cur_unit, ttb: er.ttb, tts: er.tts, deal_bas_r: er.deal_bas_r, bkpr: er.bkpr, yy_efee_r: er.yy_efee_r, ten_dd_efee_r: er.ten_dd_efee_r, kftc_bkpr: er.kftc_bkpr, kftc_deal_bas_r: er.kftc_deal_bas_r, cur_nm: er.cur_nm)
+                    return temp
+                }
+                
+                for i in self.erData{
+                    self.api_result += i.cur_nm ?? ""
+                }
+                
+                self.tempTextView.text = self.api_result
+                
+//                print( "총 row 수 = " + String(self.erData.count))
+//                print( "0번째 인덱스 " )
+//                print( self.erData[0] )
+              
+                //테이블 뷰 다시 그려줌
+//                self.collectionView.reloadData()
+            }
+            .resume()
+    }
+    
+    //(itemCode: String, startDate: Date?, endDate: Date?) 매개변수 부분 이걸로 바꿔야함
+    private func requestAPI(){
         
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyyMMdd"
         formatter.locale = Locale(identifier: "ko_KR")
         
-        let sDateText = formatter.string(from: startDate!)
-        let eDateText = formatter.string(from: endDate!)
+//        let sDateText = formatter.string(from: startDate!)
+//        let eDateText = formatter.string(from: endDate!)
+//
+//        let url = "http://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo" + "?numOfRows=365&resultType=json&serviceKey=58gH4iQz85Z0SMkhvh%2Fc7ZdxJ874fTSCDdyGoEI61Wzs9DiSzrhtZTWxEhKxwQjwsdF%2BUvPnWc6ZUKwgLc56xA%3D%3D&likeSrtnCd=" + itemCode.trimmingCharacters(in: .whitespaces) + "&beginBasDt=" + sDateText + "&endBasDt=" + eDateText
         
-        let url = "http://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo" + "?numOfRows=365&resultType=json&serviceKey=58gH4iQz85Z0SMkhvh%2Fc7ZdxJ874fTSCDdyGoEI61Wzs9DiSzrhtZTWxEhKxwQjwsdF%2BUvPnWc6ZUKwgLc56xA%3D%3D&likeSrtnCd=" + itemCode.trimmingCharacters(in: .whitespaces) + "&beginBasDt=" + sDateText + "&endBasDt=" + eDateText
         
-        print("url = " + url)
-        let encoded = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed.union( CharacterSet(["%"])))
+        let newnewurl = "http://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo?numOfRows=365&resultType=json&serviceKey=58gH4iQz85Z0SMkhvh%2Fc7ZdxJ874fTSCDdyGoEI61Wzs9DiSzrhtZTWxEhKxwQjwsdF%2BUvPnWc6ZUKwgLc56xA%3D%3D&likeSrtnCd=005930&beginBasDt=20221201&endBasDt=20221231"
+        
+        print("url = " + newnewurl)
+        let encoded = newnewurl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed.union( CharacterSet(["%"])))
         print(encoded)
         
        
         //addingPercentEncoding은 한글(영어 이외의 값) 이 url에 포함되었을 때 오류나는 것을 막아준다.
-        AF.request(url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed.union( CharacterSet(["%"]))) ?? "")
+        AF.request(newnewurl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed.union( CharacterSet(["%"]))) ?? "")
             .responseDecodable(of: SecurityResponse.self){ [weak self] response in
                 // success 이외의 응답을 받으면, else문에 걸려 함수 종료
                 
@@ -752,6 +792,7 @@ extension ChartViewController{
                     case .success(let data) = response.result else {
                     print("실패ㅜㅜ")
                           return }
+                print("실패 아니면 여기 나와야함!!! ")
                 //데이터 받아옴
                 // [SecurityData] 형태임
                 let now_arr = data.response.body.items.item

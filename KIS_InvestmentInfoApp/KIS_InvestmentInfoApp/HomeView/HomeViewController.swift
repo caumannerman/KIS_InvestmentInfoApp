@@ -252,7 +252,7 @@ extension HomeViewController: UITableViewDataSource {
 //            return cell
 //        }
             let url = urlsArr[indexPath.row ]
-        let url_alias = urlsAlias[indexPath.row ]
+            let url_alias = urlsAlias[indexPath.row ]
             
             cell.textLabel?.text = url_alias
             cell.detailTextLabel?.text = url
