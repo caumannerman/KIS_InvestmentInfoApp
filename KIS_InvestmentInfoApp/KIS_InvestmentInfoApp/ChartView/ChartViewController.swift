@@ -56,7 +56,7 @@ class ChartViewController: UIViewController {
     let itemNmLabel: UILabel = {
         let label = UILabel()
         label.backgroundColor = .systemBackground
-        label.text = "종목코드"
+        label.text = "종목명"
         label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
@@ -243,14 +243,14 @@ class ChartViewController: UIViewController {
         return tf
     }()
     
-    let tempTextView: UITextView = {
-        let tv = UITextView()
-        tv.layer.borderWidth = 1
-        tv.layer.borderColor = UIColor(red: 0/255, green: 192/255, blue: 210/255, alpha: 1).cgColor
-        tv.layer.cornerRadius = 12.0
-        
-        return tv
-    }()
+//    let tempTextView: UITextView = {
+//        let tv = UITextView()
+//        tv.layer.borderWidth = 1
+//        tv.layer.borderColor = UIColor(red: 0/255, green: 192/255, blue: 210/255, alpha: 1).cgColor
+//        tv.layer.cornerRadius = 12.0
+//
+//        return tv
+//    }()
     
     
     private let startDateDatePicker = UIDatePicker()
@@ -323,7 +323,7 @@ class ChartViewController: UIViewController {
         print(endDateTextField.text ?? "nil")
 
 //        requestAPI()
-        requestAPI(itemCode: itemNmTextField.text, startDate: startDate, endDate: endDate )
+        requestAPI(itemName: itemNmTextField.text, startDate: startDate, endDate: endDate )
     }
     // 차트 SwiftUI ViewController present
     @objc func showChartButtonClicked(){
@@ -368,7 +368,7 @@ class ChartViewController: UIViewController {
             $0.edges.equalToSuperview()
         }
         
-        [  tempTextView, itemNmLabel, itemNmTextField, startDateLabel, startDateTextField, endDateLabel, endDateTextField, requestButton, showChartButton, purchaseDateLabel, purchaseDateTextField, sellDateLabel, sellDateTextField, profitLabel, profitTextField, topProfitDateLabel, topProfitDateTextField, worstProfitDateLabel, worstProfitDateTextField].forEach{
+        [ itemNmLabel, itemNmTextField, startDateLabel, startDateTextField, endDateLabel, endDateTextField, requestButton, showChartButton, purchaseDateLabel, purchaseDateTextField, sellDateLabel, sellDateTextField, profitLabel, profitTextField, topProfitDateLabel, topProfitDateTextField, worstProfitDateLabel, worstProfitDateTextField].forEach{
 //            view.addSubview($0)
             stackView.addArrangedSubview($0)
         }
@@ -382,12 +382,12 @@ class ChartViewController: UIViewController {
 //            $0.leading.trailing.equalToSuperview().inset(20)
 //            $0.height.equalTo(300)
 //        }
-        
-        tempTextView.snp.makeConstraints{
-//            $0.top.equalToSuperview()
-            $0.leading.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(100)
-        }
+//
+//        tempTextView.snp.makeConstraints{
+////            $0.top.equalToSuperview()
+//            $0.leading.trailing.equalToSuperview().inset(20)
+//            $0.height.equalTo(100)
+//        }
         
         
         
@@ -727,7 +727,7 @@ extension ChartViewController{
     
     
     //(itemCode: String, startDate: Date?, endDate: Date?) 매개변수 부분 이걸로 바꿔야함
-    private func requestAPI(itemCode: String?, startDate: Date?, endDate: Date?) {
+    private func requestAPI(itemName: String?, startDate: Date?, endDate: Date?) {
         
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyyMMdd"
@@ -735,30 +735,23 @@ extension ChartViewController{
         
         var sDateText: String = ""
         var eDateText: String = ""
-        var nowCode: String = ""
+        var nowName: String = ""
         
-        if startDate == nil{
+        if startDate == nil || endDate == nil{
             sDateText = "20221201"
-        }else{
-            sDateText = formatter.string(from: startDate!)
-        }
-        
-        if endDate == nil{
             eDateText = "20221231"
         }else{
+            sDateText = formatter.string(from: startDate!)
             eDateText = formatter.string(from: endDate!)
         }
         
-        if itemCode == nil || itemCode == ""{
-            nowCode = "071050"
+        if itemName == nil || itemName == ""{
+            nowName = "한국금융지주"
         }else{
-            nowCode = itemCode!.trimmingCharacters(in: .whitespaces)
+            nowName = itemName!.trimmingCharacters(in: .whitespaces)
         }
         
-        let newnewurl = "http://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo" + "?numOfRows=365&resultType=json&serviceKey=58gH4iQz85Z0SMkhvh%2Fc7ZdxJ874fTSCDdyGoEI61Wzs9DiSzrhtZTWxEhKxwQjwsdF%2BUvPnWc6ZUKwgLc56xA%3D%3D&likeSrtnCd=" + nowCode + "&beginBasDt=" + sDateText + "&endBasDt=" + eDateText
-        
-        
-//        let newnewurl = "http://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo?numOfRows=365&resultType=json&serviceKey=58gH4iQz85Z0SMkhvh%2Fc7ZdxJ874fTSCDdyGoEI61Wzs9DiSzrhtZTWxEhKxwQjwsdF%2BUvPnWc6ZUKwgLc56xA%3D%3D&likeSrtnCd=005930&beginBasDt=20221201&endBasDt=20221231"
+        let newnewurl = "http://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo" + "?numOfRows=365&resultType=json&serviceKey=58gH4iQz85Z0SMkhvh%2Fc7ZdxJ874fTSCDdyGoEI61Wzs9DiSzrhtZTWxEhKxwQjwsdF%2BUvPnWc6ZUKwgLc56xA%3D%3D&itmsNm=" + nowName + "&beginBasDt=" + sDateText + "&endBasDt=" + eDateText
         
         print("url = " + newnewurl)
         let encoded = newnewurl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed.union( CharacterSet(["%"])))
@@ -771,12 +764,12 @@ extension ChartViewController{
                 // success 이외의 응답을 받으면, else문에 걸려 함수 종료
                 
                 print(response)
-                return
-                guard
-                    let self = self,
+
+                guard let self = self,
                     case .success(let data) = response.result else {
                     print("실패ㅜㅜ")
                           return }
+                
                 print("실패 아니면 여기 나와야함!!! ")
                 //데이터 받아옴
                 // [SecurityData] 형태임
@@ -787,12 +780,9 @@ extension ChartViewController{
                     return temp
                 }
                 
-                var now_p_result: String = ""
-                for i in self.securityDataArr {
-                    now_p_result += i.itmsNm!
-                }
+                print("받아온 배열 (최종)")
                 
-                print(now_p_result)
+                print(self.securityDataArr)
                 //테이블 뷰 다시 그려줌
 //                self.tableView.reloadData()
             }
