@@ -321,9 +321,9 @@ class ChartViewController: UIViewController {
         print(itemNmTextField.text ?? "nil")
         print(startDateTextField.text ?? "nil")
         print(endDateTextField.text ?? "nil")
-//        requestAPIs()
-        requestAPI()
-//        requestAPI(itemCode: itemNmTextField.text ?? "nil", startDate: startDate, endDate: endDate )
+
+//        requestAPI()
+        requestAPI(itemCode: itemNmTextField.text, startDate: startDate, endDate: endDate )
     }
     // 차트 SwiftUI ViewController present
     @objc func showChartButtonClicked(){
@@ -725,55 +725,40 @@ extension ChartViewController{
 
 extension ChartViewController{
     
-    private func requestAPIs(){
-        
-        let url = "https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey=BlCJAvGJ4IuXS30CPGMFIjQpiCuDTbjb&searchdate=20221227&data=AP01"
-        //addingPercentEncoding은 한글(영어 이외의 값) 이 url에 포함되었을 때 오류나는 것을 막아준다.
-        
-        
-        AF.request(url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
-            .responseDecodable(of: [ExchangeRate].self){ [weak self] response in
-                // success 이외의 응답을 받으면, else문에 걸려 함수 종료
-                guard
-                    let self = self,
-                    case .success(let data) = response.result else { return }
-                //데이터 받아옴
-
-                self.erData = data.map{ er -> ExchangeRateCellData in
-                    let temp = ExchangeRateCellData(cur_unit: er.cur_unit, ttb: er.ttb, tts: er.tts, deal_bas_r: er.deal_bas_r, bkpr: er.bkpr, yy_efee_r: er.yy_efee_r, ten_dd_efee_r: er.ten_dd_efee_r, kftc_bkpr: er.kftc_bkpr, kftc_deal_bas_r: er.kftc_deal_bas_r, cur_nm: er.cur_nm)
-                    return temp
-                }
-                
-                for i in self.erData{
-                    self.api_result += i.cur_nm ?? ""
-                }
-                
-                self.tempTextView.text = self.api_result
-                
-//                print( "총 row 수 = " + String(self.erData.count))
-//                print( "0번째 인덱스 " )
-//                print( self.erData[0] )
-              
-                //테이블 뷰 다시 그려줌
-//                self.collectionView.reloadData()
-            }
-            .resume()
-    }
     
     //(itemCode: String, startDate: Date?, endDate: Date?) 매개변수 부분 이걸로 바꿔야함
-    private func requestAPI(){
+    private func requestAPI(itemCode: String?, startDate: Date?, endDate: Date?) {
         
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyyMMdd"
         formatter.locale = Locale(identifier: "ko_KR")
         
-//        let sDateText = formatter.string(from: startDate!)
-//        let eDateText = formatter.string(from: endDate!)
-//
-//        let url = "http://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo" + "?numOfRows=365&resultType=json&serviceKey=58gH4iQz85Z0SMkhvh%2Fc7ZdxJ874fTSCDdyGoEI61Wzs9DiSzrhtZTWxEhKxwQjwsdF%2BUvPnWc6ZUKwgLc56xA%3D%3D&likeSrtnCd=" + itemCode.trimmingCharacters(in: .whitespaces) + "&beginBasDt=" + sDateText + "&endBasDt=" + eDateText
+        var sDateText: String = ""
+        var eDateText: String = ""
+        var nowCode: String = ""
+        
+        if startDate == nil{
+            sDateText = "20221201"
+        }else{
+            sDateText = formatter.string(from: startDate!)
+        }
+        
+        if endDate == nil{
+            eDateText = "20221231"
+        }else{
+            eDateText = formatter.string(from: endDate!)
+        }
+        
+        if itemCode == nil || itemCode == ""{
+            nowCode = "071050"
+        }else{
+            nowCode = itemCode!.trimmingCharacters(in: .whitespaces)
+        }
+        
+        let newnewurl = "http://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo" + "?numOfRows=365&resultType=json&serviceKey=58gH4iQz85Z0SMkhvh%2Fc7ZdxJ874fTSCDdyGoEI61Wzs9DiSzrhtZTWxEhKxwQjwsdF%2BUvPnWc6ZUKwgLc56xA%3D%3D&likeSrtnCd=" + nowCode + "&beginBasDt=" + sDateText + "&endBasDt=" + eDateText
         
         
-        let newnewurl = "http://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo?numOfRows=365&resultType=json&serviceKey=58gH4iQz85Z0SMkhvh%2Fc7ZdxJ874fTSCDdyGoEI61Wzs9DiSzrhtZTWxEhKxwQjwsdF%2BUvPnWc6ZUKwgLc56xA%3D%3D&likeSrtnCd=005930&beginBasDt=20221201&endBasDt=20221231"
+//        let newnewurl = "http://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo?numOfRows=365&resultType=json&serviceKey=58gH4iQz85Z0SMkhvh%2Fc7ZdxJ874fTSCDdyGoEI61Wzs9DiSzrhtZTWxEhKxwQjwsdF%2BUvPnWc6ZUKwgLc56xA%3D%3D&likeSrtnCd=005930&beginBasDt=20221201&endBasDt=20221231"
         
         print("url = " + newnewurl)
         let encoded = newnewurl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed.union( CharacterSet(["%"])))

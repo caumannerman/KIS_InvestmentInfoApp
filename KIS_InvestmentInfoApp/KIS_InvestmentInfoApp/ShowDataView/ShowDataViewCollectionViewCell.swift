@@ -26,8 +26,10 @@ class ShowDataViewCollectionViewCell: UICollectionViewCell{
     private func attribute(){
         titleButton.setTitleColor(.black, for: .normal)
         titleButton.titleLabel?.font = .systemFont(ofSize: 13.0, weight: .bold)
-        titleButton.backgroundColor = .cyan
-        titleButton.layer.cornerRadius = 12.0
+        titleButton.backgroundColor = UIColor(red: 230 / 255.0, green: 230 / 255.0, blue: 230 / 255.0, alpha: 1.0)
+//        titleButton.layer.cornerRadius = 12.0
+        titleButton.layer.borderWidth = 1.0
+        titleButton.layer.borderColor = UIColor.lightGray.cgColor
         titleButton.addTarget(self, action: #selector(btnClicked), for: .touchUpInside)
         titleButton.isEnabled = false
     }
@@ -41,7 +43,7 @@ class ShowDataViewCollectionViewCell: UICollectionViewCell{
     }
     
     @objc func btnClicked(){
-        self.titleButton.backgroundColor = .brown
+        self.titleButton.backgroundColor = UIColor(red: 153 / 460.0, green: 280 / 460.0, blue: 459 / 460.0, alpha: 1.0)
     }
     
    
@@ -50,7 +52,7 @@ class ShowDataViewCollectionViewCell: UICollectionViewCell{
     // FirstColumn 혹은 FirstRow인 경우에는 모드 Clickable,  둘 다 False인 경우에는 모두 UnClickable이어야한다.
     func setup(isFirstRow: Bool, isFirstColumn: Bool, title: String){
         if isFirstRow && isFirstColumn{
-            titleButton.setTitle(title, for: .normal)
+            titleButton.setTitle("모두 선택", for: .normal)
             titleButton.isEnabled = false
         }
         else if isFirstRow && !isFirstColumn{

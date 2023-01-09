@@ -23,42 +23,18 @@ class ShowDataViewController: UIViewController {
 
     var cellWidths: [CGFloat] = [ 180, 200, 180, 160, 200, 200 ]
     
+    //JSon을 받아와 parsing한 뒤,
+    private var JsonRowCount: Int = 0
+    private var JsonColumnCount: Int = 0
     
-    
-    
-    
-    
-    
-    //한 출에 표시할 데이터 수
-    final let numRow: Int = 12
+    private var isClickedArr: [[Bool]] = []
+   
     //TODO: dataTitles를 가져오는 api 항목에 맞게 따로 불러오는 기능 구현해야함
     private var dataTitles: [String] = ["cur_unit", "ttb", "tts", "deal_bas_r", "bkpr", "yy_efee_r", "ten_dd_efee_r", "kftc_bkpr", "kftc_deal_bas_r", "cur_nm", "cur_unit", "ttb", "tts", "deal_bas_r", "bkpr", "yy_efee_r", "ten_dd_efee_r", "kftc_bkpr", "kftc_deal_bas_r", "cur_nm"]
     private var erData: [ExchangeRateCellData] = []
-    // ------------------------------ UI Components ------------------------------ //
-    
-//    private let scrollView = UIScrollView()
-//    private let contentView = UIView()
-//
-//    private lazy var stackView: UIStackView = {
-//        let stackView = UIStackView()
-//        stackView.axis = .horizontal
-////        stackView.axis = .vertical
-//        stackView.distribution = .fill
-//        stackView.spacing = 0.0
-//        stackView.backgroundColor = .blue
-//        return stackView
-//    }()
 
     
-//    private lazy var tableView: UITableView = {
-//        let tableView = UITableView()
-//        tableView.dataSource = self
-////        tableView.delegate = self
-//        tableView.backgroundColor = .brown
-//        tableView.register(ButtonListViewCell.self, forCellReuseIdentifier: "ButtonListViewCell")
-//        tableView.rowHeight = 30
-//        return tableView
-//    }()
+    
     
     private lazy var collectionView: UICollectionView = {
         let layout = GridLayout()
@@ -73,12 +49,14 @@ class ShowDataViewController: UIViewController {
         collectionView.isDirectionalLockEnabled = true
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 //        collectionView.register(ShowDataViewCollectionViewCell.self, forCellWithReuseIdentifier: "ShowDataViewCollectionViewCell")
-        collectionView.register(ButtonListViewCellCell.self, forCellWithReuseIdentifier: "ButtonListViewCellCell")
+        collectionView.register(ShowDataViewCollectionViewCell.self, forCellWithReuseIdentifier: "ShowDataViewCollectionViewCell")
         collectionView.dataSource = self
         collectionView.delegate = self
 //        collectionView.isPagingEnabled = true
         collectionView.showsHorizontalScrollIndicator = true
-        collectionView.backgroundColor = .lightGray
+        collectionView.backgroundColor = .systemBackground
+        collectionView.layer.borderWidth = 1.0
+        collectionView.layer.borderColor = UIColor.lightGray.cgColor
 //        collectionView.isScrollEnabled = false
         return collectionView
     }()
@@ -349,18 +327,23 @@ class ShowDataViewController: UIViewController {
 
 extension ShowDataViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return records.count
+//        return records.count
+        return self.JsonRowCount + 1
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return records[section].count
+//        return records[section].count
+        return self.JsonColumnCount + 1
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ButtonListViewCellCell", for: indexPath) as? ButtonListViewCellCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ShowDataViewCollectionViewCell", for: indexPath) as? ShowDataViewCollectionViewCell else { return UICollectionViewCell() }
+        let isFirstRow: Bool = (indexPath.section == 0)
+        let isFirstColumn: Bool = (indexPath.row == 0)
         
 //        cell.setRecord(records[indexPath.section][indexPath.item])
-        cell.setup(title: records[indexPath.section][indexPath.item])
+        cell.setup(isFirstRow: isFirstRow, isFirstColumn: isFirstColumn, title: "sct = " + String(indexPath.section) + "idx = " + String(indexPath.item))
+
         return cell
     }
 //    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -458,7 +441,14 @@ extension ShowDataViewController{
                 print( "총 row 수 = " + String(self.erData.count))
                 print( "0번째 인덱스 " )
                 print( self.erData[0] )
-              
+                self.JsonRowCount = self.erData.count
+                self.JsonColumnCount = 20
+                self.isClickedArr = Array(repeating: Array(repeating: false ,count: self.JsonColumnCount), count: self.JsonRowCount)
+                print("isClickedArr row길이 =")
+                print( self.isClickedArr.count)
+                print("isClickedArr column길이 =")
+                print( self.isClickedArr[0].count)
+                
                 //테이블 뷰 다시 그려줌
                 self.collectionView.reloadData()
             }

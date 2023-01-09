@@ -150,8 +150,6 @@
 		A5557FF8296250F100919868 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
-				A5557FF2296250C900919868 /* ExchangeRate.swift */,
-				A5557FF4296250D300919868 /* ExchangeRateCellData.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -197,8 +195,8 @@
 				A5558005296273B000919868 /* ShowDataViewController.swift */,
 				A5D1BC12296982480045045B /* ShowDataViewCollectionViewCell.swift */,
 				A5D1BC7F296BD3480045045B /* GridCollectionViewLayout.swift */,
-				A5200E6829658CAC00FBFCAF /* ButtonListViewCellCell.swift */,
 				A555800829627B4600919868 /* SubComponents */,
+				A5D1BC93296C26450045045B /* Entity */,
 			);
 			path = ShowDataView;
 			sourceTree = "<group>";
@@ -214,6 +212,7 @@
 		A555800F29627BAC00919868 /* ButtonList */ = {
 			isa = PBXGroup;
 			children = (
+				A5200E6829658CAC00FBFCAF /* ButtonListViewCellCell.swift */,
 				A555800B29627B9300919868 /* ButtonListViewCell.swift */,
 				A55580102962957B00919868 /* ButtonListViewLayout.swift */,
 			);
@@ -242,6 +241,15 @@
 			isa = PBXGroup;
 			children = (
 				A5D1BC89296BE7EE0045045B /* SiteView.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		A5D1BC93296C26450045045B /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				A5557FF2296250C900919868 /* ExchangeRate.swift */,
+				A5557FF4296250D300919868 /* ExchangeRateCellData.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
