@@ -12,6 +12,9 @@ import Charts
 struct SwiftUIChartView: View {
     
     
+    @State var securityName: String
+    @State var securityInfoArr: [SecurityInfo] = []
+    
     @State var sampleAnalytics: [SiteView] = sample_analytics
     // MARK: View Properties
     @State var currentTab: String = "7 Days"
@@ -21,13 +24,23 @@ struct SwiftUIChartView: View {
     
     @State var isLineGraph: Bool = false
     
+    init(title: String ,securityArr: [SecurityInfo]){
+        self._securityName = State<String>(initialValue: title)
+        self._securityInfoArr = State<[SecurityInfo]>(initialValue: securityArr)
+        
+        for i in securityArr{
+            print("su에서!!!!!!!!!!!!")
+            print(i)
+        }
+    }
+    
     var body: some View {
         NavigationStack{
             VStack{
                 // MARK: New Chart API
                 VStack(alignment: .leading, spacing: 12){
                     HStack{
-                        Text("Views")
+                        Text("종목 이름")
                             .fontWeight(.semibold)
                         Picker("", selection: $currentTab){
                             Text("7 Days")
@@ -61,7 +74,7 @@ struct SwiftUIChartView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .padding()
-            .navigationTitle("Swift Charts")
+            .navigationTitle("투자전략 시뮬레이션")
             //MARK: Simply Updating values for segmented Tabs
             .onChange(of: currentTab){ newValue in
                 sampleAnalytics = sample_analytics
@@ -199,7 +212,7 @@ struct SwiftUIChartView: View {
 
 struct Home_Previews: PreviewProvider {
     static var previews: some View {
-        SwiftUIChartView()
+        SwiftUIChartView(title:  "종목 이름s", securityArr: [])
 //        ContentView()
     }
 }

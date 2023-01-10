@@ -421,13 +421,12 @@ class ChartViewController: UIViewController {
    
         self.requestAPI(itemName: self.itemNmTextField.text, startDate: self.startDate, endDate: self.endDate)
 
-        
         //Async 처리
         DispatchQueue.main.asyncAfter(deadline: .now() + 3){
             print("정보 다 받아왔나?")
             print("차트 조회 버튼 클릭")
             // SwiftUI View를 출력하려면 UIHostingController로 감싸서 띄워야한다.
-            let hostingController = UIHostingController(rootView: SwiftUIChartView())
+            let hostingController = UIHostingController(rootView: SwiftUIChartView(title: self.itemNmTextField.text ?? "종목 이름 오류", securityArr: self.securityInfoArr))
             if #available(iOS 16.0, *) {
                 hostingController.sizingOptions = .preferredContentSize
             } else {
@@ -442,7 +441,7 @@ class ChartViewController: UIViewController {
         print("차트 조회 버튼 클릭")
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             // SwiftUI View를 출력하려면 UIHostingController로 감싸서 띄워야한다.
-            let hostingController = UIHostingController(rootView: SwiftUIChartView())
+            let hostingController = UIHostingController(rootView: SwiftUIChartView(title: self.itemNmTextField.text ?? "종목 이름 오류", securityArr: self.securityInfoArr))
             if #available(iOS 16.0, *) {
                 hostingController.sizingOptions = .preferredContentSize
             } else {

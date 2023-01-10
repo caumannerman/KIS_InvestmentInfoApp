@@ -35,7 +35,6 @@
 		A5D1BC80296BD3480045045B /* GridCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D1BC7F296BD3480045045B /* GridCollectionViewLayout.swift */; };
 		A5D1BC8A296BE7EE0045045B /* SiteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D1BC89296BE7EE0045045B /* SiteView.swift */; };
 		A5D1BC8D296BE8220045045B /* SwiftUIChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D1BC8C296BE8220045045B /* SwiftUIChartView.swift */; };
-		A5D1BC92296BEBDE0045045B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D1BC91296BEBDE0045045B /* ContentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -67,7 +66,6 @@
 		A5D1BC7F296BD3480045045B /* GridCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewLayout.swift; sourceTree = "<group>"; };
 		A5D1BC89296BE7EE0045045B /* SiteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteView.swift; sourceTree = "<group>"; };
 		A5D1BC8C296BE8220045045B /* SwiftUIChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIChartView.swift; sourceTree = "<group>"; };
-		A5D1BC91296BEBDE0045045B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -230,7 +228,6 @@
 		A5D1BC83296BDBE40045045B /* SwiftUIChart */ = {
 			isa = PBXGroup;
 			children = (
-				A5D1BC91296BEBDE0045045B /* ContentView.swift */,
 				A5D1BC8C296BE8220045045B /* SwiftUIChartView.swift */,
 				A5D1BC8B296BE7F10045045B /* Entity */,
 			);
@@ -333,7 +330,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A5557FEF296250B500919868 /* GetERAPI.swift in Sources */,
-				A5D1BC92296BEBDE0045045B /* ContentView.swift in Sources */,
 				A53D3E8B2967A5A50030C6A3 /* SecurityDataCellData.swift in Sources */,
 				A53EA6A529624EFD00F0E24A /* TestViewController.swift in Sources */,
 				A5557FF1296250BE00919868 /* GetERNetwork.swift in Sources */,
