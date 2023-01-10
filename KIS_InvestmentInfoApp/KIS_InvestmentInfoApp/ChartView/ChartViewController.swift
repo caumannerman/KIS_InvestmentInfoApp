@@ -14,13 +14,10 @@ import SwiftUI
 class ChartViewController: UIViewController {
     
     var api_result: String = ""
-    private var erData: [ExchangeRateCellData] = []
-    
     
     // 원하는 기간의 주가정보를 받아와 저장할 배열
     private var securityDataArr: [SecurityDataCellData] = []
 
-    
     private lazy var strategyPicker: UIPickerView = {
         let pv = UIPickerView()
         pv.frame = CGRect(x: 2000, y: 2000, width: 200, height: 200)
@@ -38,10 +35,6 @@ class ChartViewController: UIViewController {
 //
 //        return myPicker
 //    }()
-    
-    
-    
-    
     
 //    var dataPoints: [String] = ["일","월", "화","수","목", "금","토"]
 ////    var dataEntries: [BarChartDataEntry] = []
@@ -85,6 +78,7 @@ class ChartViewController: UIViewController {
     }()
     let itemNmTextField: UITextField = {
         let tf = UITextField()
+        
         tf.layer.borderWidth = 2.0
         tf.layer.borderColor = UIColor(red: 0/255, green: 192/255, blue: 210/255, alpha: 1).cgColor
         tf.layer.cornerRadius = 12.0
@@ -316,9 +310,13 @@ class ChartViewController: UIViewController {
     private let topProfitDateDatePicker = UIDatePicker()
     private let worstProfitDateDatePicker = UIDatePicker()
     
+    // 차트 시작 전 입력받아야하는 것들 //
+    private var securityName: String = ""
     private var strategyValye: String = ""
     private var startDate: Date?
     private var endDate: Date?
+    // 차트 시작 전 입력받아야하는 것들 //
+    
     private var purchaseDate: Date?
     private var sellDate: Date?
     private var topProfitDate: Date?
@@ -336,7 +334,7 @@ class ChartViewController: UIViewController {
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        
+        itemNmTextField.tag = 1
         // strategyPicker를 꾸밈
 //        let exitButton = UIBarButtonItem(title: "exit", style: .plain, target: self, action: #selector(pickerExit))
         let doneBT = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(self.pickerDone))
@@ -417,7 +415,7 @@ class ChartViewController: UIViewController {
         print(endDateTextField.text ?? "nil")
 
 //        requestAPI()
-        requestAPI(itemName: itemNmTextField.text, startDate: startDate, endDate: endDate )
+        requestAPI(itemName: itemNmTextField.text, startDate: startDate, endDate: endDate)
     }
     // 차트 SwiftUI ViewController present
     @objc func showChartButtonClicked(){
@@ -626,10 +624,9 @@ class ChartViewController: UIViewController {
 
 extension ChartViewController: UITextFieldDelegate{
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        if textField.tag == 11{
-            strategyPicker.isHidden = false
-        }
+        print(textField.tag)
     }
+    
 }
 
 extension ChartViewController: UIPickerViewDelegate, UIPickerViewDataSource{
@@ -651,6 +648,8 @@ extension ChartViewController: UIPickerViewDelegate, UIPickerViewDataSource{
         strategyTextField.text = strategyList[row]
     }
 }
+
+// MARK: 여기는 DatePicker관련 4가지
 
 extension ChartViewController{
     
@@ -869,6 +868,18 @@ extension ChartViewController{
         if startDate == nil || endDate == nil{
             sDateText = "20221201"
             eDateText = "20221231"
+            
+            //입력 안했을 시에 default로 입력할 기간
+            self.startDate = formatter.date(from: sDateText)
+            self.endDate = formatter.date(from: eDateText)
+            
+            let formatter_show = DateFormatter()
+            formatter_show.dateFormat = "yyyy 년 MM월 dd일(EEEEE)"
+    //        formatter.dateFormat = "yyyyMMdd"
+            formatter_show.locale = Locale(identifier: "ko_KR")
+            
+            self.startDateTextField.text = formatter_show.string(from: self.startDate!)
+            self.endDateTextField.text = formatter_show.string(from: self.endDate!)
         }else{
             sDateText = formatter.string(from: startDate!)
             eDateText = formatter.string(from: endDate!)
@@ -876,6 +887,7 @@ extension ChartViewController{
         
         if itemName == nil || itemName == ""{
             nowName = "한국금융지주"
+            self.itemNmTextField.text = nowName
         }else{
             nowName = itemName!.trimmingCharacters(in: .whitespaces)
         }
