@@ -35,6 +35,7 @@
 		A5D1BC80296BD3480045045B /* GridCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D1BC7F296BD3480045045B /* GridCollectionViewLayout.swift */; };
 		A5D1BC8A296BE7EE0045045B /* SiteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D1BC89296BE7EE0045045B /* SiteView.swift */; };
 		A5D1BC8D296BE8220045045B /* SwiftUIChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D1BC8C296BE8220045045B /* SwiftUIChartView.swift */; };
+		A5FB4AE8296D7E6000ADD977 /* JsonParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FB4AE7296D7E6000ADD977 /* JsonParser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +67,7 @@
 		A5D1BC7F296BD3480045045B /* GridCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewLayout.swift; sourceTree = "<group>"; };
 		A5D1BC89296BE7EE0045045B /* SiteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteView.swift; sourceTree = "<group>"; };
 		A5D1BC8C296BE8220045045B /* SwiftUIChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIChartView.swift; sourceTree = "<group>"; };
+		A5FB4AE7296D7E6000ADD977 /* JsonParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonParser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,6 +197,7 @@
 				A5D1BC7F296BD3480045045B /* GridCollectionViewLayout.swift */,
 				A555800829627B4600919868 /* SubComponents */,
 				A5D1BC93296C26450045045B /* Entity */,
+				A5FB4AE7296D7E6000ADD977 /* JsonParser.swift */,
 			);
 			path = ShowDataView;
 			sourceTree = "<group>";
@@ -335,6 +338,7 @@
 				A5557FF1296250BE00919868 /* GetERNetwork.swift in Sources */,
 				A55580112962957B00919868 /* ButtonListViewLayout.swift in Sources */,
 				A5D1BC8D296BE8220045045B /* SwiftUIChartView.swift in Sources */,
+				A5FB4AE8296D7E6000ADD977 /* JsonParser.swift in Sources */,
 				A53EA69329624D3600F0E24A /* ViewController.swift in Sources */,
 				A5557FF3296250C900919868 /* ExchangeRate.swift in Sources */,
 				A5200E6929658CAC00FBFCAF /* ButtonListViewCellCell.swift in Sources */,

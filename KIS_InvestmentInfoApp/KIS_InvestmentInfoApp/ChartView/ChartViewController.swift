@@ -165,10 +165,10 @@ class ChartViewController: UIViewController {
     
     let requestButton: UIButton = {
         let btn = UIButton()
-        btn.layer.cornerRadius = 3.0
+        btn.layer.cornerRadius = 8.0
         btn.layer.borderWidth = 2.0
         btn.layer.borderColor = UIColor(red: 255/255.0, green: 255/255.0, blue: 255/255.0, alpha: 1.0).cgColor
-        btn.backgroundColor = UIColor(red: 0/255.0, green: 204/255.0, blue: 204/255.0, alpha: 1.0)
+        btn.backgroundColor = UIColor(red: 0/255.0, green: 204/255.0, blue: 244/255.0, alpha: 1.0)
         btn.setTitle("조회", for: .normal)
 //        btn.setTitleColor(.black, for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 14.0, weight: .semibold)
@@ -178,11 +178,11 @@ class ChartViewController: UIViewController {
     
     let showChartButton: UIButton = {
         let btn = UIButton()
-        btn.layer.cornerRadius = 3.0
+        btn.layer.cornerRadius = 8.0
         btn.layer.borderWidth = 2.0
         btn.layer.borderColor = UIColor(red: 255/255.0, green: 255/255.0, blue: 255/255.0, alpha: 1.0).cgColor
-        btn.backgroundColor = UIColor(red: 0/255.0, green: 204/255.0, blue: 204/255.0, alpha: 1.0)
-        btn.setTitle("Show Chart", for: .normal)
+        btn.backgroundColor = UIColor(red: 0/255.0, green: 204/255.0, blue: 244/255.0, alpha: 1.0)
+        btn.setTitle("AI 주가 예측", for: .normal)
 //        btn.setTitleColor(.black, for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 18.0, weight: .bold)
         btn.addTarget(self, action: #selector(showChartButtonClicked), for: .touchUpInside)
@@ -561,14 +561,14 @@ class ChartViewController: UIViewController {
 //            $0.top.equalTo(endDateTextField.snp.bottom).offset(20)
             $0.leading.equalTo(itemNmLabel.snp.trailing).inset(40)
             $0.height.equalTo(34)
-            $0.trailing.equalToSuperview().inset(40)
+            $0.trailing.equalToSuperview().inset(20)
         }
         
         showChartButton.snp.makeConstraints{
 //            $0.top.equalTo(endDateTextField.snp.bottom).offset(20)
             $0.leading.equalTo(itemNmLabel.snp.trailing).inset(40)
             $0.height.equalTo(34)
-            $0.trailing.equalToSuperview().inset(40)
+            $0.trailing.equalToSuperview().inset(20)
         }
         
         purchaseDateLabel.snp.makeConstraints{

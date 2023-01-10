@@ -108,7 +108,7 @@ struct SwiftUIChartView: View {
                     .interpolationMethod(.catmullRom)
                     
                 } else {
-                    BarMark(x: .value("Hour", item.hour, unit: .hour),
+                    BarMark(x: .value("Hour", item.hour  , unit: .hour),
                             y: .value("Views", item.animate ? item.views : 0)
                     )
                     
