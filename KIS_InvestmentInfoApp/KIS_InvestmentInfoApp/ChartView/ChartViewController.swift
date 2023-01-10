@@ -19,10 +19,33 @@ class ChartViewController: UIViewController {
     
     // 원하는 기간의 주가정보를 받아와 저장할 배열
     private var securityDataArr: [SecurityDataCellData] = []
+
     
-    var dataPoints: [String] = ["일","월", "화","수","목", "금","토"]
-//    var dataEntries: [BarChartDataEntry] = []
-    var dataArray: [Int] = [10, 5, 6, 13, 15, 8, 2]
+    private lazy var strategyPicker: UIPickerView = {
+        let pv = UIPickerView()
+        pv.frame = CGRect(x: 2000, y: 2000, width: 200, height: 200)
+        //숨겨놔야함
+//        pv.isHidden = true
+        pv.delegate = self
+        pv.dataSource = self
+        
+        return pv
+    }()
+    private let strategyList: [String] = ["5일 이평선 전략", "10일 이평선 전략", "20일 이평선 전략", "60일 이평선 전략"]
+//    : UIPickerView = {
+//        let myPicker = UIPickerView()
+//
+//
+//        return myPicker
+//    }()
+    
+    
+    
+    
+    
+//    var dataPoints: [String] = ["일","월", "화","수","목", "금","토"]
+////    var dataEntries: [BarChartDataEntry] = []
+//    var dataArray: [Int] = [10, 5, 6, 13, 15, 8, 2]
     
   
     
@@ -66,6 +89,31 @@ class ChartViewController: UIViewController {
         tf.layer.borderColor = UIColor(red: 0/255, green: 192/255, blue: 210/255, alpha: 1).cgColor
         tf.layer.cornerRadius = 12.0
         tf.backgroundColor = .systemBackground
+        tf.placeholder = "종목명 입력"
+        //textField 앞에 inset을 줘서 text가 자연스럽게 보이도록
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: tf.frame.height))
+        tf.leftView = paddingView
+        tf.leftViewMode = .always
+        return tf
+    }()
+    
+    // 매매법 전략을 선택할 UIPickerView를 연결할 곳
+    let strategyLabel: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .systemBackground
+        label.text = "이평선 매매전략"
+        label.font = UIFont.systemFont(ofSize: 14)
+        return label
+    }()
+    
+    let strategyTextField: UITextField = {
+        let tf = UITextField()
+        tf.tag = 11
+        tf.layer.borderWidth = 2.0
+        tf.layer.borderColor = UIColor(red: 0/255, green: 192/255, blue: 210/255, alpha: 1).cgColor
+        tf.layer.cornerRadius = 12.0
+        tf.backgroundColor = .systemBackground
+        tf.placeholder = "이평선 매매전략 선택"
         //textField 앞에 inset을 줘서 text가 자연스럽게 보이도록
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: tf.frame.height))
         tf.leftView = paddingView
@@ -87,6 +135,7 @@ class ChartViewController: UIViewController {
         tf.layer.borderColor = UIColor(red: 0/255, green: 192/255, blue: 210/255, alpha: 1).cgColor
         tf.layer.cornerRadius = 12.0
         tf.backgroundColor = .systemBackground
+        tf.placeholder = "조회 시작일 선택"
         //textField 앞에 inset을 줘서 text가 자연스럽게 보이도록
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: tf.frame.height))
         tf.leftView = paddingView
@@ -109,6 +158,7 @@ class ChartViewController: UIViewController {
         tf.layer.borderColor = UIColor(red: 0/255, green: 192/255, blue: 210/255, alpha: 1).cgColor
         tf.layer.cornerRadius = 12.0
         tf.backgroundColor = .systemBackground
+        tf.placeholder = "조회 종료일 선택"
         //textField 앞에 inset을 줘서 text가 자연스럽게 보이도록
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: tf.frame.height))
         tf.leftView = paddingView
@@ -243,6 +293,12 @@ class ChartViewController: UIViewController {
         return tf
     }()
     
+    let blankView: UIView = {
+        let v = UIView()
+        v.backgroundColor = .systemBackground
+        return v
+    }()
+    
 //    let tempTextView: UITextView = {
 //        let tv = UITextView()
 //        tv.layer.borderWidth = 1
@@ -260,6 +316,7 @@ class ChartViewController: UIViewController {
     private let topProfitDateDatePicker = UIDatePicker()
     private let worstProfitDateDatePicker = UIDatePicker()
     
+    private var strategyValye: String = ""
     private var startDate: Date?
     private var endDate: Date?
     private var purchaseDate: Date?
@@ -267,8 +324,55 @@ class ChartViewController: UIViewController {
     private var topProfitDate: Date?
     private var worstProfitDate: Date?
     
+    //PickerView를 종료하기 위한 콜백함수
+    @objc func pickerExit(){
+        self.strategyTextField.text = nil
+        self.view.endEditing(true)
+    }
+    
+    @objc func pickerDone(){
+        self.view.endEditing(true)
+    }
+    
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        
+        // strategyPicker를 꾸밈
+//        let exitButton = UIBarButtonItem(title: "exit", style: .plain, target: self, action: #selector(pickerExit))
+        let doneBT = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(self.pickerDone))
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let cancelBT = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(self.pickerExit))
+        
+        let toolBar = UIToolbar()
+        toolBar.tintColor = .systemBrown
+        toolBar.isTranslucent = true
+        toolBar.sizeToFit()
+        toolBar.setItems([cancelBT,flexibleSpace,doneBT], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        
+        strategyTextField.inputAccessoryView = toolBar
+        strategyTextField.inputView = strategyPicker
+        
+        setNavigationItems()
+        //DatePicker 초기화
+        setupStartDateDatePicker()
+        setupEndDateDatePicker()
+        setupPurchaseDateDatePicker()
+        setupSellDateDatePicker()
+        setupTopProfitDateDatePicker()
+        setupWorstProfitDateDatePicker()
+        
+        attribute()
+        layout()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         
 //        for i in 0...6 {
 //            let dataEntry = BarChartDataEntry(x: Double(i), y: Double(dataArray[i]))
@@ -289,17 +393,7 @@ class ChartViewController: UIViewController {
 //        barGraphView.leftAxis.valueFormatter = DefaultAxisValueFormatter(formatter: valFormatter)
 //        barGraphView.data = chartData
       
-        setNavigationItems()
-        //DatePicker 초기화
-        setupStartDateDatePicker()
-        setupEndDateDatePicker()
-        setupPurchaseDateDatePicker()
-        setupSellDateDatePicker()
-        setupTopProfitDateDatePicker()
-        setupWorstProfitDateDatePicker()
         
-        attribute()
-        layout()
     }
     
     private func setNavigationItems(){
@@ -347,7 +441,7 @@ class ChartViewController: UIViewController {
     }
     
     private func layout(){
-        [ scrollView].forEach {
+        [ scrollView, strategyPicker].forEach {
             view.addSubview($0)
         }
         
@@ -368,7 +462,7 @@ class ChartViewController: UIViewController {
             $0.edges.equalToSuperview()
         }
         
-        [ itemNmLabel, itemNmTextField, startDateLabel, startDateTextField, endDateLabel, endDateTextField, requestButton, showChartButton, purchaseDateLabel, purchaseDateTextField, sellDateLabel, sellDateTextField, profitLabel, profitTextField, topProfitDateLabel, topProfitDateTextField, worstProfitDateLabel, worstProfitDateTextField].forEach{
+        [ itemNmLabel, itemNmTextField, strategyLabel, strategyTextField, startDateLabel, startDateTextField, endDateLabel, endDateTextField, requestButton, showChartButton, purchaseDateLabel, purchaseDateTextField, sellDateLabel, sellDateTextField, profitLabel, profitTextField, topProfitDateLabel, topProfitDateTextField, worstProfitDateLabel, worstProfitDateTextField, blankView].forEach{
 //            view.addSubview($0)
             stackView.addArrangedSubview($0)
         }
@@ -399,6 +493,20 @@ class ChartViewController: UIViewController {
         }
         
         itemNmTextField.snp.makeConstraints{
+//            $0.top.equalTo(itemNmLabel.snp.bottom).offset(30)
+            $0.leading.equalTo(itemNmLabel.snp.trailing).offset(10)
+            $0.height.equalTo(34)
+            $0.trailing.equalToSuperview().inset(20)
+        }
+        
+        strategyLabel.snp.makeConstraints{
+//            $0.top.equalTo(barGraphView.snp.bottom).offset(30)
+//            $0.leading.equalToSuperview().inset(10)
+            $0.height.equalTo(34)
+            $0.width.equalTo(80)
+        }
+        
+        strategyTextField.snp.makeConstraints{
 //            $0.top.equalTo(itemNmLabel.snp.bottom).offset(30)
             $0.leading.equalTo(itemNmLabel.snp.trailing).offset(10)
             $0.height.equalTo(34)
@@ -504,21 +612,45 @@ class ChartViewController: UIViewController {
             $0.height.equalTo(34)
             $0.trailing.equalToSuperview().inset(20)
         }
+        
+        blankView.snp.makeConstraints{
+            $0.leading.trailing.equalToSuperview().offset(10)
+            $0.height.equalTo(50)
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
-    
-    
 }
 
 extension ChartViewController: UITextFieldDelegate{
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        print(textField.text ?? "lll")
+        if textField.tag == 11{
+            strategyPicker.isHidden = false
+        }
     }
 }
 
+extension ChartViewController: UIPickerViewDelegate, UIPickerViewDataSource{
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return strategyList.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return strategyList[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        print("selece\(strategyList[row])")
+        self.strategyValye = strategyList[row]
+        strategyTextField.text = strategyList[row]
+    }
+}
 
 extension ChartViewController{
     
@@ -720,12 +852,9 @@ extension ChartViewController{
         // 다른 날짜를 선택해도,키보드로 텍스트를 입력받은 것이 아니기 때문에 dateTextFieldDidChange가 #selector에서 정상적으로 호출되지 않는다. 따라서 pick한 날짜가 변하면, .editingChanged 이벤트를 인위적으로 발생시켜준다.
         self.worstProfitDateTextField.sendActions(for: .editingChanged)
     }
-    
 }
 
 extension ChartViewController{
-    
-    
     //(itemCode: String, startDate: Date?, endDate: Date?) 매개변수 부분 이걸로 바꿔야함
     private func requestAPI(itemName: String?, startDate: Date?, endDate: Date?) {
         
