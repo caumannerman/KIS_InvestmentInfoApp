@@ -13,12 +13,8 @@ class ShowDataViewController: UIViewController {
     
     private var apiResultStr = ""
     
-//    var records: [[String]] = (0 ..< 50).map { row in
-//        (0 ..< 6).map {
-//            column in
-//            "Row \(row) columnssssssssdfdfaddffa \(column)"
-//        }
-//    }
+    // ----------------------------------------------------------------------------- 임시 --------------------------------------------------------------------------- //
+    
     // 이것이 json String을 이용해 최종적으로 얻은 배열이라고 생각하고 개발중
     private var jsonResultArr: [[String]] = [
     ["col이름1", "col이름2", "col이름3", "col이름4", "col이름5", "col이름6", "col이름7", "col이름8", "col이름9", "col이름10", "col이름11", "col이름12"],
@@ -43,15 +39,20 @@ class ShowDataViewController: UIViewController {
     ["row19값1", "row19값2", "row19값3", "row19값4", "row19값5", "row19값6", "row19값7", "row19값8", "row19값9", "row19값10", "row19값11", "row19값12"],
     ["row20값1", "row20값2", "row10값3", "row20값4", "row20값5", "row20값6", "row20값7", "row20값8", "row20값9", "row20값10", "row20값11", "row20값12"],
     ]
+    //선택을 했는지 여부 동기화를 위한 배열
+//    private var isClickedArr_row: [Bool] = Array(repeating: false, count: 20)
+//    private var isClickedArr_col: [Bool] = Array(repeating: false, count: 12)
     
+    private var isClickedArr_row: [Bool] = [true, false, false, true, false, false, false, true, true, false, true, false, false, false, true, false, true, false, false, true]
+    private var isClickedArr_col: [Bool] = [false, false,true, true, false, false, false, true, false, false, true, true, ]
     
-    var cellWidths: [CGFloat] = [ 180, 200, 180, 160, 200, 200 ]
+    // ----------------------------------------------------------------------------- 임시 --------------------------------------------------------------------------- //
     
     //JSon을 받아와 parsing한 뒤,
 //    private var JsonRowCount: Int = 0
 //    private var JsonColumnCount: Int = 0
     
-    private var isClickedArr: [[Bool]] = []
+   
    
     //TODO: dataTitles를 가져오는 api 항목에 맞게 따로 불러오는 기능 구현해야함
     private var dataTitles: [String] = ["cur_unit", "ttb", "tts", "deal_bas_r", "bkpr", "yy_efee_r", "ten_dd_efee_r", "kftc_bkpr", "kftc_deal_bas_r", "cur_nm", "cur_unit", "ttb", "tts", "deal_bas_r", "bkpr", "yy_efee_r", "ten_dd_efee_r", "kftc_bkpr", "kftc_deal_bas_r", "cur_nm"]
@@ -365,89 +366,33 @@ extension ShowDataViewController: UICollectionViewDataSource, UICollectionViewDe
         
         if !isFirstColumn{
             let now_title: String = jsonResultArr[indexPath.section][indexPath.row - 1]
-            cell.setup(isFirstRow: isFirstRow, isFirstColumn: isFirstColumn, title: now_title)
+            if isFirstRow{
+                cell.setup(isFirstRow: isFirstRow, isFirstColumn: isFirstColumn, title: now_title, isClicked: isClickedArr_col[indexPath.row - 1])
+            }// FirstColumn도 FirstRow도 아닌 경우는 클릭 X
+            else{
+                cell.setup(isFirstRow: isFirstRow, isFirstColumn: isFirstColumn, title: now_title, isClicked: false)
+            }
+           
 //            cell.setup(isFirstRow: isFirstRow, isFirstColumn: isFirstColumn, title: "sct = " + String(indexPath.section) + "idx = " + String(indexPath.item))
         }
+        //FirstColumn인 경우
         else{
-            cell.setup(isFirstRow: isFirstRow, isFirstColumn: isFirstColumn, title: String(indexPath.section))
+            //여기는 firstCol이자 firstRow이므로
+            if isFirstRow{
+                cell.setup(isFirstRow: isFirstRow, isFirstColumn: isFirstColumn, title: String(indexPath.section), isClicked: false)
+            }
+            else{
+                cell.setup(isFirstRow: isFirstRow, isFirstColumn: isFirstColumn, title: String(indexPath.section), isClicked: isClickedArr_row[indexPath.section - 1])
+            }
+            
         }
 //        cell.setRecord(records[indexPath.section][indexPath.item])
        
 
         return cell
     }
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        erData.count * 4
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ShowDataViewCollectionViewCell", for: indexPath) as? ShowDataViewCollectionViewCell else { return UICollectionViewCell() }
-////        let a = indexPath.row
-//        if indexPath.row == 0 {
-//            cell.setup(isFirstRow: true, isFirstColumn: true, title: "선택")
-//        }
-//        //첫 열
-//        else if indexPath.row > 0 && indexPath.row <= numRow{
-//            cell.setup(isFirstRow: false, isFirstColumn: true, title: String(indexPath.row))
-//        }
-//        //첫 행
-//        else if indexPath.row % ( numRow + 1) == 0 {
-//            let now_title_sunseo_idx = indexPath.row / ( numRow + 1) - 1
-//            cell.setup(isFirstRow: true, isFirstColumn: false, title: dataTitles[now_title_sunseo_idx])
-//        }
-//        //일반 cell
-//        else{
-//            cell.setup(isFirstRow: false, isFirstColumn: false, title: "일반")
-//        }
-//        return cell
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//
-//        let height = ( (collectionView.frame.height - CGFloat(numRow * 2)) / CGFloat(numRow + 1) )
-//        let width = height * 2
-////                let itemsPerRow: CGFloat = 2
-////                let widthPadding = sectionInsets.left * (itemsPerRow + 1)
-////                let itemsPerColumn: CGFloat = 3
-////                let heightPadding = sectionInsets.top * (itemsPerColumn + 1)
-////                let cellWidth = (width - widthPadding) / itemsPerRow
-////                let cellHeight = (height - heightPadding) / itemsPerColumn
-//
-//        return CGSize(width: width, height: height)
-//    }
-
 }
 
-// 원래 쓰던 TableView datasource
-//extension ShowDataViewController: UITableViewDataSource{
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-////        return erData.count + 1
-//        return 10
-//
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        if indexPath.row == 0 {
-//            return UITableViewCell()
-//        }
-////        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "Cell")
-////        let er = erData[indexPath.row - 1]
-////        cell.textLabel?.text = er.cur_nm
-////        cell.detailTextLabel?.text = er.bkpr
-////        return cell
-//        guard let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonListViewCell", for: indexPath) as? ButtonListViewCell else { return UITableViewCell() }
-//
-//        cell.setup()
-//
-//        return cell
-//    }
-//}
-
-//extension TestViewController: UITableViewDelegate{
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let station = stations
-//    }
-//}
 
 // network 함수 구현할 곳
 extension ShowDataViewController{
