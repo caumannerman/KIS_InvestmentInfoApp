@@ -180,9 +180,33 @@ class ShowDataViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        NotificationCenter.default.addObserver(self, selector: #selector(changeCellColor(_:)), name: .cellColorChange, object: nil)
         setNavigationItems()
 //        scrollView.backgroundColor = .yellow
 //        contentView.backgroundColor = .green
+    }
+    @objc func changeCellColor(_ notification: NSNotification){
+        
+        print(notification.userInfo!["row"]!)
+        print(notification.userInfo!["col"]!)
+        
+        let now_row = notification.userInfo!["row"] as? Int
+        let now_col = notification.userInfo!["col"] as? Int
+        
+        print(type(of:notification.userInfo!["row"]!))
+        print(type(of:notification.userInfo!["col"]!))
+        //첫 행인 경우
+        if now_row == -1{
+          isClickedArr_col[now_col!] = !isClickedArr_col[now_col!]
+        }// 첫 열인 경우
+        else if now_col == -2 {
+            isClickedArr_row[now_row!] = !isClickedArr_row[now_row!]
+        }
+        
+        print("isClickedArr_row 는!!!!!")
+        print(isClickedArr_row)
+        print("isClickedArr_col 는!!!!!")
+        print(isClickedArr_col)
     }
     
     private func setNavigationItems(){
@@ -367,10 +391,10 @@ extension ShowDataViewController: UICollectionViewDataSource, UICollectionViewDe
         if !isFirstColumn{
             let now_title: String = jsonResultArr[indexPath.section][indexPath.row - 1]
             if isFirstRow{
-                cell.setup(isFirstRow: isFirstRow, isFirstColumn: isFirstColumn, title: now_title, isClicked: isClickedArr_col[indexPath.row - 1])
+                cell.setup(isFirstRow: isFirstRow, isFirstColumn: isFirstColumn, title: now_title, isClicked: isClickedArr_col[indexPath.row - 1], rowIdx: -1, colIdx: indexPath.row - 1)
             }// FirstColumn도 FirstRow도 아닌 경우는 클릭 X
             else{
-                cell.setup(isFirstRow: isFirstRow, isFirstColumn: isFirstColumn, title: now_title, isClicked: false)
+                cell.setup(isFirstRow: isFirstRow, isFirstColumn: isFirstColumn, title: now_title, isClicked: false, rowIdx: -3, colIdx: -3)
             }
            
 //            cell.setup(isFirstRow: isFirstRow, isFirstColumn: isFirstColumn, title: "sct = " + String(indexPath.section) + "idx = " + String(indexPath.item))
@@ -379,10 +403,10 @@ extension ShowDataViewController: UICollectionViewDataSource, UICollectionViewDe
         else{
             //여기는 firstCol이자 firstRow이므로
             if isFirstRow{
-                cell.setup(isFirstRow: isFirstRow, isFirstColumn: isFirstColumn, title: String(indexPath.section), isClicked: false)
+                cell.setup(isFirstRow: isFirstRow, isFirstColumn: isFirstColumn, title: String(indexPath.section), isClicked: false, rowIdx: 0, colIdx: 0)
             }
             else{
-                cell.setup(isFirstRow: isFirstRow, isFirstColumn: isFirstColumn, title: String(indexPath.section), isClicked: isClickedArr_row[indexPath.section - 1])
+                cell.setup(isFirstRow: isFirstRow, isFirstColumn: isFirstColumn, title: String(indexPath.section), isClicked: isClickedArr_row[indexPath.section - 1], rowIdx: indexPath.section - 1, colIdx: -2)
             }
             
         }

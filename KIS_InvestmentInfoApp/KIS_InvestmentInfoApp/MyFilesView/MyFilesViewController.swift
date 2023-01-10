@@ -242,20 +242,20 @@ extension MyFilesViewController: UICollectionViewDataSource, UICollectionViewDel
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ShowDataViewCollectionViewCell", for: indexPath) as? ShowDataViewCollectionViewCell else { return UICollectionViewCell() }
 //        let a = indexPath.row
         if indexPath.row == 0 {
-            cell.setup(isFirstRow: true, isFirstColumn: true, title: "선택", isClicked: false)
+            cell.setup(isFirstRow: true, isFirstColumn: true, title: "선택", isClicked: false, rowIdx: 0, colIdx:  0)
         }
         //첫 열
         else if indexPath.row > 0 && indexPath.row <= numRow{
-            cell.setup(isFirstRow: false, isFirstColumn: true, title: String(indexPath.row), isClicked: false)
+            cell.setup(isFirstRow: false, isFirstColumn: true, title: String(indexPath.row), isClicked: false, rowIdx: 0, colIdx:  0)
         }
         //첫 행
         else if indexPath.row % ( numRow + 1) == 0 {
             let now_title_sunseo_idx = indexPath.row / ( numRow + 1) - 1
-            cell.setup(isFirstRow: true, isFirstColumn: false, title: dataTitles[now_title_sunseo_idx], isClicked: false)
+            cell.setup(isFirstRow: true, isFirstColumn: false, title: dataTitles[now_title_sunseo_idx], isClicked: false, rowIdx: 0, colIdx:  0)
         }
         //일반 cell
         else{
-            cell.setup(isFirstRow: false, isFirstColumn: false, title: "일반", isClicked: false)
+            cell.setup(isFirstRow: false, isFirstColumn: false, title: "일반", isClicked: false, rowIdx: 0, colIdx:  0)
         }
         return cell
     }
