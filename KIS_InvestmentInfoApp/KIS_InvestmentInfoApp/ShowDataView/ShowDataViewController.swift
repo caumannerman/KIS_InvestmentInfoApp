@@ -11,7 +11,7 @@ import Alamofire
 
 class ShowDataViewController: UIViewController {
     
-    
+    private var apiResultStr = ""
     
     
     var records: [[String]] = (0 ..< 50).map { row in
@@ -426,7 +426,17 @@ extension ShowDataViewController{
         //addingPercentEncoding은 한글(영어 이외의 값) 이 url에 포함되었을 때 오류나는 것을 막아준다.
         
         
-        AF.request(url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
+        let aaa = AF.request(url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
+            .response(){ [weak self] response in
+                guard
+                    let self = self,
+                    case .success(let data) = response.result else { return }
+                let str = String(decoding: data!, as: UTF8.self)
+                self.apiResultStr = str
+                print("nownownow!!!!!!!!!!")
+                print(str)
+                
+            }
             .responseDecodable(of: [ExchangeRate].self){ [weak self] response in
                 // success 이외의 응답을 받으면, else문에 걸려 함수 종료
                 guard
@@ -437,7 +447,7 @@ extension ShowDataViewController{
                     let temp = ExchangeRateCellData(cur_unit: er.cur_unit, ttb: er.ttb, tts: er.tts, deal_bas_r: er.deal_bas_r, bkpr: er.bkpr, yy_efee_r: er.yy_efee_r, ten_dd_efee_r: er.ten_dd_efee_r, kftc_bkpr: er.kftc_bkpr, kftc_deal_bas_r: er.kftc_deal_bas_r, cur_nm: er.cur_nm)
                     return temp
                 }
-                
+
                 print( "총 row 수 = " + String(self.erData.count))
                 print( "0번째 인덱스 " )
                 print( self.erData[0] )
@@ -448,7 +458,7 @@ extension ShowDataViewController{
                 print( self.isClickedArr.count)
                 print("isClickedArr column길이 =")
                 print( self.isClickedArr[0].count)
-                
+
                 //테이블 뷰 다시 그려줌
                 self.collectionView.reloadData()
             }

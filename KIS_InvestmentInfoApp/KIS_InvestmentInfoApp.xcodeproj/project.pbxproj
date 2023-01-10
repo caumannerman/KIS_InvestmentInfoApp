@@ -197,7 +197,7 @@
 				A5D1BC7F296BD3480045045B /* GridCollectionViewLayout.swift */,
 				A555800829627B4600919868 /* SubComponents */,
 				A5D1BC93296C26450045045B /* Entity */,
-				A5FB4AE7296D7E6000ADD977 /* JsonParser.swift */,
+				A5FB4AE9296D7EE700ADD977 /* JsonToArr */,
 			);
 			path = ShowDataView;
 			sourceTree = "<group>";
@@ -252,6 +252,14 @@
 				A5557FF4296250D300919868 /* ExchangeRateCellData.swift */,
 			);
 			path = Entity;
+			sourceTree = "<group>";
+		};
+		A5FB4AE9296D7EE700ADD977 /* JsonToArr */ = {
+			isa = PBXGroup;
+			children = (
+				A5FB4AE7296D7E6000ADD977 /* JsonParser.swift */,
+			);
+			path = JsonToArr;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
