@@ -10,6 +10,8 @@ import SwiftUI
 import Charts
 
 struct SwiftUIChartView: View {
+    
+    
     @State var sampleAnalytics: [SiteView] = sample_analytics
     // MARK: View Properties
     @State var currentTab: String = "7 Days"

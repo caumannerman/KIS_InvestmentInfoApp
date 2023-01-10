@@ -17,6 +17,9 @@ class ChartViewController: UIViewController {
     
     // 원하는 기간의 주가정보를 받아와 저장할 배열
     private var securityDataArr: [SecurityDataCellData] = []
+    
+    // Identifiable 프로토콜을 따르는 [SecurityInfo] 배열, SwiftUI view로 넘겨줘야함
+    private var securityInfoArr: [SecurityInfo] = []
 
     private lazy var strategyPicker: UIPickerView = {
         let pv = UIPickerView()
@@ -415,7 +418,24 @@ class ChartViewController: UIViewController {
         print(endDateTextField.text ?? "nil")
 
 //        requestAPI()
-        requestAPI(itemName: itemNmTextField.text, startDate: startDate, endDate: endDate)
+   
+        self.requestAPI(itemName: self.itemNmTextField.text, startDate: self.startDate, endDate: self.endDate)
+
+        
+        //Async 처리
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3){
+            print("정보 다 받아왔나?")
+            print("차트 조회 버튼 클릭")
+            // SwiftUI View를 출력하려면 UIHostingController로 감싸서 띄워야한다.
+            let hostingController = UIHostingController(rootView: SwiftUIChartView())
+            if #available(iOS 16.0, *) {
+                hostingController.sizingOptions = .preferredContentSize
+            } else {
+                // Fallback on earlier versions
+            }
+            hostingController.modalPresentationStyle = .popover
+            self.present(hostingController, animated: true)
+        }
     }
     // 차트 SwiftUI ViewController present
     @objc func showChartButtonClicked(){
@@ -897,7 +917,6 @@ extension ChartViewController{
         print("url = " + newnewurl)
         let encoded = newnewurl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed.union( CharacterSet(["%"])))
         print(encoded)
-        
        
         //addingPercentEncoding은 한글(영어 이외의 값) 이 url에 포함되었을 때 오류나는 것을 막아준다.
         AF.request(newnewurl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed.union( CharacterSet(["%"]))) ?? "")
@@ -920,7 +939,11 @@ extension ChartViewController{
                     let temp = SecurityDataCellData(basDt: sd.basDt, strnCd: sd.srtnCd, itmsNm: sd.itmsNm, mrktCtg: sd.mrktCtg, mkp: sd.mkp, clpr: sd.clpr, hipr: sd.hipr, lopr: sd.lopr)
                     return temp
                 }
-                
+                // Identifiable인 SecurityInfo 배열에 방금 받아온 json으로 값을 채움
+                self.securityInfoArr = now_arr.map{ sd -> SecurityInfo in
+                    let temp = SecurityInfo(basDt: sd.basDt ?? "20220101", strnCd: sd.srtnCd ?? "071050", itmsNm: sd.itmsNm ?? "한국금융지주", mrktCtg: sd.mrktCtg ?? "KOSPI", mkp: sd.mkp ?? "57600", clpr: sd.clpr ?? "58600", hipr: sd.hipr ?? "58600", lopr: sd.lopr ?? "55600")
+                    return temp
+                }
                 print("받아온 배열 (최종)")
                 
                 print(self.securityDataArr)
@@ -929,7 +952,6 @@ extension ChartViewController{
             }
             .resume()
     }
-    
 }
     
     
