@@ -11,6 +11,16 @@ import Alamofire
 
 class ShowDataViewController: UIViewController {
     
+    // ----------------------------------------------------------------------------- 저장 시 Alert 관련 -----
+    //저장할 파일의 이름을 담을 변수
+    private var saveFileName: String = ""
+    //저장 파일 이름 받아올 UIAlert
+    private let alert = UIAlertController(title: "파일 제목", message: "저장할 파일의 이름을 입력해주세요", preferredStyle: .alert)
+    private var ok = UIAlertAction()
+    private var cancel = UIAlertAction()
+    // ----------------------------------------------------------------------------- 저장 시 Alert 관련 -----
+    
+    
     private var apiResultStr = ""
     
     // ----------------------------------------------------------------------------- 임시 --------------------------------------------------------------------------- //
@@ -83,44 +93,44 @@ class ShowDataViewController: UIViewController {
         return collectionView
     }()
     
-    //TODO: 임시로 버튼 하나만 해놓은 것이고, 나중에 컬렉션뷰에 버튼들 가로로 나열해야함
-    private lazy var pageButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("1", for: .normal)
-        button.backgroundColor = UIColor(red: 195/255.0, green: 222/255.0, blue: 194/255.0, alpha: 1.0)
-        button.layer.borderColor = UIColor(red: 153/255.0, green: 76/255.0, blue: 0/255.0, alpha: 1.0).cgColor
-        button.layer.borderWidth = 1.0
-        button.layer.cornerRadius = 8.0
-        button.addTarget(self, action: #selector(pageChangeButtonClicked), for: .touchUpInside)
-        
-        return button
-    }()
     
-    private lazy var pageButton2: UIButton = {
-        let button = UIButton()
-        button.setTitle("2", for: .normal)
-        button.backgroundColor = UIColor(red: 195/255.0, green: 222/255.0, blue: 194/255.0, alpha: 1.0)
-        button.layer.borderColor = UIColor(red: 153/255.0, green: 76/255.0, blue: 0/255.0, alpha: 1.0).cgColor
-        button.layer.borderWidth = 1.0
-        button.layer.cornerRadius = 8.0
-        button.addTarget(self, action: #selector(pageChangeButtonClicked), for: .touchUpInside)
-        
-        return button
-    }()
-    
-    
-    private lazy var pageButton3: UIButton = {
-        let button = UIButton()
-        button.setTitle("3", for: .normal)
-        button.backgroundColor = UIColor(red: 195/255.0, green: 222/255.0, blue: 194/255.0, alpha: 1.0)
-        button.layer.borderColor = UIColor(red: 153/255.0, green: 76/255.0, blue: 0/255.0, alpha: 1.0).cgColor
-        button.layer.borderWidth = 1.0
-        button.layer.cornerRadius = 8.0
-        button.addTarget(self, action: #selector(pageChangeButtonClicked), for: .touchUpInside)
-        
-        return button
-    }()
-    
+//    private lazy var pageButton: UIButton = {
+//        let button = UIButton()
+//        button.setTitle("1", for: .normal)
+//        button.backgroundColor = UIColor(red: 195/255.0, green: 222/255.0, blue: 194/255.0, alpha: 1.0)
+//        button.layer.borderColor = UIColor(red: 153/255.0, green: 76/255.0, blue: 0/255.0, alpha: 1.0).cgColor
+//        button.layer.borderWidth = 1.0
+//        button.layer.cornerRadius = 8.0
+//        button.addTarget(self, action: #selector(pageChangeButtonClicked), for: .touchUpInside)
+//
+//        return button
+//    }()
+//
+//    private lazy var pageButton2: UIButton = {
+//        let button = UIButton()
+//        button.setTitle("2", for: .normal)
+//        button.backgroundColor = UIColor(red: 195/255.0, green: 222/255.0, blue: 194/255.0, alpha: 1.0)
+//        button.layer.borderColor = UIColor(red: 153/255.0, green: 76/255.0, blue: 0/255.0, alpha: 1.0).cgColor
+//        button.layer.borderWidth = 1.0
+//        button.layer.cornerRadius = 8.0
+//        button.addTarget(self, action: #selector(pageChangeButtonClicked), for: .touchUpInside)
+//
+//        return button
+//    }()
+//
+//
+//    private lazy var pageButton3: UIButton = {
+//        let button = UIButton()
+//        button.setTitle("3", for: .normal)
+//        button.backgroundColor = UIColor(red: 195/255.0, green: 222/255.0, blue: 194/255.0, alpha: 1.0)
+//        button.layer.borderColor = UIColor(red: 153/255.0, green: 76/255.0, blue: 0/255.0, alpha: 1.0).cgColor
+//        button.layer.borderWidth = 1.0
+//        button.layer.cornerRadius = 8.0
+//        button.addTarget(self, action: #selector(pageChangeButtonClicked), for: .touchUpInside)
+//
+//        return button
+//    }()
+//
     
     private lazy var callButton: UIButton = {
         let button = UIButton()
@@ -182,9 +192,63 @@ class ShowDataViewController: UIViewController {
         view.backgroundColor = .systemBackground
         NotificationCenter.default.addObserver(self, selector: #selector(changeCellColor(_:)), name: .cellColorChange, object: nil)
         setNavigationItems()
+        
+        alert.addTextField{
+            $0.placeholder = "저장 파일명을 입력하세요"
+            $0.isSecureTextEntry = false
+        }
+        
+        //아래처럼, 사용자가 제목을 입력하고, ok버튼을 누르면 해당 제목을 변수에 저장한 후, createCSV()를 호출하여 csv파일을 생성한다.
+        ok = UIAlertAction(title: "OK", style: .default){
+            action in print("OK")
+            // 저장할 파일 ㅇ제목을 받고
+            self.saveFileName = self.alert.textFields?[0].text ?? "Untitled"
+            print("저장 파일 이름 = ")
+            print(self.saveFileName)
+            //TODO: 아래에서 핸드폰에 csv를 저장해야함
+            print("저장!!!!")
+            let resultString = self.sliceArrayAndReturnCSVString(s: self.jsonResultArr, isCheck_col: self.isClickedArr_col, isCheck_row: self.isClickedArr_row )
+            self.createCSV(csvString: resultString)
+        }
+        cancel = UIAlertAction(title: "Cancel", style: .destructive)
+        alert.addAction(ok)
+        alert.addAction(cancel)
 //        scrollView.backgroundColor = .yellow
 //        contentView.backgroundColor = .green
     }
+    
+    private func createCSV(csvString: String) {
+        print("Start Exporting ...")
+        
+        let fileManager = FileManager.default
+        
+        let folderName = "KIS_Finance_Info"
+//        let csvFileName = "myCSVFile.csv"
+        
+        // 폴더 생성 documentDirectory userDomainMask
+        let documentUrl = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let directoryUrl = documentUrl.appendingPathComponent(folderName)
+        do {
+            try fileManager.createDirectory(atPath: directoryUrl.path, withIntermediateDirectories: true, attributes: nil)
+        }
+        catch let error as NSError {
+            print("폴더 생성 에러: \(error)")
+        }
+        
+        // csv 파일 생성
+        let fileUrl = directoryUrl.appendingPathComponent(saveFileName + ".csv")
+        let fileData = csvString.data(using: .utf8)
+        
+        do {
+            try fileData?.write(to: fileUrl)
+            
+            print("Writing CSV to: \(fileUrl.path)")
+        }
+        catch let error as NSError {
+            print("CSV파일 생성 에러: \(error)")
+        }
+    }
+    
     @objc func changeCellColor(_ notification: NSNotification){
         
         print(notification.userInfo!["row"]!)
@@ -212,6 +276,8 @@ class ShowDataViewController: UIViewController {
     private func setNavigationItems(){
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "URL 응답 데이터"
+        // "This,is,just,some,dummy,data\n11,22,33,44,55,66,777"
+        
         
 //        let searchController = UISearchController()
 //        searchController.searchBar.placeholder = "요청 URL을 입력해주세요"
@@ -281,37 +347,35 @@ class ShowDataViewController: UIViewController {
 ////            $0.width.equalTo(scrollView.snp.width)
 //        }
 //
-        [pageButton, pageButton2, pageButton3, callButton, saveButton].forEach{
+        [callButton, saveButton].forEach{
             view.addSubview($0)
         }
         
-        pageButton.snp.makeConstraints{
-            $0.top.equalTo(collectionView.snp.bottom).offset(10)
-//            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(30)
-            $0.leading.equalToSuperview().inset(60)
-            $0.width.equalTo(20)
-            $0.height.equalTo(20)
-        }
-        
-        pageButton2.snp.makeConstraints{
-            $0.top.equalTo(collectionView.snp.bottom).offset(10)
-//            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(30)
-            $0.leading.equalTo(pageButton.snp.trailing).offset(6)
-            $0.width.equalTo(20)
-            $0.height.equalTo(20)
-        }
-        
-        pageButton3.snp.makeConstraints{
-            $0.top.equalTo(collectionView.snp.bottom).offset(10)
-//            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(30)
-            $0.leading.equalTo(pageButton2 .snp.trailing).offset(6)
-            $0.width.equalTo(20)
-            $0.height.equalTo(20)
-        }
-        
-        
+//        pageButton.snp.makeConstraints{
+//            $0.top.equalTo(collectionView.snp.bottom).offset(10)
+////            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(30)
+//            $0.leading.equalToSuperview().inset(60)
+//            $0.width.equalTo(20)
+//            $0.height.equalTo(20)
+//        }
+//
+//        pageButton2.snp.makeConstraints{
+//            $0.top.equalTo(collectionView.snp.bottom).offset(10)
+////            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(30)
+//            $0.leading.equalTo(pageButton.snp.trailing).offset(6)
+//            $0.width.equalTo(20)
+//            $0.height.equalTo(20)
+//        }
+//
+//        pageButton3.snp.makeConstraints{
+//            $0.top.equalTo(collectionView.snp.bottom).offset(10)
+////            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(30)
+//            $0.leading.equalTo(pageButton2 .snp.trailing).offset(6)
+//            $0.width.equalTo(20)
+//            $0.height.equalTo(20)
+//        }
         callButton.snp.makeConstraints{
-            $0.top.equalTo(pageButton.snp.bottom).offset(12)
+            $0.top.equalTo(collectionView.snp.bottom).offset(12)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)
             $0.leading.equalToSuperview().inset(60)
             $0.width.equalTo(120)
@@ -319,7 +383,7 @@ class ShowDataViewController: UIViewController {
         }
         
         saveButton.snp.makeConstraints{
-            $0.top.equalTo(pageButton.snp.bottom).offset(12)
+            $0.top.equalTo(collectionView.snp.bottom).offset(12)
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)
             $0.trailing.equalToSuperview().inset(60)
             $0.width.equalTo(120)
@@ -358,11 +422,40 @@ class ShowDataViewController: UIViewController {
     
     @objc func savefunc(){
         print("저장 버튼 클릭")
-        //TODO: csv로 저장하는 것
-//        DispatchQueue.main.async{ [weak self] in
-//            guard let currentCell = self?.tableView.cellForRow(at: IndexPath(index: 1)) as? ButtonListViewCell else { return }
-//            currentCell.collectionView.
-//        }
+        self.present(alert, animated: true){
+            print("alert 띄움")
+        }
+    }
+    
+    func sliceArrayAndReturnCSVString(s: [[String]], isCheck_col: [Bool], isCheck_row: [Bool] ) -> String{
+        
+        var result: String = ""
+
+        for i in 0 ..< s.count{
+            if i > 0 && !isCheck_row[i - 1]{
+                continue
+            }
+            for j in 0 ..< s[0].count{
+                if i == 0 {
+                    if isCheck_col[j]{
+                        result += String(s[i][j])
+                        if j != s[0].count - 1{
+                            result += ","
+                        }
+                    }
+                }
+                else{
+                    if isCheck_col[j] {
+                        result += String(s[i][j])
+                        if j != s[0].count - 1{
+                            result += ","
+                        }
+                    }
+                }
+            }
+            result += "\n"
+        }
+        return result
     }
     
     @objc func pageChangeButtonClicked(){

@@ -66,7 +66,7 @@ class MyFilesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         alert.addTextField{
-            $0.placeholder = "별칭을 입력하세요"
+            $0.placeholder = "저장 파일명을 입력하세요"
             $0.isSecureTextEntry = false
         }
         
