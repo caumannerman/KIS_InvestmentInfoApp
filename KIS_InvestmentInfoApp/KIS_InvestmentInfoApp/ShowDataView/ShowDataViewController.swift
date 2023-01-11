@@ -19,6 +19,8 @@ class ShowDataViewController: UIViewController {
     private var ok = UIAlertAction()
     private var cancel = UIAlertAction()
     // ----------------------------------------------------------------------------- 저장 시 Alert 관련 -----
+    //조회할 URL (이전 페이지에서 받아오는 것)
+    private var apiUrl: String = ""
     
     
     private var apiResultStr = ""
@@ -49,12 +51,17 @@ class ShowDataViewController: UIViewController {
     ["row19값1", "row19값2", "row19값3", "row19값4", "row19값5", "row19값6", "row19값7", "row19값8", "row19값9", "row19값10", "row19값11", "row19값12"],
     ["row20값1", "row20값2", "row10값3", "row20값4", "row20값5", "row20값6", "row20값7", "row20값8", "row20값9", "row20값10", "row20값11", "row20값12"],
     ]
+    
+    private var isClickedArr_row: [Bool] = [true, false, false, true, false, false, false, true, true, false, true, false, false, false, true, false, true, false, false, true]
+    private var isClickedArr_col: [Bool] = [false, false,true, true, false, false, false, true, false, false, true, true, ]
+//    private var jsonResultArr: [[String]] = [[]]
+//    private var isClickedArr_row: [Bool] = []
+//    private var isClickedArr_col: [Bool] = []
     //선택을 했는지 여부 동기화를 위한 배열
 //    private var isClickedArr_row: [Bool] = Array(repeating: false, count: 20)
 //    private var isClickedArr_col: [Bool] = Array(repeating: false, count: 12)
     
-    private var isClickedArr_row: [Bool] = [true, false, false, true, false, false, false, true, true, false, true, false, false, false, true, false, true, false, false, true]
-    private var isClickedArr_col: [Bool] = [false, false,true, true, false, false, false, true, false, false, true, true, ]
+
     
     // ----------------------------------------------------------------------------- 임시 --------------------------------------------------------------------------- //
     
@@ -65,8 +72,8 @@ class ShowDataViewController: UIViewController {
    
    
     //TODO: dataTitles를 가져오는 api 항목에 맞게 따로 불러오는 기능 구현해야함
-    private var dataTitles: [String] = ["cur_unit", "ttb", "tts", "deal_bas_r", "bkpr", "yy_efee_r", "ten_dd_efee_r", "kftc_bkpr", "kftc_deal_bas_r", "cur_nm", "cur_unit", "ttb", "tts", "deal_bas_r", "bkpr", "yy_efee_r", "ten_dd_efee_r", "kftc_bkpr", "kftc_deal_bas_r", "cur_nm"]
-    private var erData: [ExchangeRateCellData] = []
+//    private var dataTitles: [String] = ["cur_unit", "ttb", "tts", "deal_bas_r", "bkpr", "yy_efee_r", "ten_dd_efee_r", "kftc_bkpr", "kftc_deal_bas_r", "cur_nm", "cur_unit", "ttb", "tts", "deal_bas_r", "bkpr", "yy_efee_r", "ten_dd_efee_r", "kftc_bkpr", "kftc_deal_bas_r", "cur_nm"]
+//    private var erData: [ExchangeRateCellData] = []
     
     private lazy var collectionView: UICollectionView = {
         let layout = GridLayout()
@@ -187,8 +194,15 @@ class ShowDataViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.collectionView.isHidden = true
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.collectionView.isHidden = true
         view.backgroundColor = .systemBackground
         NotificationCenter.default.addObserver(self, selector: #selector(changeCellColor(_:)), name: .cellColorChange, object: nil)
         setNavigationItems()
@@ -287,7 +301,9 @@ class ShowDataViewController: UIViewController {
     }
     //api 주소를 잘 전달했다는 것을 보여주기 위한 것
     func setup(apiUrl: String){
-        print(apiUrl)
+//        print(apiUrl)
+        self.apiUrl = apiUrl
+        
 //        saveButton.setTitle(apiUrl, for: .normal)
     }
     func bind(){
@@ -514,7 +530,8 @@ extension ShowDataViewController: UICollectionViewDataSource, UICollectionViewDe
 // network 함수 구현할 곳
 extension ShowDataViewController{
     private func requestAPI(){
-        let url = "https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey=BlCJAvGJ4IuXS30CPGMFIjQpiCuDTbjb&searchdate=20221227&data=AP01"
+//        let url = "https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey=BlCJAvGJ4IuXS30CPGMFIjQpiCuDTbjb&searchdate=20221227&data=AP01"
+        let url = self.apiUrl
         //addingPercentEncoding은 한글(영어 이외의 값) 이 url에 포함되었을 때 오류나는 것을 막아준다.
         
         let aaa = AF.request(url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
@@ -522,11 +539,18 @@ extension ShowDataViewController{
                 guard
                     let self = self,
                     case .success(let data) = response.result else { return }
+                //str이, 받아온 json을 형태 그대로 STring으로 만든 것이다.
                 let str = String(decoding: data!, as: UTF8.self)
                 self.apiResultStr = str
-                print("nownownow!!!!!!!!!!")
-                print(str)
-            }
+                self.jsonResultArr = JsonParser.jsonToArr(jsonString: str)
+                print(self.jsonResultArr)
+                self.isClickedArr_col = Array(repeating: false, count: self.jsonResultArr[0].count)
+                self.isClickedArr_row = Array(repeating: false, count: self.jsonResultArr.count - 1)
+                
+//                print("nownownow!!!!!!!!!!")
+//                print(str)
+                
+//            }
 //            .responseDecodable(of: [ExchangeRate].self){ [weak self] response in
 //                // success 이외의 응답을 받으면, else문에 걸려 함수 종료
 //                guard
@@ -550,8 +574,9 @@ extension ShowDataViewController{
 ////                print( self.isClickedArr[0].count)
 //
 //                //테이블 뷰 다시 그려줌
-//                self.collectionView.reloadData()
-//            }
+                self.collectionView.isHidden = false
+                self.collectionView.reloadData()
+            }
             .resume()
     }
 }

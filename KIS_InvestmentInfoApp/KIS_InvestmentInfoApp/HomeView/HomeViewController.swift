@@ -90,9 +90,10 @@ class HomeViewController: UIViewController {
         print(isFT)
         // 앱 실행이 처음이라면
         if isFT{
-            UserDefaults.standard.set(["", "https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey=BlCJAvGJ4IuXS30CPGMFIjQpiCuDTbjb&searchdate=20221227&data=AP01", "https://www.koreaexim.go.kr/site/program/financial/interestJSON?authkey=4qVtBPk7TdjRIHVUfFXJWXg6rrbt80zj&searchdata=20221227&data=AP02","https://opendart.fss.or.kr/api/list.json?crtfc_key=4f00bd74671058d76697c90e95c123d088e36610"], forKey: "urls")
+            UserDefaults.standard.set(["", "https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey=BlCJAvGJ4IuXS30CPGMFIjQpiCuDTbjb&searchdate=20221227&data=AP01", "https://www.koreaexim.go.kr/site/program/financial/interestJSON?authkey=4qVtBPk7TdjRIHVUfFXJWXg6rrbt80zj&searchdata=20221227&data=AP02","https://fisis.fss.or.kr/openapi/companySearch.json?lang=kr&auth=0020bd45bec7194822ea8a7164c705e0&partDiv=A","https://fisis.fss.or.kr/openapi/statisticsInfoSearch.json?lang=kr&auth=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&financeCd=0010927&listNo=SA001&term=Q&startBaseMm=202206&endBaseMm=202306",
+                                      "https://opendart.fss.or.kr/api/fnlttSinglAcnt.json?crtfc_key=4f00bd74671058d76697c90e95c123d088e36610&corp_code=00126380&bsns_year=2018&reprt_code=11011"], forKey: "urls")
             
-            UserDefaults.standard.set(["검색", "현재환율_수출입은행", "대출금리_수출입은행","openDart"], forKey: "urlAlias")
+            UserDefaults.standard.set(["검색", "현재환율_수출입은행", "대출금리_수출입은행","금융통계정보시스템-금융회사API","금융통계정보시스템-통계정보API","OpenDART-상장기업 재무정보"], forKey: "urlAlias")
         }
         print(urlsArr)
         print(UserDefaults.standard.array(forKey: "urls") as? [String] ?? ["정보가 없습니다"])

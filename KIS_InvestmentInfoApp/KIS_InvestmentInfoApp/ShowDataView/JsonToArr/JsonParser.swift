@@ -8,7 +8,7 @@
 import Foundation
 
 class JsonParser {
-    // 최종 return값은 csv형태를 가진 String의 2차원배열이어야 한다. 
+    // 최종 return값은 csv형태를 가진 String의 2차원배열이어야 한다.
     public static func jsonToArr(jsonString: String) -> [[String]]{
 //        print("합수 시작")
         // a.r, b.i, b.i.11 처럼 모든 최종 column 담을 곳
@@ -197,6 +197,24 @@ class JsonParser {
 //            print(final_dict[key_name]!)
 //            print()
 //        }
+        
+//        final_dict_key
+//        final_dict
+        var dict_val_max: Int = -1
+        for i in final_dict.values {
+            dict_val_max = max( dict_val_max, i.count )
+        }
+        var result_arr: [[String]] = Array(repeating: Array(repeating: "", count: final_dict_key.count), count: dict_val_max + 1)
+        
+        for i in 0 ..< final_dict_key.count{
+            result_arr[0][i] = final_dict_key[i]
+        }
+        for i in 0 ..< final_dict_key.count {
+            for j in 0 ..< final_dict[final_dict_key[i]]!.count {
+                result_arr[j + 1][i] = final_dict[final_dict_key[i]]![j]
+            }
+        }
+        return result_arr
     }
 
 }
