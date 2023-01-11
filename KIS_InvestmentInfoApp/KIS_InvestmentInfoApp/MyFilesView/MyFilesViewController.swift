@@ -319,8 +319,25 @@ extension MyFilesViewController: UIDocumentPickerDelegate {
 //    }
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
         print("a file was selected")
-        let rows = NSArray(
-        )
+        print("url = ", terminator: " ")
+        print(url)
+        var now_url = url.absoluteString
+        for _ in 0 ..< 7 {
+            now_url.removeFirst()
+        }
+       
+        
+        let file: FileHandle? = FileHandle(forReadingAtPath: now_url)
+        if file != nil {
+            let data = file?.readDataToEndOfFile()
+            file!.closeFile()
+            let str = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
+            print(str!)
+        }
+        else {
+            print("Ooops! Something went wrong!")
+        }
+        
         
     }
 }
