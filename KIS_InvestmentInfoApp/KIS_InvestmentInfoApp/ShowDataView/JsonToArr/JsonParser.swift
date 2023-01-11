@@ -8,13 +8,17 @@
 import Foundation
 
 class JsonParser {
-    let testStr: String = "[{\"result\":1,\"cur_unit\":\"AED\",\"ttb\":\"344.03\",\"tts\":\"350.98\",\"deal_bas_r\":\"347.51\",\"bkpr\":\"347\",\"yy_efee_r\":\"0\",\"ten_dd_efee_r\":\"0\",\"kftc_bkpr\":\"347\",\"kftc_deal_bas_r\":\"347.51\",\"cur_nm\":\"아랍에미리트 디르함\"},{\"result\":1,\"cur_unit\":\"AUD\",\"ttb\":\"851.18\",\"tts\":\"868.37\",\"deal_bas_r\":\"859.78\",\"bkpr\":\"859\",\"yy_efee_r\":\"0\",\"ten_dd_efee_r\":\"0\",\"kftc_bkpr\":\"859\",\"kftc_deal_bas_r\":\"859.78\",\"cur_nm\":\"호주 달러\"},{\"result\":1,\"cur_unit\":\"BHD\",\"ttb\":\"3,351.55\",\"tts\":\"3,419.26\",\"deal_bas_r\":\"3,385.41\",\"bkpr\":\"3,385\",\"yy_efee_r\":\"0\",\"ten_dd_efee_r\":\"0\",\"kftc_bkpr\":\"3,385\",\"kftc_deal_bas_r\":\"3,385.41\",\"cur_nm\":\"바레인 디나르\"},{\"result\":1,\"cur_unit\":\"BND\",\"ttb\":\"937.24\",\"tts\":\"956.17\",\"deal_bas_r\":\"946.71\",\"bkpr\":\"946\",\"yy_efee_r\":\"0\",\"ten_dd_efee_r\":\"0\",\"kftc_bkpr\":\"946\",\"kftc_deal_bas_r\":\"946.71\",\"cur_nm\":\"브루나이 달러\"},{\"result\":1,\"cur_unit\":\"CAD\",\"ttb\":\"930.64\",\"tts\":\"949.45\",\"deal_bas_r\":\"940.05\",\"bkpr\":\"940\",\"yy_efee_r\":\"0\",\"ten_dd_efee_r\":\"0\",\"kftc_bkpr\":\"940\",\"kftc_deal_bas_r\":\"940.05\",\"cur_nm\":\"캐나다 달러\"},{\"result\":1,\"cur_unit\":\"CHF\",\"ttb\":\"1,354.31\",\"tts\":\"1,381.66\",\"deal_bas_r\":\"1,367.99\",\"bkpr\":\"1,367\",\"yy_efee_r\":\"0\",\"ten_dd_efee_r\":\"0\",\"kftc_bkpr\":\"1,367\",\"kftc_deal_bas_r\":\"1,367.99\",\"cur_nm\":\"스위스 프랑\"},{\"result\":1,\"cur_unit\":\"CNH\",\"ttb\":\"180.78\",\"tts\":\"184.43\",\"deal_bas_r\":\"182.61\",\"bkpr\":\"182\",\"yy_efee_r\":\"0\",\"ten_dd_efee_r\":\"0\",\"kftc_bkpr\":\"182\",\"kftc_deal_bas_r\":\"182.61\",\"cur_nm\":\"위안화\"},{\"result\":1,\"cur_unit\":\"DKK\",\"ttb\":\"180.73\",\"tts\":\"184.38\",\"deal_bas_r\":\"182.56\",\"bkpr\":\"182\",\"yy_efee_r\":\"0\",\"ten_dd_efee_r\":\"0\",\"kftc_bkpr\":\"182\",\"kftc_deal_bas_r\":\"182.56\",\"cur_nm\":\"덴마아크 크로네\"},{\"result\":1,\"cur_unit\":\"EUR\",\"ttb\":\"1,344.13\",\"tts\":\"1,371.28\",\"deal_bas_r\":\"1,357.71\",\"bkpr\":\"1,357\",\"yy_efee_r\":\"0\",\"ten_dd_efee_r\":\"0\",\"kftc_bkpr\":\"1,357\",\"kftc_deal_bas_r\":\"1,357.71\",\"cur_nm\":\"유로\"},{\"result\":1,\"cur_unit\":\"GBP\",\"ttb\":\"1,525.33\",\"tts\":\"1,556.14\",\"deal_bas_r\":\"1,540.74\",\"bkpr\":\"1,540\",\"yy_efee_r\":\"0\",\"ten_dd_efee_r\":\"0\",\"kftc_bkpr\":\"1,540\",\"kftc_deal_bas_r\":\"1,540.74\",\"cur_nm\":\"영국 파운드\"},{\"result\":1,\"cur_unit\":\"HKD\",\"ttb\":\"161.86\",\"tts\":\"165.13\",\"deal_bas_r\":\"163.5\",\"bkpr\":\"163\",\"yy_efee_r\":\"0\",\"ten_dd_efee_r\":\"0\",\"kftc_bkpr\":\"163\",\"kftc_deal_bas_r\":\"163.5\",\"cur_nm\":\"홍콩 달러\"},{\"result\":1,\"cur_unit\":\"IDR(100)\",\"ttb\":\"8.08\",\"tts\":\"8.25\",\"deal_bas_r\":\"8.17\",\"bkpr\":\"8\",\"yy_efee_r\":\"0\",\"ten_dd_efee_r\":\"0\",\"kftc_bkpr\":\"8\",\"kftc_deal_bas_r\":\"8.17\",\"cur_nm\":\"인도네시아 루피아\"},{\"result\":1,\"cur_unit\":\"JPY(100)\",\"ttb\":\"951.42\",\"tts\":\"970.65\",\"deal_bas_r\":\"961.04\",\"bkpr\":\"961\",\"yy_efee_r\":\"0\",\"ten_dd_efee_r\":\"0\",\"kftc_bkpr\":\"961\",\"kftc_deal_bas_r\":\"961.04\",\"cur_nm\":\"일본 옌\"},{\"result\":1,\"cur_unit\":\"KRW\",\"ttb\":\"0\",\"tts\":\"0\",\"deal_bas_r\":\"1\",\"bkpr\":\"1\",\"yy_efee_r\":\"0\",\"ten_dd_efee_r\":\"0\",\"kftc_bkpr\":\"1\",\"kftc_deal_bas_r\":\"1\",\"cur_nm\":\"한국 원\"},{\"result\":1,\"cur_unit\":\"KWD\",\"ttb\":\"4,124.4\",\"tts\":\"4,207.73\",\"deal_bas_r\":\"4,166.07\",\"bkpr\":\"4,166\",\"yy_efee_r\":\"0\",\"ten_dd_efee_r\":\"0\",\"kftc_bkpr\":\"4,166\",\"kftc_deal_bas_r\":\"4,166.07\",\"cur_nm\":\"쿠웨이트 디나르\"},{\"result\":1,\"cur_unit\":\"MYR\",\"ttb\":\"285.56\",\"tts\":\"291.33\",\"deal_bas_r\":\"288.45\",\"bkpr\":\"288\",\"yy_efee_r\":\"0\",\"ten_dd_efee_r\":\"0\",\"kftc_bkpr\":\"288\",\"kftc_deal_bas_r\":\"288.45\",\"cur_nm\":\"말레이지아 링기트\"},{\"result\":1,\"cur_unit\":\"NOK\",\"ttb\":\"128.33\",\"tts\":\"130.92\",\"deal_bas_r\":\"129.63\",\"bkpr\":\"129\",\"yy_efee_r\":\"0\",\"ten_dd_efee_r\":\"0\",\"kftc_bkpr\":\"129\",\"kftc_deal_bas_r\":\"129.63\",\"cur_nm\":\"노르웨이 크로네\"},{\"result\":1,\"cur_unit\":\"NZD\",\"ttb\":\"791.03\",\"tts\":\"807.02\",\"deal_bas_r\":\"799.03\",\"bkpr\":\"799\",\"yy_efee_r\":\"0\",\"ten_dd_efee_r\":\"0\",\"kftc_bkpr\":\"799\",\"kftc_deal_bas_r\":\"799.03\",\"cur_nm\":\"뉴질랜드 달러\"},{\"result\":1,\"cur_unit\":\"SAR\",\"ttb\":\"335.93\",\"tts\":\"342.72\",\"deal_bas_r\":\"339.33\",\"bkpr\":\"339\",\"yy_efee_r\":\"0\",\"ten_dd_efee_r\":\"0\",\"kftc_bkpr\":\"339\",\"kftc_deal_bas_r\":\"339.33\",\"cur_nm\":\"사우디 리얄\"},{\"result\":1,\"cur_unit\":\"SEK\",\"ttb\":\"120.28\",\"tts\":\"122.71\",\"deal_bas_r\":\"121.5\",\"bkpr\":\"121\",\"yy_efee_r\":\"0\",\"ten_dd_efee_r\":\"0\",\"kftc_bkpr\":\"121\",\"kftc_deal_bas_r\":\"121.5\",\"cur_nm\":\"스웨덴 크로나\"},{\"result\":1,\"cur_unit\":\"SGD\",\"ttb\":\"937.24\",\"tts\":\"956.17\",\"deal_bas_r\":\"946.71\",\"bkpr\":\"946\",\"yy_efee_r\":\"0\",\"ten_dd_efee_r\":\"0\",\"kftc_bkpr\":\"946\",\"kftc_deal_bas_r\":\"946.71\",\"cur_nm\":\"싱가포르 달러\"},{\"result\":1,\"cur_unit\":\"THB\",\"ttb\":\"36.42\",\"tts\":\"37.15\",\"deal_bas_r\":\"36.79\",\"bkpr\":\"36\",\"yy_efee_r\":\"0\",\"ten_dd_efee_r\":\"0\",\"kftc_bkpr\":\"36\",\"kftc_deal_bas_r\":\"36.79\",\"cur_nm\":\"태국 바트\"},{\"result\":1,\"cur_unit\":\"USD\",\"ttb\":\"1,263.63\",\"tts\":\"1,289.16\",\"deal_bas_r\":\"1,276.4\",\"bkpr\":\"1,276\",\"yy_efee_r\":\"0\",\"ten_dd_efee_r\":\"0\",\"kftc_bkpr\":\"1,276\",\"kftc_deal_bas_r\":\"1,276.4\",\"cur_nm\":\"미국 달러\"}]"
-    public static func jsonToArr(jsonString: String){
-        
+    // 최종 return값은 csv형태를 가진 String의 2차원배열이어야 한다. 
+    public static func jsonToArr(jsonString: String) -> [[String]]{
+//        print("합수 시작")
         // a.r, b.i, b.i.11 처럼 모든 최종 column 담을 곳
-        var final_columns: [String] = []
+        // final_dict_key는 추가한 순서대로 Key를 담을 곳이다.
+        var final_dict_key: [String] = []
+        var final_dict: [String: [String]] = [:]
+        
         //그 때 그때 쌓인 column의 part 이름들을 저장할 곳
         var column_name: [String] = []
+        var value_name: [String] = []
         
         // 여는 대괄호
         var lBracketCount: Int = 0
@@ -25,52 +29,175 @@ class JsonParser {
         // 닫는 중괄호
         var rBraceCount: Int = 0
         // :를 기준으로 뭐 해줘야됨....
-        
+        // MARK: 괄호들을 Stack에 넣으면서 관리해줘야함
+        var bracketStack: [String] = []
         
         // 따옴표가 열려있는지 여부
         var isDDaomOpen: Bool = false
-        // 따옴표랑 항상 같이 놀아야하는 것은 그 상황에서의 따옴표 내부 문자열
-        var now_column_name: String = ""
+        // 따옴표랑 항상 같이 놀아야하는 것은 그 상황에서의 따옴표 내부 문자열 -> 이어붙여야함
+        var now_btwn_Ddaom_name: String = ""
+        //: 뒤에서 일반문자가 나왔을 때. 무조건 값인 경우에 저장할 곳
+        var now_value: String = ""
         
+        var now_opened_colon: Int = 0
+        //방금 전에 :가 등장해서 value가 등장할 차례인 경우를 표시하기 위해
+        var is_now_value_timing: Bool = true
         
+        var i: Int = 0
         
-        for i in 0 ..< jsonString.count {
+        while i < jsonString.count {
             let now_char: String = String(jsonString[String.Index(utf16Offset: i, in: jsonString)])
-            
+//            print(now_char)
             // jsonString[String.Index(utf16Offset: i, in: jsonString)] 가 인덱스 하나씩 접근하는 것
             if now_char == "["{
+                is_now_value_timing = false
+                bracketStack.append("[")
                 lBracketCount += 1
+                i += 1
             }
             else if now_char == "]"{
                 rBraketCount += 1
+    //            bracketStack.append("]")
+                // ]와 [를 차례로 pop해준다.
+    //            bracketStack.removeLast()
+                bracketStack.removeLast()
+                //대괄호가 닫힐 때는 무조건 대괄호가 열리는 key를 pop해줘야한다.
+                if bracketStack.count > 0 {
+                    column_name.removeLast()
+                }
+                i += 1
             }
             else if now_char == "{"{
+                bracketStack.append("{")
+                is_now_value_timing = false
                 lBraceCount += 1
+                i += 1
             }
+            //이거 닫힐 때는 대괄호가 열려있는 경우에는 column_name에서 아무것도 안 빼줘도되고, 열려있는 대괄호가 없는 경우에만 } 닫힐 때 stack에서 빼주면 됨
             else if now_char == "}"{
+    //            bracketStack.append("}")
+    //
+    //            bracketStack.removeLast()
+                bracketStack.removeLast()
+                //}와 {를 pop하고 남은 것이 [라면, col_name에서 pop하지 않는다. {라면 pop한다.
+                if bracketStack.count > 0 && bracketStack.last! == "{"{
+                    //pop
+                    column_name.removeLast()
+                }// [인 경우이거나 비었을 경우
                 rBraceCount += 1
+                //대괄호가 열려있을 때, 대괄호 여는것 - 대괄호 닫는것 < 중괄호 여는것 - 중괄호 닫는 것 이면 pop   중괄호 여는게 닫는거보다 2개 이상 크면
+                i += 1
             }
             //
             else if now_char == "\""{
                 // 열려있던 상태였다면, 이제 column이름 저장하고 닫아야함
                 if isDDaomOpen{
+                    //value인 경우 -> 무조건 column_name에서 하나씩 이름을 뺴줘야함
+                    if is_now_value_timing{
+                        value_name.append(now_btwn_Ddaom_name)
+//                        print(value_name)
+                        
+                        //값이 나왔으니까 현재까지 stack에 쌓인 column_name을 key로 하여 dict에 값을 value로 넣어준다
+                        let now_joined_column = column_name.joined(separator: "/")
+                        if final_dict[now_joined_column] == nil {
+                            final_dict[now_joined_column] = [now_btwn_Ddaom_name]
+                            //없던 key이기 때문에, final_dict_key에도 넣어준다.
+                            final_dict_key.append(now_joined_column)
+                        }else{
+                            final_dict[now_joined_column]?.append(now_btwn_Ddaom_name)
+                        }
+                        // 방금 나온 값에 대해 완료했으니, 해당 이름을 하나 pop 한다.
+                        column_name.removeLast()
+                        is_now_value_timing = false
+                    }
+                    //column이다.
+                    else {
+                        column_name.append(now_btwn_Ddaom_name)
+//                        print(column_name)
+                    }
                     
-                    column_name.append(now_column_name)
+                    
+                    now_btwn_Ddaom_name = ""
+                    isDDaomOpen = false
+                    i += 1
                 }
-                isDDaomOpen = !isDDaomOpen
+                //닫혀있었는데, 방금 열리는 상태라면, "가 나올 때까지 사이의 값을 now_column_name에 저장해야한다
+                else{
+                    //방금은 " 였으니까
+                    i += 1
+                    isDDaomOpen = true
+                    while true {
+                        let now_char2: String = String(jsonString[String.Index(utf16Offset: i, in: jsonString)])
+                        // "가 나오기 전까지는
+                        if now_char2 != "\""{
+                            now_btwn_Ddaom_name += now_char2
+                            i += 1
+                        }// "가 나오면 빠져나가야함
+                        else{
+                            break
+                        }
+                    }
+                }
             }
+            //:가 나왔다면 이제 value가 나와야할 자리인데, [ 혹은 {가 나오는 경우, is_now_value_timing을 false로 바꿔야한다
             else if now_char == ":"{
+                now_opened_colon += 1
+                is_now_value_timing = true
+                i += 1
+            }
+            
+            else if now_char == "," || now_char == " " || now_char == "\n"{
+                i += 1
                 continue
             }
-            //일반 문자일 때
+            //일반 문자일 때 -> 여기는 있어서는 안됨
             else{
-                if isDDaomOpen{
-                    now_column_name += now_char
+                // value자리인 경우
+                if is_now_value_timing{
+                    // ,나오기 전까지는 계속 value이니까 계속 이어붙여줌
+                    while true{
+                        let now_char3: String = String(jsonString[String.Index(utf16Offset: i, in: jsonString)])
+                        if now_char3 != "," {
+                            now_value += now_char3
+                            i += 1
+                        }//MARK: ,가 나오면 value를 print하고 넘어가자 일단
+                        else{
+                            
+                            value_name.append(now_value)
+//                            print(value_name)
+                            //값이 나왔으니까 현재까지 stack에 쌓인 column_name을 key로 하여 dict에 값을 value로 넣어준다
+                            let now_joined_column = column_name.joined(separator: "/")
+                            if final_dict[now_joined_column] == nil {
+                                final_dict[now_joined_column] = [now_value]
+                                //없던 key이기 때문에, final_dict_key에도 넣어준다.
+                                final_dict_key.append(now_joined_column)
+                            }else{
+                                final_dict[now_joined_column]?.append(now_value)
+                            }
+                            // 방금 나온 값에 대해 완료했으니, 해당 이름을 하나 pop 한다.
+                            column_name.removeLast()
+                            
+                            now_value = ""
+                            i += 1
+                            is_now_value_timing = false
+                            break
+                        }
+                        
+                    }
+                   
+                }
+                else {
+                    print("일반 문자 등장. 있어서는 안됨 ")
                 }
             }
-                
-            
         }
+//        print("최종 결과!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+//        for key_name in final_dict_key{
+//            print(key_name, terminator: " ")
+//            print(final_dict[key_name]!)
+//            print()
+//        }
     }
+
 }
 
