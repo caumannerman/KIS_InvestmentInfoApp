@@ -520,8 +520,6 @@ extension ShowDataViewController: UICollectionViewDataSource, UICollectionViewDe
             
         }
 //        cell.setRecord(records[indexPath.section][indexPath.item])
-       
-
         return cell
     }
 }

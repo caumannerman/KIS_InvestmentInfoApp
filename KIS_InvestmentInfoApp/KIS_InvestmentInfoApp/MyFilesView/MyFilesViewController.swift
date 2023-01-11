@@ -11,6 +11,36 @@ import Alamofire
 import UniformTypeIdentifiers
 
 class MyFilesViewController: UIViewController {
+    
+    private var jsonResultArr: [[String]] = [
+    ["col이름1", "col이름2", "col이름3", "col이름4", "col이름5", "col이름6", "col이름7", "col이름8", "col이름9", "col이름10", "col이름11", "col이름12"],
+    ["row1값1", "row1값2", "row1값3", "row1값4", "row1값5", "row1값6", "row1값7", "row1값8", "row1값9", "row1값10", "row1값11", "row1값12"],
+    ["row2값1", "row2값2", "row2값3", "row2값4", "row1값5", "row1값6", "row1값7", "row1값8", "row1값9", "row1값10", "row1값11", "row1값12"],
+    ["row3값1", "row3값2", "row3값3", "row3값4", "row1값5", "row1값6", "row1값7", "row1값8", "row1값9", "row1값10", "row1값11", "row1값12"],
+    ["row4값1", "row4값2", "row4값3", "row4값4", "row1값5", "row1값6", "row1값7", "row1값8", "row1값9", "row1값10", "row1값11", "row1값12"],
+    ["row5값1", "row5값2", "row5값3", "row5값4", "row1값5", "row1값6", "row1값7", "row1값8", "row1값9", "row1값10", "row1값11", "row1값12"],
+    ["row6값1", "row6값2", "row6값3", "row6값4", "row1값5", "row1값6", "row1값7", "row1값8", "row1값9", "row1값10", "row1값11", "row1값12"],
+    ["row7값1", "row7값2", "row7값3", "row7값4", "row1값5", "row1값6", "row1값7", "row1값8", "row1값9", "row1값10", "row1값11", "row1값12"],
+    ["row8값1", "row8값2", "row8값3", "row8값4", "row1값5", "row1값6", "row1값7", "row1값8", "row1값9", "row1값10", "row1값11", "row1값12"],
+    ["row9값1", "row9값2", "row9값3", "row9값4", "row1값5", "row1값6", "row1값7", "row1값8", "row1값9", "row1값10", "row1값11", "row1값12"],
+    ["row10값1", "row10값2", "row10값3", "row10값4", "row10값5", "row10값6", "row10값7", "row10값8", "row10값9", "row10값10", "row10값11", "row10값12"],
+    ["row11값1", "row11값2", "row11값3", "row11값4", "row11값5", "row11값6", "row11값7", "row11값8", "row11값9", "row11값10", "row11값11", "row11값12"],
+    ["row12값1", "row12값2", "row12값3", "row12값4", "row12값5", "row12값6", "row12값7", "row12값8", "row12값9", "row12값10", "row12값11", "row12값12"],
+    ["row13값1", "row13값2", "row13값3", "row13값4", "row13값5", "row13값6", "row13값7", "row13값8", "row13값9", "row13값10", "row13값11", "row13값12"],
+    ["row14값1", "row14값2", "row14값3", "row14값4", "row14값5", "row14값6", "row14값7", "row14값8", "row14값9", "row14값10", "row14값11", "row14값12"],
+    ["row15값1", "row15값2", "row15값3", "row15값4", "row15값5", "row15값6", "row15값7", "row15값8", "row15값9", "row15값10", "row15값11", "row15값12"],
+    ["row16값1", "row16값2", "row16값3", "row16값4", "row16값5", "row16값6", "row16값7", "row16값8", "row16값9", "row16값10", "row16값11", "row16값12"],
+    ["row17값1", "row17값2", "row17값3", "row17값4", "row17값5", "row17값6", "row17값7", "row17값8", "row17값9", "row17값10", "row17값11", "row17값12"],
+    ["row18값1", "row18값2", "row18값3", "row18값4", "row18값5", "row18값6", "row18값7", "row18값8", "row18값9", "row18값10", "row18값11", "row18값12"],
+    ["row19값1", "row19값2", "row19값3", "row19값4", "row19값5", "row19값6", "row19값7", "row19값8", "row19값9", "row19값10", "row19값11", "row19값12"],
+    ["row20값1", "row20값2", "row10값3", "row20값4", "row20값5", "row20값6", "row20값7", "row20값8", "row20값9", "row20값10", "row20값11", "row20값12"],
+    ]
+    
+    private var isClickedArr_row: [Bool] = [true, false, false, true, false, false, false, true, true, false, true, false, false, false, true, false, true, false, false, true]
+    private var isClickedArr_col: [Bool] = [false, false,true, true, false, false, false, true, false, false, true, true, ]
+    
+    
+    
 
     //저장할 파일의 이름을 담을 변수
     private var saveFileName: String = ""
@@ -19,31 +49,28 @@ class MyFilesViewController: UIViewController {
     private var ok = UIAlertAction()
     private var cancel = UIAlertAction()
     
-    //한 출에 표시할 데이터 수
-    final let numRow: Int = 12
-    //TODO: dataTitles를 가져오는 api 항목에 맞게 따로 불러오는 기능 구현해야함
-    private var dataTitles: [String] = ["cur_unit", "ttb", "tts", "deal_bas_r", "bkpr", "yy_efee_r", "ten_dd_efee_r", "kftc_bkpr", "kftc_deal_bas_r", "cur_nm", "cur_unit", "ttb", "tts", "deal_bas_r", "bkpr", "yy_efee_r", "ten_dd_efee_r", "kftc_bkpr", "kftc_deal_bas_r", "cur_nm"]
-    private var erData: [ExchangeRateCellData] = []
-    
     
     private lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
+        let layout = GridLayout()
+        layout.cellHeight = 44
+        layout.cellWidths = Array(repeating: CGFloat(200), count: jsonResultArr[0].count + 1)
         //layout.sectionInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
-        layout.minimumLineSpacing = 4
-        layout.minimumInteritemSpacing = 2
-        layout.scrollDirection = .horizontal
+//        layout.minimumLineSpacing = 4
+//        layout.minimumInteritemSpacing = 2
+//        layout.scrollDirection = .horizontal
 
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(ButtonListViewCellCell.self, forCellWithReuseIdentifier: "ButtonListViewCellCell")
+        let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
+        collectionView.isDirectionalLockEnabled = true
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//        collectionView.register(ShowDataViewCollectionViewCell.self, forCellWithReuseIdentifier: "ShowDataViewCollectionViewCell")
+        collectionView.register(ShowDataViewCollectionViewCell.self, forCellWithReuseIdentifier: "ShowDataViewCollectionViewCell")
         collectionView.dataSource = self
         collectionView.delegate = self
-        
 //        collectionView.isPagingEnabled = true
         collectionView.showsHorizontalScrollIndicator = true
-
-        collectionView.backgroundColor = .lightGray
-        
-        collectionView.register(ShowDataViewCollectionViewCell.self, forCellWithReuseIdentifier: "ShowDataViewCollectionViewCell")
+        collectionView.backgroundColor = .systemBackground
+        collectionView.layer.borderWidth = 1.0
+        collectionView.layer.borderColor = UIColor.lightGray.cgColor
 //        collectionView.isScrollEnabled = false
         return collectionView
     }()
@@ -63,8 +90,16 @@ class MyFilesViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.collectionView.isHidden = true
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.collectionView.isHidden = true
+        NotificationCenter.default.addObserver(self, selector: #selector(changeCellColor(_:)), name: .cellColorChange, object: nil)
         alert.addTextField{
             $0.placeholder = "저장 파일명을 입력하세요"
             $0.isSecureTextEntry = false
@@ -74,17 +109,73 @@ class MyFilesViewController: UIViewController {
         ok = UIAlertAction(title: "OK", style: .default){
             action in print("OK")
             // 저장할 파일 ㅇ제목을 받고
+            
             self.saveFileName = self.alert.textFields?[0].text ?? "Untitled"
             print("저장 파일 이름 = ")
             print(self.saveFileName)
             //TODO: 아래에서 핸드폰에 csv를 저장해야함
             print("저장!!!!")
-            self.createCSV()
+            let resultString = self.sliceArrayAndReturnCSVString(s: self.jsonResultArr, isCheck_col: self.isClickedArr_col, isCheck_row: self.isClickedArr_row )
+            self.createCSV(csvString: resultString)
         }
         cancel = UIAlertAction(title: "Cancel", style: .destructive)
         alert.addAction(ok)
         alert.addAction(cancel)
     }
+    @objc func changeCellColor(_ notification: NSNotification){
+        
+        print(notification.userInfo!["row"]!)
+        print(notification.userInfo!["col"]!)
+        
+        let now_row = notification.userInfo!["row"] as? Int
+        let now_col = notification.userInfo!["col"] as? Int
+        
+        print(type(of:notification.userInfo!["row"]!))
+        print(type(of:notification.userInfo!["col"]!))
+        //첫 행인 경우
+        if now_row == -1{
+          isClickedArr_col[now_col!] = !isClickedArr_col[now_col!]
+        }// 첫 열인 경우
+        else if now_col == -2 {
+            isClickedArr_row[now_row!] = !isClickedArr_row[now_row!]
+        }
+        
+        print("isClickedArr_row 는!!!!!")
+        print(isClickedArr_row)
+        print("isClickedArr_col 는!!!!!")
+        print(isClickedArr_col)
+    }
+    func sliceArrayAndReturnCSVString(s: [[String]], isCheck_col: [Bool], isCheck_row: [Bool] ) -> String{
+        
+        var result: String = ""
+
+        for i in 0 ..< s.count{
+            if i > 0 && !isCheck_row[i - 1]{
+                continue
+            }
+            for j in 0 ..< s[0].count{
+                if i == 0 {
+                    if isCheck_col[j]{
+                        result += String(s[i][j])
+                        if j != s[0].count - 1{
+                            result += ","
+                        }
+                    }
+                }
+                else{
+                    if isCheck_col[j] {
+                        result += String(s[i][j])
+                        if j != s[0].count - 1{
+                            result += ","
+                        }
+                    }
+                }
+            }
+            result += "\n"
+        }
+        return result
+    }
+    
     
     func attribute(){
         getDataButton.backgroundColor = UIColor(red: 155/255.0, green: 202/255.0, blue: 184/255.0, alpha: 1.0)
@@ -145,7 +236,7 @@ class MyFilesViewController: UIViewController {
     }
     
     @objc func getCsv(){
-        requestAPI()
+        
         
 //        guard let docsUrl = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first else { return }
 //        let dirUrl = docsUrl.appendingPathComponent("KIS_Finance_Info")
@@ -171,7 +262,7 @@ class MyFilesViewController: UIViewController {
 //        exportAction()
     }
 
-    private func createCSV() {
+    private func createCSV(csvString: String) {
         print("Start Exporting ...")
         
         let fileManager = FileManager.default
@@ -191,7 +282,7 @@ class MyFilesViewController: UIViewController {
         
         // csv 파일 생성
         let fileUrl = directoryUrl.appendingPathComponent(saveFileName + ".csv")
-        let fileData = "This,is,just,some,dummy,data\n11,22,33,44,55,66,777".data(using: .utf8)
+        let fileData = csvString.data(using: .utf8)
         
         do {
             try fileData?.write(to: fileUrl)
@@ -234,89 +325,69 @@ class MyFilesViewController: UIViewController {
 
 
 extension MyFilesViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        self.jsonResultArr.count
+    }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        erData.count * 4
+        return self.jsonResultArr[0].count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ShowDataViewCollectionViewCell", for: indexPath) as? ShowDataViewCollectionViewCell else { return UICollectionViewCell() }
-//        let a = indexPath.row
-        if indexPath.row == 0 {
-            cell.setup(isFirstRow: true, isFirstColumn: true, title: "선택", isClicked: false, rowIdx: 0, colIdx:  0)
+        let isFirstRow: Bool = (indexPath.section == 0)
+        let isFirstColumn: Bool = (indexPath.row == 0)
+        
+        
+        if !isFirstColumn{
+            let now_title: String = jsonResultArr[indexPath.section][indexPath.row - 1]
+            if isFirstRow{
+                cell.setup(isFirstRow: isFirstRow, isFirstColumn: isFirstColumn, title: now_title, isClicked: isClickedArr_col[indexPath.row - 1], rowIdx: -1, colIdx: indexPath.row - 1)
+            }// FirstColumn도 FirstRow도 아닌 경우는 클릭 X
+            else{
+                cell.setup(isFirstRow: isFirstRow, isFirstColumn: isFirstColumn, title: now_title, isClicked: false, rowIdx: -3, colIdx: -3)
+            }
+           
+//            cell.setup(isFirstRow: isFirstRow, isFirstColumn: isFirstColumn, title: "sct = " + String(indexPath.section) + "idx = " + String(indexPath.item))
         }
-        //첫 열
-        else if indexPath.row > 0 && indexPath.row <= numRow{
-            cell.setup(isFirstRow: false, isFirstColumn: true, title: String(indexPath.row), isClicked: false, rowIdx: 0, colIdx:  0)
-        }
-        //첫 행
-        else if indexPath.row % ( numRow + 1) == 0 {
-            let now_title_sunseo_idx = indexPath.row / ( numRow + 1) - 1
-            cell.setup(isFirstRow: true, isFirstColumn: false, title: dataTitles[now_title_sunseo_idx], isClicked: false, rowIdx: 0, colIdx:  0)
-        }
-        //일반 cell
+        //FirstColumn인 경우
         else{
-            cell.setup(isFirstRow: false, isFirstColumn: false, title: "일반", isClicked: false, rowIdx: 0, colIdx:  0)
+            //여기는 firstCol이자 firstRow이므로
+            if isFirstRow{
+                cell.setup(isFirstRow: isFirstRow, isFirstColumn: isFirstColumn, title: String(indexPath.section), isClicked: false, rowIdx: 0, colIdx: 0)
+            }
+            else{
+                cell.setup(isFirstRow: isFirstRow, isFirstColumn: isFirstColumn, title: String(indexPath.section), isClicked: isClickedArr_row[indexPath.section - 1], rowIdx: indexPath.section - 1, colIdx: -2)
+            }
+            
         }
+//        cell.setRecord(records[indexPath.section][indexPath.item])
+       
+
         return cell
     }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        let height = ( (collectionView.frame.height - CGFloat(numRow * 2)) / CGFloat(numRow + 1) )
-        let width = height * 2
-//                let itemsPerRow: CGFloat = 2
-//                let widthPadding = sectionInsets.left * (itemsPerRow + 1)
-//                let itemsPerColumn: CGFloat = 3
-//                let heightPadding = sectionInsets.top * (itemsPerColumn + 1)
-//                let cellWidth = (width - widthPadding) / itemsPerRow
-//                let cellHeight = (height - heightPadding) / itemsPerColumn
-                
-        return CGSize(width: width, height: height)
-    }
-
 }
 
 
 
 // network 함수 구현할 곳
 extension MyFilesViewController{
-    private func requestAPI(){
-        let url = "https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey=BlCJAvGJ4IuXS30CPGMFIjQpiCuDTbjb&searchdate=20221227&data=AP01"
-        //addingPercentEncoding은 한글(영어 이외의 값) 이 url에 포함되었을 때 오류나는 것을 막아준다.
-        
-        
-        AF.request(url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
-            .responseDecodable(of: [ExchangeRate].self){ [weak self] response in
-                // success 이외의 응답을 받으면, else문에 걸려 함수 종료
-                guard
-                    let self = self,
-                    case .success(let data) = response.result else { return }
-                //데이터 받아옴
-                self.erData = data.map{ er -> ExchangeRateCellData in
-                    let temp = ExchangeRateCellData(cur_unit: er.cur_unit, ttb: er.ttb, tts: er.tts, deal_bas_r: er.deal_bas_r, bkpr: er.bkpr, yy_efee_r: er.yy_efee_r, ten_dd_efee_r: er.ten_dd_efee_r, kftc_bkpr: er.kftc_bkpr, kftc_deal_bas_r: er.kftc_deal_bas_r, cur_nm: er.cur_nm)
-                    return temp
-                }
-                
-                print( "총 row 수 = " + String(self.erData.count))
-                print( "0번째 인덱스 " )
-                print( self.erData[0] )
-              
-                //테이블 뷰 다시 그려줌
-                self.collectionView.reloadData()
-            }
-            .resume()
+    func csvStringToArray(csvString: String) -> [[String]] {
+        var temp_row = csvString.split(separator: "\n").map{ now_row -> String in
+            return String(now_row)
+        }
+
+        var result: [[String]] = []
+        for i in 0 ..< temp_row.count {
+            result.append( temp_row[i].components(separatedBy: ",").map{ subs -> String in
+                return String(subs)
+            })
+        }
+        return result
     }
 }
 
 extension MyFilesViewController: UIDocumentPickerDelegate {
     
-//    func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
-//        guard let selectedFileURL = urls.first else {
-//            return
-//        }
-//        let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-//
-//    }
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentAt url: URL) {
         print("a file was selected")
         print("url = ", terminator: " ")
@@ -325,18 +396,33 @@ extension MyFilesViewController: UIDocumentPickerDelegate {
         for _ in 0 ..< 7 {
             now_url.removeFirst()
         }
-       
-        
+       var result_string = ""
+        // 파일 읽어옴
         let file: FileHandle? = FileHandle(forReadingAtPath: now_url)
         if file != nil {
             let data = file?.readDataToEndOfFile()
             file!.closeFile()
-            let str = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
-            print(str!)
+            result_string = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)! as String
+            print(result_string)
         }
         else {
             print("Ooops! Something went wrong!")
         }
+        
+        //가져온 것으로 data 채움
+
+        print("여기")
+        print(result_string)
+        
+        self.jsonResultArr = csvStringToArray(csvString: result_string)
+        print(jsonResultArr)
+        self.isClickedArr_col = Array(repeating: false, count: self.jsonResultArr[0].count)
+        self.isClickedArr_row = Array(repeating: false, count: self.jsonResultArr.count - 1)
+        
+        
+//                //테이블 뷰 다시 그려줌
+        self.collectionView.isHidden = false
+        self.collectionView.reloadData()
         
         
     }
