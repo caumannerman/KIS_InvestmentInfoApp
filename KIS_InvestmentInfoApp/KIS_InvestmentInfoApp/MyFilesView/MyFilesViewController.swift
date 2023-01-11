@@ -392,11 +392,15 @@ extension MyFilesViewController: UIDocumentPickerDelegate {
         print("a file was selected")
         print("url = ", terminator: " ")
         print(url)
-        var now_url = url.absoluteString
+        
+        var now_url = url.absoluteString.removingPercentEncoding!
+        print("decoded = ")
+        print(now_url)
         for _ in 0 ..< 7 {
             now_url.removeFirst()
         }
-       var result_string = ""
+
+        var result_string = ""
         // 파일 읽어옴
         let file: FileHandle? = FileHandle(forReadingAtPath: now_url)
         if file != nil {
