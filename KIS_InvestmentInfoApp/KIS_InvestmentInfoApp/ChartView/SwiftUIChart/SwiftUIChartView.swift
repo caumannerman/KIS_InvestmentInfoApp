@@ -9,8 +9,38 @@
 import SwiftUI
 import Charts
 
+//struct SecurityInfo: Identifiable{
+//    var id = UUID().uuidString
+//
+//    // 날짜정보 ex) 20221228
+//    var basDt: String
+//    // 종목코드
+//    var strnCd: String
+//    // 종목명 ex) 삼성전자
+//    var itmsNm: String
+//    // 상장된 시장명 KOSPI, KOSDAQ, KONEX 중 하나mrktCtg
+//    var mrktCtg: String
+//
+//    //시가 ( 9시 )
+//    var mkp: String
+//    //종가
+//    var clpr: String
+//    //하루 중 최고가
+//    var hipr: String
+//    //하루 중 최저가
+//    var lopr: String
+//}
+
+
+//struct SiteView: Identifiable{
+//    var id = UUID().uuidString
+//    var hour: Date
+//    var views: Double
+//    var animate: Bool = false
+//}
+
+
 struct SwiftUIChartView: View {
-    
     
     @State var securityName: String
     @State var securityInfoArr: [SecurityInfo] = []
@@ -40,15 +70,16 @@ struct SwiftUIChartView: View {
                 // MARK: New Chart API
                 VStack(alignment: .leading, spacing: 12){
                     HStack{
-                        Text(securityName)
+                        // MARK: 시장 이름
+                        Text(securityInfoArr[0].mrktCtg)
                             .fontWeight(.semibold)
                         Picker("", selection: $currentTab){
                             Text("종가")
                                 .tag("종가")
-                            Text("Week")
-                                .tag("Week")
-                            Text("Month")
-                                .tag("Month")
+                            Text("최저가")
+                                .tag("최저가")
+                            Text("최고가")
+                                .tag("최고가")
                         }
                         .pickerStyle(.segmented)
                         .padding(.leading, 80)
@@ -57,8 +88,8 @@ struct SwiftUIChartView: View {
                     let totalValue = sampleAnalytics.reduce(0.0){ partialResult, item in
                         item.views + partialResult
                     }
-                    
-                    Text(totalValue.stringFormat)
+                    // MARK: 여기 원래 totalValue.stringFormat이었음
+                    Text(securityName)
                         .font(.largeTitle.bold())
                     
                     AnimatedChart()
@@ -74,7 +105,7 @@ struct SwiftUIChartView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .padding()
-            .navigationTitle("투자전략 시뮬레이션")
+            .navigationTitle("주식 정보")
             //MARK: Simply Updating values for segmented Tabs
             .onChange(of: currentTab){ newValue in
                 sampleAnalytics = sample_analytics
@@ -101,23 +132,21 @@ struct SwiftUIChartView: View {
                 //MARK: Bar Graph
                 // MARK: Animating Graph
                 if isLineGraph{
-                    LineMark(x: .value("Hour", item.hour, unit: .hour),
-                            y: .value("Views", item.animate ? item.views : 0)
+                    LineMark(x: .value("Day", item.hour, unit: .day),
+                            y: .value("종가", item.animate ? item.views : 0)
                     )
                     // MARK: 그래프를 곡선으로
                     .interpolationMethod(.catmullRom)
                     
                 } else {
-                    BarMark(x: .value("Hour", item.hour  , unit: .hour),
+                    BarMark(x: .value("Day", item.hour  , unit: .hour),
                             y: .value("종가", item.animate ? item.views : 0)
                     )
-                    
-                    
                 }
                 
                 if isLineGraph {
-                    AreaMark(x: .value("Hour", item.hour, unit: .hour),
-                            y: .value("Views", item.animate ? item.views : 0)
+                    AreaMark(x: .value("Day", item.hour, unit: .hour),
+                            y: .value("종가", item.animate ? item.views : 0)
                     )
                     .foregroundStyle(Color("Blue").opacity(0.1).gradient)
                     // MARK: 그래프를 곡선으로
@@ -136,7 +165,7 @@ struct SwiftUIChartView: View {
                         .offset(x: (plotWidth / CGFloat(sampleAnalytics.count)) / 2)
                         .annotation(position: .top){
                             VStack(alignment: .leading, spacing: 6){
-                                Text("Views")
+                                Text("value")
                                     .font(.caption)
                                     .foregroundColor(.gray)
                                 Text(currentActiveItem.views.stringFormat)

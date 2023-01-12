@@ -451,8 +451,13 @@ class ChartViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        self.collectionView.isHidden = true
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.collectionView.isHidden = true
         
         
 //        for i in 0...6 {
