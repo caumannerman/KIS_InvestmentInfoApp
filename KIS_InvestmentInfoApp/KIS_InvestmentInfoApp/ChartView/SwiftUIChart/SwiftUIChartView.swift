@@ -45,6 +45,13 @@ struct SwiftUIChartView: View {
     @State var securityName: String
     @State var securityInfoArr: [SecurityInfo] = []
     
+    
+    @State var mkpInfoArr: [SiteView] = sample_analytics
+    @State var clprInfoArr: [SiteView] = sample_analytics
+    @State var hiprInfoArr: [SiteView] = sample_analytics
+    @State var loprInfoArr: [SiteView] = sample_analytics
+    
+    
     @State var sampleAnalytics: [SiteView] = sample_analytics
     // MARK: View Properties
     @State var currentTab: String = "종가"
@@ -54,9 +61,14 @@ struct SwiftUIChartView: View {
     
     @State var isLineGraph: Bool = false
     
-    init(title: String ,securityArr: [SecurityInfo]){
+    init(title: String ,securityArr: [SecurityInfo], mkpInfoArr: [SiteView], clprInfoArr: [SiteView], hiprInfoArr: [SiteView], loprInfoArr: [SiteView]){
         self._securityName = State<String>(initialValue: title)
         self._securityInfoArr = State<[SecurityInfo]>(initialValue: securityArr)
+        
+        self._mkpInfoArr = State<[SiteView]>(initialValue: mkpInfoArr)
+        self._clprInfoArr = State<[SiteView]>(initialValue: clprInfoArr)
+        self._hiprInfoArr = State<[SiteView]>(initialValue: hiprInfoArr)
+        self._loprInfoArr = State<[SiteView]>(initialValue: loprInfoArr)
         
         for i in securityArr{
             print("su에서!!!!!!!!!!!!")
@@ -132,7 +144,7 @@ struct SwiftUIChartView: View {
                 //MARK: Bar Graph
                 // MARK: Animating Graph
                 if isLineGraph{
-                    LineMark(x: .value("Day", item.hour, unit: .day),
+                    LineMark(x: .value("Day", item.hour, unit: .hour),
                             y: .value("종가", item.animate ? item.views : 0)
                     )
                     // MARK: 그래프를 곡선으로
@@ -158,14 +170,14 @@ struct SwiftUIChartView: View {
                 // From SwiftUI 4.0 We can directly Craete Gradient from color
                 // MARK: Rule Mark For Currently Dragging Item
                 if let currentActiveItem, currentActiveItem.id == item.id{
-                    RuleMark(x: .value("Hour", currentActiveItem.hour))
+                    RuleMark(x: .value("", currentActiveItem.hour))
                     // Dotted Style
                         .lineStyle(.init(lineWidth: 2, miterLimit: 2, dash: [2], dashPhase: 5))
                     // MARK: Setting In middle of each bars
                         .offset(x: (plotWidth / CGFloat(sampleAnalytics.count)) / 2)
                         .annotation(position: .top){
                             VStack(alignment: .leading, spacing: 6){
-                                Text("value")
+                                Text("값")
                                     .font(.caption)
                                     .foregroundColor(.gray)
                                 Text(currentActiveItem.views.stringFormat)
@@ -242,7 +254,7 @@ struct SwiftUIChartView: View {
 
 struct Home_Previews: PreviewProvider {
     static var previews: some View {
-        SwiftUIChartView(title:  "종목 이름s", securityArr: [])
+        SwiftUIChartView(title: "종목이름ㄴ", securityArr: [], mkpInfoArr: [], clprInfoArr: [], hiprInfoArr: [], loprInfoArr: [])
 //        ContentView()
     }
 }

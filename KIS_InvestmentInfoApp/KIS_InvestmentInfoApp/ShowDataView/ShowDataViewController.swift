@@ -206,7 +206,8 @@ class ShowDataViewController: UIViewController {
         view.backgroundColor = .systemBackground
         NotificationCenter.default.addObserver(self, selector: #selector(changeCellColor(_:)), name: .cellColorChange, object: nil)
         setNavigationItems()
-        
+       
+
         alert.addTextField{
             $0.placeholder = "저장 파일명을 입력하세요"
             $0.isSecureTextEntry = false

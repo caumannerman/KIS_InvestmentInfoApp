@@ -14,6 +14,13 @@ import SwiftUI
 //날짜정보 / 종목코드 / 종목명 / 상장시장명 / 시가 / 종가 / 최고가 / 최저가
 class ChartViewController: UIViewController {
     
+    //저장할 파일의 이름을 담을 변수
+    private var saveFileName: String = ""
+    //저장 파일 이름 받아올 UIAlert
+    private let alert = UIAlertController(title: "파일 제목", message: "저장할 파일의 이름을 입력해주세요", preferredStyle: .alert)
+    private var ok = UIAlertAction()
+    private var cancel = UIAlertAction()
+    
     private var apiResultStr = ""
     // 이것이 json String을 이용해 최종적으로 얻은 배열이라고 생각하고 개발중
     private var jsonResultArr: [[String]] = [
@@ -54,7 +61,12 @@ class ChartViewController: UIViewController {
     
     // Identifiable 프로토콜을 따르는 [SecurityInfo] 배열, SwiftUI view로 넘겨줘야함
     private var securityInfoArr: [SecurityInfo] = []
-
+    // SiteView를 따르는 것 시가/종가/ 최저가 /최고가
+    private var mkpInfoArr: [SiteView] = []
+    private var clprInfoArr: [SiteView] = []
+    private var hiprInfoArr: [SiteView] = []
+    private var loprInfoArr: [SiteView] = []
+    
 //    private lazy var strategyPicker: UIPickerView = {
 //        let pv = UIPickerView()
 //        pv.frame = CGRect(x: 2000, y: 2000, width: 200, height: 200)
@@ -209,6 +221,25 @@ class ChartViewController: UIViewController {
         btn.addTarget(self, action: #selector(reqButtonClicked), for: .touchUpInside)
         return btn
     }()
+    
+    let saveButton: UIButton = {
+        let btn = UIButton()
+        btn.layer.cornerRadius = 8.0
+        btn.layer.borderWidth = 2.0
+        btn.layer.borderColor = UIColor(red: 255/255.0, green: 255/255.0, blue: 255/255.0, alpha: 1.0).cgColor
+        btn.backgroundColor = UIColor(red: 0/255.0, green: 204/255.0, blue: 244/255.0, alpha: 1.0)
+        btn.setTitle("CSV 저장", for: .normal)
+//        btn.setTitleColor(.black, for: .normal)
+        btn.titleLabel?.font = .systemFont(ofSize: 18.0, weight: .bold)
+        btn.addTarget(self, action: #selector(savefunc), for: .touchUpInside)
+        return btn
+    }()
+    @objc func savefunc(){
+        print("저장 버튼 클릭")
+        self.present(alert, animated: true){
+            print("alert 띄움")
+        }
+    }
     
     let showChartButton: UIButton = {
         let btn = UIButton()
@@ -459,27 +490,115 @@ class ChartViewController: UIViewController {
         super.viewDidLoad()
         self.collectionView.isHidden = true
         
+        NotificationCenter.default.addObserver(self, selector: #selector(changeCellColor(_:)), name: .cellColorChange, object: nil)
+
+        alert.addTextField{
+            $0.placeholder = "저장 파일명을 입력하세요"
+            $0.isSecureTextEntry = false
+        }
         
-//        for i in 0...6 {
-//            let dataEntry = BarChartDataEntry(x: Double(i), y: Double(dataArray[i]))
-//            dataEntries.append(dataEntry)
-//        }
-//
-//        valFormatter.numberStyle = .currency
-//        valFormatter.maximumFractionDigits = 2
-//        valFormatter.currencySymbol = "$"
-//
-//        let format = NumberFormatter()
-//        format.numberStyle = .none
-//        formatter = DefaultValueFormatter(formatter: format)
-//
-//        chartDataSet = BarChartDataSet(entries:dataEntries, label: "그래프 값 명칭")
-//        chartData = BarChartData(dataSet: chartDataSet)
-//        chartData.setValueFormatter(formatter)
-//        barGraphView.leftAxis.valueFormatter = DefaultAxisValueFormatter(formatter: valFormatter)
-//        barGraphView.data = chartData
-      
+        //아래처럼, 사용자가 제목을 입력하고, ok버튼을 누르면 해당 제목을 변수에 저장한 후, createCSV()를 호출하여 csv파일을 생성한다.
+        ok = UIAlertAction(title: "OK", style: .default){
+            action in print("OK")
+            // 저장할 파일 ㅇ제목을 받고
+            self.saveFileName = self.alert.textFields?[0].text ?? "Untitled"
+            print("저장 파일 이름 = ")
+            print(self.saveFileName)
+            //TODO: 아래에서 핸드폰에 csv를 저장해야함
+            print("저장!!!!")
+            let resultString = self.sliceArrayAndReturnCSVString(s: self.jsonResultArr, isCheck_col: self.isClickedArr_col, isCheck_row: self.isClickedArr_row )
+            self.createCSV(csvString: resultString)
+        }
+        cancel = UIAlertAction(title: "Cancel", style: .destructive)
+        alert.addAction(ok)
+        alert.addAction(cancel)
         
+    }
+    
+    private func createCSV(csvString: String) {
+        print("Start Exporting ...")
+        
+        let fileManager = FileManager.default
+        
+        let folderName = "KIS_Finance_Info"
+//        let csvFileName = "myCSVFile.csv"
+        
+        // 폴더 생성 documentDirectory userDomainMask
+        let documentUrl = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let directoryUrl = documentUrl.appendingPathComponent(folderName)
+        do {
+            try fileManager.createDirectory(atPath: directoryUrl.path, withIntermediateDirectories: true, attributes: nil)
+        }
+        catch let error as NSError {
+            print("폴더 생성 에러: \(error)")
+        }
+        
+        // csv 파일 생성
+        let fileUrl = directoryUrl.appendingPathComponent(saveFileName + ".csv")
+        let fileData = csvString.data(using: .utf8)
+        
+        do {
+            try fileData?.write(to: fileUrl)
+            
+            print("Writing CSV to: \(fileUrl.path)")
+        }
+        catch let error as NSError {
+            print("CSV파일 생성 에러: \(error)")
+        }
+    }
+    func sliceArrayAndReturnCSVString(s: [[String]], isCheck_col: [Bool], isCheck_row: [Bool] ) -> String{
+        
+        var result: String = ""
+
+        for i in 0 ..< s.count{
+            if i > 0 && !isCheck_row[i - 1]{
+                continue
+            }
+            for j in 0 ..< s[0].count{
+                if i == 0 {
+                    if isCheck_col[j]{
+                        result += String(s[i][j])
+                        if j != s[0].count - 1{
+                            result += ","
+                        }
+                    }
+                }
+                else{
+                    if isCheck_col[j] {
+                        result += String(s[i][j])
+                        if j != s[0].count - 1{
+                            result += ","
+                        }
+                    }
+                }
+            }
+            result += "\n"
+        }
+        return result
+    }
+    
+    @objc func changeCellColor(_ notification: NSNotification){
+        
+        print(notification.userInfo!["row"]!)
+        print(notification.userInfo!["col"]!)
+        
+        let now_row = notification.userInfo!["row"] as? Int
+        let now_col = notification.userInfo!["col"] as? Int
+        
+        print(type(of:notification.userInfo!["row"]!))
+        print(type(of:notification.userInfo!["col"]!))
+        //첫 행인 경우
+        if now_row == -1{
+          isClickedArr_col[now_col!] = !isClickedArr_col[now_col!]
+        }// 첫 열인 경우
+        else if now_col == -2 {
+            isClickedArr_row[now_row!] = !isClickedArr_row[now_row!]
+        }
+        
+        print("isClickedArr_row 는!!!!!")
+        print(isClickedArr_row)
+        print("isClickedArr_col 는!!!!!")
+        print(isClickedArr_col)
     }
     
     private func setNavigationItems(){
@@ -507,6 +626,14 @@ class ChartViewController: UIViewController {
         self.requestAPI2(itemName: self.itemNmTextField.text, startDate: self.startDate, endDate: self.endDate)
 
     }
+    
+    @objc func saveButtonClicked(){
+        print("저장 버튼 클릭")
+        //날짜정보 / 종목코드 / 종목명 / 상장시장명 / 시가 / 종가 / 최고가 / 최저가
+        //Async 처리
+        
+    }
+    
     // 차트 SwiftUI ViewController present
     @objc func showChartButtonClicked(){
         print("차트 조회 버튼 클릭")
@@ -516,7 +643,8 @@ class ChartViewController: UIViewController {
             print("정보 다 받아왔나?")
             print("차트 조회 버튼 클릭")
             // SwiftUI View를 출력하려면 UIHostingController로 감싸서 띄워야한다.
-            let hostingController = UIHostingController(rootView: SwiftUIChartView(title: self.itemNmTextField.text ?? "종목 이름 오류", securityArr: self.securityInfoArr))
+           
+            let hostingController = UIHostingController(rootView: SwiftUIChartView(title: self.itemNmTextField.text ?? "종목 이름 오류", securityArr: self.securityInfoArr, mkpInfoArr: self.mkpInfoArr, clprInfoArr: self.clprInfoArr, hiprInfoArr: self.hiprInfoArr, loprInfoArr: self.loprInfoArr))
             if #available(iOS 16.0, *) {
                 hostingController.sizingOptions = .preferredContentSize
             } else {
@@ -566,7 +694,7 @@ class ChartViewController: UIViewController {
             $0.edges.equalToSuperview()
         }
         
-        [ itemNmLabel, itemNmTextField, startDateLabel, startDateTextField, endDateLabel, endDateTextField, requestButton, collectionView, showChartButton, blankView].forEach{
+        [ itemNmLabel, itemNmTextField, startDateLabel, startDateTextField, endDateLabel, endDateTextField, requestButton, collectionView,saveButton, showChartButton, blankView].forEach{
 //            view.addSubview($0)
             stackView.addArrangedSubview($0)
         }
@@ -656,6 +784,13 @@ class ChartViewController: UIViewController {
 //            $0.top.equalTo(endDateTextField.snp.bottom).offset(20)
             $0.leading.equalTo(itemNmLabel.snp.trailing).inset(40)
             $0.height.equalTo(400)
+            $0.trailing.equalToSuperview().inset(20)
+        }
+        
+        saveButton.snp.makeConstraints{
+//            $0.top.equalTo(endDateTextField.snp.bottom).offset(20)
+            $0.leading.equalTo(itemNmLabel.snp.trailing).inset(40)
+            $0.height.equalTo(34)
             $0.trailing.equalToSuperview().inset(20)
         }
         
@@ -1082,9 +1217,31 @@ extension ChartViewController{
                     let temp = SecurityInfo(basDt: sd.basDt ?? "20220101", strnCd: sd.srtnCd ?? "071050", itmsNm: sd.itmsNm ?? "한국금융지주", mrktCtg: sd.mrktCtg ?? "KOSPI", mkp: sd.mkp ?? "57600", clpr: sd.clpr ?? "58600", hipr: sd.hipr ?? "58600", lopr: sd.lopr ?? "55600")
                     return temp
                 }
-                print("받아온 배열 (최종)")
+//                print("받아온 배열 (최종)")
                 
-                print(self.securityDataArr)
+//                print(self.securityDataArr)
+                
+                let formatterr = DateFormatter()
+                formatterr.dateFormat = "yyyyMMdd"
+                formatterr.locale = Locale(identifier: "ko_KR")
+                
+//                mkpInfoArr, clprInfoArr, hiprInfoArr, loprInfoArr
+                self.mkpInfoArr = self.securityInfoArr.map{ item -> SiteView in
+                    let temp = SiteView(hour: formatter.date(from: item.basDt)!, views: Double(item.mkp)!)
+                    return temp
+                }
+                self.clprInfoArr = self.securityInfoArr.map{ item -> SiteView in
+                    let temp = SiteView(hour: formatter.date(from: item.basDt)!, views:  Double(item.clpr)!)
+                    return temp
+                }
+                self.hiprInfoArr = self.securityInfoArr.map{ item -> SiteView in
+                    let temp = SiteView(hour: formatter.date(from: item.basDt)!, views:  Double(item.hipr)!)
+                    return temp
+                }
+                self.loprInfoArr = self.securityInfoArr.map{ item -> SiteView in
+                    let temp = SiteView(hour: formatter.date(from: item.basDt)!, views:  Double(item.lopr)!)
+                    return temp
+                }
                 //테이블 뷰 다시 그려줌
 //                self.tableView.reloadData()
             }
