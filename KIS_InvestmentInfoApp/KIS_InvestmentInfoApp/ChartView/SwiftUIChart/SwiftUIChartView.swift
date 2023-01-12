@@ -17,7 +17,7 @@ struct SwiftUIChartView: View {
     
     @State var sampleAnalytics: [SiteView] = sample_analytics
     // MARK: View Properties
-    @State var currentTab: String = "7 Days"
+    @State var currentTab: String = "종가"
     // MARK: Gesture Properties
     @State var currentActiveItem: SiteView?
     @State var plotWidth: CGFloat = 0
@@ -40,11 +40,11 @@ struct SwiftUIChartView: View {
                 // MARK: New Chart API
                 VStack(alignment: .leading, spacing: 12){
                     HStack{
-                        Text("종목 이름")
+                        Text(securityName)
                             .fontWeight(.semibold)
                         Picker("", selection: $currentTab){
-                            Text("7 Days")
-                                .tag("7 Days")
+                            Text("종가")
+                                .tag("종가")
                             Text("Week")
                                 .tag("Week")
                             Text("Month")
@@ -78,7 +78,7 @@ struct SwiftUIChartView: View {
             //MARK: Simply Updating values for segmented Tabs
             .onChange(of: currentTab){ newValue in
                 sampleAnalytics = sample_analytics
-                if newValue != "7 Days"{
+                if newValue != "종가"{
                     for (index, _) in sampleAnalytics.enumerated(){
                         sampleAnalytics[index].views = .random(in: 1500...10000)
                     }
@@ -109,8 +109,9 @@ struct SwiftUIChartView: View {
                     
                 } else {
                     BarMark(x: .value("Hour", item.hour  , unit: .hour),
-                            y: .value("Views", item.animate ? item.views : 0)
+                            y: .value("종가", item.animate ? item.views : 0)
                     )
+                    
                     
                 }
                 

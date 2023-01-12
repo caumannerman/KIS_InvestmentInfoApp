@@ -36,17 +36,7 @@ var sample_analytics: [SiteView] = [
     SiteView(hour: Date().updateHour(value: 17), views: 2200),
     SiteView(hour: Date().updateHour(value: 18), views: 4505),
     SiteView(hour: Date().updateHour(value: 19), views: 1500),
-    SiteView(hour: Date().updateHour(value: 20), views: 3000),
-    SiteView(hour: Date().updateHour(value: 21), views: 9988),
-    SiteView(hour: Date().updateHour(value: 22), views: 2200),
-    SiteView(hour: Date().updateHour(value: 23), views: 4505),
-    SiteView(hour: Date().updateHour(value: 24), views: 1500),
-    SiteView(hour: Date().updateHour(value: 25), views: 3000),
-    SiteView(hour: Date().updateHour(value: 26), views: 9988),
-    SiteView(hour: Date().updateHour(value: 27), views: 2200),
-    SiteView(hour: Date().updateHour(value: 28), views: 4505),
-    SiteView(hour: Date().updateHour(value: 29), views: 1500),
-    SiteView(hour: Date().updateHour(value: 30), views: 3000),
+    
 ]
 
 

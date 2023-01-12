@@ -7,6 +7,7 @@
 
 import Foundation
 
+//날짜정보 / 종목코드 / 종목명 / 상장시장명 / 시가 / 종가 / 최고가 / 최저가
 struct SecurityDataCellData {
     // 날짜정보 ex) 20221228
     let basDt: String?
