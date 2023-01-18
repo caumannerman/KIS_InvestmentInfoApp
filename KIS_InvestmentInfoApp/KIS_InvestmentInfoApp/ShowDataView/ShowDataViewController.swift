@@ -142,9 +142,9 @@ class ShowDataViewController: UIViewController {
     private lazy var callButton: UIButton = {
         let button = UIButton()
         button.setTitle("Call", for: .normal)
-        button.backgroundColor = UIColor(red: 195/255.0, green: 222/255.0, blue: 194/255.0, alpha: 1.0)
+        button.backgroundColor = UIColor(red: 0/255.0, green: 204/255.0, blue: 244/255.0, alpha: 1.0)
         button.layer.borderColor = UIColor(red: 153/255.0, green: 76/255.0, blue: 0/255.0, alpha: 1.0).cgColor
-        button.layer.borderWidth = 2.0
+        button.layer.borderWidth = 1.0
         button.layer.cornerRadius = 10.0
         button.addTarget(self, action: #selector(getfunc), for: .touchUpInside)
         
@@ -154,9 +154,9 @@ class ShowDataViewController: UIViewController {
     private lazy var saveButton: UIButton = {
         let button = UIButton()
         button.setTitle("Save", for: .normal)
-        button.backgroundColor = UIColor(red: 195/255.0, green: 222/255.0, blue: 194/255.0, alpha: 1.0)
+        button.backgroundColor = UIColor(red: 0/255.0, green: 204/255.0, blue: 244/255.0, alpha: 1.0)
         button.layer.borderColor = UIColor(red: 153/255.0, green: 76/255.0, blue: 0/255.0, alpha: 1.0).cgColor
-        button.layer.borderWidth = 2.0
+        button.layer.borderWidth = 1.0
         button.layer.cornerRadius = 10.0
         button.addTarget(self, action: #selector(savefunc), for: .touchUpInside)
         

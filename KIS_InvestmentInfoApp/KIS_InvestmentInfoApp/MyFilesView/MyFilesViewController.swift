@@ -178,14 +178,14 @@ class MyFilesViewController: UIViewController {
     
     
     func attribute(){
-        getDataButton.backgroundColor = UIColor(red: 155/255.0, green: 202/255.0, blue: 184/255.0, alpha: 1.0)
+        getDataButton.backgroundColor = UIColor(red: 0/255.0, green: 204/255.0, blue: 244/255.0, alpha: 1.0)
         getDataButton.setTitle("get", for: .normal)
         getDataButton.addTarget(self, action: #selector(getCsv), for: .touchUpInside)
         getDataButton.layer.cornerRadius = 12.0
         getDataButton.layer.borderWidth = 1.0
         getDataButton.layer.borderColor = UIColor(red: 0/255.0, green: 202/255.0, blue: 184/255.0, alpha: 1.0).cgColor
         
-        saveCsvButton.backgroundColor = UIColor(red: 155/255.0, green: 202/255.0, blue: 184/255.0, alpha: 1.0)
+        saveCsvButton.backgroundColor = UIColor(red: 0/255.0, green: 204/255.0, blue: 244/255.0, alpha: 1.0)
         saveCsvButton.setTitle("save", for: .normal)
         saveCsvButton.addTarget(self, action: #selector(saveCsv), for: .touchUpInside)
         saveCsvButton.layer.cornerRadius = 12.0
@@ -420,6 +420,9 @@ extension MyFilesViewController: UIDocumentPickerDelegate {
         
         self.jsonResultArr = csvStringToArray(csvString: result_string)
         print(jsonResultArr)
+        if jsonResultArr.count == 0 {
+            jsonResultArr = [["내용이 없습니다"], ["비어있는 CSV 파일입니다."]]
+        }
         self.isClickedArr_col = Array(repeating: false, count: self.jsonResultArr[0].count)
         self.isClickedArr_row = Array(repeating: false, count: self.jsonResultArr.count - 1)
         

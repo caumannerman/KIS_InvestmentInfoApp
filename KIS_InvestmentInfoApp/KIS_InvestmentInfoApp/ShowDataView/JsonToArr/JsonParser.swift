@@ -191,15 +191,6 @@ class JsonParser {
                 }
             }
         }
-//        print("최종 결과!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-//        for key_name in final_dict_key{
-//            print(key_name, terminator: " ")
-//            print(final_dict[key_name]!)
-//            print()
-//        }
-        
-//        final_dict_key
-//        final_dict
         var dict_val_max: Int = -1
         for i in final_dict.values {
             dict_val_max = max( dict_val_max, i.count )
@@ -216,6 +207,16 @@ class JsonParser {
         }
         return result_arr
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     public static func jsonToArr2(jsonString: String) -> [[String]]{
 //        print("합수 시작")

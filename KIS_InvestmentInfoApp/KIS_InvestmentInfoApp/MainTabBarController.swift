@@ -43,7 +43,7 @@ class MainTabBarController: UITabBarController{
     }()
     
     private lazy var fourthViewController: UIViewController = {
-        let vc = ViewController()
+        let vc = SettingsViewController()
         let tabBarItem = UITabBarItem(title: "settings", image: UIImage(systemName: "gearshape.fill"), tag: 0)
         
         vc.tabBarItem = tabBarItem
