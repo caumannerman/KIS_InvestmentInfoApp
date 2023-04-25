@@ -14,7 +14,7 @@ class ApiListTableView: UITableView {
         self.dataSource = self
         self.delegate = self
         self.register(ApiListTableViewCell.self, forCellReuseIdentifier: "ApiListTableViewCell")
-        self.rowHeight = 120
+        self.rowHeight = 80
     }
     
     required init?(coder: NSCoder) {
