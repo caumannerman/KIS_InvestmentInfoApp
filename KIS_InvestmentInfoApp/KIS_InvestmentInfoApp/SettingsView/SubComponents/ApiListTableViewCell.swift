@@ -13,13 +13,24 @@ class ApiListTableViewCell: UITableViewCell {
     private var isValid: Bool = false
     private var isStar: Bool = false
     
-    private lazy var aliasLabel: UILabel = {
-        let label = UILabel()
+    private lazy var aliasLabel: UITextField = {
+        let label = UITextField()
         label.backgroundColor = .white
-        label.font = .systemFont(ofSize: 16.0, weight: .bold)
+        label.font = .systemFont(ofSize: 18.0, weight: .bold)
         label.textColor = .black
         label.text = "URL별칭"
+        label.textAlignment = .center
+        label.isEnabled = false
         return label
+    }()
+    
+    private lazy var reviseButton: UIImageView = {
+        let iv = UIImageView()
+        iv.image = UIImage(systemName: "pencil")
+        iv.isUserInteractionEnabled = true
+        let settingTap = UITapGestureRecognizer(target: self, action: #selector(settingTapped))
+        iv.addGestureRecognizer(settingTap)
+        return iv
     }()
     
     private lazy var urlLabel: UILabel = {
@@ -31,18 +42,20 @@ class ApiListTableViewCell: UITableViewCell {
         return label
     }()
     
-    private lazy var starButton: UIButton = {
-        let btn = UIButton()
+    private lazy var starButton: UIImageView = {
+        let iv = UIImageView()
         
-        btn.setImage(UIImage(systemName: "star"), for: .normal)
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.contentMode = .scaleAspectFill
-        btn.clipsToBounds = true
-        btn.layer.cornerRadius = 10
-        btn.backgroundColor = .white
-        btn.addTarget(self, action: #selector(didClickStarButton), for: .touchUpInside)
+        iv.image = UIImage(systemName: "star")
+        iv.translatesAutoresizingMaskIntoConstraints = false
+        iv.contentMode = .scaleAspectFill
+        iv.clipsToBounds = true
+        iv.backgroundColor = .white
         
-        return btn
+        iv.isUserInteractionEnabled = true
+        let settingTap = UITapGestureRecognizer(target: self, action: #selector(didClickStarButton))
+        iv.addGestureRecognizer(settingTap)
+        
+        return iv
     }()
     
     private lazy var validationButton: UIButton = {
@@ -61,6 +74,11 @@ class ApiListTableViewCell: UITableViewCell {
         return btn
     }()
     
+    @objc func settingTapped(){
+        print("연필 클릭")
+        aliasLabel.isEnabled = true
+        
+    }
     @objc func didClickValidButton(){
         print("didValidButton click")
         isValid = !isValid
@@ -80,9 +98,9 @@ class ApiListTableViewCell: UITableViewCell {
         isStar = !isStar
         switch isStar{
         case true:
-            starButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+            starButton.image = UIImage(systemName: "star.fill")
         default:
-            starButton.setImage(UIImage(systemName: "star"), for: .normal)
+            starButton.image = UIImage(systemName: "star")
         }
     }
     
@@ -106,15 +124,22 @@ class ApiListTableViewCell: UITableViewCell {
     }
     
     private func layout(){
-        [aliasLabel, urlLabel, starButton, validationButton].forEach{
+        [aliasLabel, reviseButton, urlLabel, starButton, validationButton].forEach{
             addSubview($0)
         }
         
         aliasLabel.snp.makeConstraints{
             $0.top.equalToSuperview().inset(6)
             $0.leading.equalToSuperview().inset(6)
-            $0.width.equalTo(100)
-            $0.height.equalTo(30)
+//            $0.width.equalTo(100)
+//            $0.height.equalTo(30)
+        }
+        
+        reviseButton.snp.makeConstraints{
+            $0.bottom.equalTo(aliasLabel.snp.bottom).offset(2)
+            $0.leading.equalTo(aliasLabel.snp.trailing).offset(2)
+            $0.width.equalTo(18)
+            $0.height.equalTo(18)
         }
         
         urlLabel.snp.makeConstraints{
@@ -127,8 +152,8 @@ class ApiListTableViewCell: UITableViewCell {
         starButton.snp.makeConstraints{
             $0.top.equalToSuperview().inset(6)
             $0.trailing.equalToSuperview().inset(6)
-            $0.width.equalTo(30)
-            $0.height.equalTo(30)
+            $0.width.equalTo(22)
+            $0.height.equalTo(22)
         }
         
         validationButton.snp.makeConstraints{
