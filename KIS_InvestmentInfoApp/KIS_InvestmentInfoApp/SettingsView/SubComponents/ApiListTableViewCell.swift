@@ -11,30 +11,51 @@ import SnapKit
 class ApiListTableViewCell: UITableViewCell {
     
     private var isValid: Bool = false
+    private var isStar: Bool = false
     
     private lazy var aliasLabel: UILabel = {
         let label = UILabel()
-        label.backgroundColor = .systemMint
+        label.backgroundColor = .white
+        label.font = .systemFont(ofSize: 16.0, weight: .bold)
+        label.textColor = .black
+        label.text = "URL별칭"
         return label
     }()
     
     private lazy var urlLabel: UILabel = {
         let label = UILabel()
-        label.backgroundColor = .yellow
+        label.backgroundColor = .white
+        label.font = .systemFont(ofSize: 12.0, weight: .regular)
+        label.textColor = .darkGray
+        label.text = "www.abababababab.com"
         return label
+    }()
+    
+    private lazy var starButton: UIButton = {
+        let btn = UIButton()
+        
+        btn.setImage(UIImage(systemName: "star"), for: .normal)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.contentMode = .scaleAspectFill
+        btn.clipsToBounds = true
+        btn.layer.cornerRadius = 10
+        btn.backgroundColor = .white
+        btn.addTarget(self, action: #selector(didClickStarButton), for: .touchUpInside)
+        
+        return btn
     }()
     
     private lazy var validationButton: UIButton = {
         let btn = UIButton()
         
         btn.backgroundColor = .systemBackground
-        btn.layer.borderColor = UIColor.magenta.cgColor
+        btn.layer.borderColor = UIColor.darkGray.cgColor
         btn.layer.borderWidth = 2
         btn.layer.cornerRadius = 6
         btn.addTarget(self, action: #selector(didClickValidButton), for: .touchUpInside)
         btn.setTitle("만료", for: .normal)
         btn.titleLabel?.font = .systemFont(ofSize: 14.0, weight: .bold)
-        btn.setTitleColor(.magenta, for: .normal)
+        btn.setTitleColor(.darkGray, for: .normal)
         
         
         return btn
@@ -42,15 +63,27 @@ class ApiListTableViewCell: UITableViewCell {
     
     @objc func didClickValidButton(){
         print("didValidButton click")
-        self.isValid = !self.isValid
+        isValid = !isValid
         if self.isValid {
             validationButton.setTitle("유효", for: .normal)
+            validationButton.layer.borderColor = UIColor.red.cgColor
+            validationButton.setTitleColor(.red, for: .normal)
         }
         else {
             validationButton.setTitle("만료", for: .normal)
+            validationButton.layer.borderColor = UIColor.darkGray.cgColor
+            validationButton.setTitleColor(.darkGray, for: .normal)
         }
-        
-        
+    }
+    @objc func didClickStarButton(){
+        print("star button clicked")
+        isStar = !isStar
+        switch isStar{
+        case true:
+            starButton.setImage(UIImage(systemName: "star.fill"), for: .normal)
+        default:
+            starButton.setImage(UIImage(systemName: "star"), for: .normal)
+        }
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -73,7 +106,7 @@ class ApiListTableViewCell: UITableViewCell {
     }
     
     private func layout(){
-        [aliasLabel, urlLabel, validationButton].forEach{
+        [aliasLabel, urlLabel, starButton, validationButton].forEach{
             addSubview($0)
         }
         
@@ -89,8 +122,15 @@ class ApiListTableViewCell: UITableViewCell {
             $0.leading.equalToSuperview().inset(6)
             $0.width.equalTo(250)
             $0.height.equalTo(30)
-            
         }
+        
+        starButton.snp.makeConstraints{
+            $0.top.equalToSuperview().inset(6)
+            $0.trailing.equalToSuperview().inset(6)
+            $0.width.equalTo(30)
+            $0.height.equalTo(30)
+        }
+        
         validationButton.snp.makeConstraints{
             $0.bottom.equalToSuperview().inset(6)
             $0.trailing.equalToSuperview().inset(6)
