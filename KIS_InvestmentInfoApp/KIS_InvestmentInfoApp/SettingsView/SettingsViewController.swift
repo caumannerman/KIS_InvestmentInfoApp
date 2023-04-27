@@ -24,6 +24,7 @@ import SnapKit
 final class SettingsViewController: UIViewController {
     
     private let apitableView = ApiListTableView()
+    
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -39,6 +40,12 @@ final class SettingsViewController: UIViewController {
         view.backgroundColor = UIColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1.0)
         setupNavigationItems()
         setupLayout()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // Home 화면에서 받아오고,업데이트한 UserDefaults저장정보들을 그대로 가져옴
+        
     }
     
     func setupNavigationItems(){
@@ -67,11 +74,5 @@ final class SettingsViewController: UIViewController {
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
-        
-       
     }
-    
-    
-    
 }
-

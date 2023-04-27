@@ -82,7 +82,11 @@ class ApiListTableViewCell: UITableViewCell {
     @objc func didClickValidButton(){
         print("didValidButton click")
         isValid = !isValid
-        if self.isValid {
+        changeValidButton(self.isValid)
+    }
+    // setup에서도 사용하기 위해, isValid값에 따른 색,글자를 변경하는 부분을 별도 함수로 분리하였다.
+    func changeValidButton(_ isValid: Bool){
+        if isValid {
             validationButton.setTitle("유효", for: .normal)
             validationButton.layer.borderColor = UIColor.red.cgColor
             validationButton.setTitleColor(.red, for: .normal)
@@ -93,9 +97,14 @@ class ApiListTableViewCell: UITableViewCell {
             validationButton.setTitleColor(.darkGray, for: .normal)
         }
     }
+    
     @objc func didClickStarButton(){
         print("star button clicked")
         isStar = !isStar
+        changeStarButton(self.isStar)
+        
+    }
+    func changeStarButton(_ isStar: Bool){
         switch isStar{
         case true:
             starButton.image = UIImage(systemName: "star.fill")
@@ -165,5 +174,12 @@ class ApiListTableViewCell: UITableViewCell {
         
     }
     
-
+    func setup(urlAlias: String, url: String, isValid: Bool, isStar: Bool ){
+        self.aliasLabel.text = urlAlias
+        self.urlLabel.text = url
+        self.isValid = isValid
+        changeValidButton(isValid)
+        self.isStar = isStar
+        changeStarButton(isStar)
+    }
 }

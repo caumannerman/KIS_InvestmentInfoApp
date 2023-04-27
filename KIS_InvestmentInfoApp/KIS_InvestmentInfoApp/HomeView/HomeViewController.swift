@@ -13,12 +13,11 @@ class HomeViewController: UIViewController {
     
     private let alert = UIAlertController(title: "api별칭 입력", message: "별칭을 입력해주세요", preferredStyle: .alert)
     private var ok = UIAlertAction()
+    
     // urlsAlias와 urlsArr은 갯수를 항상 동일하게맞추어야한다.
     private var urlsAlias: [String] = []
     //검색했던 URL들을 담을 배열
     private var urlsArr: [String] = []
-    //header를 담기위한 dictionary
-    private var headerDict: [String: String] = [:]
     
     private func isFirstTime() -> Bool {
         let defaults = UserDefaults.standard
@@ -71,7 +70,6 @@ class HomeViewController: UIViewController {
         print(ur)
         self.uiSc.isActive = true
         self.uiSc.isEditing = true
-       
     }
     
     override func viewDidLoad() {
