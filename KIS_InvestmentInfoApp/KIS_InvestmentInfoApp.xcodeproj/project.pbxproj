@@ -32,7 +32,6 @@
 		A5558006296273B100919868 /* ShowDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5558005296273B000919868 /* ShowDataViewController.swift */; };
 		A555800C29627B9300919868 /* ButtonListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A555800B29627B9300919868 /* ButtonListViewCell.swift */; };
 		A55580112962957B00919868 /* ButtonListViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55580102962957B00919868 /* ButtonListViewLayout.swift */; };
-		A55580162962E7D000919868 /* AddHeaderViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55580152962E7D000919868 /* AddHeaderViewCell.swift */; };
 		A5D1BC13296982480045045B /* ShowDataViewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D1BC12296982480045045B /* ShowDataViewCollectionViewCell.swift */; };
 		A5D1BC80296BD3480045045B /* GridCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D1BC7F296BD3480045045B /* GridCollectionViewLayout.swift */; };
 		A5D1BC8A296BE7EE0045045B /* SiteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D1BC89296BE7EE0045045B /* SiteView.swift */; };
@@ -68,7 +67,6 @@
 		A5558005296273B000919868 /* ShowDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDataViewController.swift; sourceTree = "<group>"; };
 		A555800B29627B9300919868 /* ButtonListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonListViewCell.swift; sourceTree = "<group>"; };
 		A55580102962957B00919868 /* ButtonListViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonListViewLayout.swift; sourceTree = "<group>"; };
-		A55580152962E7D000919868 /* AddHeaderViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddHeaderViewCell.swift; sourceTree = "<group>"; };
 		A5D1BC12296982480045045B /* ShowDataViewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDataViewCollectionViewCell.swift; sourceTree = "<group>"; };
 		A5D1BC7F296BD3480045045B /* GridCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewLayout.swift; sourceTree = "<group>"; };
 		A5D1BC89296BE7EE0045045B /* SiteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteView.swift; sourceTree = "<group>"; };
@@ -204,7 +202,6 @@
 			isa = PBXGroup;
 			children = (
 				A5558002296257F300919868 /* HomeViewController.swift */,
-				A55580172962E7D400919868 /* AddHeaderView */,
 			);
 			path = HomeView;
 			sourceTree = "<group>";
@@ -238,14 +235,6 @@
 				A55580102962957B00919868 /* ButtonListViewLayout.swift */,
 			);
 			path = ButtonList;
-			sourceTree = "<group>";
-		};
-		A55580172962E7D400919868 /* AddHeaderView */ = {
-			isa = PBXGroup;
-			children = (
-				A55580152962E7D000919868 /* AddHeaderViewCell.swift */,
-			);
-			path = AddHeaderView;
 			sourceTree = "<group>";
 		};
 		A5D1BC83296BDBE40045045B /* SwiftUIChart */ = {
@@ -378,7 +367,6 @@
 				A5557FF5296250D300919868 /* ExchangeRateCellData.swift in Sources */,
 				A53EA68F29624D3600F0E24A /* AppDelegate.swift in Sources */,
 				A53EA6A329624EBE00F0E24A /* MainTabBarController.swift in Sources */,
-				A55580162962E7D000919868 /* AddHeaderViewCell.swift in Sources */,
 				A5FB4AFE296FAEB700ADD977 /* ProfileDataView.swift in Sources */,
 				A5FB4B00296FAED000ADD977 /* ProfileCollectionViewCell.swift in Sources */,
 				8C5E2AD729F797EB00C6061E /* ApiListTableViewCell.swift in Sources */,
