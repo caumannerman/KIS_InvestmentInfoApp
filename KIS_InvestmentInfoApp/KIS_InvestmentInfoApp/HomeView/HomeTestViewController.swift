@@ -10,7 +10,7 @@ import SwiftUI
 import SnapKit
 
 class HomeTestViewController: UIViewController {
-
+     
     
 //    private lazy var headerView: UIView = {
 //        let hdv: UIView = UIView()
@@ -18,10 +18,50 @@ class HomeTestViewController: UIViewController {
 //        return hdv
 //    }()
     
+    // ---------------------================= UI Components =================--------------------- //
+    
+    
     private lazy var bannerView: UIView = {
         let view = UIView()
         view.backgroundColor = .brown
+        
+        let label = UILabel()
+        label.textColor = .white
+        label.textAlignment = .center
+        label.font = .systemFont(ofSize: 30.0, weight: .bold)
+        label.text = "이벤트 배너"
+        
+        view.addSubview(label)
+        label.snp.makeConstraints{
+            $0.edges.equalToSuperview()
+        }
         return view
+    }()
+    
+    private lazy var market_url_view: UIView = {
+        let view = UIView()
+        view.backgroundColor = .yellow
+        return view
+    }()
+    private lazy var marketButton: UIButton = {
+        let btn = UIButton()
+        btn.backgroundColor = UIColor(red: 0/255.0, green: 204/255.0, blue: 244/255.0, alpha: 1.0)
+        btn.setTitle("시장정보", for: .normal)
+        btn.addTarget(self, action: #selector(didTapMarketButton), for: .touchUpInside)
+        btn.layer.cornerRadius = 12.0
+        btn.layer.borderWidth = 1.0
+        btn.layer.borderColor = UIColor(red: 0/255.0, green: 202/255.0, blue: 184/255.0, alpha: 1.0).cgColor
+        return btn
+    }()
+    private lazy var urlSearchButton: UIButton = {
+        let btn = UIButton()
+        btn.backgroundColor = UIColor(red: 0/255.0, green: 204/255.0, blue: 244/255.0, alpha: 1.0)
+        btn.setTitle("URL검색", for: .normal)
+        btn.addTarget(self, action: #selector(didTapUrlSearchButton), for: .touchUpInside)
+        btn.layer.cornerRadius = 12.0
+        btn.layer.borderWidth = 1.0
+        btn.layer.borderColor = UIColor(red: 0/255.0, green: 202/255.0, blue: 184/255.0, alpha: 1.0).cgColor
+        return btn
     }()
     
     
@@ -42,7 +82,23 @@ class HomeTestViewController: UIViewController {
         swiftUIView.view.translatesAutoresizingMaskIntoConstraints = false
         return swiftUIView
     }()
+    // ---------------------===================================================--------------------- //
+    
+    @objc func didTapMarketButton(){
+        print("didTap MarketButton")
+    }
+    
+    @objc func didTapUrlSearchButton(){
+        print("didTap UrlSearchButton")
+    }
+    
+    // ---------------------==================== Rx Traits ====================--------------------- //
 
+    
+    
+    // ---------------------===================================================--------------------- //
+    
+    
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -65,6 +121,7 @@ class HomeTestViewController: UIViewController {
     private func setNavigationItems(){
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "KISFI"
+        navigationController?.navigationBar.prefersLargeTitles = false
         
         let rightBarButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .plain, target: self, action: #selector(didTapRightBarButtonItem))
         rightBarButton.tintColor = .red
@@ -74,9 +131,12 @@ class HomeTestViewController: UIViewController {
     @objc func didTapRightBarButtonItem(){
         print("ll")
         let vc = HomeViewController()
-        self.present(vc, animated: true){
-            print("URL페이지 present")
-        }
+        self.navigationController?.pushViewController(vc, animated: true)
+        
+        
+//        self.present(vc, animated: true){
+//            print("URL페이지 present")
+//        }
     }
     
     private func bind(){
@@ -86,14 +146,36 @@ class HomeTestViewController: UIViewController {
         self.hostingControllerUIView.addSubview(self.marketInfoHostingController.view)
     }
     private func layout(){
-        [ bannerView, hostingControllerUIView].forEach{
+        [ bannerView, market_url_view, hostingControllerUIView].forEach{
             view.addSubview($0)
         }
         
         bannerView.snp.makeConstraints{
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(80)
+            $0.height.equalTo(90)
+        }
+        
+        market_url_view.snp.makeConstraints{
+            $0.top.equalTo(bannerView.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(42)
+        }
+        
+        [marketButton, urlSearchButton].forEach{
+            market_url_view.addSubview($0)
+        }
+        
+        marketButton.snp.makeConstraints{
+            $0.top.bottom.equalToSuperview()
+            $0.leading.equalToSuperview()
+            $0.width.equalTo(100)
+        }
+        
+        urlSearchButton.snp.makeConstraints{
+            $0.top.bottom.equalToSuperview()
+            $0.trailing.equalToSuperview()
+            $0.width.equalTo(100)
         }
 //        headerView.snp.makeConstraints{
 //            $0.top.equalTo(view.safeAreaLayoutGuide)
@@ -102,7 +184,7 @@ class HomeTestViewController: UIViewController {
 //        }
 //
         hostingControllerUIView.snp.makeConstraints{
-            $0.top.equalTo(bannerView.snp.bottom)
+            $0.top.equalTo(market_url_view.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
             

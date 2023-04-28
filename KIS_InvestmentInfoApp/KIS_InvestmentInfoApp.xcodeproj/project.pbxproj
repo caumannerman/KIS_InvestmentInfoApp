@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		8C017D5829FB4861009EAC37 /* MarketInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C017D5729FB4861009EAC37 /* MarketInfoView.swift */; };
 		8C017D5A29FB4FF5009EAC37 /* HomeTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C017D5929FB4FF5009EAC37 /* HomeTestViewController.swift */; };
+		8C017D5C29FBA0E6009EAC37 /* UrlSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C017D5B29FBA0E6009EAC37 /* UrlSearchView.swift */; };
 		8C5E2AD529F797D600C6061E /* ApiListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5E2AD429F797D600C6061E /* ApiListTableView.swift */; };
 		8C5E2AD729F797EB00C6061E /* ApiListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5E2AD629F797EB00C6061E /* ApiListTableViewCell.swift */; };
 		A5200E6929658CAC00FBFCAF /* ButtonListViewCellCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5200E6829658CAC00FBFCAF /* ButtonListViewCellCell.swift */; };
@@ -46,6 +47,7 @@
 /* Begin PBXFileReference section */
 		8C017D5729FB4861009EAC37 /* MarketInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketInfoView.swift; sourceTree = "<group>"; };
 		8C017D5929FB4FF5009EAC37 /* HomeTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTestViewController.swift; sourceTree = "<group>"; };
+		8C017D5B29FBA0E6009EAC37 /* UrlSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlSearchView.swift; sourceTree = "<group>"; };
 		8C5E2AD429F797D600C6061E /* ApiListTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiListTableView.swift; sourceTree = "<group>"; };
 		8C5E2AD629F797EB00C6061E /* ApiListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiListTableViewCell.swift; sourceTree = "<group>"; };
 		A5200E6829658CAC00FBFCAF /* ButtonListViewCellCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonListViewCellCell.swift; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 				A5558002296257F300919868 /* HomeViewController.swift */,
 				8C017D5729FB4861009EAC37 /* MarketInfoView.swift */,
 				8C017D5929FB4FF5009EAC37 /* HomeTestViewController.swift */,
+				8C017D5B29FBA0E6009EAC37 /* UrlSearchView.swift */,
 			);
 			path = HomeView;
 			sourceTree = "<group>";
@@ -368,6 +371,7 @@
 				A5200E6929658CAC00FBFCAF /* ButtonListViewCellCell.swift in Sources */,
 				8C017D5A29FB4FF5009EAC37 /* HomeTestViewController.swift in Sources */,
 				A5D1BC8A296BE7EE0045045B /* SiteView.swift in Sources */,
+				8C017D5C29FBA0E6009EAC37 /* UrlSearchView.swift in Sources */,
 				A555800C29627B9300919868 /* ButtonListViewCell.swift in Sources */,
 				A5D1BC13296982480045045B /* ShowDataViewCollectionViewCell.swift in Sources */,
 				A5D1BC80296BD3480045045B /* GridCollectionViewLayout.swift in Sources */,
