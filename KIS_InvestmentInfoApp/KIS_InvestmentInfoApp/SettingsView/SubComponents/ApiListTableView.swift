@@ -50,7 +50,6 @@ extension ApiListTableView: UITableViewDelegate{
             print("삭제")
             
         }
-        
     }
 }
 

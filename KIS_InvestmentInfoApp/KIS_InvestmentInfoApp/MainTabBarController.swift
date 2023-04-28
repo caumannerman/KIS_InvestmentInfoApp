@@ -8,13 +8,16 @@
 import Foundation
 import UIKit
 
+
 class MainTabBarController: UITabBarController{
 
     //TabBar 가운데 동그란 버튼
     let centerButton = UIButton()
     
     private lazy var firstViewController: UIViewController = {
-        let vc = HomeViewController()
+//        let vc = HomeViewController()
+//        let vc = UIHostingController(rootView: MarketInfoView())
+        let vc = HomeTestViewController()
         let tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 0)
         
         vc.tabBarItem = tabBarItem
