@@ -19,7 +19,7 @@ class UrlSearchView: UIView {
     private let alert = UIAlertController(title: "api별칭 입력", message: "별칭을 입력해주세요", preferredStyle: .alert)
     private var ok = UIAlertAction()
     
-    private let urlSearchTextField = UrlSearchTextFieldView()
+    private let urlSearchTextFieldView = UrlSearchTextFieldView()
     private let urlSearchTableView = UrlSearchTableView()
     
     
@@ -70,17 +70,17 @@ class UrlSearchView: UIView {
     }
     
     private func layout(){
-        [urlSearchTextField, urlSearchTableView].forEach{
+        [urlSearchTextFieldView, urlSearchTableView].forEach{
             addSubview($0)
         }
         
-        urlSearchTextField.snp.makeConstraints{
+        urlSearchTextFieldView.snp.makeConstraints{
             $0.top.leading.trailing.equalToSuperview()
             $0.height.equalTo(60)
         }
         
         urlSearchTableView.snp.makeConstraints{
-            $0.top.equalTo(urlSearchTextField.snp.bottom)
+            $0.top.equalTo(urlSearchTextFieldView.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview()
         }

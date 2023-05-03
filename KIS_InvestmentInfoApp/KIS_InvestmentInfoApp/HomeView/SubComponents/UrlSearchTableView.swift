@@ -36,6 +36,10 @@ class UrlSearchTableView: UITableView {
 extension UrlSearchTableView: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("Did click cell!" + "\(indexPath)")
+        let url = urlsArr[indexPath.row]
+        let vc = ShowDataViewController()
+        vc.setup(apiUrl: url)
+        
     }
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {

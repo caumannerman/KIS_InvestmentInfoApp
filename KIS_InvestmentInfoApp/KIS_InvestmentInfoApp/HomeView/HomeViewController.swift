@@ -1,5 +1,5 @@
 //
-//  HomeTestViewController.swift
+//  HomeViewController.swift
 //  KIS_InvestmentInfoApp
 //
 //  Created by 양준식 on 2023/04/28.
@@ -9,7 +9,7 @@ import UIKit
 import SwiftUI
 import SnapKit
 
-class HomeTestViewController: UIViewController {
+class HomeViewController: UIViewController {
      
     private var isMarket: Bool = true
 //    private lazy var headerView: UIView = {
@@ -18,7 +18,7 @@ class HomeTestViewController: UIViewController {
 //        return hdv
 //    }()
     
-    private lazy var urltestView = UrlSearchView()
+    
     
     // ---------------------================= UI Components =================--------------------- //
     
@@ -91,6 +91,8 @@ class HomeTestViewController: UIViewController {
 //        swiftUIView.view.translatesAutoresizingMaskIntoConstraints = false
         return swiftUIView
     }()
+    
+    private lazy var urlSearchView = UrlSearchView()
     // ---------------------===================================================--------------------- //
     
     @objc func didTapMarketButton(){
@@ -118,7 +120,7 @@ class HomeTestViewController: UIViewController {
     }
     private func changeUI_byCategory(_ isMarket: Bool){
         if isMarket{
-            urltestView.snp.removeConstraints()
+            urlSearchView.snp.removeConstraints()
             self.view.addSubview(hostingControllerUIView)
             hostingControllerUIView.snp.makeConstraints{
                 $0.top.equalTo(market_url_view.snp.bottom)
@@ -130,8 +132,8 @@ class HomeTestViewController: UIViewController {
         else {
       
             hostingControllerUIView.snp.removeConstraints()
-            self.view.addSubview(urltestView)
-            urltestView.snp.makeConstraints{
+            self.view.addSubview(urlSearchView)
+            urlSearchView.snp.makeConstraints{
                 $0.top.equalTo(market_url_view.snp.bottom)
                 $0.leading.trailing.equalToSuperview()
                 $0.bottom.equalTo(view.safeAreaLayoutGuide)
@@ -177,7 +179,7 @@ class HomeTestViewController: UIViewController {
     
     @objc func didTapRightBarButtonItem(){
         print("ll")
-        let vc = HomeViewController()
+        let vc = UrlSearchViewController()
         self.navigationController?.pushViewController(vc, animated: true)
 //        self.present(vc, animated: true){
 //            print("URL페이지 present")

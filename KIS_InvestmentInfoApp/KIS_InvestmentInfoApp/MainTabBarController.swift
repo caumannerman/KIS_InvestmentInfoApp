@@ -15,9 +15,9 @@ class MainTabBarController: UITabBarController{
     let centerButton = UIButton()
     
     private lazy var firstViewController: UIViewController = {
-//        let vc = HomeViewController()
+//        let vc = UrlSearchViewController()
 //        let vc = UIHostingController(rootView: MarketInfoView())
-        let vc = HomeTestViewController()
+        let vc = HomeViewController()
         let tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house"), tag: 0)
         
         vc.tabBarItem = tabBarItem

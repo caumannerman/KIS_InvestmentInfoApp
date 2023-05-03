@@ -1,5 +1,5 @@
 //
-//  HomeViewController.swift
+//  UrlSearchViewController.swift
 //  KIS_InvestmentInfoApp
 //
 //  Created by 양준식 on 2023/01/02.
@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Alamofire
 
-class HomeViewController: UIViewController {
+class UrlSearchViewController: UIViewController {
     
     private let alert = UIAlertController(title: "api별칭 입력", message: "별칭을 입력해주세요", preferredStyle: .alert)
     private var ok = UIAlertAction()
@@ -172,7 +172,7 @@ class HomeViewController: UIViewController {
     }
 }
 
-extension HomeViewController: UISearchBarDelegate{
+extension UrlSearchViewController: UISearchBarDelegate{
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         //이전 검색이 있었을 경우에, DidEndEditing에서 stations리스트를 비워두었고 tableView는 그대로이기 때문에
         // reloadData() 해주지 않으면 이전 검색 내역이 그대로 tableView에 남아있다.
@@ -228,7 +228,7 @@ extension HomeViewController: UISearchBarDelegate{
 }
 
 //TableView에 대한 delegate설정
-extension HomeViewController: UITableViewDataSource {
+extension UrlSearchViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
             return urlsArr.count
     }
@@ -261,7 +261,7 @@ extension HomeViewController: UITableViewDataSource {
     }
 }
 
-extension HomeViewController: UITableViewDelegate{
+extension UrlSearchViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
      
         let url = urlsArr[indexPath.row]
@@ -274,7 +274,7 @@ extension HomeViewController: UITableViewDelegate{
     }
 }
 
-extension HomeViewController {
+extension UrlSearchViewController {
     private func requestStationName(){
 //        self.urlsArr.append("newUrl")
 //        self.urlsAlias.append("newUrlAlias")

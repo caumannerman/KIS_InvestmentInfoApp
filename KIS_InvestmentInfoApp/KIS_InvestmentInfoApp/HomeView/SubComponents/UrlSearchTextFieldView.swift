@@ -30,7 +30,7 @@ class UrlSearchTextFieldView: UIView {
         urlSearchTextField.layer.borderColor = UIColor.black.cgColor
         urlSearchTextField.layer.cornerRadius = 10.0
         urlSearchTextField.font = .systemFont(ofSize: 36.0, weight: .regular)
-        urlSearchTextField.textColor = .red
+        urlSearchTextField.textColor = .white
     }
     
     private func layout(){

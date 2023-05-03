@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8C017D5829FB4861009EAC37 /* MarketInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C017D5729FB4861009EAC37 /* MarketInfoView.swift */; };
-		8C017D5A29FB4FF5009EAC37 /* HomeTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C017D5929FB4FF5009EAC37 /* HomeTestViewController.swift */; };
+		8C017D5A29FB4FF5009EAC37 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C017D5929FB4FF5009EAC37 /* HomeViewController.swift */; };
 		8C017D5C29FBA0E6009EAC37 /* UrlSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C017D5B29FBA0E6009EAC37 /* UrlSearchView.swift */; };
 		8C5E2AD529F797D600C6061E /* ApiListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5E2AD429F797D600C6061E /* ApiListTableView.swift */; };
 		8C5E2AD729F797EB00C6061E /* ApiListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5E2AD629F797EB00C6061E /* ApiListTableViewCell.swift */; };
@@ -34,7 +34,7 @@
 		A5557FFA2962578F00919868 /* ChartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5557FF92962578F00919868 /* ChartViewController.swift */; };
 		A5557FFC2962579F00919868 /* MyFilesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5557FFB2962579F00919868 /* MyFilesViewController.swift */; };
 		A5557FFE296257A900919868 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5557FFD296257A900919868 /* SettingsViewController.swift */; };
-		A5558003296257F300919868 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5558002296257F300919868 /* HomeViewController.swift */; };
+		A5558003296257F300919868 /* UrlSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5558002296257F300919868 /* UrlSearchViewController.swift */; };
 		A5558006296273B100919868 /* ShowDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5558005296273B000919868 /* ShowDataViewController.swift */; };
 		A555800C29627B9300919868 /* ButtonListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A555800B29627B9300919868 /* ButtonListViewCell.swift */; };
 		A55580112962957B00919868 /* ButtonListViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A55580102962957B00919868 /* ButtonListViewLayout.swift */; };
@@ -49,7 +49,7 @@
 
 /* Begin PBXFileReference section */
 		8C017D5729FB4861009EAC37 /* MarketInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketInfoView.swift; sourceTree = "<group>"; };
-		8C017D5929FB4FF5009EAC37 /* HomeTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTestViewController.swift; sourceTree = "<group>"; };
+		8C017D5929FB4FF5009EAC37 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		8C017D5B29FBA0E6009EAC37 /* UrlSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlSearchView.swift; sourceTree = "<group>"; };
 		8C5E2AD429F797D600C6061E /* ApiListTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiListTableView.swift; sourceTree = "<group>"; };
 		8C5E2AD629F797EB00C6061E /* ApiListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiListTableViewCell.swift; sourceTree = "<group>"; };
@@ -75,7 +75,7 @@
 		A5557FF92962578F00919868 /* ChartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewController.swift; sourceTree = "<group>"; };
 		A5557FFB2962579F00919868 /* MyFilesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyFilesViewController.swift; sourceTree = "<group>"; };
 		A5557FFD296257A900919868 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		A5558002296257F300919868 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		A5558002296257F300919868 /* UrlSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlSearchViewController.swift; sourceTree = "<group>"; };
 		A5558005296273B000919868 /* ShowDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowDataViewController.swift; sourceTree = "<group>"; };
 		A555800B29627B9300919868 /* ButtonListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonListViewCell.swift; sourceTree = "<group>"; };
 		A55580102962957B00919868 /* ButtonListViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonListViewLayout.swift; sourceTree = "<group>"; };
@@ -113,6 +113,7 @@
 		8C8250122A020966002B8A3B /* SubComponents */ = {
 			isa = PBXGroup;
 			children = (
+				8C017D5B29FBA0E6009EAC37 /* UrlSearchView.swift */,
 				8C8250132A02098E002B8A3B /* UrlSearchTableView.swift */,
 				8C8250182A020DA4002B8A3B /* UrlSearchTableViewCell.swift */,
 				8C82501B2A023130002B8A3B /* UrlSearchTextFieldView.swift */,
@@ -123,7 +124,7 @@
 		8C8250172A0209FA002B8A3B /* NotUsedScreen */ = {
 			isa = PBXGroup;
 			children = (
-				A5558002296257F300919868 /* HomeViewController.swift */,
+				A5558002296257F300919868 /* UrlSearchViewController.swift */,
 			);
 			path = NotUsedScreen;
 			sourceTree = "<group>";
@@ -240,10 +241,9 @@
 		A5558004296257F500919868 /* HomeView */ = {
 			isa = PBXGroup;
 			children = (
+				8C017D5929FB4FF5009EAC37 /* HomeViewController.swift */,
 				8C82501A2A022AC0002B8A3B /* SwiftUI */,
 				8C8250122A020966002B8A3B /* SubComponents */,
-				8C017D5929FB4FF5009EAC37 /* HomeTestViewController.swift */,
-				8C017D5B29FBA0E6009EAC37 /* UrlSearchView.swift */,
 			);
 			path = HomeView;
 			sourceTree = "<group>";
@@ -402,7 +402,7 @@
 				A53EA69329624D3600F0E24A /* ViewController.swift in Sources */,
 				A5557FF3296250C900919868 /* ExchangeRate.swift in Sources */,
 				A5200E6929658CAC00FBFCAF /* ButtonListViewCellCell.swift in Sources */,
-				8C017D5A29FB4FF5009EAC37 /* HomeTestViewController.swift in Sources */,
+				8C017D5A29FB4FF5009EAC37 /* HomeViewController.swift in Sources */,
 				A5D1BC8A296BE7EE0045045B /* SiteView.swift in Sources */,
 				8C017D5C29FBA0E6009EAC37 /* UrlSearchView.swift in Sources */,
 				A555800C29627B9300919868 /* ButtonListViewCell.swift in Sources */,
@@ -421,7 +421,7 @@
 				A53D3E882967A2A90030C6A3 /* SecurityResponse.swift in Sources */,
 				A5557FFA2962578F00919868 /* ChartViewController.swift in Sources */,
 				8C8250142A02098E002B8A3B /* UrlSearchTableView.swift in Sources */,
-				A5558003296257F300919868 /* HomeViewController.swift in Sources */,
+				A5558003296257F300919868 /* UrlSearchViewController.swift in Sources */,
 				8C8250192A020DA4002B8A3B /* UrlSearchTableViewCell.swift in Sources */,
 				A5557FFE296257A900919868 /* SettingsViewController.swift in Sources */,
 				A5558006296273B100919868 /* ShowDataViewController.swift in Sources */,
