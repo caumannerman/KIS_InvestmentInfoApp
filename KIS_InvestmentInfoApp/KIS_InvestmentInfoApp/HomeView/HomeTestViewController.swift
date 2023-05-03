@@ -11,12 +11,14 @@ import SnapKit
 
 class HomeTestViewController: UIViewController {
      
-    
+    private var isMarket: Bool = true
 //    private lazy var headerView: UIView = {
 //        let hdv: UIView = UIView()
 //        hdv.backgroundColor = .yellow
 //        return hdv
 //    }()
+    
+    private let urltestView = UrlTestView()
     
     // ---------------------================= UI Components =================--------------------- //
     
@@ -43,30 +45,37 @@ class HomeTestViewController: UIViewController {
         view.backgroundColor = .yellow
         return view
     }()
+    
     private lazy var marketButton: UIButton = {
         let btn = UIButton()
-        btn.backgroundColor = UIColor(red: 0/255.0, green: 204/255.0, blue: 244/255.0, alpha: 1.0)
+        btn.backgroundColor = .white
         btn.setTitle("시장정보", for: .normal)
+        btn.titleLabel?.font = .systemFont(ofSize: 28, weight: .bold)
+        btn.setTitleColor(.black, for: .normal)
         btn.addTarget(self, action: #selector(didTapMarketButton), for: .touchUpInside)
         btn.layer.cornerRadius = 12.0
-        btn.layer.borderWidth = 1.0
-        btn.layer.borderColor = UIColor(red: 0/255.0, green: 202/255.0, blue: 184/255.0, alpha: 1.0).cgColor
+        btn.layer.borderWidth = 3.0
+        btn.layer.borderColor = UIColor(red: 180/255.0, green: 120/255.0, blue: 184/255.0, alpha: 1.0).cgColor
         return btn
     }()
+    
     private lazy var urlSearchButton: UIButton = {
         let btn = UIButton()
-        btn.backgroundColor = UIColor(red: 0/255.0, green: 204/255.0, blue: 244/255.0, alpha: 1.0)
+        btn.backgroundColor = .white
         btn.setTitle("URL검색", for: .normal)
+        btn.titleLabel?.font = .systemFont(ofSize: 28, weight: .bold)
+        btn.setTitleColor(.black, for: .normal)
         btn.addTarget(self, action: #selector(didTapUrlSearchButton), for: .touchUpInside)
         btn.layer.cornerRadius = 12.0
-        btn.layer.borderWidth = 1.0
-        btn.layer.borderColor = UIColor(red: 0/255.0, green: 202/255.0, blue: 184/255.0, alpha: 1.0).cgColor
+        btn.layer.borderWidth = 3.0
+        btn.layer.borderColor = UIColor(red: 180/255.0, green: 120/255.0, blue: 184/255.0, alpha: 1.0).cgColor
         return btn
     }()
     
     
     private lazy var hostingControllerUIView: UIView = {
         let view = UIView()
+        view.backgroundColor = .systemMint
         return view
     }()
     
@@ -78,20 +87,57 @@ class HomeTestViewController: UIViewController {
         } else {
             
         }
-        addChild(swiftUIView)
-        swiftUIView.view.translatesAutoresizingMaskIntoConstraints = false
+//        addChild(swiftUIView)
+//        swiftUIView.view.translatesAutoresizingMaskIntoConstraints = false
         return swiftUIView
     }()
     // ---------------------===================================================--------------------- //
     
     @objc func didTapMarketButton(){
         print("didTap MarketButton")
+        isMarket = true
+        changeCategory(isMarket)
+        changeUI_byCategory(isMarket)
     }
     
     @objc func didTapUrlSearchButton(){
         print("didTap UrlSearchButton")
+        isMarket = false
+        changeCategory(isMarket)
+        changeUI_byCategory(isMarket)
     }
     
+    private func changeCategory(_ isMarket: Bool){
+        if isMarket{
+            marketButton.backgroundColor = UIColor(red: 214/255.0, green: 150/255.0, blue: 136/255.0, alpha: 1.0)
+            urlSearchButton.backgroundColor = .white
+        }else {
+            marketButton.backgroundColor = .white
+            urlSearchButton.backgroundColor = UIColor(red: 214/255.0, green: 150/255.0, blue: 136/255.0, alpha: 1.0)
+        }
+    }
+    private func changeUI_byCategory(_ isMarket: Bool){
+        if isMarket{
+            urltestView.snp.removeConstraints()
+            self.view.addSubview(hostingControllerUIView)
+            hostingControllerUIView.snp.makeConstraints{
+                $0.top.equalTo(market_url_view.snp.bottom)
+                $0.leading.trailing.equalToSuperview()
+                $0.bottom.equalTo(view.safeAreaLayoutGuide)
+            }
+            self.hostingControllerUIView.addSubview(self.marketInfoHostingController.view)
+        }
+        else {
+      
+            hostingControllerUIView.snp.removeConstraints()
+            self.view.addSubview(urltestView)
+            urltestView.snp.makeConstraints{
+                $0.top.equalTo(market_url_view.snp.bottom)
+                $0.leading.trailing.equalToSuperview()
+                $0.bottom.equalTo(view.safeAreaLayoutGuide)
+            }
+        }
+    }
     // ---------------------==================== Rx Traits ====================--------------------- //
 
     
@@ -103,6 +149,7 @@ class HomeTestViewController: UIViewController {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         setNavigationItems()
+        changeCategory(isMarket)
         bind()
         attribute()
         layout()
@@ -126,14 +173,12 @@ class HomeTestViewController: UIViewController {
         let rightBarButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .plain, target: self, action: #selector(didTapRightBarButtonItem))
         rightBarButton.tintColor = .red
         navigationItem.rightBarButtonItem = rightBarButton
-
     }
+    
     @objc func didTapRightBarButtonItem(){
         print("ll")
         let vc = HomeViewController()
         self.navigationController?.pushViewController(vc, animated: true)
-        
-        
 //        self.present(vc, animated: true){
 //            print("URL페이지 present")
 //        }
@@ -159,7 +204,7 @@ class HomeTestViewController: UIViewController {
         market_url_view.snp.makeConstraints{
             $0.top.equalTo(bannerView.snp.bottom)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(42)
+            $0.height.equalTo(80)
         }
         
         [marketButton, urlSearchButton].forEach{
@@ -167,15 +212,15 @@ class HomeTestViewController: UIViewController {
         }
         
         marketButton.snp.makeConstraints{
-            $0.top.bottom.equalToSuperview()
-            $0.leading.equalToSuperview()
-            $0.width.equalTo(100)
+            $0.top.bottom.equalToSuperview().inset(6)
+            $0.leading.equalToSuperview().inset(10)
+            $0.width.equalTo((UIScreen.main.bounds.width - 40) / 2 )
         }
         
         urlSearchButton.snp.makeConstraints{
-            $0.top.bottom.equalToSuperview()
-            $0.trailing.equalToSuperview()
-            $0.width.equalTo(100)
+            $0.top.bottom.equalToSuperview().inset(6)
+            $0.trailing.equalToSuperview().inset(10)
+            $0.width.equalTo((UIScreen.main.bounds.width - 40) / 2 )
         }
 //        headerView.snp.makeConstraints{
 //            $0.top.equalTo(view.safeAreaLayoutGuide)
@@ -183,11 +228,11 @@ class HomeTestViewController: UIViewController {
 //            $0.height.equalTo(60)
 //        }
 //
+        
         hostingControllerUIView.snp.makeConstraints{
             $0.top.equalTo(market_url_view.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
-            
         }
     }
     
