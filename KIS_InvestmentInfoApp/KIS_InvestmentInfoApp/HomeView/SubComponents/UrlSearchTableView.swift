@@ -37,8 +37,10 @@ extension UrlSearchTableView: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("Did click cell!" + "\(indexPath)")
         let url = urlsArr[indexPath.row]
-        let vc = ShowDataViewController()
-        vc.setup(apiUrl: url)
+//        let vc = ShowDataViewController()
+//        vc.setup(apiUrl: url)
+        
+        NotificationCenter.default.post(name:.DidTapCell, object: nil)
         
     }
     
@@ -58,4 +60,9 @@ extension UrlSearchTableView: UITableViewDataSource{
         cell.setup(title: urlsAlias[indexPath.row], url: urlsArr[indexPath.row])
         return cell
     }
+}
+
+
+extension Notification.Name {
+    static let DidTapCell = Notification.Name("DidTapCell")
 }

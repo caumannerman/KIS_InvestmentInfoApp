@@ -22,10 +22,6 @@ class UrlSearchView: UIView {
     private let urlSearchTextFieldView = UrlSearchTextFieldView()
     private let urlSearchTableView = UrlSearchTableView()
     
-    
-    
-    
-
 //    private lazy var urlTableView: UITableView = {
 //        let tableView = UITableView()
 //        tableView.dataSource = self
@@ -36,9 +32,6 @@ class UrlSearchView: UIView {
 //
 //    }()
   
-
-
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -50,6 +43,7 @@ class UrlSearchView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    
     private func isFirstTime() -> Bool {
         let defaults = UserDefaults.standard
 

@@ -163,8 +163,19 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(didTapCell), name: .DidTapCell, object: nil)
 
         // Do any additional setup after loading the view.
+    }
+    @objc func didTapCell(){
+        print("Notification didTapCell")
+        let vc = ShowDataViewController()
+        vc.setup(apiUrl: "www.aaa.bb.cc")
+        vc.modalPresentationStyle = UIModalPresentationStyle.pageSheet
+        
+        self.present(vc, animated: true){
+            print("present로 URL 검색결과 화면 띄움")
+        }
     }
     
     private func setNavigationItems(){
