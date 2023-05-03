@@ -65,9 +65,9 @@ class HomeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
 
-        let ur = UserDefaults.standard.array(forKey: "urls") as? [String] ?? ["저장된 URL이 없음"]
-        print(type(of: ur))
-        print(ur)
+//        let ur = UserDefaults.standard.array(forKey: "urls") as? [String] ?? ["저장된 URL이 없음"]
+//        print(type(of: ur))
+//        print(ur)
         self.uiSc.isActive = true
         self.uiSc.isEditing = true
     }

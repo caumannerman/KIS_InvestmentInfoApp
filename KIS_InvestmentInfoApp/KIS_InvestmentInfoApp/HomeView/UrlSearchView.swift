@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import SnapKit
+
 
 class UrlSearchView: UIView {
 
@@ -16,6 +18,11 @@ class UrlSearchView: UIView {
 
     private let alert = UIAlertController(title: "api별칭 입력", message: "별칭을 입력해주세요", preferredStyle: .alert)
     private var ok = UIAlertAction()
+    
+    private let urlSearchTextField = UrlSearchTextFieldView()
+    private let urlSearchTableView = UrlSearchTableView()
+    
+    
     
     
 
@@ -28,21 +35,15 @@ class UrlSearchView: UIView {
 //        return tableView
 //
 //    }()
-    private let uiSc: UISearchController = {
-        let searchController = UISearchController()
-        searchController.searchBar.placeholder = "요청 URL을 입력해주세요"
-        //화면 어두워지지 않도록 false 처리
-        searchController.obscuresBackgroundDuringPresentation = false
-
-        return searchController
-    }()
-
+  
 
 
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .darkGray
+        
+        attribute()
+        layout()
     }
 
     required init?(coder: NSCoder) {
@@ -57,6 +58,31 @@ class UrlSearchView: UIView {
             return true
         } else {
             return false
+        }
+    }
+    
+    private func attribute(){
+        self.backgroundColor = .darkGray
+        
+        
+        
+        urlSearchTableView.backgroundColor = .green
+    }
+    
+    private func layout(){
+        [urlSearchTextField, urlSearchTableView].forEach{
+            addSubview($0)
+        }
+        
+        urlSearchTextField.snp.makeConstraints{
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalTo(60)
+        }
+        
+        urlSearchTableView.snp.makeConstraints{
+            $0.top.equalTo(urlSearchTextField.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview()
         }
     }
    

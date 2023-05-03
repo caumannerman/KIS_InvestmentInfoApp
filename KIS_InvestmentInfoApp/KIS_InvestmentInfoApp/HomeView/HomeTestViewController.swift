@@ -18,12 +18,7 @@ class HomeTestViewController: UIViewController {
 //        return hdv
 //    }()
     
-    private lazy var urltestView: UrlTestView = {
-        let view = UrlTestView()
-        
-       
-        return view
-    }()
+    private lazy var urltestView = UrlSearchView()
     
     // ---------------------================= UI Components =================--------------------- //
     
