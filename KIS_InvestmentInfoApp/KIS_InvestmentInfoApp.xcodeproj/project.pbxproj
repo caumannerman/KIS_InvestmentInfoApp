@@ -13,6 +13,8 @@
 		8C5E2AD529F797D600C6061E /* ApiListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5E2AD429F797D600C6061E /* ApiListTableView.swift */; };
 		8C5E2AD729F797EB00C6061E /* ApiListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5E2AD629F797EB00C6061E /* ApiListTableViewCell.swift */; };
 		8C8250112A01E6A3002B8A3B /* UrlTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8250102A01E6A3002B8A3B /* UrlTestView.swift */; };
+		8C8250142A02098E002B8A3B /* UrlSearchTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8250132A02098E002B8A3B /* UrlSearchTableView.swift */; };
+		8C8250192A020DA4002B8A3B /* UrlSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8250182A020DA4002B8A3B /* UrlSearchTableViewCell.swift */; };
 		A5200E6929658CAC00FBFCAF /* ButtonListViewCellCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5200E6829658CAC00FBFCAF /* ButtonListViewCellCell.swift */; };
 		A53D3E882967A2A90030C6A3 /* SecurityResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53D3E872967A2A90030C6A3 /* SecurityResponse.swift */; };
 		A53D3E8B2967A5A50030C6A3 /* SecurityDataCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53D3E8A2967A5A50030C6A3 /* SecurityDataCellData.swift */; };
@@ -52,6 +54,8 @@
 		8C5E2AD429F797D600C6061E /* ApiListTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiListTableView.swift; sourceTree = "<group>"; };
 		8C5E2AD629F797EB00C6061E /* ApiListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiListTableViewCell.swift; sourceTree = "<group>"; };
 		8C8250102A01E6A3002B8A3B /* UrlTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlTestView.swift; sourceTree = "<group>"; };
+		8C8250132A02098E002B8A3B /* UrlSearchTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlSearchTableView.swift; sourceTree = "<group>"; };
+		8C8250182A020DA4002B8A3B /* UrlSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlSearchTableViewCell.swift; sourceTree = "<group>"; };
 		A5200E6829658CAC00FBFCAF /* ButtonListViewCellCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonListViewCellCell.swift; sourceTree = "<group>"; };
 		A53D3E872967A2A90030C6A3 /* SecurityResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityResponse.swift; sourceTree = "<group>"; };
 		A53D3E8A2967A5A50030C6A3 /* SecurityDataCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityDataCellData.swift; sourceTree = "<group>"; };
@@ -106,6 +110,22 @@
 			path = SubComponents;
 			sourceTree = "<group>";
 		};
+		8C8250122A020966002B8A3B /* SubComponents */ = {
+			isa = PBXGroup;
+			children = (
+				8C8250132A02098E002B8A3B /* UrlSearchTableView.swift */,
+				8C8250182A020DA4002B8A3B /* UrlSearchTableViewCell.swift */,
+			);
+			path = SubComponents;
+			sourceTree = "<group>";
+		};
+		8C8250172A0209FA002B8A3B /* NotUsedScreen */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = NotUsedScreen;
+			sourceTree = "<group>";
+		};
 		A53D3E892967A2AD0030C6A3 /* Entity */ = {
 			isa = PBXGroup;
 			children = (
@@ -134,6 +154,7 @@
 		A53EA68D29624D3600F0E24A /* KIS_InvestmentInfoApp */ = {
 			isa = PBXGroup;
 			children = (
+				8C8250172A0209FA002B8A3B /* NotUsedScreen */,
 				A53EA68E29624D3600F0E24A /* AppDelegate.swift */,
 				A53EA69029624D3600F0E24A /* SceneDelegate.swift */,
 				A53EA69229624D3600F0E24A /* ViewController.swift */,
@@ -209,6 +230,7 @@
 		A5558004296257F500919868 /* HomeView */ = {
 			isa = PBXGroup;
 			children = (
+				8C8250122A020966002B8A3B /* SubComponents */,
 				A5558002296257F300919868 /* HomeViewController.swift */,
 				8C017D5729FB4861009EAC37 /* MarketInfoView.swift */,
 				8C017D5929FB4FF5009EAC37 /* HomeTestViewController.swift */,
@@ -390,7 +412,9 @@
 				8C8250112A01E6A3002B8A3B /* UrlTestView.swift in Sources */,
 				A53D3E882967A2A90030C6A3 /* SecurityResponse.swift in Sources */,
 				A5557FFA2962578F00919868 /* ChartViewController.swift in Sources */,
+				8C8250142A02098E002B8A3B /* UrlSearchTableView.swift in Sources */,
 				A5558003296257F300919868 /* HomeViewController.swift in Sources */,
+				8C8250192A020DA4002B8A3B /* UrlSearchTableViewCell.swift in Sources */,
 				A5557FFE296257A900919868 /* SettingsViewController.swift in Sources */,
 				A5558006296273B100919868 /* ShowDataViewController.swift in Sources */,
 			);
