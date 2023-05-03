@@ -40,7 +40,7 @@ extension UrlSearchTableView: UITableViewDelegate{
 //        let vc = ShowDataViewController()
 //        vc.setup(apiUrl: url)
         
-        NotificationCenter.default.post(name:.DidTapCell, object: nil)
+        NotificationCenter.default.post(name:.DidTapCell, object: .none, userInfo: ["url": url])
         
     }
     

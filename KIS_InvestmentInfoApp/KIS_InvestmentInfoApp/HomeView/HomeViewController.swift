@@ -163,14 +163,19 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(didTapCell), name: .DidTapCell, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didTapCell(_:)), name: .DidTapCell, object: nil)
 
         // Do any additional setup after loading the view.
     }
-    @objc func didTapCell(){
+    @objc func didTapCell(_ notification: Notification) {
         print("Notification didTapCell")
+        guard let now_dict = notification.userInfo as? Dictionary<String, Any> else { return }
+        guard let now_url = now_dict["url"] as? String else {return}
+        print("지금 받아온 url", terminator: " ")
+        print(now_url)        
+        
         let vc = ShowDataViewController()
-        vc.setup(apiUrl: "www.aaa.bb.cc")
+        vc.setup(apiUrl: now_url)
         vc.modalPresentationStyle = UIModalPresentationStyle.pageSheet
         
         self.present(vc, animated: true){
