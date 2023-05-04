@@ -19,10 +19,13 @@ class MyFilesViewController: UIViewController {
     private var isClickedArr_col: [Bool] = [false, false,true, true, false, false, false, true, false, false, true, true, ]
     
     
-    
 
     //저장할 파일의 이름을 담을 변수
     private var saveFileName: String = ""
+    
+    // ---------------------===================== UI Components ======================--------------------- //
+    
+    
     //저장 파일 이름 받아올 UIAlert
     private let alert = UIAlertController(title: "파일 제목", message: "저장할 파일의 이름을 입력해주세요", preferredStyle: .alert)
     private var ok = UIAlertAction()
@@ -57,7 +60,8 @@ class MyFilesViewController: UIViewController {
     let getDataButton = UIButton()
     let saveCsvButton = UIButton()
     
-//    let textField = UITextField()
+    // ---------------------=====================---------------======================--------------------- //
+
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -102,7 +106,6 @@ class MyFilesViewController: UIViewController {
         alert.addAction(cancel)
     }
     @objc func changeCellColor(_ notification: NSNotification){
-        
         print(notification.userInfo!["row"]!)
         print(notification.userInfo!["col"]!)
         
@@ -118,7 +121,6 @@ class MyFilesViewController: UIViewController {
         else if now_col == -2 {
             isClickedArr_row[now_row!] = !isClickedArr_row[now_row!]
         }
-        
         print("isClickedArr_row 는!!!!!")
         print(isClickedArr_row)
         print("isClickedArr_col 는!!!!!")
@@ -170,9 +172,6 @@ class MyFilesViewController: UIViewController {
         saveCsvButton.layer.cornerRadius = 12.0
         saveCsvButton.layer.borderWidth = 1.0
         saveCsvButton.layer.borderColor = UIColor(red: 0/255.0, green: 202/255.0, blue: 184/255.0, alpha: 1.0).cgColor
-//
-//        textField.layer.borderWidth = 1
-//        textField.layer.borderColor = UIColor.black.cgColor
     }
 
     func layout(){

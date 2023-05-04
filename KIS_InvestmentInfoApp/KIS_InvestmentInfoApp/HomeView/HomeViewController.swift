@@ -40,37 +40,9 @@ class HomeViewController: UIViewController {
         return view
     }()
     
-    private lazy var market_url_view: UIView = {
-        let view = UIView()
-        view.backgroundColor = .yellow
-        return view
-    }()
-    
-    private lazy var marketButton: UIButton = {
-        let btn = UIButton()
-        btn.backgroundColor = .white
-        btn.setTitle("시장정보", for: .normal)
-        btn.titleLabel?.font = .systemFont(ofSize: 28, weight: .bold)
-        btn.setTitleColor(.black, for: .normal)
-        btn.addTarget(self, action: #selector(didTapMarketButton), for: .touchUpInside)
-        btn.layer.cornerRadius = 12.0
-        btn.layer.borderWidth = 3.0
-        btn.layer.borderColor = UIColor(red: 180/255.0, green: 120/255.0, blue: 184/255.0, alpha: 1.0).cgColor
-        return btn
-    }()
-    
-    private lazy var urlSearchButton: UIButton = {
-        let btn = UIButton()
-        btn.backgroundColor = .white
-        btn.setTitle("URL검색", for: .normal)
-        btn.titleLabel?.font = .systemFont(ofSize: 28, weight: .bold)
-        btn.setTitleColor(.black, for: .normal)
-        btn.addTarget(self, action: #selector(didTapUrlSearchButton), for: .touchUpInside)
-        btn.layer.cornerRadius = 12.0
-        btn.layer.borderWidth = 3.0
-        btn.layer.borderColor = UIColor(red: 180/255.0, green: 120/255.0, blue: 184/255.0, alpha: 1.0).cgColor
-        return btn
-    }()
+    private lazy var market_url_view = UIView()
+    private lazy var marketButton = UIButton()
+    private lazy var urlSearchButton = UIButton()
     
     
     private lazy var hostingControllerUIView: UIView = {
@@ -207,6 +179,27 @@ class HomeViewController: UIViewController {
     }
     private func attribute(){
         self.hostingControllerUIView.addSubview(self.marketInfoHostingController.view)
+        
+        market_url_view.backgroundColor = .white
+        
+        marketButton.backgroundColor = .white
+        marketButton.setTitle("시장정보", for: .normal)
+        marketButton.titleLabel?.font = .systemFont(ofSize: 28, weight: .bold)
+        marketButton.setTitleColor(.black, for: .normal)
+        marketButton.addTarget(self, action: #selector(didTapMarketButton), for: .touchUpInside)
+        marketButton.layer.cornerRadius = 12.0
+        marketButton.layer.borderWidth = 3.0
+        marketButton.layer.borderColor = UIColor(red: 180/255.0, green: 120/255.0, blue: 184/255.0, alpha: 1.0).cgColor
+        
+        urlSearchButton.backgroundColor = .white
+        urlSearchButton.setTitle("URL검색", for: .normal)
+        urlSearchButton.titleLabel?.font = .systemFont(ofSize: 28, weight: .bold)
+        urlSearchButton.setTitleColor(.black, for: .normal)
+        urlSearchButton.addTarget(self, action: #selector(didTapUrlSearchButton), for: .touchUpInside)
+        urlSearchButton.layer.cornerRadius = 12.0
+        urlSearchButton.layer.borderWidth = 3.0
+        urlSearchButton.layer.borderColor = UIColor(red: 180/255.0, green: 120/255.0, blue: 184/255.0, alpha: 1.0).cgColor
+        
     }
     private func layout(){
         [ bannerView, market_url_view, hostingControllerUIView].forEach{
