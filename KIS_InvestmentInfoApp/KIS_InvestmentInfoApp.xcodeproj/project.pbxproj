@@ -11,6 +11,9 @@
 		8C017D5A29FB4FF5009EAC37 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C017D5929FB4FF5009EAC37 /* HomeViewController.swift */; };
 		8C017D5C29FBA0E6009EAC37 /* UrlSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C017D5B29FBA0E6009EAC37 /* UrlSearchView.swift */; };
 		8C44E03E2A03672300342F45 /* DummyClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C44E03D2A03672300342F45 /* DummyClass.swift */; };
+		8C44E0412A03885700342F45 /* ChartViewCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C44E0402A03885700342F45 /* ChartViewCollectionView.swift */; };
+		8C44E0432A03886100342F45 /* ChartViewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C44E0422A03886100342F45 /* ChartViewCollectionViewCell.swift */; };
+		8C44E0452A03887000342F45 /* ChartViewCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C44E0442A03887000342F45 /* ChartViewCollectionViewLayout.swift */; };
 		8C5E2AD529F797D600C6061E /* ApiListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5E2AD429F797D600C6061E /* ApiListTableView.swift */; };
 		8C5E2AD729F797EB00C6061E /* ApiListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5E2AD629F797EB00C6061E /* ApiListTableViewCell.swift */; };
 		8C8250142A02098E002B8A3B /* UrlSearchTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8250132A02098E002B8A3B /* UrlSearchTableView.swift */; };
@@ -53,6 +56,9 @@
 		8C017D5929FB4FF5009EAC37 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		8C017D5B29FBA0E6009EAC37 /* UrlSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlSearchView.swift; sourceTree = "<group>"; };
 		8C44E03D2A03672300342F45 /* DummyClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyClass.swift; sourceTree = "<group>"; };
+		8C44E0402A03885700342F45 /* ChartViewCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewCollectionView.swift; sourceTree = "<group>"; };
+		8C44E0422A03886100342F45 /* ChartViewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewCollectionViewCell.swift; sourceTree = "<group>"; };
+		8C44E0442A03887000342F45 /* ChartViewCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartViewCollectionViewLayout.swift; sourceTree = "<group>"; };
 		8C5E2AD429F797D600C6061E /* ApiListTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiListTableView.swift; sourceTree = "<group>"; };
 		8C5E2AD629F797EB00C6061E /* ApiListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiListTableViewCell.swift; sourceTree = "<group>"; };
 		8C8250132A02098E002B8A3B /* UrlSearchTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlSearchTableView.swift; sourceTree = "<group>"; };
@@ -109,6 +115,16 @@
 				8C44E03D2A03672300342F45 /* DummyClass.swift */,
 			);
 			path = DummyData;
+			sourceTree = "<group>";
+		};
+		8C44E03F2A0387B400342F45 /* SubComponents */ = {
+			isa = PBXGroup;
+			children = (
+				8C44E0402A03885700342F45 /* ChartViewCollectionView.swift */,
+				8C44E0422A03886100342F45 /* ChartViewCollectionViewCell.swift */,
+				8C44E0442A03887000342F45 /* ChartViewCollectionViewLayout.swift */,
+			);
+			path = SubComponents;
 			sourceTree = "<group>";
 		};
 		8C5E2AD329F7976900C6061E /* SubComponents */ = {
@@ -185,9 +201,9 @@
 				A53EA69C29624D3B00F0E24A /* Info.plist */,
 				A53EA6A229624EBE00F0E24A /* MainTabBarController.swift */,
 				A5558004296257F500919868 /* HomeView */,
+				A5557FFF296257AB00919868 /* ChartView */,
 				A5558007296273B500919868 /* ShowDataView */,
 				A5557FF6296250E000919868 /* TestView */,
-				A5557FFF296257AB00919868 /* ChartView */,
 				A5558000296257B100919868 /* MyFilesView */,
 				A5558001296257B700919868 /* SettingsView */,
 			);
@@ -224,6 +240,7 @@
 			isa = PBXGroup;
 			children = (
 				A5557FF92962578F00919868 /* ChartViewController.swift */,
+				8C44E03F2A0387B400342F45 /* SubComponents */,
 				A5D1BC83296BDBE40045045B /* SwiftUIChart */,
 				A53D3E892967A2AD0030C6A3 /* Entity */,
 			);
@@ -417,11 +434,14 @@
 				A5D1BC8A296BE7EE0045045B /* SiteView.swift in Sources */,
 				8C44E03E2A03672300342F45 /* DummyClass.swift in Sources */,
 				8C017D5C29FBA0E6009EAC37 /* UrlSearchView.swift in Sources */,
+				8C44E0432A03886100342F45 /* ChartViewCollectionViewCell.swift in Sources */,
 				A555800C29627B9300919868 /* ButtonListViewCell.swift in Sources */,
 				A5D1BC13296982480045045B /* ShowDataViewCollectionViewCell.swift in Sources */,
 				A5D1BC80296BD3480045045B /* GridCollectionViewLayout.swift in Sources */,
 				8C5E2AD529F797D600C6061E /* ApiListTableView.swift in Sources */,
 				A5557FF5296250D300919868 /* ExchangeRateCellData.swift in Sources */,
+				8C44E0412A03885700342F45 /* ChartViewCollectionView.swift in Sources */,
+				8C44E0452A03887000342F45 /* ChartViewCollectionViewLayout.swift in Sources */,
 				A53EA68F29624D3600F0E24A /* AppDelegate.swift in Sources */,
 				A53EA6A329624EBE00F0E24A /* MainTabBarController.swift in Sources */,
 				8C82501C2A023130002B8A3B /* UrlSearchTextFieldView.swift in Sources */,

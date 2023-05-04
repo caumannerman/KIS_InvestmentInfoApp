@@ -164,22 +164,22 @@ class MyFilesViewController: UIViewController {
         get_save_view.backgroundColor = UIColor(red: 236/255.0, green: 236/255.0, blue: 236/255.0, alpha: 1.0)
         
         getDataButton.backgroundColor = .white
-        getDataButton.setTitle("get", for: .normal)
+        getDataButton.setTitle("csv/xlsx 가져오기", for: .normal)
         getDataButton.titleLabel?.font = .systemFont(ofSize: 28, weight: .bold)
         getDataButton.setTitleColor(.black, for: .normal)
         getDataButton.addTarget(self, action: #selector(getCsv), for: .touchUpInside)
         getDataButton.layer.cornerRadius = 12.0
         getDataButton.layer.borderWidth = 3.0
-        getDataButton.layer.borderColor = UIColor.darkGray.cgColor
+        getDataButton.layer.borderColor = UIColor.lightGray.cgColor
         
         saveCsvButton.backgroundColor = .white
-        saveCsvButton.setTitle("save", for: .normal)
+        saveCsvButton.setTitle("저장하기", for: .normal)
         saveCsvButton.titleLabel?.font = .systemFont(ofSize: 28, weight: .bold)
         saveCsvButton.setTitleColor(.black, for: .normal)
         saveCsvButton.addTarget(self, action: #selector(saveCsv), for: .touchUpInside)
         saveCsvButton.layer.cornerRadius = 12.0
         saveCsvButton.layer.borderWidth = 3.0
-        saveCsvButton.layer.borderColor = UIColor.darkGray.cgColor
+        saveCsvButton.layer.borderColor = UIColor.lightGray.cgColor
     }
 
     func layout(){
