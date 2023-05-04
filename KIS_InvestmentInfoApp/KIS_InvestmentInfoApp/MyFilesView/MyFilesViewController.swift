@@ -57,8 +57,9 @@ class MyFilesViewController: UIViewController {
         return collectionView
     }()
     
-    let getDataButton = UIButton()
-    let saveCsvButton = UIButton()
+    private let get_save_view = UIView()
+    private let getDataButton = UIButton()
+    private let saveCsvButton = UIButton()
     
     // ---------------------=====================---------------======================--------------------- //
 
@@ -159,23 +160,30 @@ class MyFilesViewController: UIViewController {
     
     
     func attribute(){
-        getDataButton.backgroundColor = UIColor(red: 0/255.0, green: 204/255.0, blue: 244/255.0, alpha: 1.0)
+        
+        get_save_view.backgroundColor = UIColor(red: 236/255.0, green: 236/255.0, blue: 236/255.0, alpha: 1.0)
+        
+        getDataButton.backgroundColor = .white
         getDataButton.setTitle("get", for: .normal)
+        getDataButton.titleLabel?.font = .systemFont(ofSize: 28, weight: .bold)
+        getDataButton.setTitleColor(.black, for: .normal)
         getDataButton.addTarget(self, action: #selector(getCsv), for: .touchUpInside)
         getDataButton.layer.cornerRadius = 12.0
-        getDataButton.layer.borderWidth = 1.0
-        getDataButton.layer.borderColor = UIColor(red: 0/255.0, green: 202/255.0, blue: 184/255.0, alpha: 1.0).cgColor
+        getDataButton.layer.borderWidth = 3.0
+        getDataButton.layer.borderColor = UIColor.darkGray.cgColor
         
-        saveCsvButton.backgroundColor = UIColor(red: 0/255.0, green: 204/255.0, blue: 244/255.0, alpha: 1.0)
+        saveCsvButton.backgroundColor = .white
         saveCsvButton.setTitle("save", for: .normal)
+        saveCsvButton.titleLabel?.font = .systemFont(ofSize: 28, weight: .bold)
+        saveCsvButton.setTitleColor(.black, for: .normal)
         saveCsvButton.addTarget(self, action: #selector(saveCsv), for: .touchUpInside)
         saveCsvButton.layer.cornerRadius = 12.0
-        saveCsvButton.layer.borderWidth = 1.0
-        saveCsvButton.layer.borderColor = UIColor(red: 0/255.0, green: 202/255.0, blue: 184/255.0, alpha: 1.0).cgColor
+        saveCsvButton.layer.borderWidth = 3.0
+        saveCsvButton.layer.borderColor = UIColor.darkGray.cgColor
     }
 
     func layout(){
-        [collectionView, getDataButton, saveCsvButton].forEach{
+        [collectionView, get_save_view].forEach{
             view.addSubview($0)
         }
         
@@ -189,20 +197,27 @@ class MyFilesViewController: UIViewController {
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(100)
 //            $0.width.equalTo(scrollView.snp.width)
         }
+        
+        get_save_view.snp.makeConstraints{
+            $0.top.equalTo(collectionView.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(100)
+        }
+        
+        [getDataButton, saveCsvButton].forEach{
+            get_save_view.addSubview($0)
+        }
+        
         getDataButton.snp.makeConstraints{
-            $0.top.equalTo(collectionView.snp.bottom).offset(20)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)
-            $0.leading.equalToSuperview().inset(60)
-            $0.width.equalTo(120)
-//            $0.height.equalTo(40)
+            $0.top.bottom.equalToSuperview().inset(6)
+            $0.leading.equalToSuperview().inset(10)
+            $0.width.equalTo((UIScreen.main.bounds.width - 40) / 2 )
         }
         
         saveCsvButton.snp.makeConstraints{
-            $0.top.equalTo(collectionView.snp.bottom).offset(20)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(10)
-            $0.trailing.equalToSuperview().inset(60)
-            $0.width.equalTo(120)
-//            $0.height.equalTo(40)
+            $0.top.bottom.equalToSuperview().inset(6)
+            $0.trailing.equalToSuperview().inset(10)
+            $0.width.equalTo((UIScreen.main.bounds.width - 40) / 2 )
         }
         
         
