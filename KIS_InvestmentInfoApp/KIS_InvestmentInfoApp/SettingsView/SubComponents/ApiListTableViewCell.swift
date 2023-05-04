@@ -13,67 +13,12 @@ class ApiListTableViewCell: UITableViewCell {
     private var isValid: Bool = false
     private var isStar: Bool = false
     
-    private lazy var aliasLabel: UITextField = {
-        let label = UITextField()
-        label.backgroundColor = .white
-        label.font = .systemFont(ofSize: 18.0, weight: .bold)
-        label.textColor = .black
-        label.text = "URL별칭"
-        label.textAlignment = .center
-        label.isEnabled = false
-        return label
-    }()
-    
-    private lazy var reviseButton: UIImageView = {
-        let iv = UIImageView()
-        iv.image = UIImage(systemName: "pencil")
-        iv.isUserInteractionEnabled = true
-        let settingTap = UITapGestureRecognizer(target: self, action: #selector(settingTapped))
-        iv.addGestureRecognizer(settingTap)
-        return iv
-    }()
-    
-    private lazy var urlLabel: UILabel = {
-        let label = UILabel()
-        label.backgroundColor = .white
-        label.font = .systemFont(ofSize: 12.0, weight: .regular)
-        label.textColor = .darkGray
-        label.text = "www.abababababab.com"
-        return label
-    }()
-    
-    private lazy var starButton: UIImageView = {
-        let iv = UIImageView()
-        
-        iv.image = UIImage(systemName: "star")
-        iv.translatesAutoresizingMaskIntoConstraints = false
-        iv.contentMode = .scaleAspectFill
-        iv.clipsToBounds = true
-        iv.backgroundColor = .white
-        
-        iv.isUserInteractionEnabled = true
-        let settingTap = UITapGestureRecognizer(target: self, action: #selector(didClickStarButton))
-        iv.addGestureRecognizer(settingTap)
-        
-        return iv
-    }()
-    
-    private lazy var validationButton: UIButton = {
-        let btn = UIButton()
-        
-        btn.backgroundColor = .systemBackground
-        btn.layer.borderColor = UIColor.darkGray.cgColor
-        btn.layer.borderWidth = 2
-        btn.layer.cornerRadius = 6
-        btn.addTarget(self, action: #selector(didClickValidButton), for: .touchUpInside)
-        btn.setTitle("만료", for: .normal)
-        btn.titleLabel?.font = .systemFont(ofSize: 14.0, weight: .bold)
-        btn.setTitleColor(.darkGray, for: .normal)
-        
-        
-        return btn
-    }()
-    
+    private let aliasLabel = UITextField()
+    private let reviseButton = UIImageView()
+    private let urlLabel = UILabel()
+    private let starButton = UIImageView()
+    private let validationButton = UIButton()
+
     @objc func settingTapped(){
         print("연필 클릭")
         aliasLabel.isEnabled = true
@@ -130,6 +75,42 @@ class ApiListTableViewCell: UITableViewCell {
         contentView.layer.borderColor = UIColor(red: 100/255.0, green: 100/255.0, blue: 100/255.0, alpha: 1.0).cgColor
         contentView.layer.cornerRadius = 10
         backgroundColor = .white
+        
+        aliasLabel.backgroundColor = .white
+        aliasLabel.font = .systemFont(ofSize: 18.0, weight: .bold)
+        aliasLabel.textColor = .black
+        aliasLabel.text = "URL별칭"
+        aliasLabel.textAlignment = .center
+        aliasLabel.isEnabled = false
+        
+        reviseButton.image = UIImage(systemName: "pencil")
+        reviseButton.isUserInteractionEnabled = true
+        let pencilSettingTap = UITapGestureRecognizer(target: self, action: #selector(settingTapped))
+        reviseButton.addGestureRecognizer(pencilSettingTap)
+        
+        urlLabel.backgroundColor = .white
+        urlLabel.font = .systemFont(ofSize: 14.0, weight: .regular)
+        urlLabel.textColor = .darkGray
+        urlLabel.text = "www.abababababab.com"
+        
+        starButton.image = UIImage(systemName: "star")
+        starButton.translatesAutoresizingMaskIntoConstraints = false
+        starButton.contentMode = .scaleAspectFill
+        starButton.clipsToBounds = true
+        starButton.backgroundColor = .white
+        starButton.isUserInteractionEnabled = true
+        let starSettingTap = UITapGestureRecognizer(target: self, action: #selector(didClickStarButton))
+        starButton.addGestureRecognizer(starSettingTap)
+        
+        validationButton.backgroundColor = .systemBackground
+        validationButton.layer.borderColor = UIColor.darkGray.cgColor
+        validationButton.layer.borderWidth = 2
+        validationButton.layer.cornerRadius = 6
+        validationButton.addTarget(self, action: #selector(didClickValidButton), for: .touchUpInside)
+        validationButton.setTitle("만료", for: .normal)
+        validationButton.titleLabel?.font = .systemFont(ofSize: 14.0, weight: .bold)
+        validationButton.setTitleColor(.darkGray, for: .normal)
+        
     }
     
     private func layout(){
