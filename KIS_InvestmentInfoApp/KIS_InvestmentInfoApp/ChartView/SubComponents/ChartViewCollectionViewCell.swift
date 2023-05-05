@@ -72,6 +72,12 @@ final class ChartViewCollectionViewCell: UICollectionViewCell{
     func setup(title: String, rowNum: Int){
         titleButton.setTitle(title, for: .normal)
         self.rowNum = rowNum
+        // 첫 cell( 맨 처음 선택되어있어야하는 cell )
+        if rowNum == 0 {
+            isClicked = true
+            titleButton.backgroundColor = UIColor(red: 230/255, green: 240/255, blue: 255/255, alpha: 1.0)
+            
+        }
     }
   
 }
