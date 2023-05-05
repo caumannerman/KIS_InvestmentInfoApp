@@ -11,11 +11,13 @@ class UrlSearchTableView: UITableView {
 
     private var urlsAlias: [String] = []
     private var urlsArr: [String] = []
+    private var urlsStarred: [Bool] = []
     
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
-        self.urlsArr = UserDefaults.standard.array(forKey: "urls") as? [String] ?? ["정보가 없습니다"]
-        self.urlsAlias = UserDefaults.standard.array(forKey: "urlAlias") as? [String] ?? ["정보가 없습니다"]
+        urlsArr = UserDefaults.standard.array(forKey: "urls") as? [String] ?? ["정보가 없습니다"]
+        urlsAlias = UserDefaults.standard.array(forKey: "urlAlias") as? [String] ?? ["정보가 없습니다"]
+        urlsStarred = UserDefaults.standard.array(forKey: "urlStarred") as? [Bool] ?? Array(repeating: false, count: 100)
         attribute()
     }
     
@@ -58,7 +60,7 @@ extension UrlSearchTableView: UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "UrlSearchTableViewCell", for: indexPath) as? UrlSearchTableViewCell else { return UITableViewCell()}
         cell.selectionStyle = .none
-        cell.setup(title: urlsAlias[indexPath.row], url: urlsArr[indexPath.row])
+        cell.setup(title: urlsAlias[indexPath.row], url: urlsArr[indexPath.row] )
         return cell
     }
 }

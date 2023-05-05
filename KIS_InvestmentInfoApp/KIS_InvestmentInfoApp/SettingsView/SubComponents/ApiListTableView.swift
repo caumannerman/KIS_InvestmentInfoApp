@@ -13,6 +13,7 @@ class ApiListTableView: UITableView {
     private var urlsAlias: [String] = []
     //검색했던 URL들을 담을 배열
     private var urlsArr: [String] = []
+    private var urlsStarred: [Bool] = []
     
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
@@ -21,13 +22,15 @@ class ApiListTableView: UITableView {
         self.register(ApiListTableViewCell.self, forCellReuseIdentifier: "ApiListTableViewCell")
         self.rowHeight = 80
         
-        self.urlsArr = UserDefaults.standard.array(forKey: "urls")as? [String] ?? ["정보가 없습니다"]
-        self.urlsAlias = UserDefaults.standard.array(forKey: "urlAlias") as? [String] ?? ["정보가 없습니다"]
+        urlsArr = UserDefaults.standard.array(forKey: "urls")as? [String] ?? ["정보가 없습니다"]
+        urlsAlias = UserDefaults.standard.array(forKey: "urlAlias") as? [String] ?? ["정보가 없습니다"]
+        urlsStarred = UserDefaults.standard.array(forKey: "urlStarred") as? [Bool] ?? Array(repeating: true, count: 100)
         
+        print(urlsStarred, "입니다")
         urlsAlias = Array(urlsAlias[1..<urlsAlias.count])
         urlsArr = Array(urlsArr[1..<urlsArr.count])
+        urlsStarred = Array(urlsStarred[1..<urlsStarred.count])
     
-        
     }
     
     required init?(coder: NSCoder) {
@@ -59,7 +62,7 @@ extension ApiListTableView: UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ApiListTableViewCell", for: indexPath) as? ApiListTableViewCell else { return UITableViewCell()}
         cell.selectionStyle = .none
-        cell.setup(urlAlias: urlsAlias[indexPath.row], url: urlsArr[indexPath.row], isValid: true, isStar: true)
+        cell.setup(urlAlias: urlsAlias[indexPath.row], url: urlsArr[indexPath.row], isValid: true, isStar: urlsStarred[indexPath.row])
         return cell
     }
 }

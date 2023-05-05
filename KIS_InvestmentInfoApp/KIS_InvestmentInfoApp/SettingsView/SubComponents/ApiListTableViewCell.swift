@@ -161,6 +161,7 @@ class ApiListTableViewCell: UITableViewCell {
         self.isValid = isValid
         changeValidButton(isValid)
         self.isStar = isStar
+        print(urlAlias, isStar)
         changeStarButton(isStar)
     }
 }

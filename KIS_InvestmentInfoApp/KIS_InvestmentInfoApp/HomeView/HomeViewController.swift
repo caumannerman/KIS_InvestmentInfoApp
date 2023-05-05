@@ -14,7 +14,6 @@ class HomeViewController: UIViewController {
     private var isMarket: Bool = true
     // ---------------------================= UI Components =================--------------------- //
     
-    
     private lazy var bannerView: UIView = {
         let view = UIView()
         view.backgroundColor = .brown
@@ -105,12 +104,8 @@ class HomeViewController: UIViewController {
         }
     }
     // ---------------------==================== Rx Traits ====================--------------------- //
-
-    
     
     // ---------------------===================================================--------------------- //
-    
-    
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -147,10 +142,11 @@ class HomeViewController: UIViewController {
                                       "https://opendart.fss.or.kr/api/fnlttSinglAcnt.json?crtfc_key=4f00bd74671058d76697c90e95c123d088e36610&corp_code=00126380&bsns_year=2018&reprt_code=11011"], forKey: "urls")
             
             UserDefaults.standard.set(["검색", "현재환율_수출입은행", "대출금리_수출입은행","금융통계정보시스템-금융회사API","금융통계정보시스템-통계정보API","OpenDART-상장기업 재무정보"], forKey: "urlAlias")
+            
+            UserDefaults.standard.set([true, true, false, true, false, false], forKey: "urlStarred")
+            
+           // isValid는 저장해둘 것이 아니라 그때그떄 네트워크로 정보를 받아 판단해야함
         }
-        
-
-        // Do any additional setup after loading the view.
     }
     @objc func didTapCell(_ notification: Notification) {
         print("Notification didTapCell")
