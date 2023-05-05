@@ -116,8 +116,10 @@ class UrlSearchTableViewCell: UITableViewCell {
     }
     
     
-    func setup(title: String, url: String){
+    func setup(title: String, url: String, isStar: Bool){
         titleLabel.text = title
         urlLabel.text = url
+        self.isStar = isStar
+        changeStarButton(isStar)
     }
 }
