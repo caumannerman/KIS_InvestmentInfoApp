@@ -12,9 +12,9 @@ import SnapKit
 class ChartViewCollectionView: UICollectionView {
     
      
-    private var days: [String] = ["주식", "채권", "기타1", "기타2", "기타3", "기타7"]
+    private var days: [String] = ["주식", "채권", "기타1", "기타2", "기타3", "기타7", "기타13", "기타14", "기타32", "기타51"]
     // 단 "하나"의 cell 만 true인 상태를 유지하도록 logic 구성
-    private var days_isClicked: [Bool] = [true, false, false, false, false, false]
+    private var days_isClicked: [Bool] = [true, false, false, false, false, false, false, false, false, false]
     private var now_section_idx: Int = 0
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
@@ -57,7 +57,6 @@ class ChartViewCollectionView: UICollectionView {
         
         //곧바로 모든 cell들에게 현재 selected된 idx를 보내, 자신의 rowNum과 다를 시 미선택 상태로 바뀌도록 함
         NotificationCenter.default.post(name: .NotifySelectedCellIdx, object: nil, userInfo: ["idx": clickedRow])
-        
     }
     
     

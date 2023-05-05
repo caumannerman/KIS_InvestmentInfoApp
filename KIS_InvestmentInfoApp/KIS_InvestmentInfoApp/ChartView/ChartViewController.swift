@@ -45,6 +45,7 @@ class ChartViewController: UIViewController {
     private var hiprInfoArr: [SiteView] = []
     private var loprInfoArr: [SiteView] = []
     
+    private var now_section_idx: Int = 0
     // ---------------------========================----------------========================--------------------- //
     
     
@@ -207,22 +208,15 @@ class ChartViewController: UIViewController {
         return collectionView
     }()
     
-    let blankView: UIView = {
+    private let blankView: UIView = {
         let v = UIView()
         v.backgroundColor = .systemBackground
         return v
     }()
     
-//    let tempTextView: UITextView = {
-//        let tv = UITextView()
-//        tv.layer.borderWidth = 1
-//        tv.layer.borderColor = UIColor(red: 0/255, green: 192/255, blue: 210/255, alpha: 1).cgColor
-//        tv.layer.cornerRadius = 12.0
-//
-//        return tv
-//    }()
-    
-    
+    private let secondSectionView = SecondSectionView()
+    private let thirdSectionView = ThirdSectionView()
+
     private let startDateDatePicker = UIDatePicker()
     private let endDateDatePicker = UIDatePicker()
     private let purchaseDateDatePicker = UIDatePicker()
@@ -250,7 +244,6 @@ class ChartViewController: UIViewController {
 //        self.strategyTextField.text = nil
         self.view.endEditing(true)
     }
-    
     @objc func pickerDone(){
         self.view.endEditing(true)
     }
@@ -296,8 +289,11 @@ class ChartViewController: UIViewController {
         super.viewDidLoad()
         self.collectionView.isHidden = true
         
+        // 이것은 csv의 row, column을 선택할 때 관련한 noti
         NotificationCenter.default.addObserver(self, selector: #selector(changeCellColor(_:)), name: .cellColorChange, object: nil)
 
+        NotificationCenter.default.addObserver(self, selector: #selector(chartSectionDidChanged(_:)), name: .DidTapUnClickedCell, object: nil)
+        
         alert.addTextField{
             $0.placeholder = "저장 파일명을 입력하세요"
             $0.isSecureTextEntry = false
@@ -318,6 +314,62 @@ class ChartViewController: UIViewController {
         cancel = UIAlertAction(title: "Cancel", style: .destructive)
         alert.addAction(ok)
         alert.addAction(cancel)
+        
+    }
+    //section cell 선택이 바뀌었을 때 호출될 함수
+    @objc func chartSectionDidChanged(_ notification: Notification){
+        guard let clickedIdx = notification.userInfo?["row"] as? Int else { return }
+        
+        //두개의 switch 문으로 분기하여 해결
+        
+        // 이미 나타나있던 화면을 constraints 제거
+        switch now_section_idx {
+        case 0:
+            print("이미 선택되어있던 cell = ", 0)
+            scrollView.snp.removeConstraints()
+            
+        case 1:
+            print("이미 선택되어있던 cell = ", 1)
+            secondSectionView.snp.removeConstraints()
+        default:
+            print("default")
+            thirdSectionView.snp.removeConstraints()
+        }
+        // 새롭게 나타나야하는 화면을 constraints 생성
+        switch clickedIdx {
+        case 0:
+            print("새로 선택된 cell = ", 1)
+            now_section_idx = 0
+            // constraints 생성
+            self.view.addSubview(scrollView)
+            scrollView.snp.makeConstraints{
+                $0.top.equalTo(sectionCollectionView.snp.bottom)
+                $0.leading.trailing.equalToSuperview().inset(20)
+                $0.bottom.equalTo(view.safeAreaLayoutGuide)
+            }
+            
+        case 1:
+            print("새로 선택된 cell = ", 1)
+            now_section_idx = 1
+            // constraints 생성
+            self.view.addSubview(secondSectionView)
+            secondSectionView.snp.makeConstraints{
+                $0.top.equalTo(sectionCollectionView.snp.bottom)
+                $0.leading.trailing.equalToSuperview().inset(20)
+                $0.bottom.equalTo(view.safeAreaLayoutGuide)
+            }
+            
+        default:
+            print("default")
+            now_section_idx = 2
+            // constraints 생성
+            self.view.addSubview(thirdSectionView)
+            thirdSectionView.snp.makeConstraints{
+                $0.top.equalTo(sectionCollectionView.snp.bottom)
+                $0.leading.trailing.equalToSuperview().inset(20)
+                $0.bottom.equalTo(view.safeAreaLayoutGuide)
+            }
+        }
         
     }
     

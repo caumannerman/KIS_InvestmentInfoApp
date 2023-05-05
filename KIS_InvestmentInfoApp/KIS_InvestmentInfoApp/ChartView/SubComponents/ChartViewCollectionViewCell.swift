@@ -76,7 +76,6 @@ final class ChartViewCollectionViewCell: UICollectionViewCell{
         if rowNum == 0 {
             isClicked = true
             titleButton.backgroundColor = UIColor(red: 230/255, green: 240/255, blue: 255/255, alpha: 1.0)
-            
         }
     }
   

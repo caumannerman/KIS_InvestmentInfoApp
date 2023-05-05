@@ -34,6 +34,7 @@ final class ProfileDataView: UIView{
         self.count = count
         super.init(frame: .zero)
         
+        
         setupLayout()
     }
     
