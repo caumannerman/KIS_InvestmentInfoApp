@@ -10,9 +10,11 @@ import SnapKit
 
 class UrlSearchTableViewCell: UITableViewCell {
     
+    private var isStar: Bool = false
     
     private let titleLabel = UILabel()
     private let urlLabel = UILabel()
+    private let starButton = UIImageView()
     private let searchButton = UIButton()
     
     
@@ -45,6 +47,15 @@ class UrlSearchTableViewCell: UITableViewCell {
         urlLabel.text = "URL string"
         urlLabel.textAlignment = .left
         
+        starButton.image = UIImage(systemName: "star")
+        starButton.translatesAutoresizingMaskIntoConstraints = false
+        starButton.contentMode = .scaleAspectFill
+        starButton.clipsToBounds = true
+        starButton.backgroundColor = .white
+        starButton.isUserInteractionEnabled = true
+        let starSettingTap = UITapGestureRecognizer(target: self, action: #selector(didClickStarButton))
+        starButton.addGestureRecognizer(starSettingTap)
+        
         searchButton.backgroundColor = .systemBackground
         searchButton.layer.borderColor = UIColor.systemBlue.cgColor
         searchButton.layer.borderWidth = 3
@@ -57,10 +68,24 @@ class UrlSearchTableViewCell: UITableViewCell {
     @objc func didClickSearchButton(){
         print("didClickSearchButton")
     }
+    @objc func didClickStarButton(){
+        print("star button clicked")
+        isStar = !isStar
+        changeStarButton(self.isStar)
+        
+    }
+    func changeStarButton(_ isStar: Bool){
+        switch isStar{
+        case true:
+            starButton.image = UIImage(systemName: "star.fill")
+        default:
+            starButton.image = UIImage(systemName: "star")
+        }
+    }
     
     
     private func layout(){
-        [titleLabel, urlLabel, searchButton].forEach{
+        [titleLabel, urlLabel, starButton, searchButton].forEach{
             addSubview($0)
         }
         
@@ -73,6 +98,13 @@ class UrlSearchTableViewCell: UITableViewCell {
             $0.top.equalTo(titleLabel.snp.bottom).offset(20)
             $0.leading.equalToSuperview().inset(6)
             $0.width.equalToSuperview().inset(30)
+        }
+        
+        starButton.snp.makeConstraints{
+            $0.top.equalToSuperview().inset(10)
+            $0.trailing.equalTo(searchButton.snp.leading).offset(-6)
+            $0.width.equalTo(22)
+            $0.height.equalTo(22)
         }
         
         searchButton.snp.makeConstraints{

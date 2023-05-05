@@ -14,6 +14,7 @@ class ApiListTableView: UITableView {
     //검색했던 URL들을 담을 배열
     private var urlsArr: [String] = []
     private var urlsStarred: [Bool] = []
+    private var urlsIsValid: [Bool] = []
     
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
@@ -30,11 +31,24 @@ class ApiListTableView: UITableView {
         urlsAlias = Array(urlsAlias[1..<urlsAlias.count])
         urlsArr = Array(urlsArr[1..<urlsArr.count])
         urlsStarred = Array(urlsStarred[1..<urlsStarred.count])
+        
+        //여기서, 즉 url들을 받아왔으니, 지금 각 url이 유효한지 테스트하고, urlsIsValid에 값을 채워넣어야함.
+        checkUrlIsValid()
     
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // TODO: 1순위
+    //url이 유효한지, 즉 유의미한 값이 들어있는 json을 받아오는지 알아야함.
+    private func checkUrlIsValid(){
+        // 여기서 urlsIsValid에 값 채워야함.
+        for i in urlsArr{
+            
+        }
+        
     }
 }
 
