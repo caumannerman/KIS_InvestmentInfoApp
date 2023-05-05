@@ -49,8 +49,6 @@
 		A5D1BC8A296BE7EE0045045B /* SiteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D1BC89296BE7EE0045045B /* SiteView.swift */; };
 		A5D1BC8D296BE8220045045B /* SwiftUIChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5D1BC8C296BE8220045045B /* SwiftUIChartView.swift */; };
 		A5FB4AE8296D7E6000ADD977 /* JsonParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FB4AE7296D7E6000ADD977 /* JsonParser.swift */; };
-		A5FB4AFE296FAEB700ADD977 /* ProfileDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FB4AFD296FAEB700ADD977 /* ProfileDataView.swift */; };
-		A5FB4B00296FAED000ADD977 /* ProfileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5FB4AFF296FAED000ADD977 /* ProfileCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -96,8 +94,6 @@
 		A5D1BC89296BE7EE0045045B /* SiteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteView.swift; sourceTree = "<group>"; };
 		A5D1BC8C296BE8220045045B /* SwiftUIChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIChartView.swift; sourceTree = "<group>"; };
 		A5FB4AE7296D7E6000ADD977 /* JsonParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonParser.swift; sourceTree = "<group>"; };
-		A5FB4AFD296FAEB700ADD977 /* ProfileDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDataView.swift; sourceTree = "<group>"; };
-		A5FB4AFF296FAED000ADD977 /* ProfileCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -264,8 +260,6 @@
 			isa = PBXGroup;
 			children = (
 				A5557FFD296257A900919868 /* SettingsViewController.swift */,
-				A5FB4AFD296FAEB700ADD977 /* ProfileDataView.swift */,
-				A5FB4AFF296FAED000ADD977 /* ProfileCollectionViewCell.swift */,
 				8C5E2AD329F7976900C6061E /* SubComponents */,
 			);
 			path = SettingsView;
@@ -484,9 +478,7 @@
 				A53EA68F29624D3600F0E24A /* AppDelegate.swift in Sources */,
 				A53EA6A329624EBE00F0E24A /* MainTabBarController.swift in Sources */,
 				8C82501C2A023130002B8A3B /* UrlSearchTextFieldView.swift in Sources */,
-				A5FB4AFE296FAEB700ADD977 /* ProfileDataView.swift in Sources */,
 				A5C66EB12A05128000F2DF1B /* ThirdSectionView.swift in Sources */,
-				A5FB4B00296FAED000ADD977 /* ProfileCollectionViewCell.swift in Sources */,
 				8C5E2AD729F797EB00C6061E /* ApiListTableViewCell.swift in Sources */,
 				A5557FFC2962579F00919868 /* MyFilesViewController.swift in Sources */,
 				A53EA69129624D3600F0E24A /* SceneDelegate.swift in Sources */,

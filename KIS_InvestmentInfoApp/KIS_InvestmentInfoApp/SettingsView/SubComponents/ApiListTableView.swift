@@ -21,20 +21,18 @@ class ApiListTableView: UITableView {
         self.register(ApiListTableViewCell.self, forCellReuseIdentifier: "ApiListTableViewCell")
         self.rowHeight = 80
         
-        self.urlsArr = UserDefaults.standard.array(forKey: "urls") as? [String] ?? ["정보가 없습니다"]
+        self.urlsArr = UserDefaults.standard.array(forKey: "urls")as? [String] ?? ["정보가 없습니다"]
         self.urlsAlias = UserDefaults.standard.array(forKey: "urlAlias") as? [String] ?? ["정보가 없습니다"]
+        
+        urlsAlias = Array(urlsAlias[1..<urlsAlias.count])
+        urlsArr = Array(urlsArr[1..<urlsArr.count])
+    
+        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-//    func reloadData(){
-//        self.urlsArr = UserDefaults.standard.array(forKey: "urls") as? [String] ?? ["정보가 없습니다"]
-//        self.urlsAlias = UserDefaults.standard.array(forKey: "urlAlias") as? [String] ?? ["정보가 없습니다"]
-//    }
-    
-    
 }
 
 extension ApiListTableView: UITableViewDelegate{

@@ -14,6 +14,8 @@ class UrlSearchTableView: UITableView {
     
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
+        self.urlsArr = UserDefaults.standard.array(forKey: "urls") as? [String] ?? ["정보가 없습니다"]
+        self.urlsAlias = UserDefaults.standard.array(forKey: "urlAlias") as? [String] ?? ["정보가 없습니다"]
         attribute()
     }
     
@@ -28,8 +30,7 @@ class UrlSearchTableView: UITableView {
         self.rowHeight = 100
         self.backgroundColor = UIColor(patternImage: UIImage(named: "splash")!)
         
-        self.urlsArr = UserDefaults.standard.array(forKey: "urls") as? [String] ?? ["정보가 없습니다"]
-        self.urlsAlias = UserDefaults.standard.array(forKey: "urlAlias") as? [String] ?? ["정보가 없습니다"]
+        
     }
 }
 
