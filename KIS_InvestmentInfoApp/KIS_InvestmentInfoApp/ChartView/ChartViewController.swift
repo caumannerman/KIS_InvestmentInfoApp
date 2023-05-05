@@ -50,7 +50,9 @@ class ChartViewController: UIViewController {
     
     // ---------------------======================== UI Components ========================--------------------- //
     
+    // section을 선택하는 collectionView
     private let sectionCollectionView = ChartViewCollectionView(frame: .zero, collectionViewLayout: ChartViewCollectionViewLayout())
+    
     private let scrollView = UIScrollView()
     private let contentView = UIView()
 

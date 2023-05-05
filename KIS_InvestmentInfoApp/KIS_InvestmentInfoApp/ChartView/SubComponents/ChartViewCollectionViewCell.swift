@@ -18,10 +18,24 @@ final class ChartViewCollectionViewCell: UICollectionViewCell{
         super.init(frame: frame)
         attribute()
         layout()
+        NotificationCenter.default.addObserver(self, selector: #selector(noticedSelectedCellIdx(_:)), name: .NotifySelectedCellIdx, object: nil)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func noticedSelectedCellIdx(_ notification: Notification){
+        guard let clickedIdx = notification.userInfo?["idx"] as? Int else { return }
+        print(clickedIdx, "선택된 cell 공지됨")
+        // 선택된 cell이 본인이라면 상태 변경
+        if rowNum == clickedIdx {
+            self.isClicked = !isClicked
+            titleButton.backgroundColor = UIColor(red: 230/255, green: 240/255, blue: 255/255, alpha: 1.0)
+        }else if isClicked { //선택되었다가 해제해야하는 경우
+            self.isClicked = !isClicked
+            titleButton.backgroundColor = .white
+        }
     }
     
     private func attribute(){
@@ -39,18 +53,12 @@ final class ChartViewCollectionViewCell: UICollectionViewCell{
     //false인 것을 눌렀을 때만 NotificationCenter로 신호를 보내도록 개발하였음
     @objc func didClickCell(){
         print("cell clicked!!")
+        // 현재 isClicked가 false일 때만
         if isClicked{
             return
         }
-        self.isClicked = !isClicked
-        if isClicked{
-            titleButton.backgroundColor = UIColor(red: 230/255, green: 240/255, blue: 255/255, alpha: 1.0)
-        }else {
-            titleButton.backgroundColor = .white
-        }
-        print(isClicked)
-        NotificationCenter.default.post(name: .chartSectionChanged, object: nil, userInfo: ["row": rowNum])
-        print("changed")
+        // isClicked를 true로 바꾸고 notiCenter로 DidTapUnClickedCell신호를 보냄
+        NotificationCenter.default.post(name: .DidTapUnClickedCell, object: nil, userInfo: ["row": rowNum])
     }
     
     private func layout() {
@@ -69,5 +77,5 @@ final class ChartViewCollectionViewCell: UICollectionViewCell{
 }
 
 extension Notification.Name {
-    static let chartSectionChanged = Notification.Name("chartSectionChanged")
+    static let DidTapUnClickedCell = Notification.Name("DidTapUnClickedCell")
 }
