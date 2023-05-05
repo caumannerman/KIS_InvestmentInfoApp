@@ -17,21 +17,10 @@ class UrlSearchView: UIView {
     
     private let urlSearchTextFieldView = UrlSearchTextFieldView()
     private let urlSearchTableView = UrlSearchTableView()
-    
-//    private lazy var urlTableView: UITableView = {
-//        let tableView = UITableView()
-//        tableView.dataSource = self
-//        tableView.delegate = self
-////        tableView.backgroundColor = UIColor(red: 223/255.0, green: 156/255.0, blue: 50/255.0, alpha: 1.0)
-//        tableView.backgroundColor = UIColor(patternImage: UIImage(named: "splash")!)
-//        return tableView
-//
-//    }()
+
   
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-
         attribute()
         layout()
     }
@@ -41,7 +30,7 @@ class UrlSearchView: UIView {
     }
     
     private func attribute(){
-        self.backgroundColor = .darkGray
+        self.backgroundColor = .white
         urlSearchTableView.backgroundColor = UIColor(red: 236/255, green: 236/255, blue: 236/255, alpha: 1.0)
     }
     
@@ -52,7 +41,7 @@ class UrlSearchView: UIView {
         
         urlSearchTextFieldView.snp.makeConstraints{
             $0.top.leading.trailing.equalToSuperview()
-            $0.height.equalTo(60)
+            $0.height.equalTo(80)
         }
         
         urlSearchTableView.snp.makeConstraints{
