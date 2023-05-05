@@ -218,7 +218,7 @@ class HomeViewController: UIViewController {
         bannerView.snp.makeConstraints{
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(90)
+            $0.height.equalTo(130)
         }
         
         market_url_view.snp.makeConstraints{
