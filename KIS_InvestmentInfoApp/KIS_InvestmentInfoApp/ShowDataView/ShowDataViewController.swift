@@ -57,10 +57,6 @@ class ShowDataViewController: UIViewController {
         let layout = GridLayout()
         layout.cellHeight = 44
         layout.cellWidths = Array(repeating: CGFloat(200), count: jsonResultArr[0].count + 1)
-        //layout.sectionInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
-//        layout.minimumLineSpacing = 4
-//        layout.minimumInteritemSpacing = 2
-//        layout.scrollDirection = .horizontal
 
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         collectionView.isDirectionalLockEnabled = true
@@ -85,10 +81,8 @@ class ShowDataViewController: UIViewController {
     
     // ------------------------------ UI Components ------------------------------ //
     
-    
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        
         bind()
         attribute()
         layout()
@@ -196,12 +190,6 @@ class ShowDataViewController: UIViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.title = "URL 응답 데이터"
         // "This,is,just,some,dummy,data\n11,22,33,44,55,66,777"
-        
-        
-//        let searchController = UISearchController()
-//        searchController.searchBar.placeholder = "요청 URL을 입력해주세요"
-//        //화면 어두워지지 않도록 false 처리
-//        searchController.obscuresBackgroundDuringPresentation = false
         
     }
     //api 주소를 잘 전달했다는 것을 보여주기 위한 것
@@ -357,8 +345,6 @@ extension ShowDataViewController: UICollectionViewDataSource, UICollectionViewDe
             else{
                 cell.setup(isFirstRow: isFirstRow, isFirstColumn: isFirstColumn, title: now_title, isClicked: false, rowIdx: -3, colIdx: -3)
             }
-           
-//            cell.setup(isFirstRow: isFirstRow, isFirstColumn: isFirstColumn, title: "sct = " + String(indexPath.section) + "idx = " + String(indexPath.item))
         }
         //FirstColumn인 경우
         else{
@@ -396,33 +382,7 @@ extension ShowDataViewController{
                 print(self.jsonResultArr)
                 self.isClickedArr_col = Array(repeating: false, count: self.jsonResultArr[0].count)
                 self.isClickedArr_row = Array(repeating: false, count: self.jsonResultArr.count - 1)
-                
-//                print("nownownow!!!!!!!!!!")
-//                print(str)
-                
-//            }
-//            .responseDecodable(of: [ExchangeRate].self){ [weak self] response in
-//                // success 이외의 응답을 받으면, else문에 걸려 함수 종료
-//                guard
-//                    let self = self,
-//                    case .success(let data) = response.result else { return }
-//                //데이터 받아옴
-//                self.erData = data.map{ er -> ExchangeRateCellData in
-//                    let temp = ExchangeRateCellData(cur_unit: er.cur_unit, ttb: er.ttb, tts: er.tts, deal_bas_r: er.deal_bas_r, bkpr: er.bkpr, yy_efee_r: er.yy_efee_r, ten_dd_efee_r: er.ten_dd_efee_r, kftc_bkpr: er.kftc_bkpr, kftc_deal_bas_r: er.kftc_deal_bas_r, cur_nm: er.cur_nm)
-//                    return temp
-//                }
-//
-//                print( "총 row 수 = " + String(self.erData.count))
-//                print( "0번째 인덱스 " )
-//                print( self.erData[0] )
-////                self.JsonRowCount = self.erData.count
-////                self.JsonColumnCount = 20
-////                self.isClickedArr = Array(repeating: Array(repeating: false ,count: self.JsonColumnCount), count: self.JsonRowCount)
-////                print("isClickedArr row길이 =")
-////                print( self.isClickedArr.count)
-////                print("isClickedArr column길이 =")
-////                print( self.isClickedArr[0].count)
-//
+
 //                //테이블 뷰 다시 그려줌
                 self.collectionView.isHidden = false
                 self.collectionView.reloadData()
@@ -431,11 +391,3 @@ extension ShowDataViewController{
     }
 }
 
-//extension ShowDataViewController: UICollectionViewDataSource{
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ButtonListViewCell", for: indexPath) as? ButtonListViewCell else { return UICollectionViewCell()}
-//
-//        let now_data = erData[indexPath.item]
-//        cell.setup
-//    }
-//}
