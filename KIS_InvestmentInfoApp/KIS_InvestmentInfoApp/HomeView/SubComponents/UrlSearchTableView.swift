@@ -19,6 +19,7 @@ class UrlSearchTableView: UITableView {
         urlsAlias = UserDefaults.standard.array(forKey: "urlAlias") as? [String] ?? ["정보가 없습니다"]
         urlsStarred = UserDefaults.standard.array(forKey: "urlStarred") as? [Bool] ?? Array(repeating: true, count: 100)
         attribute()
+        
     }
     
     required init?(coder: NSCoder) {

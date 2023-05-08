@@ -20,5 +20,9 @@ extension Notification.Name {
     
     //ShowDataViewCollectionViewCell
     static let cellColorChange = Notification.Name("cellColorChange")
+    
+    //UrlSearchTableViewCell -> UrlSearchTableView
+    // 즐겨찾기 버튼을 눌렀을 때, UrlSearchTableView에 갖고있는 즐찾 관련 배열을 수정하고, 그것을 다시 UserDefaults에 저장해줘야하므로 신호 보냄
+    static let DidChangeUrlStar = Notification.Name("DidChangeUrlStar")
 }
 
