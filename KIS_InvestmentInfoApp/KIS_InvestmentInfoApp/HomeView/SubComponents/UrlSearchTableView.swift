@@ -66,6 +66,3 @@ extension UrlSearchTableView: UITableViewDataSource{
 }
 
 
-extension Notification.Name {
-    static let DidTapCell = Notification.Name("DidTapCell")
-}

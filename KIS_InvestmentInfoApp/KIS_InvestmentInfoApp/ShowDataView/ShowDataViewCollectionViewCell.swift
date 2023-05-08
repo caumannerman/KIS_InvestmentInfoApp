@@ -99,7 +99,3 @@ class ShowDataViewCollectionViewCell: UICollectionViewCell{
     
 }
 
-
-extension Notification.Name {
-    static let cellColorChange = Notification.Name("cellColorChange")
-}

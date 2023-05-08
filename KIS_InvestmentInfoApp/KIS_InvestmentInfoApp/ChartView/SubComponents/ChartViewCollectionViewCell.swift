@@ -81,6 +81,3 @@ final class ChartViewCollectionViewCell: UICollectionViewCell{
   
 }
 
-extension Notification.Name {
-    static let DidTapUnClickedCell = Notification.Name("DidTapUnClickedCell")
-}
