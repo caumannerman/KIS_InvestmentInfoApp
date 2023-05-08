@@ -57,13 +57,13 @@ class UrlSearchTableViewCell: UITableViewCell {
         starButton.addGestureRecognizer(starSettingTap)
         
         searchButton.backgroundColor = .systemBackground
-        searchButton.layer.borderColor = UIColor.systemBlue.cgColor
-        searchButton.layer.borderWidth = 3
+        searchButton.layer.borderColor = UIColor(red: 186/255, green: 210/255, blue: 246/255, alpha: 1.0).cgColor
+        searchButton.layer.borderWidth = 2
         searchButton.layer.cornerRadius = 6
         searchButton.addTarget(self, action: #selector(didClickSearchButton), for: .touchUpInside)
         searchButton.setTitle("검색", for: .normal)
-        searchButton.titleLabel?.font = .systemFont(ofSize: 18.0, weight: .bold)
-        searchButton.setTitleColor(.systemBlue, for: .normal)
+        searchButton.titleLabel?.font = .systemFont(ofSize: 16.0, weight: .bold)
+        searchButton.setTitleColor(UIColor(red: 146/255, green: 170/255, blue: 236/255, alpha: 1.0), for: .normal)
     }
     @objc func didClickSearchButton(){
         print("didClickSearchButton")
@@ -95,23 +95,23 @@ class UrlSearchTableViewCell: UITableViewCell {
         }
         
         urlLabel.snp.makeConstraints{
-            $0.top.equalTo(titleLabel.snp.bottom).offset(20)
+            $0.bottom.equalToSuperview().inset(20)
             $0.leading.equalToSuperview().inset(6)
-            $0.width.equalToSuperview().inset(30)
+            $0.width.equalTo(UIScreen.main.bounds.width - 90)
         }
         
         starButton.snp.makeConstraints{
             $0.top.equalToSuperview().inset(10)
-            $0.trailing.equalTo(searchButton.snp.leading).offset(-6)
-            $0.width.equalTo(22)
-            $0.height.equalTo(22)
+            $0.trailing.equalToSuperview().offset(-10)
+            $0.width.equalTo(26)
+            $0.height.equalTo(26)
         }
         
         searchButton.snp.makeConstraints{
-            $0.top.equalToSuperview().inset(10)
-            $0.trailing.equalToSuperview().inset(6)
-            $0.width.equalTo(70)
-            $0.height.equalTo(40)
+            $0.bottom.equalToSuperview().inset(10)
+            $0.trailing.equalToSuperview().inset(10)
+            $0.width.equalTo(60)
+            $0.height.equalTo(34)
         }
     }
     
