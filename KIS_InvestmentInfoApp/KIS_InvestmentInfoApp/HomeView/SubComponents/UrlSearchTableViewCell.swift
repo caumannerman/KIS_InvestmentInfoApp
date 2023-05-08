@@ -72,6 +72,8 @@ class UrlSearchTableViewCell: UITableViewCell {
         print("star button clicked")
         isStar = !isStar
         changeStarButton(self.isStar)
+        // 즐찾 state가 바뀌었으므로, UrlSearchTableView가 갖고있는 배열에 값 변경해야하므로 신호를 보냄
+        NotificationCenter.default.post(name:.DidChangeUrlStar, object: .none, userInfo: ["isStar": isStar])
         
     }
     func changeStarButton(_ isStar: Bool){

@@ -132,7 +132,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(didTapCell(_:)), name: .DidTapCell, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didTapUrlTVCell(_:)), name: .DidTapUrlTVCell, object: nil)
         
         let isFT = isFirstTime()
         print(isFT)
@@ -148,8 +148,8 @@ class HomeViewController: UIViewController {
            // isValid는 저장해둘 것이 아니라 그때그떄 네트워크로 정보를 받아 판단해야함
         }
     }
-    @objc func didTapCell(_ notification: Notification) {
-        print("Notification didTapCell")
+    @objc func didTapUrlTVCell(_ notification: Notification) {
+        print("Notification DidTapUrlTVCell")
         guard let now_dict = notification.userInfo as? Dictionary<String, Any> else { return }
         guard let now_url = now_dict["url"] as? String else {return}
         print("지금 받아온 url", terminator: " ")

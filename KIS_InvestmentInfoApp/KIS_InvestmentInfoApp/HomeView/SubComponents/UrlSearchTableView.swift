@@ -20,6 +20,9 @@ class UrlSearchTableView: UITableView {
         urlsStarred = UserDefaults.standard.array(forKey: "urlStarred") as? [Bool] ?? Array(repeating: true, count: 100)
         attribute()
         
+        //Cell에서 즐찾 버튼이 변경됐다는 신호를 받아주는 친구.
+        NotificationCenter.default.addObserver(self, selector: #selector(didChangeUrlStar(_:)), name: .DidChangeUrlStar, object: nil)
+        
     }
     
     required init?(coder: NSCoder) {
@@ -32,6 +35,15 @@ class UrlSearchTableView: UITableView {
         self.register(UrlSearchTableViewCell.self, forCellReuseIdentifier: "UrlSearchTableViewCell")
         self.rowHeight = 100
         self.backgroundColor = UIColor(patternImage: UIImage(named: "splash")!)
+    }
+    
+    @objc func didChangeUrlStar(_ notification: Notification) {
+        print("Notification DidChangeUrlStar")
+        guard let now_dict = notification.userInfo as? Dictionary<String, Any> else { return }
+        guard let now_isStar = now_dict["isStar"] as? Bool else { return }
+        print("지금 받아온 now_isStar", terminator: " ")
+        print(now_isStar)
+        
         
         
     }
@@ -44,7 +56,7 @@ extension UrlSearchTableView: UITableViewDelegate{
 //        let vc = ShowDataViewController()
 //        vc.setup(apiUrl: url)
         
-        NotificationCenter.default.post(name:.DidTapCell, object: .none, userInfo: ["url": url])
+        NotificationCenter.default.post(name:.DidTapUrlTVCell, object: .none, userInfo: ["url": url])
         
     }
     
