@@ -41,11 +41,16 @@ class UrlSearchTableView: UITableView {
         print("Notification DidChangeUrlStar")
         guard let now_dict = notification.userInfo as? Dictionary<String, Any> else { return }
         guard let now_isStar = now_dict["isStar"] as? Bool else { return }
+        guard let now_rowNum = now_dict["rowNum"] as? Int else { return }
         print("지금 받아온 now_isStar", terminator: " ")
         print(now_isStar)
+        print("지금 받아온 now_rowNum", terminator: " ")
+        print(now_rowNum)
         
-        
-        
+        urlsStarred[now_rowNum] = now_isStar
+        // isStar과 rowNum을 이용하여 UserDefaults에 업데이트 해야함
+        UserDefaults.standard.set(urlsStarred, forKey: "urlStarred")
+
     }
 }
 
@@ -73,7 +78,7 @@ extension UrlSearchTableView: UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "UrlSearchTableViewCell", for: indexPath) as? UrlSearchTableViewCell else { return UITableViewCell()}
         cell.selectionStyle = .none
-        cell.setup(title: urlsAlias[indexPath.row], url: urlsArr[indexPath.row], isStar: urlsStarred[indexPath.row])
+        cell.setup(title: urlsAlias[indexPath.row], url: urlsArr[indexPath.row], isStar: urlsStarred[indexPath.row], rowNum: indexPath.row)
         return cell
     }
 }

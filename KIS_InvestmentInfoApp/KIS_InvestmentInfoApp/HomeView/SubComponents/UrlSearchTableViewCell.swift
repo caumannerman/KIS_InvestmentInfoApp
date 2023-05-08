@@ -11,6 +11,7 @@ import SnapKit
 class UrlSearchTableViewCell: UITableViewCell {
     
     private var isStar: Bool = false
+    private var rowNum: Int = -1
     
     private let titleLabel = UILabel()
     private let urlLabel = UILabel()
@@ -73,7 +74,7 @@ class UrlSearchTableViewCell: UITableViewCell {
         isStar = !isStar
         changeStarButton(self.isStar)
         // 즐찾 state가 바뀌었으므로, UrlSearchTableView가 갖고있는 배열에 값 변경해야하므로 신호를 보냄
-        NotificationCenter.default.post(name:.DidChangeUrlStar, object: .none, userInfo: ["isStar": isStar])
+        NotificationCenter.default.post(name:.DidChangeUrlStar, object: .none, userInfo: ["isStar": isStar, "rowNum": rowNum])
         
     }
     func changeStarButton(_ isStar: Bool){
@@ -118,10 +119,11 @@ class UrlSearchTableViewCell: UITableViewCell {
     }
     
     
-    func setup(title: String, url: String, isStar: Bool){
+    func setup(title: String, url: String, isStar: Bool, rowNum: Int){
         titleLabel.text = title
         urlLabel.text = url
         self.isStar = isStar
+        self.rowNum = rowNum
         changeStarButton(isStar)
     }
 }
