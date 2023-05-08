@@ -15,6 +15,7 @@ final class SettingsViewController: UIViewController {
 
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        print("SettingsView의 Init 시점 테스트")
     }
     
     required init?(coder: NSCoder) {
@@ -27,11 +28,13 @@ final class SettingsViewController: UIViewController {
         view.backgroundColor = UIColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1.0)
         setupNavigationItems()
         setupLayout()
+        print("SettingsView의 viewDidLoad 시점 테스트")
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Home 화면에서 받아오고,업데이트한 UserDefaults저장정보들을 그대로 가져옴
+   
         
     }
     

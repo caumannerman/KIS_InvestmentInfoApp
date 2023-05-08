@@ -34,6 +34,7 @@ class ApiListTableView: UITableView {
         
         //여기서, 즉 url들을 받아왔으니, 지금 각 url이 유효한지 테스트하고, urlsIsValid에 값을 채워넣어야함.
         checkUrlIsValid()
+        print("SettingsView의 ApiListTableView Init 시점 테스트")
     
     }
     
