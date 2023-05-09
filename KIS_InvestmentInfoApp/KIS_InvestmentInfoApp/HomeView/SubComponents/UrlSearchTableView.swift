@@ -49,14 +49,14 @@ class UrlSearchTableView: UITableView {
         print("지금 받아온 now_rowNum", terminator: " ")
         print(now_rowNum)
         
-//        urlsStarred[now_rowNum] = now_isStar
-        // isStar과 rowNum을 이용하여 UserDefaults에 업데이트 해야함
-//        UserDefaults.standard.set(urlsStarred, forKey: "urlStarred")
-
-        
-        scoms.changeIsStar(rowNum: now_rowNum, isStar: now_isStar)
+        if now_isStar {
+            scoms.InsertNewlyStarredUrl(rowNum: now_rowNum)
+        } else {
+            scoms.InsertNewlyUnStarredUrl(rowNum: now_rowNum)
+        }
         print("즐찾 바꾼 후", terminator: " ")
         print(scoms.getUrlStarred())
+       
         self.reloadData()
     }
 }

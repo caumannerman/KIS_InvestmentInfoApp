@@ -49,9 +49,16 @@ class ApiListTableViewCell: UITableViewCell {
         print("star button clicked")
         isStar = !isStar
         changeStarButton(self.isStar)
-        scoms.changeIsStar(rowNum: rowNum + 1, isStar: isStar)
+
+    
+        if isStar {
+            scoms.InsertNewlyStarredUrl(rowNum: rowNum + 1)
+        } else {
+            scoms.InsertNewlyUnStarredUrl(rowNum: rowNum + 1)
+        }
         print("Settings에서 변경 후", terminator: " ")
         print(scoms.getUrlStarred())
+        
         NotificationCenter.default.post(name:.DidChangeUrlStarInSettings, object: .none)
     }
     

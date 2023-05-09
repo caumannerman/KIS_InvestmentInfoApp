@@ -49,10 +49,47 @@ class UrlCommonState {
         UserDefaults.standard.set(urlsStarred, forKey: "urlStarred")
     }
     
-    // rowNum과 isStar 바뀐 값을 받아, 즐찾 정보를 변경해줌
-    func changeIsStar(rowNum: Int, isStar: Bool){
-        urlsStarred[rowNum] = isStar
+    // urlsStarred에서 처음으로 false가 나오는 인덱스, 즉, 새롭게 즐겨찾기 된 url이 들어가야할 인덱스 위치를 return
+    // 없으면 nil을 뱉어주고, 있어도 Optional타입임
+    func checkIdxWhereToInsertNewStar() -> Int? {
+        return urlsStarred.firstIndex(of: false)
     }
+    
+    //이 친구는 remove먼저 하고 insert해야함.
+    func InsertNewlyStarredUrl(rowNum: Int){
+        // 이 함수는 즐찾이 새로 되었을 때만 호출할 것이기 때문에 nil일 가능성이 없다.
+        let nowIdxToInsert: Int = checkIdxWhereToInsertNewStar()!
+        // 새롭게 즐찾된 것의 index와 즐찾되면 새로 들어가야할 위치가 같은 경우, 위치 재정렬은 하지 않아도 됨.
+        if nowIdxToInsert == rowNum {
+            urlsStarred[rowNum] = true
+            return
+        }
+        
+        let newlyStarredUrl = urlsArr[rowNum]
+        let newlyStarredAlias = urlsAlias[rowNum]
+        
+        urlsArr.remove(at: rowNum)
+        urlsArr.insert(newlyStarredUrl, at: nowIdxToInsert)
+        
+        urlsAlias.remove(at: rowNum)
+        urlsAlias.insert(newlyStarredAlias, at: nowIdxToInsert)
+        
+        urlsStarred.remove(at: rowNum)
+        urlsStarred.insert(true, at: nowIdxToInsert)
+    }
+    
+    //이친구는 insert먼저 하고 기존 cell을 지워야함.
+    func InsertNewlyUnStarredUrl(rowNum: Int) {
+        print("UnStarredURL")
+        // 모든 URL이 즐겨찾기 되어있을 때, 아래 변수는 nil일 가능성이 "있다"
+        let nowIdxToInsert: Int = checkIdxWhereToInsertNewStar()!
+        
+    }
+    
+    // rowNum과 isStar 바뀐 값을 받아, 즐찾 정보를 변경해줌
+//    func changeIsStar(rowNum: Int, isStar: Bool){
+//        urlsStarred[rowNum] = isStar
+//    }
     
     func getUrlsCount() -> Int{
         return urlsArr.count
