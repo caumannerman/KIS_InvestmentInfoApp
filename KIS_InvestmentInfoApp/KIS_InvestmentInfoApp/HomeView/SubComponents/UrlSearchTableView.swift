@@ -57,6 +57,7 @@ class UrlSearchTableView: UITableView {
         scoms.changeIsStar(rowNum: now_rowNum, isStar: now_isStar)
         print("즐찾 바꾼 후", terminator: " ")
         print(scoms.getUrlStarred())
+        self.reloadData()
     }
 }
 

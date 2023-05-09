@@ -25,10 +25,17 @@ final class SettingsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //ApiListTableViewCell에서 즐찾 변경신호 받는 Observer
+        NotificationCenter.default.addObserver(self, selector: #selector(DidChangeUrlStarInSettings(_:)), name: .DidChangeUrlStarInSettings, object: nil)
         view.backgroundColor = UIColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1.0)
         setupNavigationItems()
         setupLayout()
         print("SettingsView의 viewDidLoad 시점 테스트")
+    }
+    
+    @objc func DidChangeUrlStarInSettings(_ notification: Notification){
+        print("SettingsViewCon reload됨")
+        apitableView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {

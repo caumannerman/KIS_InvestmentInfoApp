@@ -21,6 +21,7 @@ class UrlSearchView: UIView {
   
     override init(frame: CGRect) {
         super.init(frame: frame)
+        NotificationCenter.default.addObserver(self, selector: #selector(DidChangeUrlStarInSettings(_:)), name: .DidChangeUrlStarInSettings, object: nil)
         attribute()
         layout()
     }
@@ -29,10 +30,16 @@ class UrlSearchView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    @objc func DidChangeUrlStarInSettings(_ notification: Notification){
+        print("UrlSearchView reload됨")
+        urlSearchTableView.reloadData()
+    }
+    
     private func attribute(){
         self.backgroundColor = .white
         urlSearchTableView.backgroundColor = UIColor(red: 236/255, green: 236/255, blue: 236/255, alpha: 1.0)
     }
+    
     
     private func layout(){
         [urlSearchTextFieldView, urlSearchTableView].forEach{

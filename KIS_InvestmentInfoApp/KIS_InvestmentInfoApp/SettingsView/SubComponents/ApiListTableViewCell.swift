@@ -10,6 +10,8 @@ import SnapKit
 
 class ApiListTableViewCell: UITableViewCell {
     
+    let scoms = CommonState.getInstance()
+    private var rowNum: Int = -1
     private var isValid: Bool = false
     private var isStar: Bool = false
     
@@ -47,8 +49,12 @@ class ApiListTableViewCell: UITableViewCell {
         print("star button clicked")
         isStar = !isStar
         changeStarButton(self.isStar)
-        
+        scoms.changeIsStar(rowNum: rowNum + 1, isStar: isStar)
+        print("Settings에서 변경 후", terminator: " ")
+        print(scoms.getUrlStarred())
+        NotificationCenter.default.post(name:.DidChangeUrlStarInSettings, object: .none)
     }
+    
     func changeStarButton(_ isStar: Bool){
         switch isStar{
         case true:
@@ -155,10 +161,11 @@ class ApiListTableViewCell: UITableViewCell {
         
     }
     
-    func setup(urlAlias: String, url: String, isValid: Bool, isStar: Bool ){
+    func setup(urlAlias: String, url: String, isValid: Bool, isStar: Bool, rowNum: Int ){
         self.aliasLabel.text = urlAlias
         self.urlLabel.text = url
         self.isValid = isValid
+        self.rowNum = rowNum
         changeValidButton(isValid)
         self.isStar = isStar
         changeStarButton(isStar)

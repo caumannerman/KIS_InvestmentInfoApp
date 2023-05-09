@@ -80,7 +80,7 @@ extension ApiListTableView: UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ApiListTableViewCell", for: indexPath) as? ApiListTableViewCell else { return UITableViewCell()}
         cell.selectionStyle = .none
-        cell.setup(urlAlias: scoms.urlsAlias[indexPath.row + 1], url: scoms.urlsArr[indexPath.row + 1], isValid: true, isStar: scoms.urlsStarred[indexPath.row + 1])
+        cell.setup(urlAlias: scoms.urlsAlias[indexPath.row + 1], url: scoms.urlsArr[indexPath.row + 1], isValid: true, isStar: scoms.urlsStarred[indexPath.row + 1], rowNum: indexPath.row)
         return cell
     }
 }

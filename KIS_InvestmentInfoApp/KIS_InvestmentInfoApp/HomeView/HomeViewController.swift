@@ -152,8 +152,12 @@ class HomeViewController: UIViewController {
             
            // isValid는 저장해둘 것이 아니라 그때그떄 네트워크로 정보를 받아 판단해야함
         }
-       
-
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("HomeVC reload", terminator: " ")
+        
     }
     @objc func didTapUrlTVCell(_ notification: Notification) {
         print("Notification DidTapUrlTVCell")
