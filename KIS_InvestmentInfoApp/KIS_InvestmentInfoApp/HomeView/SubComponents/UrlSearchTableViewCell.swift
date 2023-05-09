@@ -124,7 +124,10 @@ class UrlSearchTableViewCell: UITableViewCell {
         urlLabel.text = url
         self.isStar = isStar
         self.rowNum = rowNum
-        
+        if rowNum == 0 {
+            starButton.tintColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 0.0)
+            starButton.isUserInteractionEnabled = false
+        }
         changeStarButton(isStar)
     }
 }
