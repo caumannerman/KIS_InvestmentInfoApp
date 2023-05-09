@@ -81,9 +81,22 @@ class UrlCommonState {
     //이친구는 insert먼저 하고 기존 cell을 지워야함.
     func InsertNewlyUnStarredUrl(rowNum: Int) {
         print("UnStarredURL")
-        // 모든 URL이 즐겨찾기 되어있을 때, 아래 변수는 nil일 가능성이 "있다"
-        let nowIdxToInsert: Int = checkIdxWhereToInsertNewStar()!
+        // 모든 cell이 즐겨찾기 되어있었기 때문에
+        if rowNum == urlsArr.count - 1 {
+            urlsStarred[rowNum] = false
+            return
+        }
         
+        let newlyUnStarredUrl = urlsArr[rowNum]
+        let newlyUnStarredAlias = urlsAlias[rowNum]
+        
+        urlsArr.remove(at: rowNum)
+        urlsAlias.remove(at: rowNum)
+        urlsStarred.remove(at: rowNum)
+        
+        urlsArr.append(newlyUnStarredUrl)
+        urlsAlias.append(newlyUnStarredAlias)
+        urlsStarred.append(false)
     }
     
     // rowNum과 isStar 바뀐 값을 받아, 즐찾 정보를 변경해줌

@@ -124,6 +124,7 @@ class UrlSearchTableViewCell: UITableViewCell {
         urlLabel.text = url
         self.isStar = isStar
         self.rowNum = rowNum
+        
         changeStarButton(isStar)
     }
 }

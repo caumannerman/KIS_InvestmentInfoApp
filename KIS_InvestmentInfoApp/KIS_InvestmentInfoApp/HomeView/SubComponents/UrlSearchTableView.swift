@@ -85,6 +85,7 @@ extension UrlSearchTableView: UITableViewDataSource{
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "UrlSearchTableViewCell", for: indexPath) as? UrlSearchTableViewCell else { return UITableViewCell()}
         cell.selectionStyle = .none
         cell.setup(title: scoms.urlsAlias[indexPath.row], url: scoms.urlsArr[indexPath.row], isStar: scoms.urlsStarred[indexPath.row], rowNum: indexPath.row)
+       
         return cell
     }
 }
