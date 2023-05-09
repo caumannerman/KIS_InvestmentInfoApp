@@ -35,6 +35,10 @@ final class SettingsViewController: UIViewController {
         super.viewWillAppear(animated)
         // Home 화면에서 받아오고,업데이트한 UserDefaults저장정보들을 그대로 가져옴
    
+        //여기서 urls 변경정보를 업데이트 해줘야함 ( 다른 화면에서 수정한 정보 반영을 위해 reload )
+        print("relaod")
+        apitableView.reloadData()
+        print("reload success")
         
     }
     
