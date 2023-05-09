@@ -35,7 +35,6 @@ class HomeViewController: UIViewController {
     private lazy var marketButton = UIButton()
     private lazy var urlSearchButton = UIButton()
     
-    
     private lazy var hostingControllerUIView: UIView = {
         let view = UIView()
         view.backgroundColor = .systemMint
@@ -109,6 +108,12 @@ class HomeViewController: UIViewController {
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        let scoms = CommonState.getInstance()
+        scoms.getDataFromUserDefaults()
+        print(scoms.getUrls())
+        print(scoms.getUrlAlias())
+        print(scoms.getUrlStarred())
+        print("success")
         setNavigationItems()
         changeCategory(isMarket)
         bind()
@@ -244,12 +249,6 @@ class HomeViewController: UIViewController {
             $0.trailing.equalToSuperview().inset(10)
             $0.width.equalTo((UIScreen.main.bounds.width - 40) / 2 )
         }
-//        headerView.snp.makeConstraints{
-//            $0.top.equalTo(view.safeAreaLayoutGuide)
-//            $0.leading.trailing.equalToSuperview()
-//            $0.height.equalTo(60)
-//        }
-//
         
         hostingControllerUIView.snp.makeConstraints{
             $0.top.equalTo(market_url_view.snp.bottom)

@@ -9,12 +9,13 @@ import UIKit
 
 class ApiListTableView: UITableView {
 
+    let scoms = CommonState.getInstance()
     // urlsAlias와 urlsArr은 갯수를 항상 동일하게맞추어야한다.
-    private var urlsAlias: [String] = []
+//    private var urlsAlias: [String] = []
     //검색했던 URL들을 담을 배열
-    private var urlsArr: [String] = []
-    private var urlsStarred: [Bool] = []
-    private var urlsIsValid: [Bool] = []
+//    private var urlsArr: [String] = []
+//    private var urlsStarred: [Bool] = []
+//    private var urlsIsValid: [Bool] = []
     
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
@@ -23,14 +24,15 @@ class ApiListTableView: UITableView {
         self.register(ApiListTableViewCell.self, forCellReuseIdentifier: "ApiListTableViewCell")
         self.rowHeight = 80
         
-        urlsArr = UserDefaults.standard.array(forKey: "urls")as? [String] ?? ["정보가 없습니다"]
-        urlsAlias = UserDefaults.standard.array(forKey: "urlAlias") as? [String] ?? ["정보가 없습니다"]
-        urlsStarred = UserDefaults.standard.array(forKey: "urlStarred") as? [Bool] ?? Array(repeating: true, count: 100)
+//        urlsArr = UserDefaults.standard.array(forKey: "urls")as? [String] ?? ["정보가 없습니다"]
+//        urlsAlias = UserDefaults.standard.array(forKey: "urlAlias") as? [String] ?? ["정보가 없습니다"]
+//        urlsStarred = UserDefaults.standard.array(forKey: "urlStarred") as? [Bool] ?? Array(repeating: true, count: 100)
         
-        print(urlsStarred, "입니다")
-        urlsAlias = Array(urlsAlias[1..<urlsAlias.count])
-        urlsArr = Array(urlsArr[1..<urlsArr.count])
-        urlsStarred = Array(urlsStarred[1..<urlsStarred.count])
+//        print(urlsStarred, "입니다")
+        
+//        urlsAlias = Array(urlsAlias[1..<urlsAlias.count])
+//        urlsArr = Array(urlsArr[1..<urlsArr.count])
+//        urlsStarred = Array(urlsStarred[1..<urlsStarred.count])
         
         //여기서, 즉 url들을 받아왔으니, 지금 각 url이 유효한지 테스트하고, urlsIsValid에 값을 채워넣어야함.
         checkUrlIsValid()
@@ -46,7 +48,7 @@ class ApiListTableView: UITableView {
     //url이 유효한지, 즉 유의미한 값이 들어있는 json을 받아오는지 알아야함.
     private func checkUrlIsValid(){
         // 여기서 urlsIsValid에 값 채워야함.
-        for i in urlsArr{
+        for i in scoms.urlsArr{
             
         }
         
@@ -71,13 +73,14 @@ extension ApiListTableView: UITableViewDelegate{
 
 extension ApiListTableView: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return urlsArr.count
+//        return urlsArr.count
+        return scoms.getUrlsCount() - 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ApiListTableViewCell", for: indexPath) as? ApiListTableViewCell else { return UITableViewCell()}
         cell.selectionStyle = .none
-        cell.setup(urlAlias: urlsAlias[indexPath.row], url: urlsArr[indexPath.row], isValid: true, isStar: urlsStarred[indexPath.row])
+        cell.setup(urlAlias: scoms.urlsAlias[indexPath.row + 1], url: scoms.urlsArr[indexPath.row + 1], isValid: true, isStar: scoms.urlsStarred[indexPath.row + 1])
         return cell
     }
 }

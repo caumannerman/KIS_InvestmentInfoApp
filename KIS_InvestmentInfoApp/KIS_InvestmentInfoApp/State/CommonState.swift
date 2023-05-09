@@ -14,10 +14,9 @@ class CommonState {
     // 2. 싱글톤을 구현하고자 하는 클래스 내부에 멤버 변수로써 private static 객체 변수를 만듭니다.
     private static var instance: CommonState?
     
-    private var urls: [String] = ["1"]
-    private var urlAlias: [String] = []
-    private var urlStarred: [Bool] = []
-    
+     var urlsArr: [String] = ["1"]
+     var urlsAlias: [String] = []
+     var urlsStarred: [Bool] = []
     
     private init(){
         print("CommonState Initiated")
@@ -28,43 +27,55 @@ class CommonState {
             instance = CommonState()
         }
         return instance!
-        
     }
-    
     
     // State들의 변화는 이곳에 getter, setter 등의 api를 만들어 관리해주면 된다.( Redux스타일 )
     // 복잡하게 얽히는 state들을 한 곳에 모아 효율적으로 관리할 수 있다.
     
     // 값을 전달하여 직접 State를 수정할 수 없는 것 ( 예를 들어, 신호만 받아 이 싱글턴 자체에서 데이터를 가공해야하는 것은, NotificationCenter를 사용해도 괜찮다 )
     
+    func getDataFromUserDefaults(){
+        print("UserDefaults에서 정보 갖고오기 시작")
+        urlsArr = UserDefaults.standard.array(forKey: "urls") as? [String] ?? ["정보가 없습니다"]
+        urlsAlias = UserDefaults.standard.array(forKey: "urlAlias") as? [String] ?? ["정보가 없습니다"]
+        urlsStarred = UserDefaults.standard.array(forKey: "urlStarred") as? [Bool] ?? Array(repeating: true, count: 100)
+        print("UserDefaults에서 정보 갖고오기 끝")
+    }
     
+    // rowNum과 isStar 바뀐 값을 받아, 즐찾 정보를 변경해줌
+    func changeIsStar(rowNum: Int, isStar: Bool){
+        urlsStarred[rowNum] = isStar
+    }
     
-  
+    func getUrlsCount() -> Int{
+        return urlsArr.count
+    }
+    
 
     //----------------------------------- Getter -----------------------------------//
-//    func getUrls() -> [String] {
-//        return urls
-//    }
-//
-//    func getUrlAlias() -> [String] {
-//        return urlAlias
-//    }
-//
-//    func getUrlStarred() -> [Bool] {
-//        return urlStarred
-//    }
-//
-//    //----------------------------------- Setter -----------------------------------//
-//    func setUrls(urls: [String]){
-//        self.urls = urls
-//    }
-//
-//    func setUrlAlias(urlAlias: [String]){
-//        self.urlAlias = urlAlias
-//    }
-//
-//    func setUrlStarred(urlStarred: [Bool]){
-//        self.urlStarred = urlStarred
-//    }
+    func getUrls() -> [String] {
+        return urlsArr
+    }
+
+    func getUrlAlias() -> [String] {
+        return urlsAlias
+    }
+
+    func getUrlStarred() -> [Bool] {
+        return urlsStarred
+    }
+
+    //----------------------------------- Setter -----------------------------------//
+    func setUrls(urls: [String]){
+        self.urlsArr = urls
+    }
+
+    func setUrlAlias(urlAlias: [String]){
+        self.urlsAlias = urlAlias
+    }
+
+    func setUrlStarred(urlStarred: [Bool]){
+        self.urlsStarred = urlStarred
+    }
 
 }
