@@ -108,7 +108,7 @@ class HomeViewController: UIViewController {
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        let scoms = CommonState.getInstance()
+        let scoms = UrlCommonState.getInstance()
         scoms.getDataFromUserDefaults()
         print(scoms.getUrls())
         print(scoms.getUrlAlias())

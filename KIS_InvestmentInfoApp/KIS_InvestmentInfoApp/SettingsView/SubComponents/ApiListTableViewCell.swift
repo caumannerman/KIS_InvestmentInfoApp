@@ -10,7 +10,7 @@ import SnapKit
 
 class ApiListTableViewCell: UITableViewCell {
     
-    let scoms = CommonState.getInstance()
+    let scoms = UrlCommonState.getInstance()
     private var rowNum: Int = -1
     private var isValid: Bool = false
     private var isStar: Bool = false

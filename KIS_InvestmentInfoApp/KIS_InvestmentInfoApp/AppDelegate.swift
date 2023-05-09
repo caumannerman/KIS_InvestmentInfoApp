@@ -29,7 +29,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
-
-
+    
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        print("BAckground 진입")
+        //여기서 UrlState를 UserDefualts에  저장해야함.
+        let urlState = UrlCommonState.getInstance()
+        urlState.saveDataOnUserDafaults()
+        print("Background진입 후 url데이터 저장 완료")
+        
+    }
+    func applicationWillTerminate(_ application: UIApplication) {
+        print("applicationWillTerminate 진입")
+        //여기서 UrlState를 UserDefualts에  저장해야함.
+        let urlState = UrlCommonState.getInstance()
+        urlState.saveDataOnUserDafaults()
+        print("applicationWillTerminate진입 후 url데이터 저장 완료")
+    }
+    
 }
 

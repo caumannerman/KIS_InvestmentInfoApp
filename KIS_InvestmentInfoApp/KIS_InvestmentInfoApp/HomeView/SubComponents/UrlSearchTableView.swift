@@ -9,7 +9,7 @@ import UIKit
 
 class UrlSearchTableView: UITableView {
 
-     private let scoms = CommonState.getInstance()
+     private let scoms = UrlCommonState.getInstance()
 //    private var urlsAlias: [String] = []
 //    private var urlsArr: [String] = []
 //    private var urlsStarred: [Bool] = []

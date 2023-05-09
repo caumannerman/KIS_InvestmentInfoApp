@@ -8,11 +8,11 @@
 import Foundation
 
 //싱글턴으로 만들어야함
-class CommonState {
+class UrlCommonState {
     //Swift에서는 SINGLEton 구현이 좀 더 간결하다
     // 1. private 생성자만을 정의해 외부 클래스로부터 인스턴스 생성을 차단합니다.
     // 2. 싱글톤을 구현하고자 하는 클래스 내부에 멤버 변수로써 private static 객체 변수를 만듭니다.
-    private static var instance: CommonState?
+    private static var instance: UrlCommonState?
     
      var urlsArr: [String] = ["1"]
      var urlsAlias: [String] = []
@@ -22,9 +22,9 @@ class CommonState {
         print("CommonState Initiated")
     }
     
-    public static func getInstance() -> CommonState {
+    public static func getInstance() -> UrlCommonState {
         if instance == nil {
-            instance = CommonState()
+            instance = UrlCommonState()
         }
         return instance!
     }
@@ -40,6 +40,13 @@ class CommonState {
         urlsAlias = UserDefaults.standard.array(forKey: "urlAlias") as? [String] ?? ["정보가 없습니다"]
         urlsStarred = UserDefaults.standard.array(forKey: "urlStarred") as? [Bool] ?? Array(repeating: true, count: 100)
         print("UserDefaults에서 정보 갖고오기 끝")
+    }
+    
+    func saveDataOnUserDafaults(){
+        print("Background로 넘어가며 Url정보 UserDefaults에 저장하기")
+        UserDefaults.standard.set(urlsArr, forKey: "urls")
+        UserDefaults.standard.set(urlsAlias, forKey: "urlAlias")
+        UserDefaults.standard.set(urlsStarred, forKey: "urlStarred")
     }
     
     // rowNum과 isStar 바뀐 값을 받아, 즐찾 정보를 변경해줌
