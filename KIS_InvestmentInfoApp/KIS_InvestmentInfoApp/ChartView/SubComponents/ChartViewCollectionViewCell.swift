@@ -18,7 +18,7 @@ final class ChartViewCollectionViewCell: UICollectionViewCell{
         super.init(frame: frame)
         attribute()
         layout()
-        NotificationCenter.default.addObserver(self, selector: #selector(noticedSelectedCellIdx(_:)), name: .NotifySelectedCellIdx, object: nil)
+
     }
     
     required init?(coder: NSCoder) {
@@ -69,14 +69,19 @@ final class ChartViewCollectionViewCell: UICollectionViewCell{
         }
     }
     
-    func setup(title: String, rowNum: Int){
+    func setup(title: String, isClicked: Bool, rowNum: Int){
         titleButton.setTitle(title, for: .normal)
         self.rowNum = rowNum
         // 첫 cell( 맨 처음 선택되어있어야하는 cell )
-        if rowNum == 0 {
-            isClicked = true
+        if isClicked {
+            self.isClicked = true
             titleButton.backgroundColor = UIColor(red: 230/255, green: 240/255, blue: 255/255, alpha: 1.0)
         }
+        else {
+            self.isClicked = false
+            titleButton.backgroundColor = .white
+        }
+        
     }
   
 }

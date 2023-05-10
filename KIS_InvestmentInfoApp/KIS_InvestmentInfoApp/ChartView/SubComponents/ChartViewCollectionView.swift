@@ -54,9 +54,8 @@ class ChartViewCollectionView: UICollectionView {
         now_section_idx = clickedRow
         days_isClicked[clickedRow] = true
         print(days_isClicked)
+        self.reloadData()
         
-        //곧바로 모든 cell들에게 현재 selected된 idx를 보내, 자신의 rowNum과 다를 시 미선택 상태로 바뀌도록 함
-        NotificationCenter.default.post(name: .NotifySelectedCellIdx, object: nil, userInfo: ["idx": clickedRow])
     }
     
     
@@ -72,21 +71,20 @@ extension ChartViewCollectionView: UICollectionViewDataSource {
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ChartViewCollectionViewCell", for: indexPath) as? ChartViewCollectionViewCell else { return UICollectionViewCell() }
         // indexPath.rowrk 0부터 시작함
-        cell.setup(title: days[indexPath.row], rowNum: indexPath.row)
+        cell.setup(title: days[indexPath.row], isClicked: days_isClicked[indexPath.row], rowNum: indexPath.row)
         return cell
     }
 }
 
 extension ChartViewCollectionView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-
 //        return CGSize(width: (UIScreen.main.bounds.size.width - 8) / 7, height: (safeAreaLayoutGuide.layoutFrame.size.height ) / 5)
         return CGSize(width: 180, height: 180)
     }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("clicked!", terminator: " ")
         print(days[indexPath.row])
-        
     }
 }
 

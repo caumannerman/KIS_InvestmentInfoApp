@@ -285,6 +285,7 @@ class ChartViewController: UIViewController {
         super.viewWillAppear(true)
         self.collectionView.isHidden = true
     }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.collectionView.isHidden = true
@@ -293,7 +294,7 @@ class ChartViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(changeCellColor(_:)), name: .cellColorChange, object: nil)
 
         NotificationCenter.default.addObserver(self, selector: #selector(chartSectionDidChanged(_:)), name: .DidTapUnClickedCell, object: nil)
-        
+
         alert.addTextField{
             $0.placeholder = "저장 파일명을 입력하세요"
             $0.isSecureTextEntry = false
