@@ -158,7 +158,7 @@ class ShowDataViewController: UIViewController {
             print("Writing CSV to: \(fileUrl.path)")
         }
         catch let error as NSError {
-            print("CSV파일 생성 에러: \(error)")
+            print("CSV파일 생성 에러!: \(error)")
         }
     }
     
