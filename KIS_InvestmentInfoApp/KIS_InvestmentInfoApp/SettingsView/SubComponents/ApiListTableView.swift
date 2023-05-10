@@ -6,16 +6,13 @@
 //
 
 import UIKit
+import Alamofire
 
 class ApiListTableView: UITableView {
 
     let scoms = UrlCommonState.getInstance()
-    // urlsAlias와 urlsArr은 갯수를 항상 동일하게맞추어야한다.
-//    private var urlsAlias: [String] = []
-    //검색했던 URL들을 담을 배열
-//    private var urlsArr: [String] = []
-//    private var urlsStarred: [Bool] = []
-//    private var urlsIsValid: [Bool] = []
+
+    private var urlsIsValid: [Bool] = []
     
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
@@ -51,7 +48,6 @@ class ApiListTableView: UITableView {
         for i in scoms.urlsArr{
             
         }
-        
     }
 }
 
@@ -84,3 +80,5 @@ extension ApiListTableView: UITableViewDataSource{
         return cell
     }
 }
+
+
