@@ -27,7 +27,7 @@ class ApiListTableViewCell: UITableViewCell {
         aliasLabel.isEnabled = true
     }
     
-    @objc func didClickValidButton() async{
+    @objc func didClickValidButton() {
         
         if !self.isValid {
             print("갱신하시겠습니까?")
