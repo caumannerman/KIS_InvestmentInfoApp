@@ -32,8 +32,9 @@ class ApiListTableView: UITableView {
 //        urlsStarred = Array(urlsStarred[1..<urlsStarred.count])
         
         //여기서, 즉 url들을 받아왔으니, 지금 각 url이 유효한지 테스트하고, urlsIsValid에 값을 채워넣어야함.
-        checkUrlIsValid()
         print("SettingsView의 ApiListTableView Init 시점 테스트")
+//        checkUrlIsValid()
+        print("url valid 여부 확인 완료")
     
     }
     
@@ -43,12 +44,13 @@ class ApiListTableView: UITableView {
     
     // TODO: 1순위
     //url이 유효한지, 즉 유의미한 값이 들어있는 json을 받아오는지 알아야함.
-    private func checkUrlIsValid(){
-        // 여기서 urlsIsValid에 값 채워야함.
-        for i in scoms.urlsArr{
-            
-        }
-    }
+//    private func checkUrlIsValid(){
+//        // 여기서 urlsIsValid에 값 채워야함.
+//        for i in scoms.urlsArr{
+//            print("-----------------------------------------!")
+//            scoms.requestAPI(url: i)
+//        }
+//    }
 }
 
 extension ApiListTableView: UITableViewDelegate{
@@ -76,7 +78,7 @@ extension ApiListTableView: UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "ApiListTableViewCell", for: indexPath) as? ApiListTableViewCell else { return UITableViewCell()}
         cell.selectionStyle = .none
-        cell.setup(urlAlias: scoms.urlsAlias[indexPath.row + 1], url: scoms.urlsArr[indexPath.row + 1], isValid: true, isStar: scoms.urlsStarred[indexPath.row + 1], rowNum: indexPath.row)
+        cell.setup(urlAlias: scoms.urlsAlias[indexPath.row + 1], url: scoms.urlsArr[indexPath.row + 1], isValid: scoms.urlsIsValid[indexPath.row + 1], isStar: scoms.urlsStarred[indexPath.row + 1], rowNum: indexPath.row)
         return cell
     }
 }

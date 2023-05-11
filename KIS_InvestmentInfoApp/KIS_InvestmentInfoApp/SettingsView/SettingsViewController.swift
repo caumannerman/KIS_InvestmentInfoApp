@@ -31,6 +31,10 @@ final class SettingsViewController: UIViewController {
         setupNavigationItems()
         setupLayout()
         print("SettingsView의 viewDidLoad 시점 테스트")
+        
+        
+        
+        
     }
     
     @objc func DidChangeUrlStarInSettings(_ notification: Notification){
@@ -41,11 +45,19 @@ final class SettingsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // Home 화면에서 받아오고,업데이트한 UserDefaults저장정보들을 그대로 가져옴
+        let scoms = UrlCommonState.getInstance()
+        scoms.requestAPI()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0){
+            print("relaod")
+            self.apitableView.reloadData()
+            print("reload success")
+        }
+        
    
         //여기서 urls 변경정보를 업데이트 해줘야함 ( 다른 화면에서 수정한 정보 반영을 위해 reload )
-        print("relaod")
-        apitableView.reloadData()
-        print("reload success")
+        
+        
         
     }
     

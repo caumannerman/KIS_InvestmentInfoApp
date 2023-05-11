@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Alamofire
 
 //싱글턴으로 만들어야함
 class UrlCommonState {
@@ -14,9 +15,10 @@ class UrlCommonState {
     // 2. 싱글톤을 구현하고자 하는 클래스 내부에 멤버 변수로써 private static 객체 변수를 만듭니다.
     private static var instance: UrlCommonState?
     
-     var urlsArr: [String] = ["1"]
-     var urlsAlias: [String] = []
-     var urlsStarred: [Bool] = []
+    var urlsArr: [String] = ["1"]
+    var urlsAlias: [String] = []
+    var urlsStarred: [Bool] = []
+    var urlsIsValid: [Bool] = []
     
     private init(){
         print("CommonState Initiated")
@@ -76,6 +78,13 @@ class UrlCommonState {
         
         urlsStarred.remove(at: rowNum)
         urlsStarred.insert(true, at: nowIdxToInsert)
+        
+        if self.urlsIsValid.count != 0 {
+            let newlyStarredValid = urlsIsValid[rowNum]
+            urlsIsValid.remove(at: rowNum)
+            urlsIsValid.insert(newlyStarredValid, at: nowIdxToInsert)
+        }
+       
     }
     
     //이친구는 insert먼저 하고 기존 cell을 지워야함.
@@ -97,7 +106,39 @@ class UrlCommonState {
         urlsArr.append(newlyUnStarredUrl)
         urlsAlias.append(newlyUnStarredAlias)
         urlsStarred.append(false)
+        
+        if self.urlsIsValid.count != 0 {
+            let newlyUnStarredValid = urlsIsValid[rowNum]
+            urlsIsValid.remove(at: rowNum)
+            urlsIsValid.append(newlyUnStarredValid)
+        }
     }
+    
+    
+    func requestAPI() {
+        // urlsIsValid를 현 시점 urlsArr의 갯수와 동일하게 맞춰준다.
+        self.urlsIsValid = Array(repeating: false, count: urlsArr.count)
+        
+        for i in 0 ..< urlsArr.count {
+            print(i, "requestAPI")
+            //addingPercentEncoding은 한글(영어 이외의 값) 이 url에 포함되었을 때 오류나는 것을 막아준다.
+            let aaa = AF.request(urlsArr[i].addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
+                .response(){ [weak self] response in
+                    guard let now_result = response.response?.statusCode else {
+                        print("false로 바꿈")
+                        self?.urlsIsValid[i] = false
+                        return
+                    }
+                    print("true로 바꿈")
+                    self?.urlsIsValid[i] = true
+                }
+                .resume()
+        }
+        print("다 불러옴")
+        
+        
+    }
+    
     
     // rowNum과 isStar 바뀐 값을 받아, 즐찾 정보를 변경해줌
 //    func changeIsStar(rowNum: Int, isStar: Bool){
