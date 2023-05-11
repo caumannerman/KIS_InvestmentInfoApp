@@ -46,10 +46,14 @@ final class SettingsViewController: UIViewController {
         super.viewWillAppear(animated)
         // Home 화면에서 받아오고,업데이트한 UserDefaults저장정보들을 그대로 가져옴
         let scoms = UrlCommonState.getInstance()
+       
+        
+        MyLoadingIndicator.showLoading()
         scoms.requestAPI()
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0){
             print("relaod")
+            MyLoadingIndicator.hideLoading()
             self.apitableView.reloadData()
             print("reload success")
         }
