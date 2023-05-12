@@ -51,7 +51,7 @@ final class SettingsViewController: UIViewController {
         MyLoadingIndicator.showLoading()
         scoms.requestAPI()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0){
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4.0){
             print("relaod")
             MyLoadingIndicator.hideLoading()
             self.apitableView.reloadData()

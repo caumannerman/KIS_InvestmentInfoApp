@@ -54,6 +54,8 @@ class HomeViewController: UIViewController {
         return swiftUIView
     }()
     
+    private lazy var marketView = MarketCollectionView(frame: .zero, collectionViewLayout: MarketCollectionViewLayout())
+    
     private lazy var urlSearchView = UrlSearchView()
     // ---------------------===================================================--------------------- //
     
@@ -83,17 +85,29 @@ class HomeViewController: UIViewController {
     private func changeUI_byCategory(_ isMarket: Bool){
         if isMarket{
             urlSearchView.snp.removeConstraints()
-            self.view.addSubview(hostingControllerUIView)
-            hostingControllerUIView.snp.makeConstraints{
+            
+            self.view.addSubview(marketView)
+            marketView.snp.makeConstraints{
                 $0.top.equalTo(market_url_view.snp.bottom)
                 $0.leading.trailing.equalToSuperview()
                 $0.bottom.equalTo(view.safeAreaLayoutGuide)
             }
-            self.hostingControllerUIView.addSubview(self.marketInfoHostingController.view)
+            
+            
+//            self.view.addSubview(hostingControllerUIView)
+//            hostingControllerUIView.snp.makeConstraints{
+//                $0.top.equalTo(market_url_view.snp.bottom)
+//                $0.leading.trailing.equalToSuperview()
+//                $0.bottom.equalTo(view.safeAreaLayoutGuide)
+//            }
+//            self.hostingControllerUIView.addSubview(self.marketInfoHostingController.view)
         }
         else {
       
-            hostingControllerUIView.snp.removeConstraints()
+//            hostingControllerUIView.snp.removeConstraints()
+            
+            marketView.snp.removeConstraints()
+            
             self.view.addSubview(urlSearchView)
             urlSearchView.snp.makeConstraints{
                 $0.top.equalTo(market_url_view.snp.bottom)
@@ -223,7 +237,7 @@ class HomeViewController: UIViewController {
         
     }
     private func layout(){
-        [ bannerView, market_url_view, hostingControllerUIView].forEach{
+        [ bannerView, market_url_view, marketView].forEach{
             view.addSubview($0)
         }
         
@@ -255,7 +269,7 @@ class HomeViewController: UIViewController {
             $0.width.equalTo((UIScreen.main.bounds.width - 40) / 2 )
         }
         
-        hostingControllerUIView.snp.makeConstraints{
+        marketView.snp.makeConstraints{
             $0.top.equalTo(market_url_view.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
