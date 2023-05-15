@@ -14,22 +14,7 @@ class HomeViewController: UIViewController {
     private var isMarket: Bool = true
     // ---------------------================= UI Components =================--------------------- //
     
-    private lazy var bannerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .brown
-        
-        let label = UILabel()
-        label.textColor = .white
-        label.textAlignment = .center
-        label.font = .systemFont(ofSize: 30.0, weight: .bold)
-        label.text = "이벤트 배너"
-        
-        view.addSubview(label)
-        label.snp.makeConstraints{
-            $0.edges.equalToSuperview()
-        }
-        return view
-    }()
+ 
     
     private lazy var market_url_view = UIView()
     private lazy var marketButton = UIButton()
@@ -142,7 +127,7 @@ class HomeViewController: UIViewController {
         print(scoms.getUrlStarred())
         print("success")
         setNavigationItems()
-        changeCategory(isMarket)
+        
         bind()
         attribute()
         layout()
@@ -164,10 +149,25 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        changeCategory(isMarket)
         NotificationCenter.default.addObserver(self, selector: #selector(didTapUrlTVCell(_:)), name: .DidTapUrlTVCell, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didTapMarketInfoCell(_:)), name: .DidTapMarketInfoCell, object: nil)
         
         
     }
+    
+    @objc func didTapMarketInfoCell(_ notification: Notification){
+        print("Notification DidTapMarketInfoCell")
+//        guard let now_dict = notification.userInfo as? Dictionary<String, Any> else { return }
+//        guard let now_url = now_dict["url"] as? String else {return}
+        let detail_vc = MarketInfoDetailViewController()
+        self.navigationController?.isNavigationBarHidden = false
+        detail_vc.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+        
+        self.present(detail_vc, animated: true, completion: {print("새글!")})
+        
+    }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -215,7 +215,7 @@ class HomeViewController: UIViewController {
     private func attribute(){
         self.hostingControllerUIView.addSubview(self.marketInfoHostingController.view)
         
-        market_url_view.backgroundColor = .white
+        market_url_view.backgroundColor = UIColor(red: 245/255, green: 230/255, blue: 230/255, alpha: 1.0)
         
         marketButton.backgroundColor = .white
         marketButton.setTitle("시장정보", for: .normal)
@@ -237,20 +237,14 @@ class HomeViewController: UIViewController {
         
     }
     private func layout(){
-        [ bannerView, market_url_view, marketView].forEach{
+        [ market_url_view, marketView].forEach{
             view.addSubview($0)
         }
         
-        bannerView.snp.makeConstraints{
+        market_url_view.snp.makeConstraints{
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(130)
-        }
-        
-        market_url_view.snp.makeConstraints{
-            $0.top.equalTo(bannerView.snp.bottom)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(80)
+            $0.height.equalTo(120)
         }
         
         [marketButton, urlSearchButton].forEach{
@@ -258,13 +252,13 @@ class HomeViewController: UIViewController {
         }
         
         marketButton.snp.makeConstraints{
-            $0.top.bottom.equalToSuperview().inset(6)
+            $0.top.bottom.equalToSuperview().inset(14)
             $0.leading.equalToSuperview().inset(10)
             $0.width.equalTo((UIScreen.main.bounds.width - 40) / 2 )
         }
         
         urlSearchButton.snp.makeConstraints{
-            $0.top.bottom.equalToSuperview().inset(6)
+            $0.top.bottom.equalToSuperview().inset(14)
             $0.trailing.equalToSuperview().inset(10)
             $0.width.equalTo((UIScreen.main.bounds.width - 40) / 2 )
         }

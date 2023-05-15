@@ -26,6 +26,8 @@ class MarketCollectionViewCell: UICollectionViewCell {
         layer.borderWidth = 2
         layer.borderColor = UIColor(red: 210/255, green: 157/255, blue: 200/255, alpha: 1.0).cgColor
         layer.cornerRadius = 10.0
+        layer.borderWidth = 3.0
+        layer.borderColor = UIColor(red: 255/255, green: 200/255, blue: 190/255, alpha: 1.0).cgColor
         self.backgroundColor = .systemBackground
         
         titleLabel.font = .systemFont(ofSize: 32.0, weight: .bold)
