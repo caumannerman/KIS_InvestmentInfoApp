@@ -60,11 +60,15 @@ class HomeViewController: UIViewController {
     
     private func changeCategory(_ isMarket: Bool){
         if isMarket{
-            marketButton.backgroundColor = UIColor(red: 214/255.0, green: 150/255.0, blue: 136/255.0, alpha: 1.0)
+            urlSearchButton.layer.borderWidth = 0
+            marketButton.layer.borderWidth = 3
+//            marketButton.backgroundColor = UIColor(red: 230/255.0, green: 230/255.0, blue: 230/255.0, alpha: 1.0)
             urlSearchButton.backgroundColor = .white
         }else {
+            marketButton.layer.borderWidth = 0
+            urlSearchButton.layer.borderWidth = 3
             marketButton.backgroundColor = .white
-            urlSearchButton.backgroundColor = UIColor(red: 214/255.0, green: 150/255.0, blue: 136/255.0, alpha: 1.0)
+//            urlSearchButton.backgroundColor = UIColor(red: 214/255.0, green: 214/255.0, blue: 214/255.0, alpha: 1.0)
         }
     }
     private func changeUI_byCategory(_ isMarket: Bool){
@@ -215,7 +219,7 @@ class HomeViewController: UIViewController {
     private func attribute(){
         self.hostingControllerUIView.addSubview(self.marketInfoHostingController.view)
         
-        market_url_view.backgroundColor = UIColor(red: 245/255, green: 230/255, blue: 230/255, alpha: 1.0)
+        market_url_view.backgroundColor = UIColor(red: 248/255, green: 248/255, blue: 248/255, alpha: 1.0)
         
         marketButton.backgroundColor = .white
         marketButton.setTitle("시장정보", for: .normal)
@@ -224,7 +228,7 @@ class HomeViewController: UIViewController {
         marketButton.addTarget(self, action: #selector(didTapMarketButton), for: .touchUpInside)
         marketButton.layer.cornerRadius = 12.0
         marketButton.layer.borderWidth = 3.0
-        marketButton.layer.borderColor = UIColor(red: 180/255.0, green: 120/255.0, blue: 184/255.0, alpha: 1.0).cgColor
+        marketButton.layer.borderColor = UIColor(red: 100/255.0, green: 174/255.0, blue: 210/255.0, alpha: 1.0).cgColor
         
         urlSearchButton.backgroundColor = .white
         urlSearchButton.setTitle("URL검색", for: .normal)
@@ -233,7 +237,7 @@ class HomeViewController: UIViewController {
         urlSearchButton.addTarget(self, action: #selector(didTapUrlSearchButton), for: .touchUpInside)
         urlSearchButton.layer.cornerRadius = 12.0
         urlSearchButton.layer.borderWidth = 3.0
-        urlSearchButton.layer.borderColor = UIColor(red: 180/255.0, green: 120/255.0, blue: 184/255.0, alpha: 1.0).cgColor
+        urlSearchButton.layer.borderColor = UIColor(red: 100/255.0, green: 174/255.0, blue: 210/255.0, alpha: 1.0).cgColor
         
     }
     private func layout(){
