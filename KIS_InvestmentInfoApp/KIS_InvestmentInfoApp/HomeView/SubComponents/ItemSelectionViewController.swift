@@ -13,7 +13,9 @@ class ItemSelectionViewController: UIViewController {
     private let textField: UITextField = UITextField()
     private let tableView: UITableView = UITableView()
    
-    private var itemsArr: [String] = ["item", "item1", "item2", "item3", "item4", "item5", "item6", "item7", "item8", "item9", "item10", "item11", "item12", "item13", "item14", "item15", "item16"]
+    private var itemsArr: [(String, String)] = [("item","detail"),("item1","detail1"), ("item2","detail2"), ("item3","detail3"), ("item4","detail4"), ("item5","detail5"), ("item6","detail6"), ("item7","detail7"), ("item8","detail8"), ("item9","detail9"), ("item10","detail10"), ("item11","detail11"), ("item12","detail12"), ("item13","detail13"), ("item14","detail14"), ("item15", "detail15"), ("item16","detail16")]
+    
+    private var itemsArrToShow: [(String, String)] = []
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -45,6 +47,10 @@ class ItemSelectionViewController: UIViewController {
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
         textField.leftView = paddingView
         textField.leftViewMode = .always
+        //첫 글자를 대문자로 하지 않기 위해서
+        textField.autocapitalizationType = .none
+        
+        textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -52,8 +58,30 @@ class ItemSelectionViewController: UIViewController {
         
     }
     
-    @objc func backTo(){
-        self.presentingViewController?.dismiss(animated: true, completion: nil)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print("keyboard end")
+        self.view.endEditing(true)
+    }
+    
+//    @objc func backTo(){
+//        self.presentingViewController?.dismiss(animated: true, completion: nil)
+//    }
+    @objc func textFieldDidChange(_ textField: UITextField){
+        print(textField.text)
+        let now_text: String = textField.text ?? ""
+        filterByKeyword(keyword: now_text)
+        tableView.reloadData()
+
+    }
+    
+    // 어떤 String을 매개변수로 전달받았을 때, 해당 String이 item이름 혹은 item 설명에 포함되어있는지 체크하고 해당하는 것들만 추려준다.
+    func filterByKeyword(keyword: String){
+        itemsArrToShow = itemsArr.filter{
+            if $0.0.contains(keyword) || $0.1.contains(keyword) {
+               return true
+            }
+            return false
+        }
     }
     
     func layout(){
@@ -87,13 +115,18 @@ extension ItemSelectionViewController: UITableViewDelegate {
 
 extension ItemSelectionViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return itemsArr.count
+            return itemsArrToShow.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "Cell")
     
-        cell.textLabel?.text = itemsArr[indexPath.row]
-        cell.detailTextLabel?.text = "item 상세"
+        cell.textLabel?.text = itemsArrToShow[indexPath.row].0
+        cell.detailTextLabel?.text = itemsArrToShow[indexPath.row].1
         return cell
     }
+}
+
+
+extension ItemSelectionViewController: UITextFieldDelegate {
+
 }
