@@ -37,13 +37,17 @@ class MarketCollectionView: UICollectionView {
         self.showsHorizontalScrollIndicator = true
         self.layer.borderWidth = 0
         self.layer.borderColor = UIColor.lightGray.cgColor
-        self.backgroundColor = .systemBackground
+        self.backgroundColor = UIColor(red: 250/255, green: 250/255, blue: 250/255, alpha: 1.0)
         self.isPagingEnabled = true
         self.dataSource = self
         self.delegate = self
-        self.dragDelegate = self
-        self.dropDelegate = self
+//        self.dragDelegate = self
+//        self.dropDelegate = self
         self.dragInteractionEnabled = true
+        
+        //gesture Recognizer 추가
+        let gesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressGesture(_: )))
+        self.addGestureRecognizer(gesture)
     }
     
 }
@@ -58,6 +62,7 @@ extension MarketCollectionView: UICollectionViewDataSource{
         cell.setup(title: contents[indexPath.row])
         return cell
     }
+    
 }
 
 extension MarketCollectionView: UICollectionViewDelegateFlowLayout {
@@ -66,26 +71,6 @@ extension MarketCollectionView: UICollectionViewDelegateFlowLayout {
         let now_height: Int = cellSize[indexPath.row].1
         
         return CGSize(width: now_width * UNIT_WIDTH + 10 * (now_width - 1), height: now_height * UNIT_WIDTH + 10 * (now_height - 1))
-        // width: cellSize[indexPath.row].0
-        // height: cellSize[indexPath.row].1
-        
-        
-//        switch indexPath.row {
-//        case 0:
-//            return CGSize(width: ( UIScreen.main.bounds.width - 50 ) / 4, height: ( UIScreen.main.bounds.width - 50 ) / 4)
-//
-//        case 1:
-//            return CGSize(width: ( UIScreen.main.bounds.width * 3 - 70 ) / 4 , height: ( UIScreen.main.bounds.width - 50 ) / 4)
-//        case 2, 3, 4:
-//            return CGSize(width: ( UIScreen.main.bounds.width - 50 ) / 4, height: ( UIScreen.main.bounds.width - 50 ) / 4)
-//        case 6:
-//            return CGSize(width: ( UIScreen.main.bounds.width - 50 ) / 4, height: ( UIScreen.main.bounds.width - 50 ) / 4)
-//        case 5:
-//            return CGSize(width: ( UIScreen.main.bounds.width - 50 ) / 4, height: ( UIScreen.main.bounds.width - 50 ) / 4)
-//        default:
-//            return CGSize(width: ( UIScreen.main.bounds.width - 50 ) / 4, height: ( UIScreen.main.bounds.width - 50 ) / 4)
-//        }
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -93,7 +78,6 @@ extension MarketCollectionView: UICollectionViewDelegateFlowLayout {
         print("Clicked CV cell")
         
         NotificationCenter.default.post(name:.DidTapMarketInfoCell, object: .none, userInfo: ["idx": contents[indexPath.row]])
-        
     }
 }
 
@@ -103,52 +87,88 @@ extension MarketCollectionView: UICollectionViewDelegate {
         true
     }
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        
+        print("전 : ", contents)
+        let item = contents.remove(at: sourceIndexPath.row)
+        print("제거중 : ", contents)
+        contents.insert(item, at: destinationIndexPath.row)
+        cellSize[destinationIndexPath.row].0 = 1
+        print("후 : ", contents)
+        self.reloadData()
     }
 }
 
-extension MarketCollectionView: UICollectionViewDropDelegate {
-    func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
-            var destinationIndexPath: IndexPath
-            if let indexPath = coordinator.destinationIndexPath {
-                destinationIndexPath = indexPath
-            } else {
-                let row = collectionView.numberOfItems(inSection: 0)
-                destinationIndexPath = IndexPath(item: row - 1, section: 0)
+
+extension MarketCollectionView{
+
+    @objc func handleLongPressGesture(_ gesture: UILongPressGestureRecognizer){
+        switch gesture.state {
+        case .began:
+            guard let targetIndexPath = self.indexPathForItem(at: gesture.location(in: self)) else {
+                return
             }
+            print(targetIndexPath)
+            print("began")
+            self.beginInteractiveMovementForItem(at: targetIndexPath)
             
-            if coordinator.proposal.operation == .move {
-                reorderItems(coordinator: coordinator, destinationIndexPath: destinationIndexPath, collectionView: collectionView)
-            }
+        case .changed:
+            self.updateInteractiveMovementTargetPosition(gesture.location(in: self))
+            print("changed")
+            
+        case .ended:
+            self.endInteractiveMovement()
+            print("end")
+        default:
+            print("default")
+            //취소
+            self.cancelInteractiveMovement()
         }
-        
-        func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
-            if collectionView.hasActiveDrag {
-                return UICollectionViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
-            }
-            return UICollectionViewDropProposal(operation: .forbidden)
-        }
-        
-        private func reorderItems(coordinator: UICollectionViewDropCoordinator, destinationIndexPath: IndexPath, collectionView: UICollectionView) {
-            if
-                let item = coordinator.items.first,
-                let sourceIndexPath = item.sourceIndexPath {
-                collectionView.performBatchUpdates({
-                    let temp = contents[sourceIndexPath.item]
-                    contents.remove(at: sourceIndexPath.item)
-                    contents.insert(temp, at: destinationIndexPath.item)
-                    collectionView.deleteItems(at: [sourceIndexPath])
-                    collectionView.insertItems(at: [destinationIndexPath])
-                }) { done in
-                    //
-                }
-                coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
-            }
-        }
-}
-
-extension MarketCollectionView: UICollectionViewDragDelegate {
-    func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
-        return []
     }
 }
+
+
+
+//extension MarketCollectionView: UICollectionViewDropDelegate {
+//    func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
+//            var destinationIndexPath: IndexPath
+//            if let indexPath = coordinator.destinationIndexPath {
+//                destinationIndexPath = indexPath
+//            } else {
+//                let row = collectionView.numberOfItems(inSection: 0)
+//                destinationIndexPath = IndexPath(item: row - 1, section: 0)
+//            }
+//
+//            if coordinator.proposal.operation == .move {
+//                reorderItems(coordinator: coordinator, destinationIndexPath: destinationIndexPath, collectionView: collectionView)
+//            }
+//        }
+//
+//        func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
+//            if collectionView.hasActiveDrag {
+//                return UICollectionViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
+//            }
+//            return UICollectionViewDropProposal(operation: .forbidden)
+//        }
+//
+//        private func reorderItems(coordinator: UICollectionViewDropCoordinator, destinationIndexPath: IndexPath, collectionView: UICollectionView) {
+//            if
+//                let item = coordinator.items.first,
+//                let sourceIndexPath = item.sourceIndexPath {
+//                collectionView.performBatchUpdates({
+//                    let temp = contents[sourceIndexPath.item]
+//                    contents.remove(at: sourceIndexPath.item)
+//                    contents.insert(temp, at: destinationIndexPath.item)
+//                    collectionView.deleteItems(at: [sourceIndexPath])
+//                    collectionView.insertItems(at: [destinationIndexPath])
+//                }) { done in
+//                    //
+//                }
+//                coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
+//            }
+//        }
+//}
+//
+//extension MarketCollectionView: UICollectionViewDragDelegate {
+//    func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+//        return []
+//    }
+//}
