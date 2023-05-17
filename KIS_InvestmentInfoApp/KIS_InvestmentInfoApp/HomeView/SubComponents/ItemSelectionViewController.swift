@@ -100,9 +100,6 @@ class ItemSelectionViewController: UIViewController {
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
-        
-       
-
     }
 }
 
@@ -128,5 +125,10 @@ extension ItemSelectionViewController: UITableViewDataSource{
 
 
 extension ItemSelectionViewController: UITextFieldDelegate {
-
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        textField.placeholder = "추가하고싶은 item 혹은 item 설명 키워드"
+    }
 }

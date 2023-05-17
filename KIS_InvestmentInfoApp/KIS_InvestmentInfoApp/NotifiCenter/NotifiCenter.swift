@@ -32,5 +32,10 @@ extension Notification.Name {
     // 금 가격 / 은 가격 등, 시장정보 Tab에서 어떤 Cell을 눌렀을 때 해당 정보에 대해 Chart, 원형 차트 등을 보여주는 화면을 present하기 위해
     // 컬렉션뷰에서 ViewController로 신호를 보내줘야한다.
     static let DidTapMarketInfoCell = Notification.Name("DidTapMarketInfoCell")
+    
+    // ItemSelectionViewController에서 검색 후 cell을 클릭하였을 때
+    // 해당 이름을 MarketCollectionView로 넘겨주기 위함
+    // MarketCollectionView에서는 해당 cell을 추가한다.
+    static let AddNewItemOnMarketCV = Notification.Name("AddNewItemOnMarketCV")
 }
 
