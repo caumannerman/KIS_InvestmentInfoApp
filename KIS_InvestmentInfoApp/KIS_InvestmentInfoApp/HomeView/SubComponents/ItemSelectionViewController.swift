@@ -34,12 +34,21 @@ class ItemSelectionViewController: UIViewController {
     }
     
     func attribute(){
+        self.view.backgroundColor = .systemBackground
+        
+        textField.backgroundColor = UIColor(red: 236/255, green: 236/255, blue: 236/255, alpha: 1.0)
+        textField.layer.borderWidth = 2.0
+        textField.layer.borderColor = UIColor(red: 55/255, green: 55/255, blue: 55/255, alpha: 1.0).cgColor
+        textField.layer.cornerRadius = 12.0
+        textField.placeholder = "추가하고싶은 item 혹은 item 설명 키워드"
+        
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
+        textField.leftView = paddingView
+        textField.leftViewMode = .always
         
         tableView.dataSource = self
         tableView.delegate = self
-        self.view.backgroundColor = .systemBackground
-        textField.backgroundColor = .yellow
-        tableView.backgroundColor = .green
+        tableView.backgroundColor = .systemBackground
         
     }
     
@@ -55,7 +64,7 @@ class ItemSelectionViewController: UIViewController {
         
         textField.snp.makeConstraints{
             $0.top.leading.trailing.equalToSuperview()
-            $0.height.equalTo(100)
+            $0.height.equalTo(60)
         }
         
         tableView.snp.makeConstraints{
