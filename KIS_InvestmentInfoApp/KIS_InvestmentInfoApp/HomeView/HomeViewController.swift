@@ -167,7 +167,7 @@ class HomeViewController: UIViewController {
         let detail_vc = MarketInfoDetailViewController()
         self.navigationController?.isNavigationBarHidden = false
         detail_vc.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
-        
+  
         self.present(detail_vc, animated: true, completion: {print("새글!")})
         
     }
@@ -199,18 +199,19 @@ class HomeViewController: UIViewController {
         navigationItem.title = "KISFI"
         navigationController?.navigationBar.prefersLargeTitles = false
         
-        let rightBarButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .plain, target: self, action: #selector(didTapRightBarButtonItem))
+        let rightBarButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(didTapRightBarButtonItem))
         rightBarButton.tintColor = .red
         navigationItem.rightBarButtonItem = rightBarButton
     }
     
     @objc func didTapRightBarButtonItem(){
         print("ll")
-        let vc = UrlSearchViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
-//        self.present(vc, animated: true){
-//            print("URL페이지 present")
-//        }
+        let vc = ItemSelectionViewController()
+//        now_navi.present(vc, animated: true, completion: {print("새글!")})
+//        self.navigationController?.pushViewController(vc, animated: true)
+        self.present(vc, animated: true){
+            print("추가item 검색페이지 present")
+        }
     }
     
     private func bind(){

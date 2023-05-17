@@ -11,7 +11,7 @@ import SnapKit
 class MarketCollectionView: UICollectionView {
     
     private var contents: [String] = ["항목1", "항목2", "항목3", "항목7", "항목13", "항목14", "항목32", "항목51", "항목61", "항목last"]
-    private var cellSize: Array<(Int, Int)> = [(1,1), (3,1), (1,1), (1,1), (1,1), (1,1), (2,1), (1,1), (1,1), (3,1)]
+    private var cellSize: Array<(Int, Int)> = [(1,1), (1,1), (1,1), (1,1), (1,1), (1,1), (1,1), (1,1), (1,1), (1,1)]
     private final let UNIT_WIDTH: Int = Int(( UIScreen.main.bounds.width - 50 ) / 4)
     
     
@@ -49,7 +49,6 @@ class MarketCollectionView: UICollectionView {
         let gesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressGesture(_: )))
         self.addGestureRecognizer(gesture)
     }
-    
 }
 
 extension MarketCollectionView: UICollectionViewDataSource{
@@ -87,12 +86,13 @@ extension MarketCollectionView: UICollectionViewDelegate {
         true
     }
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        print("전 : ", contents)
-        let item = contents.remove(at: sourceIndexPath.row)
-        print("제거중 : ", contents)
-        contents.insert(item, at: destinationIndexPath.row)
-        cellSize[destinationIndexPath.row].0 = 1
-        print("후 : ", contents)
+//        print("전 : ", contents)
+//        let item = contents.remove(at: sourceIndexPath.row)
+//        print("제거중 : ", contents)
+//        contents.insert(item, at: destinationIndexPath.row)
+//        cellSize[destinationIndexPath.row].0 = 1
+//        print("후 : ", contents)
+//        print(sourceIndexPath.item.z)
         self.reloadData()
     }
 }
@@ -108,11 +108,13 @@ extension MarketCollectionView{
             }
             print(targetIndexPath)
             print("began")
+            print("target : ", targetIndexPath.row)
             self.beginInteractiveMovementForItem(at: targetIndexPath)
             
         case .changed:
             self.updateInteractiveMovementTargetPosition(gesture.location(in: self))
             print("changed")
+            print("location: ", gesture.location(in: self))
             
         case .ended:
             self.endInteractiveMovement()

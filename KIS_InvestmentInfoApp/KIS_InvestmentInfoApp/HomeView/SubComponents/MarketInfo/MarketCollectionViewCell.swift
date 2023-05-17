@@ -10,6 +10,7 @@ import UIKit
 class MarketCollectionViewCell: UICollectionViewCell {
     
     private let titleLabel = UILabel()
+    private let marketCVCellCollectionView = MarketCVCellCollectionView(frame: .zero, collectionViewLayout: MarketCVCellCollectionViewLayout())
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -36,10 +37,13 @@ class MarketCollectionViewCell: UICollectionViewCell {
     }
     
     private func layout(){
-        [ titleLabel ].forEach{ addSubview($0)}
+        [ marketCVCellCollectionView ].forEach{ addSubview($0)}
         
-        titleLabel.snp.makeConstraints{
-            $0.edges.equalToSuperview()
+//        titleLabel.snp.makeConstraints{
+//            $0.edges.equalToSuperview()
+//        }
+        marketCVCellCollectionView.snp.makeConstraints{
+            $0.edges.equalToSuperview().inset(12)
         }
     }
     

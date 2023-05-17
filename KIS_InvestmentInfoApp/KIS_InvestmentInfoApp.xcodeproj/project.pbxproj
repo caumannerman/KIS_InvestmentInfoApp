@@ -19,6 +19,10 @@
 		8C8250142A02098E002B8A3B /* UrlSearchTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8250132A02098E002B8A3B /* UrlSearchTableView.swift */; };
 		8C8250192A020DA4002B8A3B /* UrlSearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8250182A020DA4002B8A3B /* UrlSearchTableViewCell.swift */; };
 		8C82501C2A023130002B8A3B /* UrlSearchTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C82501B2A023130002B8A3B /* UrlSearchTextFieldView.swift */; };
+		8C8FC5442A148FC500D97342 /* MarketCVCellCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8FC5432A148FC500D97342 /* MarketCVCellCollectionView.swift */; };
+		8C8FC5462A148FD900D97342 /* MarketCVCellCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8FC5452A148FD900D97342 /* MarketCVCellCollectionViewCell.swift */; };
+		8C8FC5482A148FF200D97342 /* MarketCVCellCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8FC5472A148FF200D97342 /* MarketCVCellCollectionViewLayout.swift */; };
+		8C8FC54A2A14A08F00D97342 /* ItemSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8FC5492A14A08F00D97342 /* ItemSelectionViewController.swift */; };
 		8CB01B922A0E05C60023BB39 /* MarketCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB01B912A0E05C60023BB39 /* MarketCollectionView.swift */; };
 		8CB01B942A0E06430023BB39 /* MarketCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB01B932A0E06430023BB39 /* MarketCollectionViewLayout.swift */; };
 		8CB01B982A0E06740023BB39 /* MarketCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB01B972A0E06740023BB39 /* MarketCollectionViewCell.swift */; };
@@ -72,6 +76,10 @@
 		8C8250132A02098E002B8A3B /* UrlSearchTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlSearchTableView.swift; sourceTree = "<group>"; };
 		8C8250182A020DA4002B8A3B /* UrlSearchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlSearchTableViewCell.swift; sourceTree = "<group>"; };
 		8C82501B2A023130002B8A3B /* UrlSearchTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlSearchTextFieldView.swift; sourceTree = "<group>"; };
+		8C8FC5432A148FC500D97342 /* MarketCVCellCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketCVCellCollectionView.swift; sourceTree = "<group>"; };
+		8C8FC5452A148FD900D97342 /* MarketCVCellCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketCVCellCollectionViewCell.swift; sourceTree = "<group>"; };
+		8C8FC5472A148FF200D97342 /* MarketCVCellCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketCVCellCollectionViewLayout.swift; sourceTree = "<group>"; };
+		8C8FC5492A14A08F00D97342 /* ItemSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemSelectionViewController.swift; sourceTree = "<group>"; };
 		8CB01B912A0E05C60023BB39 /* MarketCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketCollectionView.swift; sourceTree = "<group>"; };
 		8CB01B932A0E06430023BB39 /* MarketCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketCollectionViewLayout.swift; sourceTree = "<group>"; };
 		8CB01B972A0E06740023BB39 /* MarketCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -156,6 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				8CD5AEB52A11C2F500E0BD1A /* MarketInfoDetailViewController.swift */,
+				8C8FC5492A14A08F00D97342 /* ItemSelectionViewController.swift */,
 				8CB01B962A0E065D0023BB39 /* MarketInfo */,
 				8CB01B952A0E064F0023BB39 /* UrlSearch */,
 			);
@@ -179,6 +188,16 @@
 			path = SwiftUI;
 			sourceTree = "<group>";
 		};
+		8C8FC5422A148F8C00D97342 /* SubCell */ = {
+			isa = PBXGroup;
+			children = (
+				8C8FC5432A148FC500D97342 /* MarketCVCellCollectionView.swift */,
+				8C8FC5472A148FF200D97342 /* MarketCVCellCollectionViewLayout.swift */,
+				8C8FC5452A148FD900D97342 /* MarketCVCellCollectionViewCell.swift */,
+			);
+			path = SubCell;
+			sourceTree = "<group>";
+		};
 		8CB01B952A0E064F0023BB39 /* UrlSearch */ = {
 			isa = PBXGroup;
 			children = (
@@ -196,6 +215,7 @@
 				8CB01B912A0E05C60023BB39 /* MarketCollectionView.swift */,
 				8CB01B932A0E06430023BB39 /* MarketCollectionViewLayout.swift */,
 				8CB01B972A0E06740023BB39 /* MarketCollectionViewCell.swift */,
+				8C8FC5422A148F8C00D97342 /* SubCell */,
 			);
 			path = MarketInfo;
 			sourceTree = "<group>";
@@ -532,6 +552,7 @@
 				A555800C29627B9300919868 /* ButtonListViewCell.swift in Sources */,
 				8CB01B922A0E05C60023BB39 /* MarketCollectionView.swift in Sources */,
 				A5D1BC13296982480045045B /* ShowDataViewCollectionViewCell.swift in Sources */,
+				8C8FC5442A148FC500D97342 /* MarketCVCellCollectionView.swift in Sources */,
 				8CCE74D72A08A540002B34D2 /* NotifiCenter.swift in Sources */,
 				A5D1BC80296BD3480045045B /* GridCollectionViewLayout.swift in Sources */,
 				8C5E2AD529F797D600C6061E /* ApiListTableView.swift in Sources */,
@@ -542,15 +563,18 @@
 				A53EA6A329624EBE00F0E24A /* MainTabBarController.swift in Sources */,
 				8C82501C2A023130002B8A3B /* UrlSearchTextFieldView.swift in Sources */,
 				A5C66EB12A05128000F2DF1B /* ThirdSectionView.swift in Sources */,
+				8C8FC5482A148FF200D97342 /* MarketCVCellCollectionViewLayout.swift in Sources */,
 				8C5E2AD729F797EB00C6061E /* ApiListTableViewCell.swift in Sources */,
 				A5557FFC2962579F00919868 /* MyFilesViewController.swift in Sources */,
 				A53EA69129624D3600F0E24A /* SceneDelegate.swift in Sources */,
 				A53D3E882967A2A90030C6A3 /* SecurityResponse.swift in Sources */,
 				A5557FFA2962578F00919868 /* ChartViewController.swift in Sources */,
+				8C8FC5462A148FD900D97342 /* MarketCVCellCollectionViewCell.swift in Sources */,
 				8C8250142A02098E002B8A3B /* UrlSearchTableView.swift in Sources */,
 				A5558003296257F300919868 /* UrlSearchViewController.swift in Sources */,
 				8C8250192A020DA4002B8A3B /* UrlSearchTableViewCell.swift in Sources */,
 				A5557FFE296257A900919868 /* SettingsViewController.swift in Sources */,
+				8C8FC54A2A14A08F00D97342 /* ItemSelectionViewController.swift in Sources */,
 				8CB01B942A0E06430023BB39 /* MarketCollectionViewLayout.swift in Sources */,
 				A5558006296273B100919868 /* ShowDataViewController.swift in Sources */,
 			);
