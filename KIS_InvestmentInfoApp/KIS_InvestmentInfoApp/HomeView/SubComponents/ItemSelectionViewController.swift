@@ -8,8 +8,15 @@
 import UIKit
 import SnapKit
 
+
+enum ShowMode {
+    case all
+    case keyword
+}
+
 class ItemSelectionViewController: UIViewController {
     
+    private var showMode: ShowMode = .all
     private let textField: UITextField = UITextField()
     private let tableView: UITableView = UITableView()
    
@@ -47,6 +54,14 @@ class ItemSelectionViewController: UIViewController {
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
         textField.leftView = paddingView
         textField.leftViewMode = .always
+        
+//        let paddingButton = UIButton()
+//        paddingButton.backgroundColor = .green
+//        paddingButton.layer.borderWidth = 1.0
+//        paddingButton.layer.borderColor = UIColor.black.cgColor
+//        textField.rightView = paddingButton
+//        textField.rightViewMode = .always
+        
         //첫 글자를 대문자로 하지 않기 위해서
         textField.autocapitalizationType = .none
         
@@ -63,13 +78,22 @@ class ItemSelectionViewController: UIViewController {
         self.view.endEditing(true)
     }
     
+    @objc func didTapShowButton(){
+        print("didTapShowButton")
+    }
+    
 //    @objc func backTo(){
 //        self.presentingViewController?.dismiss(animated: true, completion: nil)
 //    }
     @objc func textFieldDidChange(_ textField: UITextField){
         print(textField.text)
         let now_text: String = textField.text ?? ""
-        filterByKeyword(keyword: now_text)
+        if textField.text == nil || textField.text == "" {
+            self.showMode = .all
+        }else {
+            self.showMode = .keyword
+            filterByKeyword(keyword: now_text)
+        }
         tableView.reloadData()
 
     }
@@ -112,13 +136,26 @@ extension ItemSelectionViewController: UITableViewDelegate {
 
 extension ItemSelectionViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch self.showMode {
+        case .all:
+            return itemsArr.count
+        case .keyword:
             return itemsArrToShow.count
+        }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "Cell")
-    
-        cell.textLabel?.text = itemsArrToShow[indexPath.row].0
-        cell.detailTextLabel?.text = itemsArrToShow[indexPath.row].1
+        
+        switch self.showMode {
+            
+        case .all:
+            cell.textLabel?.text = itemsArr[indexPath.row].0
+            cell.detailTextLabel?.text = itemsArr[indexPath.row].1
+        case .keyword:
+            cell.textLabel?.text = itemsArrToShow[indexPath.row].0
+            cell.detailTextLabel?.text = itemsArrToShow[indexPath.row].1
+        }
+        
         return cell
     }
 }
