@@ -150,7 +150,14 @@ class ItemSelectionViewController: UIViewController {
 
 extension ItemSelectionViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("item selected")
+        switch self.showMode {
+        case .all:
+            print( itemsArr[indexPath.row] )
+            NotificationCenter.default.post(name:.AddNewItemOnMarketCV, object: .none, userInfo: ["item": itemsArr[indexPath.row].0])
+        case .keyword:
+            print(itemsArrToShow[indexPath.row])
+            NotificationCenter.default.post(name:.AddNewItemOnMarketCV, object: .none, userInfo: ["item": itemsArrToShow[indexPath.row].0])
+        }
     }
 }
 
@@ -175,7 +182,7 @@ extension ItemSelectionViewController: UITableViewDataSource{
             cell.textLabel?.text = itemsArrToShow[indexPath.row].0
             cell.detailTextLabel?.text = itemsArrToShow[indexPath.row].1
         }
-        
+        cell.selectionStyle = .none
         return cell
     }
 }
