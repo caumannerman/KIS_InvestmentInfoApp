@@ -24,6 +24,16 @@ class ItemSelectionViewController: UIViewController {
     
     private var itemsArrToShow: [(String, String)] = []
     
+    
+    
+    
+    private lazy var clearButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "delete.backward"), for: .normal)
+        button.addTarget(self, action: #selector(didTapClearButton), for: .touchUpInside)
+        return button
+    }()
+    
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         attribute()
@@ -55,12 +65,9 @@ class ItemSelectionViewController: UIViewController {
         textField.leftView = paddingView
         textField.leftViewMode = .always
         
-//        let paddingButton = UIButton()
-//        paddingButton.backgroundColor = .green
-//        paddingButton.layer.borderWidth = 1.0
-//        paddingButton.layer.borderColor = UIColor.black.cgColor
-//        textField.rightView = paddingButton
-//        textField.rightViewMode = .always
+
+        textField.rightView = clearButton
+        textField.rightViewMode = .whileEditing
         
         //첫 글자를 대문자로 하지 않기 위해서
         textField.autocapitalizationType = .none
@@ -78,9 +85,14 @@ class ItemSelectionViewController: UIViewController {
         self.view.endEditing(true)
     }
     
-    @objc func didTapShowButton(){
-        print("didTapShowButton")
+    @objc func didTapClearButton(){
+        print("didTapClearButton")
+        self.textField.text?.removeAll()
+        self.textField.rightViewMode = .never
+        self.showMode = .all
+        tableView.reloadData()
     }
+    
     
 //    @objc func backTo(){
 //        self.presentingViewController?.dismiss(animated: true, completion: nil)
@@ -91,6 +103,7 @@ class ItemSelectionViewController: UIViewController {
         if textField.text == nil || textField.text == "" {
             self.showMode = .all
         }else {
+            self.textField.rightViewMode = .whileEditing
             self.showMode = .keyword
             filterByKeyword(keyword: now_text)
         }
@@ -168,4 +181,5 @@ extension ItemSelectionViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         textField.placeholder = "추가하고싶은 item 혹은 item 설명 키워드"
     }
+
 }
