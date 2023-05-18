@@ -27,11 +27,13 @@ class ItemSelectionViewController: UIViewController {
     
     
     
-    private lazy var clearButton: UIButton = {
+    private lazy var clearButton: UIView = {
+        
         let button = UIButton()
         button.setImage(UIImage(systemName: "delete.backward"), for: .normal)
         button.addTarget(self, action: #selector(didTapClearButton), for: .touchUpInside)
-        return button
+     
+        return  button
     }()
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -64,15 +66,19 @@ class ItemSelectionViewController: UIViewController {
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
         textField.leftView = paddingView
         textField.leftViewMode = .always
-        
+        let paddingView2 = UIView(frame: CGRect(x: 0, y: 0, width: 62, height: textField.frame.height))
+        paddingView2.addSubview(clearButton)
+        clearButton.snp.makeConstraints{
+            $0.top.bottom.leading.equalToSuperview()
+            $0.trailing.equalToSuperview().inset(16)
+        }
 
-        textField.rightView = clearButton
+        textField.rightView = paddingView2
         textField.rightViewMode = .whileEditing
-        
         //첫 글자를 대문자로 하지 않기 위해서
         textField.autocapitalizationType = .none
-        
         textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        textField.rightViewRect(forBounds: CGRect(x: 0, y: 0, width: 30, height: textField.frame.height))
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -101,6 +107,7 @@ class ItemSelectionViewController: UIViewController {
         print(textField.text)
         let now_text: String = textField.text ?? ""
         if textField.text == nil || textField.text == "" {
+            self.textField.rightViewMode = .never
             self.showMode = .all
         }else {
             self.textField.rightViewMode = .whileEditing
