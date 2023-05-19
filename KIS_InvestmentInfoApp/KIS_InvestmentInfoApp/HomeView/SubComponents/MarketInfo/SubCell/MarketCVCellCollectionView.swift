@@ -37,7 +37,7 @@ class MarketCVCellCollectionView: UICollectionView {
         self.showsHorizontalScrollIndicator = true
         self.layer.borderWidth = 0
 //        self.layer.borderColor = UIColor.lightGray.cgColor
-        self.backgroundColor = UIColor(red: 200/255, green: 50/255, blue: 250/255, alpha: 1.0)
+        self.backgroundColor = .lightGray
         self.isPagingEnabled = true
         
         self.dataSource = self
