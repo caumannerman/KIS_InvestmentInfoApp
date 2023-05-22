@@ -179,9 +179,11 @@ extension ItemSelectionViewController: UITableViewDelegate {
         case .all:
             print( itemsArr[indexPath.row] )
             NotificationCenter.default.post(name:.AddNewItemOnMarketCV, object: .none, userInfo: ["item": itemsArr[indexPath.row].0])
+            self.dismiss(animated: true)
         case .keyword:
             print(itemsArrToShow[indexPath.row])
             NotificationCenter.default.post(name:.AddNewItemOnMarketCV, object: .none, userInfo: ["item": itemsArrToShow[indexPath.row].0])
+            self.dismiss(animated: true)
         }
     }
 }

@@ -20,11 +20,23 @@ class MarketCollectionView: UICollectionView {
         
         bind()
         attribute()
+        NotificationCenter.default.addObserver(self, selector: #selector(addNewItemOnMarketCV(_:)), name: .AddNewItemOnMarketCV, object: nil)
         
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func addNewItemOnMarketCV(_ notification: Notification){
+        guard let now_dict = notification.userInfo as? Dictionary<String, Any> else { return }
+        print("신호 받음!!!")
+        print(now_dict)
+        guard let now_item = now_dict["item"] as? String else { return }
+        
+        contents.append(now_item)
+        cellSize.append((1, 1))
+        self.reloadData()
     }
     
     private func bind(){

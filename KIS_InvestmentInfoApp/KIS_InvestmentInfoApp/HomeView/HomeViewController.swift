@@ -156,7 +156,7 @@ class HomeViewController: UIViewController {
         changeCategory(isMarket)
         NotificationCenter.default.addObserver(self, selector: #selector(didTapUrlTVCell(_:)), name: .DidTapUrlTVCell, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didTapMarketInfoCell(_:)), name: .DidTapMarketInfoCell, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(addNewItemOnMarketCV(_:)), name: .AddNewItemOnMarketCV, object: nil)
+        
     }
     
     @objc func didTapMarketInfoCell(_ notification: Notification){
@@ -171,11 +171,7 @@ class HomeViewController: UIViewController {
         
     }
     
-    @objc func addNewItemOnMarketCV(_ notification: Notification){
-        guard let now_dict = notification.userInfo as? Dictionary<String, Any> else { return }
-        print("신호 받음!!!")
-        print(now_dict)
-    }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
