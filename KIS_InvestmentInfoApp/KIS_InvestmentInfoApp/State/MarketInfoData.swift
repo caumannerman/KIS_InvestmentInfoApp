@@ -44,6 +44,9 @@ class MarketInfoData {
     static func getMarketSubSectionsUrls(idx: Int) -> [String] {
         return self.marketSubSectionsUrls[idx]
     }
+    static func getMarketSubSectionsUrl(row: Int, col: Int) -> String {
+        return self.marketSubSectionsUrls[row][col]
+    }
     
     static func getMarketSubSectionsCount(idx: Int) -> Int {
         return self.marketSubSections[idx].count

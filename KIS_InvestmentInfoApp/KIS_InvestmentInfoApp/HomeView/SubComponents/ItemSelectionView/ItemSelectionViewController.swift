@@ -16,6 +16,9 @@ enum ShowMode {
 
 
 class ItemSelectionViewController: UIViewController {
+    
+    private var selected_section_idx: Int = -1
+    private var selected_subSection_idx: Int = -1
 
     private var showMode: ShowMode = .all
     private let textField: UITextField = UITextField()
@@ -61,14 +64,19 @@ class ItemSelectionViewController: UIViewController {
         debugPrint("ItemSelectionViewController viewDidLoad")
         view.backgroundColor = UIColor(red: 100/255, green: 100/255, blue: 100/255, alpha: 0.0)
         NotificationCenter.default.addObserver(self, selector: #selector(didTapItemSectionCell(_:)), name: .DidTapItemSectionCell, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didTapItemSubSectionCell(_:)), name: .DidTapItemSubSectionCell, object: nil)
     }
     
+    //section을 선택했을 경우
     @objc func didTapItemSectionCell(_ notification: Notification){
         print("Notification DidTapItemSectionCell Received at VC")
         guard let now_dict = notification.userInfo as? Dictionary<String, Any> else { return }
         guard let now_idx = now_dict["idx"] as? Int else {return}
         print(now_idx, "now_idx임")
-//        self.view.addSubview(subSectionCV)
+
+        //이를 저장해두는 이유는, subSection까지 선택했을 때 두 정보를 이용하여 url을 특정하고,
+        // 그 응답으로 받은 내용들을 tableView에 뿌려야하기 때문.
+        self.selected_section_idx = now_idx
 
         subSectionCV.setup(idx: now_idx)
         subSectionCV.reloadData()
@@ -78,10 +86,26 @@ class ItemSelectionViewController: UIViewController {
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(60)
         }
-//        requestAPI(url: itemsUrl[now_idx])
-       
-        print(now_idx)
     }
+    
+    //subSection을 선택했을 경우
+    @objc func didTapItemSubSectionCell(_ notification: Notification){
+        print("Notification didTapItem'Sub'SectionCell Received at VC")
+        guard let now_dict = notification.userInfo as? Dictionary<String, Any> else { return }
+        guard let now_idx = now_dict["idx"] as? Int else {return}
+
+        //이를 저장해두는 이유는, subSection까지 선택했을 때 두 정보를 이용하여 url을 특정하고,
+        // 그 응답으로 받은 내용들을 tableView에 뿌려야하기 때문.
+        self.selected_subSection_idx = now_idx
+
+        print(selected_section_idx, selected_subSection_idx)
+        //여기서 위의 두 idx를 이용하여 알맞은 url을 호출하고, 받은 응답을 tableVIew에 업데이트해주어야함
+        let now_url: String = MarketInfoData.getMarketSubSectionsUrl(row: selected_section_idx, col: selected_subSection_idx)
+        
+        requestAPI(url: now_url)
+    }
+    
+    
     
     func attribute(){
         self.view.backgroundColor = .systemBackground

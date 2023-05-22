@@ -58,10 +58,10 @@ extension ItemSubSectionCollectionView: UICollectionViewDataSource{
     }
 }
 
+
 extension ItemSubSectionCollectionView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-        
         let cellWidth = subSections[indexPath.row].size(withAttributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 18, weight: .regular)]).width + 30
         return CGSize(width: cellWidth, height: 50)
     }
@@ -73,9 +73,10 @@ extension ItemSubSectionCollectionView: UICollectionViewDelegateFlowLayout {
         //배열 변경
         subSectionsIsSelected = Array(repeating: false, count: subSections.count)
         subSectionsIsSelected[indexPath.row] = true
+        
+        NotificationCenter.default.post(name:.DidTapItemSubSectionCell, object: .none, userInfo: ["idx": indexPath.row])
+        
         //cell setup을 위해 reload
         self.reloadData()
-        
-//        NotificationCenter.default.post(name:.DidTapItemSectionCell, object: .none, userInfo: ["idx": indexPath.row])
     }
 }
