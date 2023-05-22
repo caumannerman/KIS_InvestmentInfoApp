@@ -24,7 +24,7 @@ class ItemSectionCollectionViewCell: UICollectionViewCell {
     
     private func attribute(){
         layer.borderWidth = 2
-        layer.borderColor = UIColor(red: 230/255, green: 240/255, blue: 250/255, alpha: 1.0).cgColor
+        
         layer.cornerRadius = 10.0
         layer.borderWidth = 3.0
        
@@ -44,8 +44,14 @@ class ItemSectionCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    func setup(title: String){
+    func setup(title: String, isSelected: Bool){
         self.titleLabel.text = title
+        if isSelected{
+            layer.borderColor = UIColor(red: 200/255, green: 210/255, blue: 230/255, alpha: 1.0).cgColor
+        }
+        else {
+            layer.borderColor = UIColor(red: 230/255, green: 240/255, blue: 250/255, alpha: 1.0).cgColor
+        }
         
     }
     

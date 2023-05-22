@@ -33,6 +33,11 @@ extension Notification.Name {
     // 컬렉션뷰에서 ViewController로 신호를 보내줘야한다.
     static let DidTapMarketInfoCell = Notification.Name("DidTapMarketInfoCell")
     
+    
+    // ItemSectionCollectionView에서 Cell을 클릭했을 때 신호를
+    // ItemSelectionViewController로 신호 전달 ( 아래의 TableView화면도 변경해줘야하기 때문)
+    static let DidTapItemSectionCell = Notification.Name("DidTapItemSectionCell")
+    
     // ItemSelectionViewController에서 검색 후 cell을 클릭하였을 때
     // 해당 이름을 MarketCollectionView로 넘겨주기 위함
     // MarketCollectionView에서는 해당 cell을 추가한다.

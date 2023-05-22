@@ -11,6 +11,7 @@ import SnapKit
 class ItemSectionCollectionView: UICollectionView {
     
     private var sections: [String] = ["주식시세", "지수시세", "일반상품시세", "증권상품시세", "채권시세", "파생상품시세", "기타", "guitar", "기타1", "기타2"]
+    private var sectionsIsSelected: [Bool] = Array(repeating: false, count: 10)
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
@@ -48,7 +49,7 @@ extension ItemSectionCollectionView: UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ItemSectionCollectionViewCell", for: indexPath) as? ItemSectionCollectionViewCell else { return UICollectionViewCell() }
-        cell.setup(title: sections[indexPath.row])
+        cell.setup(title: sections[indexPath.row], isSelected: sectionsIsSelected[indexPath.row])
         return cell
     }
     
@@ -66,6 +67,12 @@ extension ItemSectionCollectionView: UICollectionViewDelegateFlowLayout {
         print(sections[indexPath.row])
         print("Clicked section cell")
         
-//        NotificationCenter.default.post(name:.DidTapMarketInfoCell, object: .none, userInfo: ["idx": contents[indexPath.row]])
+        //배열 변경
+        sectionsIsSelected = Array(repeating: false, count: sections.count)
+        sectionsIsSelected[indexPath.row] = true
+        //cell setup을 위해 reload
+        self.reloadData()
+        
+        NotificationCenter.default.post(name:.DidTapItemSectionCell, object: .none, userInfo: ["idx": indexPath.row])
     }
 }
