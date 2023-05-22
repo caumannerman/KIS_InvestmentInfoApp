@@ -123,6 +123,11 @@ class ItemSelectionViewController: UIViewController {
         self.textField.text?.removeAll()
         self.textField.rightViewMode = .never
         self.showMode = .all
+        subSectionCV.snp.updateConstraints{
+            $0.top.equalTo(sectionCV.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(0)
+        }
         tableView.reloadData()
     }
     
@@ -132,6 +137,11 @@ class ItemSelectionViewController: UIViewController {
 //    }
     @objc func textFieldDidChange(_ textField: UITextField){
         print(textField.text)
+        subSectionCV.snp.updateConstraints{
+            $0.top.equalTo(sectionCV.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(0)
+        }
         let now_text: String = textField.text ?? ""
         if textField.text == nil || textField.text == "" {
             self.textField.rightViewMode = .never
@@ -142,7 +152,6 @@ class ItemSelectionViewController: UIViewController {
             filterByKeyword(keyword: now_text)
         }
         tableView.reloadData()
-
     }
     
     // 어떤 String을 매개변수로 전달받았을 때, 해당 String이 item이름 혹은 item 설명에 포함되어있는지 체크하고 해당하는 것들만 추려준다.
@@ -230,11 +239,18 @@ extension ItemSelectionViewController: UITableViewDataSource{
 
 
 extension ItemSelectionViewController: UITextFieldDelegate {
+   
     func textFieldDidBeginEditing(_ textField: UITextField) {
+        
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         textField.placeholder = "추가하고싶은 item 혹은 item 설명 키워드"
+        subSectionCV.snp.updateConstraints{
+            $0.top.equalTo(sectionCV.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(0)
+        }
     }
 
 }
