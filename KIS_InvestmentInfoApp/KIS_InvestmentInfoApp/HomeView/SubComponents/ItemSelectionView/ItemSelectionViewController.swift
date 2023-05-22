@@ -53,6 +53,15 @@ class ItemSelectionViewController: UIViewController {
 
         debugPrint("ItemSelectionViewController viewDidLoad")
         view.backgroundColor = UIColor(red: 100/255, green: 100/255, blue: 100/255, alpha: 0.0)
+        NotificationCenter.default.addObserver(self, selector: #selector(didTapItemSectionCell(_:)), name: .DidTapItemSectionCell, object: nil)
+    }
+    
+    @objc func didTapItemSectionCell(_ notification: Notification){
+        print("Notification DidTapItemSectionCell Received at VC")
+        guard let now_dict = notification.userInfo as? Dictionary<String, Any> else { return }
+        guard let now_idx = now_dict["idx"] as? Int else {return}
+       
+        print(now_idx)
     }
     
     func attribute(){
