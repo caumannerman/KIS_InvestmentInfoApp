@@ -24,6 +24,9 @@
 		8C86903F2A1AECC900528FB2 /* ItemSectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C86903E2A1AECC900528FB2 /* ItemSectionCollectionViewCell.swift */; };
 		8C8690432A1B1B6200528FB2 /* IS_StockPriceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8690422A1B1B6200528FB2 /* IS_StockPriceInfo.swift */; };
 		8C8690452A1B1B9300528FB2 /* IS_StockPriceInfoCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8690442A1B1B9300528FB2 /* IS_StockPriceInfoCellData.swift */; };
+		8C8690492A1B2D3000528FB2 /* ItemSubSectionCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8690482A1B2D3000528FB2 /* ItemSubSectionCollectionView.swift */; };
+		8C86904B2A1B2D3B00528FB2 /* ItemSubSectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C86904A2A1B2D3B00528FB2 /* ItemSubSectionCollectionViewCell.swift */; };
+		8C86904D2A1B2D4300528FB2 /* ItemSubSectionCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C86904C2A1B2D4300528FB2 /* ItemSubSectionCollectionViewLayout.swift */; };
 		8C8FC5442A148FC500D97342 /* MarketCVCellCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8FC5432A148FC500D97342 /* MarketCVCellCollectionView.swift */; };
 		8C8FC5462A148FD900D97342 /* MarketCVCellCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8FC5452A148FD900D97342 /* MarketCVCellCollectionViewCell.swift */; };
 		8C8FC5482A148FF200D97342 /* MarketCVCellCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8FC5472A148FF200D97342 /* MarketCVCellCollectionViewLayout.swift */; };
@@ -86,6 +89,9 @@
 		8C86903E2A1AECC900528FB2 /* ItemSectionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemSectionCollectionViewCell.swift; sourceTree = "<group>"; };
 		8C8690422A1B1B6200528FB2 /* IS_StockPriceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IS_StockPriceInfo.swift; sourceTree = "<group>"; };
 		8C8690442A1B1B9300528FB2 /* IS_StockPriceInfoCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IS_StockPriceInfoCellData.swift; sourceTree = "<group>"; };
+		8C8690482A1B2D3000528FB2 /* ItemSubSectionCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemSubSectionCollectionView.swift; sourceTree = "<group>"; };
+		8C86904A2A1B2D3B00528FB2 /* ItemSubSectionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemSubSectionCollectionViewCell.swift; sourceTree = "<group>"; };
+		8C86904C2A1B2D4300528FB2 /* ItemSubSectionCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemSubSectionCollectionViewLayout.swift; sourceTree = "<group>"; };
 		8C8FC5432A148FC500D97342 /* MarketCVCellCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketCVCellCollectionView.swift; sourceTree = "<group>"; };
 		8C8FC5452A148FD900D97342 /* MarketCVCellCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketCVCellCollectionViewCell.swift; sourceTree = "<group>"; };
 		8C8FC5472A148FF200D97342 /* MarketCVCellCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketCVCellCollectionViewLayout.swift; sourceTree = "<group>"; };
@@ -173,7 +179,6 @@
 		8C8250122A020966002B8A3B /* SubComponents */ = {
 			isa = PBXGroup;
 			children = (
-				8CD5AEB52A11C2F500E0BD1A /* MarketInfoDetailViewController.swift */,
 				8C8690392A1AEC3800528FB2 /* ItemSelectionView */,
 				8CB01B962A0E065D0023BB39 /* MarketInfo */,
 				8CB01B952A0E064F0023BB39 /* UrlSearch */,
@@ -203,6 +208,7 @@
 			children = (
 				8C8FC5492A14A08F00D97342 /* ItemSelectionViewController.swift */,
 				8C8690402A1AEDB600528FB2 /* ItemSectionCV */,
+				8C8690472A1B2D0700528FB2 /* ItemSubSectionCV */,
 				8C8690412A1B1B1300528FB2 /* Entity */,
 			);
 			path = ItemSelectionView;
@@ -225,6 +231,26 @@
 				8C8690442A1B1B9300528FB2 /* IS_StockPriceInfoCellData.swift */,
 			);
 			path = Entity;
+			sourceTree = "<group>";
+		};
+		8C8690462A1B2CDE00528FB2 /* MarketInfoCollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				8CB01B912A0E05C60023BB39 /* MarketCollectionView.swift */,
+				8CB01B932A0E06430023BB39 /* MarketCollectionViewLayout.swift */,
+				8CB01B972A0E06740023BB39 /* MarketCollectionViewCell.swift */,
+			);
+			path = MarketInfoCollectionView;
+			sourceTree = "<group>";
+		};
+		8C8690472A1B2D0700528FB2 /* ItemSubSectionCV */ = {
+			isa = PBXGroup;
+			children = (
+				8C8690482A1B2D3000528FB2 /* ItemSubSectionCollectionView.swift */,
+				8C86904A2A1B2D3B00528FB2 /* ItemSubSectionCollectionViewCell.swift */,
+				8C86904C2A1B2D4300528FB2 /* ItemSubSectionCollectionViewLayout.swift */,
+			);
+			path = ItemSubSectionCV;
 			sourceTree = "<group>";
 		};
 		8C8FC5422A148F8C00D97342 /* SubCell */ = {
@@ -251,9 +277,8 @@
 		8CB01B962A0E065D0023BB39 /* MarketInfo */ = {
 			isa = PBXGroup;
 			children = (
-				8CB01B912A0E05C60023BB39 /* MarketCollectionView.swift */,
-				8CB01B932A0E06430023BB39 /* MarketCollectionViewLayout.swift */,
-				8CB01B972A0E06740023BB39 /* MarketCollectionViewCell.swift */,
+				8CD5AEB52A11C2F500E0BD1A /* MarketInfoDetailViewController.swift */,
+				8C8690462A1B2CDE00528FB2 /* MarketInfoCollectionView */,
 				8C8FC5422A148F8C00D97342 /* SubCell */,
 			);
 			path = MarketInfo;
@@ -581,6 +606,7 @@
 				8CF7E15B2A0CB40A001C23B7 /* MyLoadingView.swift in Sources */,
 				8CCE74DA2A08BE26002B34D2 /* UrlCommonState.swift in Sources */,
 				8C8690432A1B1B6200528FB2 /* IS_StockPriceInfo.swift in Sources */,
+				8C86904B2A1B2D3B00528FB2 /* ItemSubSectionCollectionViewCell.swift in Sources */,
 				8C017D5829FB4861009EAC37 /* MarketInfoView.swift in Sources */,
 				A5D1BC8D296BE8220045045B /* SwiftUIChartView.swift in Sources */,
 				A5FB4AE8296D7E6000ADD977 /* JsonParser.swift in Sources */,
@@ -606,8 +632,10 @@
 				A53EA68F29624D3600F0E24A /* AppDelegate.swift in Sources */,
 				A53EA6A329624EBE00F0E24A /* MainTabBarController.swift in Sources */,
 				8C82501C2A023130002B8A3B /* UrlSearchTextFieldView.swift in Sources */,
+				8C86904D2A1B2D4300528FB2 /* ItemSubSectionCollectionViewLayout.swift in Sources */,
 				A5C66EB12A05128000F2DF1B /* ThirdSectionView.swift in Sources */,
 				8C8FC5482A148FF200D97342 /* MarketCVCellCollectionViewLayout.swift in Sources */,
+				8C8690492A1B2D3000528FB2 /* ItemSubSectionCollectionView.swift in Sources */,
 				8C5E2AD729F797EB00C6061E /* ApiListTableViewCell.swift in Sources */,
 				A5557FFC2962579F00919868 /* MyFilesViewController.swift in Sources */,
 				A53EA69129624D3600F0E24A /* SceneDelegate.swift in Sources */,

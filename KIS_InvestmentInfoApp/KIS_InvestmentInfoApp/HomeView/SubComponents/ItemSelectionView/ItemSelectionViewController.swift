@@ -20,6 +20,7 @@ class ItemSelectionViewController: UIViewController {
     private var showMode: ShowMode = .all
     private let textField: UITextField = UITextField()
     private let sectionCV: UICollectionView = ItemSectionCollectionView(frame: .zero, collectionViewLayout: ItemSectionCollectionViewLayout())
+    private let subSectionCV = ItemSubSectionCollectionView(frame: .zero, collectionViewLayout: ItemSubSectionCollectionViewLayout())
     private let tableView: UITableView = UITableView()
     
     private let itemsUrl: [String] = [
@@ -67,6 +68,13 @@ class ItemSelectionViewController: UIViewController {
         guard let now_dict = notification.userInfo as? Dictionary<String, Any> else { return }
         guard let now_idx = now_dict["idx"] as? Int else {return}
         
+//        self.view.addSubview(subSectionCV)
+
+        subSectionCV.snp.updateConstraints{
+            $0.top.equalTo(sectionCV.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(60)
+        }
         requestAPI(url: itemsUrl[now_idx])
        
         print(now_idx)
@@ -149,7 +157,7 @@ class ItemSelectionViewController: UIViewController {
     
     func layout(){
         
-        [textField, sectionCV, tableView].forEach{
+        [textField, sectionCV, subSectionCV, tableView].forEach{
             view.addSubview($0)
         }
         
@@ -161,11 +169,17 @@ class ItemSelectionViewController: UIViewController {
         sectionCV.snp.makeConstraints{
             $0.top.equalTo(textField.snp.bottom)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(90)
+            $0.height.equalTo(80)
+        }
+        
+        subSectionCV.snp.makeConstraints{
+            $0.top.equalTo(sectionCV.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(0)
         }
         
         tableView.snp.makeConstraints{
-            $0.top.equalTo(sectionCV.snp.bottom)
+            $0.top.equalTo(subSectionCV.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }

@@ -1,5 +1,5 @@
 //
-//  ItemSectionCollectionViewCell.swift
+//  ItemSubSectionCollectionViewCell.swift
 //  KIS_InvestmentInfoApp
 //
 //  Created by 양준식 on 2023/05/22.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ItemSectionCollectionViewCell: UICollectionViewCell {
+class ItemSubSectionCollectionViewCell: UICollectionViewCell {
     
     private let titleLabel = UILabel()
     
@@ -24,11 +24,11 @@ class ItemSectionCollectionViewCell: UICollectionViewCell {
     
     private func attribute(){
         layer.cornerRadius = 10.0
-        layer.borderWidth = 3.0
+        layer.borderWidth = 2.0
        
         self.backgroundColor = .systemBackground
         
-        titleLabel.font = .systemFont(ofSize: 28.0, weight: .regular)
+        titleLabel.font = .systemFont(ofSize: 18.0, weight: .regular)
         titleLabel.textColor = .black
         titleLabel.textAlignment = .center
     }
@@ -44,13 +44,10 @@ class ItemSectionCollectionViewCell: UICollectionViewCell {
     func setup(title: String, isSelected: Bool){
         self.titleLabel.text = title
         if isSelected{
-            layer.borderColor = UIColor(red: 200/255, green: 210/255, blue: 230/255, alpha: 1.0).cgColor
+            layer.borderColor = UIColor(red: 190/255, green: 200/255, blue: 230/255, alpha: 1.0).cgColor
         }
         else {
             layer.borderColor = UIColor(red: 230/255, green: 240/255, blue: 250/255, alpha: 1.0).cgColor
         }
-        
     }
-    
-
 }
