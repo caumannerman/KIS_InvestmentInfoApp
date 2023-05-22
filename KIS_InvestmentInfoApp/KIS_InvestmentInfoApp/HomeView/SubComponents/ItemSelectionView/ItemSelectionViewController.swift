@@ -18,6 +18,7 @@ class ItemSelectionViewController: UIViewController {
     
     private var showMode: ShowMode = .all
     private let textField: UITextField = UITextField()
+    private let sectionCV: UICollectionView = ItemSectionCollectionView(frame: .zero, collectionViewLayout: ItemSectionCollectionViewLayout())
     private let tableView: UITableView = UITableView()
    
     private var itemsArr: [(String, String)] = [("item","detail"),("item1","detail1"), ("item2","detail2"), ("item3","detail3"), ("item4","detail4"), ("item5","detail5"), ("item6","detail6"), ("item7","detail7"), ("item8","detail8"), ("item9","detail9"), ("item10","detail10"), ("item11","detail11"), ("item12","detail12"), ("item13","detail13"), ("item14","detail14"), ("item15", "detail15"), ("item16","detail16")]
@@ -130,7 +131,7 @@ class ItemSelectionViewController: UIViewController {
     
     func layout(){
         
-        [textField, tableView].forEach{
+        [textField, sectionCV, tableView].forEach{
             view.addSubview($0)
         }
         
@@ -139,8 +140,14 @@ class ItemSelectionViewController: UIViewController {
             $0.height.equalTo(60)
         }
         
-        tableView.snp.makeConstraints{
+        sectionCV.snp.makeConstraints{
             $0.top.equalTo(textField.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(90)
+        }
+        
+        tableView.snp.makeConstraints{
+            $0.top.equalTo(sectionCV.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
