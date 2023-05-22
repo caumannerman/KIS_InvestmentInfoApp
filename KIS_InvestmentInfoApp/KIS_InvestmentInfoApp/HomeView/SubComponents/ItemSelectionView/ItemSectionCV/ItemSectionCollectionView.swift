@@ -10,8 +10,8 @@ import SnapKit
 
 class ItemSectionCollectionView: UICollectionView {
     
-    private var sections: [String] = ["주식시세", "지수시세", "일반상품시세", "증권상품시세", "채권시세", "파생상품시세"]
-    private var sectionsIsSelected: [Bool] = Array(repeating: false, count: 10)
+    private var sections: [String] = MarketInfoData.getMarketSections()
+    private lazy var sectionsIsSelected: [Bool] = Array(repeating: false, count: MarketInfoData.getMarketSectionsCount())
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
@@ -58,7 +58,6 @@ extension ItemSectionCollectionView: UICollectionViewDataSource{
 extension ItemSectionCollectionView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-        
         let cellWidth = sections[indexPath.row].size(withAttributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 28, weight: .regular)]).width + 30
         return CGSize(width: cellWidth, height: 50)
     }

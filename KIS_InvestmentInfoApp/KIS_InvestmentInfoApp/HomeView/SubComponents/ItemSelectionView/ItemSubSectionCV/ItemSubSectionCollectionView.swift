@@ -38,6 +38,11 @@ class ItemSubSectionCollectionView: UICollectionView {
         self.dataSource = self
         self.delegate = self
     }
+    
+    func setup(idx: Int) {
+        self.subSections = MarketInfoData.getMarketSubSections(idx: idx)
+        self.subSectionsIsSelected = Array(repeating: false, count: MarketInfoData.getMarketSubSectionsCount(idx: idx))
+    }
 }
 
 
@@ -51,7 +56,6 @@ extension ItemSubSectionCollectionView: UICollectionViewDataSource{
         cell.setup(title: subSections[indexPath.row], isSelected: subSectionsIsSelected[indexPath.row])
         return cell
     }
-    
 }
 
 extension ItemSubSectionCollectionView: UICollectionViewDelegateFlowLayout {

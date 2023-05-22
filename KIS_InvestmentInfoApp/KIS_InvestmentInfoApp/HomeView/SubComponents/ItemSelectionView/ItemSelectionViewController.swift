@@ -67,15 +67,18 @@ class ItemSelectionViewController: UIViewController {
         print("Notification DidTapItemSectionCell Received at VC")
         guard let now_dict = notification.userInfo as? Dictionary<String, Any> else { return }
         guard let now_idx = now_dict["idx"] as? Int else {return}
-        
+        print(now_idx, "now_idx임")
 //        self.view.addSubview(subSectionCV)
 
+        subSectionCV.setup(idx: now_idx)
+        subSectionCV.reloadData()
+        
         subSectionCV.snp.updateConstraints{
             $0.top.equalTo(sectionCV.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(60)
         }
-        requestAPI(url: itemsUrl[now_idx])
+//        requestAPI(url: itemsUrl[now_idx])
        
         print(now_idx)
     }

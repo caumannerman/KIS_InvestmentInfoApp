@@ -33,11 +33,20 @@ class MarketInfoData {
         return self.marketSections
     }
     
-    static func getMarketSubSections() -> [[String]] {
-        return self.marketSubSections
+    static func getMarketSectionsCount() -> Int {
+        return self.marketSections.count
     }
     
-    static func getMarketSubSectionsUrls() -> [[String]] {
-        return self.marketSubSectionsUrls
+    static func getMarketSubSections(idx: Int) -> [String] {
+        return self.marketSubSections[idx]
     }
+    
+    static func getMarketSubSectionsUrls(idx: Int) -> [String] {
+        return self.marketSubSectionsUrls[idx]
+    }
+    
+    static func getMarketSubSectionsCount(idx: Int) -> Int {
+        return self.marketSubSections[idx].count
+    }
+    
 }
