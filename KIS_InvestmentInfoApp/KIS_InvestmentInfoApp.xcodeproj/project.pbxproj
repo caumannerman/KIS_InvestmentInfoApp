@@ -22,6 +22,8 @@
 		8C86903B2A1AEC5D00528FB2 /* ItemSectionCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C86903A2A1AEC5D00528FB2 /* ItemSectionCollectionView.swift */; };
 		8C86903D2A1AECBA00528FB2 /* ItemSectionCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C86903C2A1AECBA00528FB2 /* ItemSectionCollectionViewLayout.swift */; };
 		8C86903F2A1AECC900528FB2 /* ItemSectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C86903E2A1AECC900528FB2 /* ItemSectionCollectionViewCell.swift */; };
+		8C8690432A1B1B6200528FB2 /* IS_StockPriceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8690422A1B1B6200528FB2 /* IS_StockPriceInfo.swift */; };
+		8C8690452A1B1B9300528FB2 /* IS_StockPriceInfoCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8690442A1B1B9300528FB2 /* IS_StockPriceInfoCellData.swift */; };
 		8C8FC5442A148FC500D97342 /* MarketCVCellCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8FC5432A148FC500D97342 /* MarketCVCellCollectionView.swift */; };
 		8C8FC5462A148FD900D97342 /* MarketCVCellCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8FC5452A148FD900D97342 /* MarketCVCellCollectionViewCell.swift */; };
 		8C8FC5482A148FF200D97342 /* MarketCVCellCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8FC5472A148FF200D97342 /* MarketCVCellCollectionViewLayout.swift */; };
@@ -82,6 +84,8 @@
 		8C86903A2A1AEC5D00528FB2 /* ItemSectionCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemSectionCollectionView.swift; sourceTree = "<group>"; };
 		8C86903C2A1AECBA00528FB2 /* ItemSectionCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemSectionCollectionViewLayout.swift; sourceTree = "<group>"; };
 		8C86903E2A1AECC900528FB2 /* ItemSectionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemSectionCollectionViewCell.swift; sourceTree = "<group>"; };
+		8C8690422A1B1B6200528FB2 /* IS_StockPriceInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IS_StockPriceInfo.swift; sourceTree = "<group>"; };
+		8C8690442A1B1B9300528FB2 /* IS_StockPriceInfoCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IS_StockPriceInfoCellData.swift; sourceTree = "<group>"; };
 		8C8FC5432A148FC500D97342 /* MarketCVCellCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketCVCellCollectionView.swift; sourceTree = "<group>"; };
 		8C8FC5452A148FD900D97342 /* MarketCVCellCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketCVCellCollectionViewCell.swift; sourceTree = "<group>"; };
 		8C8FC5472A148FF200D97342 /* MarketCVCellCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketCVCellCollectionViewLayout.swift; sourceTree = "<group>"; };
@@ -199,6 +203,7 @@
 			children = (
 				8C8FC5492A14A08F00D97342 /* ItemSelectionViewController.swift */,
 				8C8690402A1AEDB600528FB2 /* ItemSectionCV */,
+				8C8690412A1B1B1300528FB2 /* Entity */,
 			);
 			path = ItemSelectionView;
 			sourceTree = "<group>";
@@ -211,6 +216,15 @@
 				8C86903E2A1AECC900528FB2 /* ItemSectionCollectionViewCell.swift */,
 			);
 			path = ItemSectionCV;
+			sourceTree = "<group>";
+		};
+		8C8690412A1B1B1300528FB2 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				8C8690422A1B1B6200528FB2 /* IS_StockPriceInfo.swift */,
+				8C8690442A1B1B9300528FB2 /* IS_StockPriceInfoCellData.swift */,
+			);
+			path = Entity;
 			sourceTree = "<group>";
 		};
 		8C8FC5422A148F8C00D97342 /* SubCell */ = {
@@ -561,10 +575,12 @@
 				8C86903F2A1AECC900528FB2 /* ItemSectionCollectionViewCell.swift in Sources */,
 				A5557FF1296250BE00919868 /* GetERNetwork.swift in Sources */,
 				A55580112962957B00919868 /* ButtonListViewLayout.swift in Sources */,
+				8C8690452A1B1B9300528FB2 /* IS_StockPriceInfoCellData.swift in Sources */,
 				8C86903B2A1AEC5D00528FB2 /* ItemSectionCollectionView.swift in Sources */,
 				A5C66EAE2A05125300F2DF1B /* SecondSectionView.swift in Sources */,
 				8CF7E15B2A0CB40A001C23B7 /* MyLoadingView.swift in Sources */,
 				8CCE74DA2A08BE26002B34D2 /* UrlCommonState.swift in Sources */,
+				8C8690432A1B1B6200528FB2 /* IS_StockPriceInfo.swift in Sources */,
 				8C017D5829FB4861009EAC37 /* MarketInfoView.swift in Sources */,
 				A5D1BC8D296BE8220045045B /* SwiftUIChartView.swift in Sources */,
 				A5FB4AE8296D7E6000ADD977 /* JsonParser.swift in Sources */,

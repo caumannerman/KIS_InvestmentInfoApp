@@ -7,25 +7,31 @@
 
 import UIKit
 import SnapKit
-
+import Alamofire
 
 enum ShowMode {
     case all
     case keyword
 }
 
+
 class ItemSelectionViewController: UIViewController {
-    
+
     private var showMode: ShowMode = .all
     private let textField: UITextField = UITextField()
     private let sectionCV: UICollectionView = ItemSectionCollectionView(frame: .zero, collectionViewLayout: ItemSectionCollectionViewLayout())
     private let tableView: UITableView = UITableView()
+    
+    private let itemsUrl: [String] = [
+    "https://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo?serviceKey=qN5jfsV7vfaF2TeYh%2FOLDD09pgcK88uLTsJ3puwH509%2F4MATwRtVgcW6NkKfgfSyWoFvKmlywh8e8vVssBcfKA%3D%3D&resultType=json", "https://apis.data.go.kr/1160100/service/GetMarketIndexInfoService/getStockMarketIndex?serviceKey=qN5jfsV7vfaF2TeYh%2FOLDD09pgcK88uLTsJ3puwH509%2F4MATwRtVgcW6NkKfgfSyWoFvKmlywh8e8vVssBcfKA%3D%3D&resultType=json", "https://apis.data.go.kr/1160100/service/GetGeneralProductInfoService/getOilPriceInfo?serviceKey=qN5jfsV7vfaF2TeYh%2FOLDD09pgcK88uLTsJ3puwH509%2F4MATwRtVgcW6NkKfgfSyWoFvKmlywh8e8vVssBcfKA%3D%3D&resultType=json",
+    "https://apis.data.go.kr/1160100/service/GetSecuritiesProductInfoService/getETFPriceInfo?serviceKey=qN5jfsV7vfaF2TeYh%2FOLDD09pgcK88uLTsJ3puwH509%2F4MATwRtVgcW6NkKfgfSyWoFvKmlywh8e8vVssBcfKA%3D%3D&resultType=json",
+    "https://apis.data.go.kr/1160100/service/GetBondSecuritiesInfoService/getBondPriceInfo?serviceKey=qN5jfsV7vfaF2TeYh%2FOLDD09pgcK88uLTsJ3puwH509%2F4MATwRtVgcW6NkKfgfSyWoFvKmlywh8e8vVssBcfKA%3D%3D&resultType=json",
+    "https://apis.data.go.kr/1160100/service/GetDerivativeProductInfoService/getStockFuturesPriceInfo?serviceKey=qN5jfsV7vfaF2TeYh%2FOLDD09pgcK88uLTsJ3puwH509%2F4MATwRtVgcW6NkKfgfSyWoFvKmlywh8e8vVssBcfKA%3D%3D&resultType=json"
+    ]
    
     private var itemsArr: [(String, String)] = [("item","detail"),("item1","detail1"), ("item2","detail2"), ("item3","detail3"), ("item4","detail4"), ("item5","detail5"), ("item6","detail6"), ("item7","detail7"), ("item8","detail8"), ("item9","detail9"), ("item10","detail10"), ("item11","detail11"), ("item12","detail12"), ("item13","detail13"), ("item14","detail14"), ("item15", "detail15"), ("item16","detail16")]
     
     private var itemsArrToShow: [(String, String)] = []
-    
-    
     
     
     private lazy var clearButton: UIView = {
@@ -60,6 +66,8 @@ class ItemSelectionViewController: UIViewController {
         print("Notification DidTapItemSectionCell Received at VC")
         guard let now_dict = notification.userInfo as? Dictionary<String, Any> else { return }
         guard let now_idx = now_dict["idx"] as? Int else {return}
+        
+        requestAPI(url: itemsUrl[now_idx])
        
         print(now_idx)
     }
@@ -78,6 +86,7 @@ class ItemSelectionViewController: UIViewController {
         textField.leftViewMode = .always
         let paddingView2 = UIView(frame: CGRect(x: 0, y: 0, width: 62, height: textField.frame.height))
         paddingView2.addSubview(clearButton)
+        
         clearButton.snp.makeConstraints{
             $0.top.bottom.leading.equalToSuperview()
             $0.trailing.equalToSuperview().inset(16)
@@ -213,3 +222,31 @@ extension ItemSelectionViewController: UITextFieldDelegate {
     }
 
 }
+
+
+extension ItemSelectionViewController{
+    private func requestAPI(url: String){
+        
+        //addingPercentEncoding은 한글(영어 이외의 값) 이 url에 포함되었을 때 오류나는 것을 막아준다.
+        AF.request(url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
+            .responseDecodable(of: IS_StockPriceInfo.self){ [weak self] response in
+                // success 이외의 응답을 받으면, else문에 걸려 함수 종료
+                guard
+                    let self = self,
+                    case .success(let data) = response.result else { return }
+                print("실패 아니면 여기 나와야함!!!")
+                
+                let now_arr = data.response.body.items.item
+                //데이터 받아옴
+                self.itemsArr = now_arr.map{ now_item -> (String, String) in
+                    let temp = ( now_item.basDt ?? "내용없음", now_item.itmsNm ?? "내용없음")
+                    return temp
+                }
+                //테이블 뷰 다시 그려줌
+                self.showMode = .all
+                self.tableView.reloadData()
+            }
+            .resume()
+    }
+}
+

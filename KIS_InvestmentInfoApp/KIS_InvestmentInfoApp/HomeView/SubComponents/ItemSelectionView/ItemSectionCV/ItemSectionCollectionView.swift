@@ -10,7 +10,7 @@ import SnapKit
 
 class ItemSectionCollectionView: UICollectionView {
     
-    private var sections: [String] = ["주식시세", "지수시세", "일반상품시세", "증권상품시세", "채권시세", "파생상품시세", "기타", "guitar", "기타1", "기타2"]
+    private var sections: [String] = ["주식시세", "지수시세", "일반상품시세", "증권상품시세", "채권시세", "파생상품시세"]
     private var sectionsIsSelected: [Bool] = Array(repeating: false, count: 10)
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
