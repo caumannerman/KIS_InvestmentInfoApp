@@ -50,6 +50,7 @@ final class ChartViewCollectionViewCell: UICollectionViewCell{
         titleButton.setTitleColor(.black, for: .normal)
         titleButton.titleLabel?.font = .systemFont(ofSize: 32.0, weight: .bold)
         titleButton.setTitle("채권", for: .normal)
+        titleButton.layer.cornerRadius = 10.0
         titleButton.addTarget(self, action: #selector(didClickCell), for: .touchUpInside)
     }
     //false인 것을 눌렀을 때만 NotificationCenter로 신호를 보내도록 개발하였음
