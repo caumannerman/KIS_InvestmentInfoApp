@@ -33,7 +33,7 @@ class ItemSelectionViewController: UIViewController {
     "https://apis.data.go.kr/1160100/service/GetDerivativeProductInfoService/getStockFuturesPriceInfo?serviceKey=qN5jfsV7vfaF2TeYh%2FOLDD09pgcK88uLTsJ3puwH509%2F4MATwRtVgcW6NkKfgfSyWoFvKmlywh8e8vVssBcfKA%3D%3D&resultType=json"
     ]
    
-    private var itemsArr: [(String, String)] = [("item","detail"),("item1","detail1"), ("item2","detail2"), ("item3","detail3"), ("item4","detail4"), ("item5","detail5"), ("item6","detail6"), ("item7","detail7"), ("item8","detail8"), ("item9","detail9"), ("item10","detail10"), ("item11","detail11"), ("item12","detail12"), ("item13","detail13"), ("item14","detail14"), ("item15", "detail15"), ("item16","detail16")]
+    private var itemsArr: [(String, String)] = [("item","detail")]
     
     private var itemsArrToShow: [(String, String)] = []
     
@@ -298,7 +298,23 @@ extension ItemSelectionViewController{
                 let now_arr = data.response.body.items.item
                 //데이터 받아옴
                 self.itemsArr = now_arr.map{ now_item -> (String, String) in
-                    let temp = ( now_item.basDt ?? "내용없음", now_item.itmsNm ?? "내용없음")
+                    //여기서 각 변수들이 nil, 혹은 nil이 아닌 값일 수 있는데,
+                    // nil이 아닌 것들만 가지고 title을 정하고 , 나머지를 이어붙여 subtitle을 만든다
+                    let title: String = ((now_item.oilCtg != nil ? now_item.oilCtg : now_item.idxNm) != nil ? now_item.idxNm : now_item.itmsNm) ?? "제목없음"
+                    
+                    
+                    var subtitle: String = ""
+                    [(now_item.idxCsf, ""), (now_item.prdCtg, "상품분류 : "), (now_item.mrktCtg, ""), (now_item.epyItmsCnt, "채용종목수 : "), (now_item.ytm, "만기수익률 : "), (now_item.cnvt, "채권지수 볼록성 : "), (now_item.trqu, "포함종목 거래량 총합 : "), (now_item.trPrc, "포함종목 거래대금 총합 : "), (now_item.bssIdxIdxNm, "기초지수 명칭 : "), (now_item.udasAstNm, "기초자산 명칭 : "),  (now_item.strnCd, "코드 : "), (now_item.isinCd, "국제 채권 식별번호 : ")].forEach {
+                        if $0.0 != nil {
+                            subtitle += $0.1 + $0.0! + " / "
+                        }
+                    }
+                    subtitle.removeLast()
+                    subtitle.removeLast()
+                    subtitle.removeLast()
+                    
+                    
+                    let temp = ( title, subtitle )
                     return temp
                 }
                 //테이블 뷰 다시 그려줌
