@@ -14,7 +14,7 @@ class MarketCollectionView: UICollectionView {
     private var contentsSubtitle: [String] = HomeContentsData.getContentsSubtitle()
     
     private var cellSize: Array<(Int, Int)> = [(1,1), (1,1), (1,1), (1,1), (1,1), (1,1), (1,1), (1,1)]
-    private final let UNIT_WIDTH: Int = Int(( UIScreen.main.bounds.width - 50 ) / 4)
+    private final let UNIT_WIDTH: Int = Int(( UIScreen.main.bounds.width - 40 ) / 3)
     
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
@@ -83,7 +83,7 @@ extension MarketCollectionView: UICollectionViewDelegateFlowLayout {
         let now_width: Int = cellSize[indexPath.row].0
         let now_height: Int = cellSize[indexPath.row].1
         
-        return CGSize(width: now_width * UNIT_WIDTH + 10 * (now_width - 1), height: now_height * UNIT_WIDTH + 10 * (now_height - 1))
+        return CGSize(width: now_width * UNIT_WIDTH + 10 * (now_width - 1), height: 120)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

@@ -19,7 +19,7 @@ class MarketCollectionViewLayout: UICollectionViewFlowLayout {
     }
     
     private func attribute(){
-        self.minimumLineSpacing = 40
+        self.minimumLineSpacing = 10
         self.minimumInteritemSpacing = 10
         self.scrollDirection = .vertical
         self.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
