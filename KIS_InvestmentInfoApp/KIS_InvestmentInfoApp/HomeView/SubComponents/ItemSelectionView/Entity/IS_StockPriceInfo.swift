@@ -39,11 +39,49 @@ struct IS_StockPriceInfo_items: Decodable {
 
 
 struct IS_StockPriceInfo_item: Decodable {
-    let basDt: String?
+    
+    //이름
+    let idxNm: String?
     let itmsNm: String?
+    let oilCtg: String?
+    
+    // 추가 정보들
+    let idxCsf: String?
+    let epyItmsCnt: String? //채용종목수
+    let ytm: String? // 만기수익률
+    let cnvt: String? //채권지수볼록성
+    let trqu: String? // 포함종목 거래량 총합
+    let trPrc: String? // 포함종목 거래대금 총합
+    let strnCd: String? // 코드
+    let isinCd: String? // 국제채권식별번호
+    
+    let bssIdxIdxNm: String? // 기초지수명칭
+    let udasAstNm: String? // 기초자산 명칭
+    
+    let prdCtg: String? // 상품분류
+    
+    let mrktCtg: String?
+    
+    
     enum CodingKeys: String, CodingKey{
-        case basDt = "basDt"
+       
+        case idxNm = "idxNm"
         case itmsNm = "itmsNm"
+        case oilCtg = "oilCtg"
+        
+        case idxCsf = "idxCsf"
+        case epyItmsCnt = "epyItmsCnt"
+        case ytm = "ytm"
+        case cnvt = "cnvt"
+        case trqu = "trqu"
+        case trPrc = "trPrc"
+        
+        case strnCd = "strnCd"
+        case isinCd = "isinCd"
+        case bssIdxIdxNm = "bssIdxIdxNm"
+        case udasAstNm = "udasAstNm"
+        case prdCtg = "prdCtg"
+        case mrktCtg = "mrktCtg"
     }
 }
 
