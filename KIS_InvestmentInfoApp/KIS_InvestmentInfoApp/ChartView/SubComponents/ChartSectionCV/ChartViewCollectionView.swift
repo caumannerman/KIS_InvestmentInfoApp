@@ -12,14 +12,14 @@ import SnapKit
 class ChartViewCollectionView: UICollectionView {
     
      
-    private var days: [String] = ["주식", "지수", "금/석유/배출권", "ETF/ETN/ELW", "채권", "파생상품"]
+    private var days: [String] = MarketInfoData.getMarketSections()
     // 단 "하나"의 cell 만 true인 상태를 유지하도록 logic 구성
-    private var days_isClicked: [Bool] = [true, false, false, false, false, false]
+    private var days_isClicked: [Bool] = Array(repeating: false, count: MarketInfoData.getMarketSectionsCount())
     private var now_section_idx: Int = 0
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
-        
+        days_isClicked[0] = true
         bind()
         attribute()
         NotificationCenter.default.addObserver(self, selector: #selector(chartSectionDidChanged(_:)), name: .DidTapUnClickedCell, object: nil)

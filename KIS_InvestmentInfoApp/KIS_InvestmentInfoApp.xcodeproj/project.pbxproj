@@ -162,11 +162,19 @@
 		8C44E03F2A0387B400342F45 /* SubComponents */ = {
 			isa = PBXGroup;
 			children = (
+				8C507D6A2A1C515600035FBD /* ChartSectionCV */,
+			);
+			path = SubComponents;
+			sourceTree = "<group>";
+		};
+		8C507D6A2A1C515600035FBD /* ChartSectionCV */ = {
+			isa = PBXGroup;
+			children = (
 				8C44E0402A03885700342F45 /* ChartViewCollectionView.swift */,
 				8C44E0422A03886100342F45 /* ChartViewCollectionViewCell.swift */,
 				8C44E0442A03887000342F45 /* ChartViewCollectionViewLayout.swift */,
 			);
-			path = SubComponents;
+			path = ChartSectionCV;
 			sourceTree = "<group>";
 		};
 		8C5E2AD329F7976900C6061E /* SubComponents */ = {

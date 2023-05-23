@@ -10,7 +10,7 @@ import Foundation
 class MarketInfoData {
     
     // 앱 실행중에 동적으로 변하지 않는 값이다.
-    private static let marketSections: [String] =  ["주식시세", "지수시세", "일반상품시세", "증권상품시세", "채권시세", "파생상품시세"]
+    private static let marketSections: [String] =  ["주식", "지수", "금/석유/배출권", "ETF/ETN/ELW", "채권", "파생상품"]
     private static let marketSubSections: [[String]] = [
     [ "주식시세", "신주인수권증서시세", "수익증권시세", "신주인수권증권시세" ],
     [ "주가지수시세", "채권지수시세", "파생상품지수시세" ],

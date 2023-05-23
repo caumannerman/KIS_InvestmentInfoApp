@@ -8,8 +8,14 @@
 import UIKit
 import SnapKit
 
+enum SubSection_OnWhichView {
+    case Home
+    case Chart
+}
+
 class ItemSubSectionCollectionView: UICollectionView {
     
+    private var onWhichView: SubSection_OnWhichView = .Home
     private var subSections: [String] = ["주식시세", "신주인수권증서시세", "수익증권시세", "신주인수권증권시세"]
     private var subSectionsIsSelected: [Bool] = Array(repeating: false, count: 4)
     
@@ -43,6 +49,10 @@ class ItemSubSectionCollectionView: UICollectionView {
         self.subSections = MarketInfoData.getMarketSubSections(idx: idx)
         self.subSectionsIsSelected = Array(repeating: false, count: MarketInfoData.getMarketSubSectionsCount(idx: idx))
     }
+    
+    func setupOnWhichView(onWhich: SubSection_OnWhichView){
+        self.onWhichView = onWhich
+    }
 }
 
 
@@ -62,7 +72,7 @@ extension ItemSubSectionCollectionView: UICollectionViewDataSource{
 extension ItemSubSectionCollectionView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-        let cellWidth = subSections[indexPath.row].size(withAttributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 18, weight: .regular)]).width + 30
+        let cellWidth = subSections[indexPath.row].size(withAttributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 18, weight: .regular)]).width + 50
         return CGSize(width: cellWidth, height: 50)
     }
     
@@ -74,7 +84,13 @@ extension ItemSubSectionCollectionView: UICollectionViewDelegateFlowLayout {
         subSectionsIsSelected = Array(repeating: false, count: subSections.count)
         subSectionsIsSelected[indexPath.row] = true
         
-        NotificationCenter.default.post(name:.DidTapItemSubSectionCell, object: .none, userInfo: ["idx": indexPath.row])
+        switch onWhichView {
+        case .Home:
+            NotificationCenter.default.post(name:.DidTapItemSubSectionCell, object: .none, userInfo: ["idx": indexPath.row])
+        case .Chart:
+            NotificationCenter.default.post(name:.DidTapItemSubSectionCell_Chart, object: .none, userInfo: ["idx": indexPath.row])
+        }
+        
         
         //cell setup을 위해 reload
         self.reloadData()

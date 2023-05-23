@@ -46,6 +46,7 @@ class ChartViewController: UIViewController {
     private var loprInfoArr: [SiteView] = []
     
     private var now_section_idx: Int = 0
+    private var now_subSection_idx: Int = 0
     // ---------------------========================----------------========================--------------------- //
     
     
@@ -53,6 +54,7 @@ class ChartViewController: UIViewController {
     
     // section을 선택하는 collectionView
     private let sectionCollectionView = ChartViewCollectionView(frame: .zero, collectionViewLayout: ChartViewCollectionViewLayout())
+    private let subSectionCollectionView = ItemSubSectionCollectionView(frame: .zero, collectionViewLayout: ItemSubSectionCollectionViewLayout())
     
     private let scrollView = UIScrollView()
     private let contentView = UIView()
@@ -288,12 +290,16 @@ class ChartViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        subSectionCollectionView.setup(idx: 0)
+        subSectionCollectionView.setupOnWhichView(onWhich: .Chart)
+        
         self.collectionView.isHidden = true
         
         // 이것은 csv의 row, column을 선택할 때 관련한 noti
         NotificationCenter.default.addObserver(self, selector: #selector(changeCellColor(_:)), name: .cellColorChange, object: nil)
 
         NotificationCenter.default.addObserver(self, selector: #selector(chartSectionDidChanged(_:)), name: .DidTapUnClickedCell, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didTapItemSubSectionCell_Chart(_:)), name: .DidTapItemSubSectionCell_Chart, object: nil)
 
         alert.addTextField{
             $0.placeholder = "저장 파일명을 입력하세요"
@@ -317,9 +323,24 @@ class ChartViewController: UIViewController {
         alert.addAction(cancel)
         
     }
+    
+    @objc func didTapItemSubSectionCell_Chart(_ notification: Notification) {
+        guard let clickedIdx = notification.userInfo?["idx"] as? Int else { return }
+        now_subSection_idx = clickedIdx
+        print("현재 선택된 section & subSection", now_section_idx, now_subSection_idx)
+        
+    }
+    
+    
+    
     //section cell 선택이 바뀌었을 때 호출될 함수
     @objc func chartSectionDidChanged(_ notification: Notification){
         guard let clickedIdx = notification.userInfo?["row"] as? Int else { return }
+        // 여기서 subSectionCollectionView도 바꿔줘야한다.
+        subSectionCollectionView.setup(idx: clickedIdx)
+        subSectionCollectionView.reloadData()
+        
+        
         
         //두개의 switch 문으로 분기하여 해결
         
@@ -336,37 +357,38 @@ class ChartViewController: UIViewController {
             print("default")
             thirdSectionView.snp.removeConstraints()
         }
+        
         // 새롭게 나타나야하는 화면을 constraints 생성
+        print("새로 선택된 cell = ", clickedIdx)
+        now_section_idx = clickedIdx
+        
         switch clickedIdx {
         case 0:
-            print("새로 선택된 cell = ", 1)
-            now_section_idx = 0
+            
             // constraints 생성
             self.view.addSubview(scrollView)
             scrollView.snp.makeConstraints{
-                $0.top.equalTo(sectionCollectionView.snp.bottom)
+                $0.top.equalTo(subSectionCollectionView.snp.bottom)
                 $0.leading.trailing.equalToSuperview().inset(20)
                 $0.bottom.equalTo(view.safeAreaLayoutGuide)
             }
             
         case 1:
-            print("새로 선택된 cell = ", 1)
-            now_section_idx = 1
+           
             // constraints 생성
             self.view.addSubview(secondSectionView)
             secondSectionView.snp.makeConstraints{
-                $0.top.equalTo(sectionCollectionView.snp.bottom)
+                $0.top.equalTo(subSectionCollectionView.snp.bottom)
                 $0.leading.trailing.equalToSuperview().inset(20)
                 $0.bottom.equalTo(view.safeAreaLayoutGuide)
             }
             
         default:
             print("default")
-            now_section_idx = 2
             // constraints 생성
             self.view.addSubview(thirdSectionView)
             thirdSectionView.snp.makeConstraints{
-                $0.top.equalTo(sectionCollectionView.snp.bottom)
+                $0.top.equalTo(subSectionCollectionView.snp.bottom)
                 $0.leading.trailing.equalToSuperview().inset(20)
                 $0.bottom.equalTo(view.safeAreaLayoutGuide)
             }
@@ -513,7 +535,7 @@ class ChartViewController: UIViewController {
     }
     
     private func layout(){
-        [ sectionCollectionView, scrollView ].forEach {
+        [ sectionCollectionView, subSectionCollectionView, scrollView ].forEach {
             view.addSubview($0)
         }
         
@@ -523,8 +545,14 @@ class ChartViewController: UIViewController {
             $0.height.equalTo(90)
         }
         
-        scrollView.snp.makeConstraints{
+        subSectionCollectionView.snp.makeConstraints{
             $0.top.equalTo(sectionCollectionView.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(60)
+        }
+        
+        scrollView.snp.makeConstraints{
+            $0.top.equalTo(subSectionCollectionView.snp.bottom)
             $0.leading.trailing.equalToSuperview().inset(20)
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
