@@ -32,6 +32,13 @@ class UrlSearchTextFieldView: UIView {
         urlSearchTextField.layer.cornerRadius = 10.0
         urlSearchTextField.font = .systemFont(ofSize: 36.0, weight: .regular)
         urlSearchTextField.textColor = .darkGray
+        urlSearchTextField.autocapitalizationType = .none
+        urlSearchTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+    }
+    
+    @objc func textFieldDidChange(_ textField: UITextField){
+        
+        print(textField.text)
     }
     
     private func layout(){

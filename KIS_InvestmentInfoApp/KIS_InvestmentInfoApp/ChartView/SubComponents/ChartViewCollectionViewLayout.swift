@@ -20,7 +20,7 @@ class ChartViewCollectionViewLayout: UICollectionViewFlowLayout {
     }
     
     private func attribute(){
-        self.minimumLineSpacing = 40
+        self.minimumLineSpacing = 10
         self.minimumInteritemSpacing = 10
         self.scrollDirection = .horizontal
         self.sectionInset = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30)

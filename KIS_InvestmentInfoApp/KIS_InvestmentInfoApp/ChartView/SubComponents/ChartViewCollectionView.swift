@@ -12,9 +12,9 @@ import SnapKit
 class ChartViewCollectionView: UICollectionView {
     
      
-    private var days: [String] = ["주식", "채권", "기타1", "기타2", "기타3", "기타7", "기타13", "기타14", "기타32", "기타51"]
+    private var days: [String] = ["주식", "지수", "금/석유/배출권", "ETF/ETN/ELW", "채권", "파생상품"]
     // 단 "하나"의 cell 만 true인 상태를 유지하도록 logic 구성
-    private var days_isClicked: [Bool] = [true, false, false, false, false, false, false, false, false, false]
+    private var days_isClicked: [Bool] = [true, false, false, false, false, false]
     private var now_section_idx: Int = 0
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
@@ -78,8 +78,10 @@ extension ChartViewCollectionView: UICollectionViewDataSource {
 
 extension ChartViewCollectionView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        return CGSize(width: (UIScreen.main.bounds.size.width - 8) / 7, height: (safeAreaLayoutGuide.layoutFrame.size.height ) / 5)
-        return CGSize(width: 180, height: 180)
+
+        let cellWidth = days[indexPath.row].size(withAttributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 32.0, weight: .bold)]).width + 60
+        
+        return CGSize(width: cellWidth, height: 70)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

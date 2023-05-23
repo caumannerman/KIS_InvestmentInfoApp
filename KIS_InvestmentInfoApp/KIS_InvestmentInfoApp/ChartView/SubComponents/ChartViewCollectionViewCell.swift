@@ -25,24 +25,26 @@ final class ChartViewCollectionViewCell: UICollectionViewCell{
         fatalError("init(coder:) has not been implemented")
     }
     
-    @objc func noticedSelectedCellIdx(_ notification: Notification){
-        guard let clickedIdx = notification.userInfo?["idx"] as? Int else { return }
-        print(clickedIdx, "선택된 cell 공지됨")
-        // 선택된 cell이 본인이라면 상태 변경
-        if rowNum == clickedIdx {
-            self.isClicked = !isClicked
-            titleButton.backgroundColor = UIColor(red: 230/255, green: 240/255, blue: 255/255, alpha: 1.0)
-        }else if isClicked { //선택되었다가 해제해야하는 경우
-            self.isClicked = !isClicked
-            titleButton.backgroundColor = .white
-        }
-    }
+//    @objc func noticedSelectedCellIdx(_ notification: Notification){
+//        guard let clickedIdx = notification.userInfo?["idx"] as? Int else { return }
+//        print(clickedIdx, "선택된 cell 공지됨")
+//        // 선택된 cell이 본인이라면 상태 변경
+//        if rowNum == clickedIdx {
+//            self.isClicked = !isClicked
+//            layer.borderWidth = 3
+//            layer.borderColor = UIColor(red: 200/255, green: 210/255, blue: 250/255, alpha: 1.0).cgColor
+//        }else if isClicked { //선택되었다가 해제해야하는 경우
+//            self.isClicked = !isClicked
+//            layer.borderWidth = 2
+//            layer.borderColor = UIColor(red: 245/255, green: 245/255, blue: 245/255, alpha: 1.0).cgColor
+//        }
+//    }
     
     private func attribute(){
         layer.borderWidth = 2
-        layer.borderColor = UIColor(red: 210/255, green: 157/255, blue: 200/255, alpha: 1.0).cgColor
+        layer.borderColor = UIColor(red: 170/255, green: 170/255, blue: 170/255, alpha: 1.0).cgColor
         layer.cornerRadius = 10.0
-        self.backgroundColor = .systemBackground
+        self.backgroundColor = .white
        
         titleButton.backgroundColor = .white
         titleButton.setTitleColor(.black, for: .normal)
@@ -75,11 +77,13 @@ final class ChartViewCollectionViewCell: UICollectionViewCell{
         // 첫 cell( 맨 처음 선택되어있어야하는 cell )
         if isClicked {
             self.isClicked = true
-            titleButton.backgroundColor = UIColor(red: 230/255, green: 240/255, blue: 255/255, alpha: 1.0)
+            layer.borderWidth = 5
+            layer.borderColor = UIColor(red: 200/255, green: 210/255, blue: 250/255, alpha: 1.0).cgColor
         }
         else {
             self.isClicked = false
-            titleButton.backgroundColor = .white
+            layer.borderWidth = 2
+            layer.borderColor = UIColor(red: 220/255, green: 230/255, blue: 255/255, alpha: 1.0).cgColor
         }
         
     }
