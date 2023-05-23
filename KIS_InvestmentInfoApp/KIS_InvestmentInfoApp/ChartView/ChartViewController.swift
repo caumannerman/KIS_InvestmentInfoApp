@@ -820,7 +820,7 @@ extension ChartViewController{
             nowName = itemName!.trimmingCharacters(in: .whitespaces)
         }
         
-        let newnewurl = "http://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo" + "?numOfRows=365&resultType=json&serviceKey=58gH4iQz85Z0SMkhvh%2Fc7ZdxJ874fTSCDdyGoEI61Wzs9DiSzrhtZTWxEhKxwQjwsdF%2BUvPnWc6ZUKwgLc56xA%3D%3D&itmsNm=" + nowName + "&beginBasDt=" + sDateText + "&endBasDt=" + eDateText
+        let newnewurl = "http://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo" + "?numOfRows=365&resultType=json&serviceKey=qN5jfsV7vfaF2TeYh%2FOLDD09pgcK88uLTsJ3puwH509%2F4MATwRtVgcW6NkKfgfSyWoFvKmlywh8e8vVssBcfKA%3D%3D&itmsNm=" + nowName + "&beginBasDt=" + sDateText + "&endBasDt=" + eDateText
         
         print("url = " + newnewurl)
         let encoded = newnewurl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed.union( CharacterSet(["%"])))
@@ -921,7 +921,7 @@ extension ChartViewController{
             nowName = itemName!.trimmingCharacters(in: .whitespaces)
         }
         
-        let newnewurl = "http://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo" + "?numOfRows=365&resultType=json&serviceKey=58gH4iQz85Z0SMkhvh%2Fc7ZdxJ874fTSCDdyGoEI61Wzs9DiSzrhtZTWxEhKxwQjwsdF%2BUvPnWc6ZUKwgLc56xA%3D%3D&itmsNm=" + nowName + "&beginBasDt=" + sDateText + "&endBasDt=" + eDateText
+        let newnewurl = "http://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo" + "?numOfRows=365&resultType=json&serviceKey=qN5jfsV7vfaF2TeYh%2FOLDD09pgcK88uLTsJ3puwH509%2F4MATwRtVgcW6NkKfgfSyWoFvKmlywh8e8vVssBcfKA%3D%3D&itmsNm=" + nowName + "&beginBasDt=" + sDateText + "&endBasDt=" + eDateText
         
         print("url = " + newnewurl)
         let encoded = newnewurl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed.union( CharacterSet(["%"])))

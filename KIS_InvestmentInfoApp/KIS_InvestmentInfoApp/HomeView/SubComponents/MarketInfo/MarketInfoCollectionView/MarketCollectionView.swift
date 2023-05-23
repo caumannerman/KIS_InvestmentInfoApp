@@ -10,8 +10,10 @@ import SnapKit
 
 class MarketCollectionView: UICollectionView {
     
-    private var contents: [String] = ["항목1", "항목2", "항목3", "항목7", "항목13", "항목14", "항목32", "항목51", "항목61", "항목last"]
-    private var cellSize: Array<(Int, Int)> = [(1,1), (1,1), (1,1), (1,1), (1,1), (1,1), (1,1), (1,1), (1,1), (1,1)]
+    private var contents: [String] = HomeContentsData.getContentsTitle()
+    private var contentsSubtitle: [String] = HomeContentsData.getContentsSubtitle()
+    
+    private var cellSize: Array<(Int, Int)> = [(1,1), (1,1), (1,1), (1,1), (1,1), (1,1), (1,1), (1,1)]
     private final let UNIT_WIDTH: Int = Int(( UIScreen.main.bounds.width - 50 ) / 4)
     
     
@@ -34,8 +36,8 @@ class MarketCollectionView: UICollectionView {
         print(now_dict)
         guard let now_item = now_dict["item"] as? String else { return }
         
-        contents.append(now_item)
-        cellSize.append((1, 1))
+//        contents.append(now_item)
+//        cellSize.append((1, 1))
         self.reloadData()
     }
     
@@ -70,7 +72,7 @@ extension MarketCollectionView: UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MarketCollectionViewCell", for: indexPath) as? MarketCollectionViewCell else { return UICollectionViewCell() }
-        cell.setup(title: contents[indexPath.row])
+        cell.setup(title: contents[indexPath.row], subtitle: contentsSubtitle[indexPath.row])
         return cell
     }
     
@@ -138,51 +140,3 @@ extension MarketCollectionView{
         }
     }
 }
-
-
-
-//extension MarketCollectionView: UICollectionViewDropDelegate {
-//    func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
-//            var destinationIndexPath: IndexPath
-//            if let indexPath = coordinator.destinationIndexPath {
-//                destinationIndexPath = indexPath
-//            } else {
-//                let row = collectionView.numberOfItems(inSection: 0)
-//                destinationIndexPath = IndexPath(item: row - 1, section: 0)
-//            }
-//
-//            if coordinator.proposal.operation == .move {
-//                reorderItems(coordinator: coordinator, destinationIndexPath: destinationIndexPath, collectionView: collectionView)
-//            }
-//        }
-//
-//        func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
-//            if collectionView.hasActiveDrag {
-//                return UICollectionViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
-//            }
-//            return UICollectionViewDropProposal(operation: .forbidden)
-//        }
-//
-//        private func reorderItems(coordinator: UICollectionViewDropCoordinator, destinationIndexPath: IndexPath, collectionView: UICollectionView) {
-//            if
-//                let item = coordinator.items.first,
-//                let sourceIndexPath = item.sourceIndexPath {
-//                collectionView.performBatchUpdates({
-//                    let temp = contents[sourceIndexPath.item]
-//                    contents.remove(at: sourceIndexPath.item)
-//                    contents.insert(temp, at: destinationIndexPath.item)
-//                    collectionView.deleteItems(at: [sourceIndexPath])
-//                    collectionView.insertItems(at: [destinationIndexPath])
-//                }) { done in
-//                    //
-//                }
-//                coordinator.drop(item.dragItem, toItemAt: destinationIndexPath)
-//            }
-//        }
-//}
-//
-//extension MarketCollectionView: UICollectionViewDragDelegate {
-//    func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
-//        return []
-//    }
-//}
