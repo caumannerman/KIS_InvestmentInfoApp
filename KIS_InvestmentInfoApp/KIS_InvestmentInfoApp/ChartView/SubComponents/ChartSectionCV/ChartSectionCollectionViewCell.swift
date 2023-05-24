@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-final class ChartViewCollectionViewCell: UICollectionViewCell{
+final class ChartSectionCollectionViewCell: UICollectionViewCell{
     
     private var isClicked: Bool = false
     private var rowNum: Int = -1

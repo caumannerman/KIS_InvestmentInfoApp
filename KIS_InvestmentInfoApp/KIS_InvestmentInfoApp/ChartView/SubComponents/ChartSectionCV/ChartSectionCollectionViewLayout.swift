@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChartViewCollectionViewLayout: UICollectionViewFlowLayout {
+class ChartSectionCollectionViewLayout: UICollectionViewFlowLayout {
 
     override init() {
         super.init()

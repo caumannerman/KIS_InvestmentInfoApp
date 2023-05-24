@@ -54,67 +54,15 @@ class SearchPartView: UIView {
         stackView.backgroundColor = .white
         return stackView
     }()
-    
-    // 그래프 이외의 Component들
-    let itemNmLabel = UILabel()
-   
-
-    let itemNmTextField = UITextField()
-        
-
-    
-    // 그래프 이외의 Component들
-    let startDateLabel = UILabel()
-  
-    let startDateTextField: UITextField = {
-        let tf = UITextField()
-        tf.layer.borderWidth = 2.0
-        tf.layer.borderColor = UIColor(red: 0/255, green: 192/255, blue: 210/255, alpha: 1).cgColor
-        tf.layer.cornerRadius = 12.0
-        tf.backgroundColor = .systemBackground
-        tf.placeholder = "조회 시작일 선택"
-        //textField 앞에 inset을 줘서 text가 자연스럽게 보이도록
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: tf.frame.height))
-        tf.leftView = paddingView
-        tf.leftViewMode = .always
-        return tf
-    }()
-
-    // 그래프 이외의 Component들
-    let endDateLabel = UILabel()
-    
-    private let endDateTextField: UITextField = {
-        let tf = UITextField()
-        tf.layer.borderWidth = 2.0
-        tf.layer.borderColor = UIColor(red: 0/255, green: 192/255, blue: 210/255, alpha: 1).cgColor
-        tf.layer.cornerRadius = 12.0
-        tf.backgroundColor = .systemBackground
-        tf.placeholder = "조회 종료일 선택"
-        //textField 앞에 inset을 줘서 text가 자연스럽게 보이도록
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: tf.frame.height))
-        tf.leftView = paddingView
-        tf.leftViewMode = .always
-        return tf
-    }()
-    
+    private let itemNmLabel = UILabel()
+    private let itemNmTextField = UITextField()
+    private let startDateLabel = UILabel()
+    private let startDateTextField = UITextField()
+    private let endDateLabel = UILabel()
+    private let endDateTextField = UITextField()
     private let blankView = UIView()
-    
-    let requestButton: UIButton = {
-        let btn = UIButton()
-        btn.layer.cornerRadius = 8.0
-        btn.layer.borderWidth = 2.0
-        btn.layer.borderColor = UIColor(red: 255/255.0, green: 255/255.0, blue: 255/255.0, alpha: 1.0).cgColor
-        btn.backgroundColor = UIColor(red: 0/255.0, green: 204/255.0, blue: 244/255.0, alpha: 1.0)
-        btn.setTitle("조회", for: .normal)
-//        btn.setTitleColor(.black, for: .normal)
-        btn.titleLabel?.font = .systemFont(ofSize: 14.0, weight: .semibold)
-//        btn.addTarget(self, action: #selector(reqButtonClicked), for: .touchUpInside)
-        return btn
-    }()
-    
-
+    private let requestButton = UIButton()
     private let blankView2 = UIView()
-    
     private let searchPartCV = SearchPartCollectionView(frame: .zero, collectionViewLayout: SearchPartCollectionViewLayout())
     
     override init(frame: CGRect) {
@@ -135,23 +83,44 @@ class SearchPartView: UIView {
         itemNmLabel.font = UIFont.systemFont(ofSize: 14)
         
         itemNmTextField.layer.borderWidth = 2.0
-        itemNmTextField.layer.borderColor = UIColor(red: 0/255, green: 192/255, blue: 210/255, alpha: 1).cgColor
+        itemNmTextField.layer.borderColor = UIColor(red: 195/255, green: 215/255, blue: 255/255, alpha: 1).cgColor
         itemNmTextField.layer.cornerRadius = 12.0
         itemNmTextField.backgroundColor = .systemBackground
         itemNmTextField.placeholder = "항목명 입력"
-        //textField 앞에 inset을 줘서 text가 자연스럽게 보이도록
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: itemNmTextField.frame.height))
-        itemNmTextField.leftView = paddingView
+        itemNmTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: itemNmTextField.frame.height))
         itemNmTextField.leftViewMode = .always
             
-        
         startDateLabel.backgroundColor = .systemBackground
         startDateLabel.text = "차트조회 시작일"
         startDateLabel.font = UIFont.systemFont(ofSize: 14)
         
+        startDateTextField.layer.borderWidth = 2.0
+        startDateTextField.layer.borderColor = UIColor(red: 195/255, green: 215/255, blue: 255/255, alpha: 1).cgColor
+        startDateTextField.layer.cornerRadius = 12.0
+        startDateTextField.backgroundColor = .systemBackground
+        startDateTextField.placeholder = "조회 시작일 선택"
+            //textField 앞에 inset을 줘서 text가 자연스럽게 보이도록
+        startDateTextField.leftView =  UIView(frame: CGRect(x: 0, y: 0, width: 10, height: startDateTextField.frame.height))
+        startDateTextField.leftViewMode = .always
+
         endDateLabel.backgroundColor = .systemBackground
         endDateLabel.text = "차트조회 종료일"
         endDateLabel.font = UIFont.systemFont(ofSize: 14)
+        
+        endDateTextField.layer.borderWidth = 2.0
+        endDateTextField.layer.borderColor = UIColor(red: 195/255, green: 215/255, blue: 255/255, alpha: 1).cgColor
+        endDateTextField.layer.cornerRadius = 12.0
+        endDateTextField.backgroundColor = .systemBackground
+        endDateTextField.placeholder = "조회 종료일 선택"
+        endDateTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: endDateTextField.frame.height))
+        endDateTextField.leftViewMode = .always
+        
+        requestButton.layer.cornerRadius = 8.0
+        requestButton.layer.borderWidth = 2.0
+        requestButton.layer.borderColor = UIColor(red: 195/255, green: 215/255, blue: 255/255, alpha: 1).cgColor
+        requestButton.backgroundColor = UIColor(red: 170/255, green: 190/255, blue: 250/255, alpha: 1)
+        requestButton.setTitle("조회", for: .normal)
+        requestButton.titleLabel?.font = .systemFont(ofSize: 20.0, weight: .bold)
     }
     
     func layout(){
@@ -175,36 +144,40 @@ class SearchPartView: UIView {
         }
         
         itemNmLabel.snp.makeConstraints{
+            $0.leading.equalToSuperview().inset(20)
             $0.height.equalTo(34)
             $0.width.equalTo(80)
         }
         
         itemNmTextField.snp.makeConstraints{
             $0.leading.equalTo(itemNmLabel.snp.leading)
+            $0.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(34)
             $0.trailing.equalToSuperview()
         }
         
         startDateLabel.snp.makeConstraints{
-            $0.leading.equalToSuperview()
+            $0.leading.equalTo(itemNmLabel.snp.leading)
             $0.height.equalTo(34)
             $0.width.equalTo(80)
         }
         
         startDateTextField.snp.makeConstraints{
             $0.leading.equalTo(itemNmLabel.snp.leading)
+            $0.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(34)
             $0.trailing.equalToSuperview()
         }
         
         endDateLabel.snp.makeConstraints{
-            $0.leading.equalToSuperview()
+            $0.leading.equalTo(itemNmLabel.snp.leading)
             $0.height.equalTo(34)
             $0.width.equalTo(80)
         }
         
         endDateTextField.snp.makeConstraints{
             $0.leading.equalTo(itemNmLabel.snp.leading)
+            $0.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(34)
             $0.trailing.equalToSuperview()
         }
@@ -214,6 +187,7 @@ class SearchPartView: UIView {
         }
         requestButton.snp.makeConstraints{
             $0.leading.equalTo(itemNmLabel.snp.leading)
+            $0.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(46)
             $0.trailing.equalToSuperview()
         }
@@ -238,7 +212,4 @@ class SearchPartView: UIView {
     func reloadViewBySection(){
         //섹션, subSection값을 이용해 테마 변경
     }
-    
-
-    
 }

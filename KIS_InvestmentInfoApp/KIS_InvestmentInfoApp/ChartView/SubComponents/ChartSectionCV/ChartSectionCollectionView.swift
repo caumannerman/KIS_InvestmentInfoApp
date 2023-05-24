@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 
-class ChartViewCollectionView: UICollectionView {
+class ChartSectionCollectionView: UICollectionView {
     
      
     private var days: [String] = MarketInfoData.getMarketSections()
@@ -36,7 +36,7 @@ class ChartViewCollectionView: UICollectionView {
     
     private func attribute(){
         
-        self.register( ChartViewCollectionViewCell.self, forCellWithReuseIdentifier: "ChartViewCollectionViewCell")
+        self.register( ChartSectionCollectionViewCell.self, forCellWithReuseIdentifier: "ChartViewCollectionViewCell")
         self.showsHorizontalScrollIndicator = true
         self.layer.borderWidth = 0
         self.layer.borderColor = UIColor.lightGray.cgColor
@@ -61,7 +61,7 @@ class ChartViewCollectionView: UICollectionView {
     
 }
 
-extension ChartViewCollectionView: UICollectionViewDataSource {
+extension ChartSectionCollectionView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return days.count
@@ -69,14 +69,14 @@ extension ChartViewCollectionView: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ChartViewCollectionViewCell", for: indexPath) as? ChartViewCollectionViewCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ChartViewCollectionViewCell", for: indexPath) as? ChartSectionCollectionViewCell else { return UICollectionViewCell() }
         // indexPath.rowrk 0부터 시작함
         cell.setup(title: days[indexPath.row], isClicked: days_isClicked[indexPath.row], rowNum: indexPath.row)
         return cell
     }
 }
 
-extension ChartViewCollectionView: UICollectionViewDelegateFlowLayout {
+extension ChartSectionCollectionView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
         let cellWidth = days[indexPath.row].size(withAttributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 32.0, weight: .bold)]).width + 60
