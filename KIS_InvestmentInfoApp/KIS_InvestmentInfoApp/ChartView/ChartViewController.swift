@@ -376,7 +376,7 @@ class ChartViewController: UIViewController {
             self.view.addSubview(searchPartView)
             searchPartView.snp.makeConstraints{
                 $0.top.equalTo(subSectionCollectionView.snp.bottom)
-                $0.leading.trailing.equalToSuperview().inset(20)
+                $0.leading.trailing.equalToSuperview()
                 $0.bottom.equalTo(view.safeAreaLayoutGuide)
             }
             
@@ -541,7 +541,7 @@ class ChartViewController: UIViewController {
         
         scrollView.snp.makeConstraints{
             $0.top.equalTo(subSectionCollectionView.snp.bottom)
-            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         scrollView.addSubview(contentView)
@@ -646,7 +646,6 @@ extension ChartViewController: UITextFieldDelegate{
     func textFieldDidBeginEditing(_ textField: UITextField) {
         print(textField.tag)
     }
-    
 }
 
 // MARK: 여기는 DatePicker관련 4가지
