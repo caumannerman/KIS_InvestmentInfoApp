@@ -14,7 +14,7 @@ import SwiftUI
 //날짜정보 / 종목코드 / 종목명 / 상장시장명 / 시가 / 종가 / 최고가 / 최저가
 class ChartViewController: UIViewController {
     
-    
+    let navi_titles: [String] = ["주식 시세정보", "지수 시세정보", "일반상품 시세정보", "증권상품 시세정보", "채권 시세정보", "파생상품 시세정보"]
     // ---------------------======================== Variables ========================--------------------- //
     
     //저장할 파일의 이름을 담을 변수
@@ -50,6 +50,14 @@ class ChartViewController: UIViewController {
     // ---------------------========================----------------========================--------------------- //
     
     
+    
+    
+    
+    
+    
+    
+    
+    
     // ---------------------======================== UI Components ========================--------------------- //
     
     // section을 선택하는 collectionView
@@ -78,6 +86,28 @@ class ChartViewController: UIViewController {
         super.viewDidLoad()
         subSectionCollectionView.setup(idx: 0)
         subSectionCollectionView.setupOnWhichView(onWhich: .Chart)
+        NotificationCenter.default.addObserver(self, selector: #selector(chartSectionDidChanged(_:)), name: .DidTapUnClickedCell, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(chartSubSectionDidChanged(_:)), name: .DidTapItemSubSectionCell_Chart, object: nil)
+    }
+    
+    //section cell 선택이 바뀌었을 때 호출될 함수
+    @objc func chartSectionDidChanged(_ notification: Notification){
+        guard let clickedIdx = notification.userInfo?["idx"] as? Int else { return }
+        now_section_idx = clickedIdx
+        now_subSection_idx = 0
+        navigationItem.title = navi_titles[now_section_idx]
+        // 여기서 subSectionCollectionView도 바꿔줘야한다.
+        subSectionCollectionView.setup(idx: clickedIdx)
+        subSectionCollectionView.reloadData()
+        
+        print("section이 바뀜 : ", now_section_idx, now_subSection_idx)
+    }
+    
+    //section cell 선택이 바뀌었을 때 호출될 함수
+    @objc func chartSubSectionDidChanged(_ notification: Notification){
+        guard let clickedIdx = notification.userInfo?["idx"] as? Int else { return }
+        now_subSection_idx = clickedIdx
+        print("subSection이 바뀜 : ", now_section_idx, now_subSection_idx)
     }
     
     private func attribute(){
@@ -109,7 +139,7 @@ class ChartViewController: UIViewController {
     }
     private func setNavigationItems(){
         navigationController?.navigationBar.prefersLargeTitles = false
-        navigationItem.title = "주식시세정보"
+        navigationItem.title = navi_titles[0]
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

@@ -24,11 +24,11 @@ class ItemSubSectionCollectionViewCell: UICollectionViewCell {
     
     private func attribute(){
         layer.cornerRadius = 10.0
-        layer.borderWidth = 2.0
+        layer.borderWidth = 3.0
        
         self.backgroundColor = .systemBackground
         
-        titleLabel.font = .systemFont(ofSize: 18.0, weight: .regular)
+        titleLabel.font = .systemFont(ofSize: 20.0, weight: .regular)
         titleLabel.textColor = .black
         titleLabel.textAlignment = .center
     }

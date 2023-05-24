@@ -16,8 +16,9 @@ enum SubSection_OnWhichView {
 class ItemSubSectionCollectionView: UICollectionView {
     
     private var onWhichView: SubSection_OnWhichView = .Home
-    private var subSections: [String] = ["주식시세", "신주인수권증서시세", "수익증권시세", "신주인수권증권시세"]
-    private var subSectionsIsSelected: [Bool] = Array(repeating: false, count: 4)
+    private var subSections: [String] = ["주식시세"]
+    private var subSectionsIsSelected: [Bool] = [false]
+    private var now_subSection_idx: Int = 0
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
@@ -48,6 +49,8 @@ class ItemSubSectionCollectionView: UICollectionView {
     func setup(idx: Int) {
         self.subSections = MarketInfoData.getMarketSubSections(idx: idx)
         self.subSectionsIsSelected = Array(repeating: false, count: MarketInfoData.getMarketSubSectionsCount(idx: idx))
+        subSectionsIsSelected[0] = true
+        now_subSection_idx = 0
     }
     
     func setupOnWhichView(onWhich: SubSection_OnWhichView){
@@ -81,8 +84,9 @@ extension ItemSubSectionCollectionView: UICollectionViewDelegateFlowLayout {
         print("Clicked section cell")
         
         //배열 변경
-        subSectionsIsSelected = Array(repeating: false, count: subSections.count)
-        subSectionsIsSelected[indexPath.row] = true
+        subSectionsIsSelected[now_subSection_idx] = false
+        now_subSection_idx = indexPath.row
+        subSectionsIsSelected[now_subSection_idx] = true
         
         switch onWhichView {
         case .Home:
@@ -90,7 +94,6 @@ extension ItemSubSectionCollectionView: UICollectionViewDelegateFlowLayout {
         case .Chart:
             NotificationCenter.default.post(name:.DidTapItemSubSectionCell_Chart, object: .none, userInfo: ["idx": indexPath.row])
         }
-        
         
         //cell setup을 위해 reload
         self.reloadData()
