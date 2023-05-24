@@ -216,8 +216,7 @@ class ChartViewController: UIViewController {
         return v
     }()
     
-    private let secondSectionView = SecondSectionView()
-    private let thirdSectionView = ThirdSectionView()
+    private let searchPartView = SearchPartView()
 
     private let startDateDatePicker = UIDatePicker()
     private let endDateDatePicker = UIDatePicker()
@@ -350,12 +349,9 @@ class ChartViewController: UIViewController {
             print("이미 선택되어있던 cell = ", 0)
             scrollView.snp.removeConstraints()
             
-        case 1:
-            print("이미 선택되어있던 cell = ", 1)
-            secondSectionView.snp.removeConstraints()
         default:
             print("default")
-            thirdSectionView.snp.removeConstraints()
+            searchPartView.snp.removeConstraints()
         }
         
         // 새롭게 나타나야하는 화면을 constraints 생성
@@ -373,25 +369,17 @@ class ChartViewController: UIViewController {
                 $0.bottom.equalTo(view.safeAreaLayoutGuide)
             }
             
-        case 1:
-           
+        default:
+            print("default")
             // constraints 생성
-            self.view.addSubview(secondSectionView)
-            secondSectionView.snp.makeConstraints{
+            // constraints 생성
+            self.view.addSubview(searchPartView)
+            searchPartView.snp.makeConstraints{
                 $0.top.equalTo(subSectionCollectionView.snp.bottom)
                 $0.leading.trailing.equalToSuperview().inset(20)
                 $0.bottom.equalTo(view.safeAreaLayoutGuide)
             }
             
-        default:
-            print("default")
-            // constraints 생성
-            self.view.addSubview(thirdSectionView)
-            thirdSectionView.snp.makeConstraints{
-                $0.top.equalTo(subSectionCollectionView.snp.bottom)
-                $0.leading.trailing.equalToSuperview().inset(20)
-                $0.bottom.equalTo(view.safeAreaLayoutGuide)
-            }
         }
         
     }
