@@ -63,9 +63,10 @@ class UrlSearchTableView: UITableView {
         self.reloadData()
     }
     @objc func getUrlSearchText(_ notification: Notification) {
-        print("Notification getUrlSearchText")       
+        print("Notification getUrlSearchText")
         self.reloadData()
     }
+    
 }
 
 extension UrlSearchTableView: UITableViewDelegate{

@@ -49,6 +49,8 @@ class HomeViewController: UIViewController {
         isMarket = true
         changeCategory(isMarket)
         changeUI_byCategory(isMarket)
+        
+        NotificationCenter.default.post(name:.market_url_changed, object: .none, userInfo: ["marketOrUrl": 0])
     }
     
     @objc func didTapUrlSearchButton(){
@@ -56,6 +58,7 @@ class HomeViewController: UIViewController {
         isMarket = false
         changeCategory(isMarket)
         changeUI_byCategory(isMarket)
+        NotificationCenter.default.post(name:.market_url_changed, object: .none, userInfo: ["marketOrUrl": 1])
     }
     
     private func changeCategory(_ isMarket: Bool){
@@ -73,6 +76,7 @@ class HomeViewController: UIViewController {
     }
     private func changeUI_byCategory(_ isMarket: Bool){
         if isMarket{
+            
             urlSearchView.snp.removeConstraints()
             
             self.view.addSubview(marketView)
@@ -273,6 +277,10 @@ class HomeViewController: UIViewController {
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
+    }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print("keyboard end")
+        self.view.endEditing(true)
     }
     
     

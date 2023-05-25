@@ -56,5 +56,9 @@ extension Notification.Name {
     
     //URL검색에서 검색창에 써놓은 텍스트를 tableView에 띄우기 위함
     static let sendUrlSearchText = Notification.Name("sendUrlSearchText")
+    
+    static let market_url_changed = Notification.Name("market_url_changed")
+    
+    
 }
 

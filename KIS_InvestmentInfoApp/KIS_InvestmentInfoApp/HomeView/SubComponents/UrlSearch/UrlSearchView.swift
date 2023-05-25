@@ -22,6 +22,8 @@ class UrlSearchView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         NotificationCenter.default.addObserver(self, selector: #selector(DidChangeUrlStarInSettings(_:)), name: .DidChangeUrlStarInSettings, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(market_url_changed(_:)), name: .market_url_changed, object: nil)
         attribute()
         layout()
     }
@@ -33,6 +35,25 @@ class UrlSearchView: UIView {
     @objc func DidChangeUrlStarInSettings(_ notification: Notification){
         print("UrlSearchView reload됨")
         urlSearchTableView.reloadData()
+    }
+    
+    @objc func market_url_changed(_ notification: Notification){
+        guard let now_dict = notification.userInfo as? Dictionary<String, Any> else { return }
+        guard let now_idx = now_dict["marketOrUrl"] as? Int else { return }
+       
+        //시장정보를 클릭한 경우
+        if now_idx == 0 {
+            urlSearchTextFieldView.snp.updateConstraints{
+                $0.height.equalTo(0)
+            }
+//            urlSearchTextFieldView.endEditing(true)
+        }
+        //URL검색을 클릭한 경우
+        else {
+            urlSearchTextFieldView.snp.updateConstraints{
+                $0.height.equalTo(80)
+            }
+        }
     }
     
     private func attribute(){
@@ -56,6 +77,9 @@ class UrlSearchView: UIView {
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
+    }
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.endEditing(true)
     }
    
 

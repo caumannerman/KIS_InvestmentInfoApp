@@ -19,12 +19,25 @@ class UrlSearchTextFieldView: UIView {
         
         attribute()
         layout()
+        NotificationCenter.default.addObserver(self, selector: #selector(market_url_changed(_:)), name: .market_url_changed, object: nil)
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    @objc func market_url_changed(_ notification: Notification){
+        guard let now_dict = notification.userInfo as? Dictionary<String, Any> else { return }
+        guard let now_idx = now_dict["marketOrUrl"] as? Int else { return }
+       
+        //시장정보를 클릭한 경우
+        if now_idx == 0 {
+            urlSearchTextField.text?.removeAll()
+            urlSearchTextField.sendActions(for: .editingChanged)
+            urlSearchTextField.endEditing(true)
+        }
+        
+    }
     
     private func attribute(){
         urlSearchTextField.backgroundColor = UIColor(red: 210/255, green: 230/255, blue: 255/255, alpha: 0.4)
@@ -69,6 +82,7 @@ class UrlSearchTextFieldView: UIView {
         urlSearchTextField.text?.removeAll()
         urlSearchTextField.sendActions(for: .editingChanged)
         urlSearchTextField.rightViewMode = .never
+        urlSearchTextField.endEditing(true)
         
     }
     
