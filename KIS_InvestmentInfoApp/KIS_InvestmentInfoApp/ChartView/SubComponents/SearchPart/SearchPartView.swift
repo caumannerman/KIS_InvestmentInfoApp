@@ -8,6 +8,7 @@
 
 import UIKit
 import Alamofire
+import SnapKit
 
 enum Section{
     case StockSecuritiesInfoService
@@ -110,7 +111,7 @@ class SearchPartView: UIView {
         cv.backgroundColor = .systemBackground
         cv.layer.borderWidth = 1.0
         cv.layer.borderColor = UIColor.lightGray.cgColor
-        cv.backgroundColor = .yellow
+        cv.backgroundColor = .white
         return cv
     }()
     
@@ -126,6 +127,7 @@ class SearchPartView: UIView {
         NotificationCenter.default.addObserver(self, selector: #selector(chartSubSectionDidChanged(_:)), name: .DidTapItemSubSectionCell_Chart, object: nil)
         attribute()
         layout()
+       
 
     }
 
@@ -477,11 +479,19 @@ extension SearchPartView {
     }
     @objc func requestfunc(){
         print("requestfunc 버튼 클릭")
+        self.requestAPI(itemName: self.itemNmTextField.text, startDate: self.startDate, endDate: self.endDate)
+        self.requestAPI2(itemName: self.itemNmTextField.text, startDate: self.startDate, endDate: self.endDate)
+        
+        collectionView.isHidden = false
+        hide_save_stackView.isHidden = false
     }
     
     @objc func hidefunc(){
         print("hide 버튼 클릭")
+        collectionView.isHidden = true
+        hide_save_stackView.isHidden = true
     }
+    
     @objc func savefunc(){
         print("저장 버튼 클릭")
     }
