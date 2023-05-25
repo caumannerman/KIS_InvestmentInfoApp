@@ -28,11 +28,12 @@ final class ChartSectionCollectionViewCell: UICollectionViewCell{
         layer.cornerRadius = 10.0
         self.backgroundColor = .white
        
-        titleLabel.backgroundColor = .white
+        titleLabel.backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 0.0)
         titleLabel.textColor = .black
         titleLabel.font = .systemFont(ofSize: 32.0, weight: .bold)
         titleLabel.layer.cornerRadius = 10.0
         titleLabel.textAlignment = .center
+        titleLabel.sizeToFit()
     }
     
     private func layout() {

@@ -78,6 +78,8 @@ extension SearchPartCollectionView: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(title[indexPath.row])
+        NotificationCenter.default.post(name:.SendSelectedSearchResultCell, object: .none, userInfo: ["searchResultIndex": indexPath.row])
+        
     }
 }
 

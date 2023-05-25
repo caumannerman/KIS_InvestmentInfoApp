@@ -37,7 +37,7 @@ class UrlSearchView: UIView {
     
     private func attribute(){
         self.backgroundColor = .white
-        urlSearchTableView.backgroundColor = UIColor(red: 236/255, green: 236/255, blue: 236/255, alpha: 1.0)
+        urlSearchTableView.backgroundColor = UIColor(red: 200/255, green: 220/255, blue: 250/255, alpha: 1.0)
     }
     
     

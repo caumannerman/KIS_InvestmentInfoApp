@@ -26,7 +26,7 @@ class UrlSearchTextFieldView: UIView {
     
     
     private func attribute(){
-        urlSearchTextField.backgroundColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1.0)
+        urlSearchTextField.backgroundColor = UIColor(red: 210/255, green: 230/255, blue: 255/255, alpha: 0.4)
         urlSearchTextField.layer.borderColor = UIColor.lightGray.cgColor
         urlSearchTextField.layer.borderWidth = 2.0
         urlSearchTextField.layer.cornerRadius = 10.0

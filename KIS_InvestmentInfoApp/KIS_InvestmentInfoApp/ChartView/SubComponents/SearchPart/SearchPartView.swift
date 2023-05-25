@@ -131,11 +131,13 @@ class SearchPartView: UIView {
         self.backgroundColor = UIColor(red: 200/255, green: 220/255, blue: 250/255, alpha: 1.0)
         NotificationCenter.default.addObserver(self, selector: #selector(chartSectionDidChanged(_:)), name: .DidTapUnClickedCell, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(chartSubSectionDidChanged(_:)), name: .DidTapItemSubSectionCell_Chart, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(getSelectedSearchResultCell(_:)), name: .SendSelectedSearchResultCell, object: nil)
         attribute()
         layout()
         
         collectionView.isHidden = true
         hide_save_stackView.isHidden = true
+        blankView0.isHidden = true
         searchPartCV.isHidden = true
     }
     
@@ -444,8 +446,10 @@ extension SearchPartView {
         
         let now_text: String = textField.text ?? ""
         if textField.text == nil || textField.text == "" {
+            blankView0.isHidden = true
             searchPartCV.isHidden = true
         }else {
+            blankView0.isHidden = false
             searchPartCV.isHidden = false
             filterByKeyword(keyword: now_text)
             NotificationCenter.default.post(name:.SendSearchResult, object: .none, userInfo: ["searchResult": imsi_title_toshow])
@@ -481,6 +485,16 @@ extension SearchPartView {
     
     @objc func savefunc(){
         print("저장 버튼 클릭")
+    }
+    
+    
+    @objc func getSelectedSearchResultCell(_ notification: Notification){
+        print("Notification SendSearchResult")
+        guard let now_dict = notification.userInfo as? Dictionary<String, Any> else { return }
+        guard let now_idx = now_dict["searchResultIndex"] as? Int else {return}
+      
+        itemNmTextField.text = self.imsi_title[now_idx].0 + " / " + self.imsi_title[now_idx].1
+        searchPartCV.isHidden = true
     }
     
 }

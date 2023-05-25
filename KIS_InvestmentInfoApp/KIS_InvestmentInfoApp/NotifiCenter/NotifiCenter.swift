@@ -50,5 +50,8 @@ extension Notification.Name {
     
     //SearchPartView에서, 검색어를 검색하고, 그에 알맞은 항목들만, 하단의 collectionView( SearchPartCollectionView)에 보내줘야하기 때문에,
     static let SendSearchResult = Notification.Name("SendSearchResult")
+    // SendSearchResult와 반대로, 검색결과 CollectionView에서 cell을 클릭했을 때,
+    // 그 index를 SearchPartView로 보내기 위한 신호
+    static let SendSelectedSearchResultCell = Notification.Name("SendSelectedSearchResultCell")
 }
 

@@ -34,6 +34,7 @@ class UrlSearchTableView: UITableView {
     private func attribute(){
         self.dataSource = self
         self.delegate = self
+        self.backgroundColor = UIColor(red: 200/255, green: 220/255, blue: 250/255, alpha: 1.0)
         self.register(UrlSearchTableViewCell.self, forCellReuseIdentifier: "UrlSearchTableViewCell")
         self.rowHeight = 100
         self.backgroundColor = UIColor(patternImage: UIImage(named: "splash")!)

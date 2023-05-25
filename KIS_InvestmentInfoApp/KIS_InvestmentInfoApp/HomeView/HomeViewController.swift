@@ -229,7 +229,7 @@ class HomeViewController: UIViewController {
         marketButton.addTarget(self, action: #selector(didTapMarketButton), for: .touchUpInside)
         marketButton.layer.cornerRadius = 12.0
         marketButton.layer.borderWidth = 3.0
-        marketButton.layer.borderColor = UIColor(red: 120/255.0, green: 194/255.0, blue: 230/255.0, alpha: 1.0).cgColor
+        marketButton.layer.borderColor = UIColor(red: 200/255, green: 220/255, blue: 250/255, alpha: 1.0).cgColor
         
         urlSearchButton.backgroundColor = .white
         urlSearchButton.setTitle("URL검색", for: .normal)
@@ -238,7 +238,7 @@ class HomeViewController: UIViewController {
         urlSearchButton.addTarget(self, action: #selector(didTapUrlSearchButton), for: .touchUpInside)
         urlSearchButton.layer.cornerRadius = 12.0
         urlSearchButton.layer.borderWidth = 3.0
-        urlSearchButton.layer.borderColor = UIColor(red: 120/255.0, green: 194/255.0, blue: 230/255.0, alpha: 1.0).cgColor
+        urlSearchButton.layer.borderColor = UIColor(red: 200/255, green: 220/255, blue: 250/255, alpha: 1.0).cgColor
         
     }
     private func layout(){
