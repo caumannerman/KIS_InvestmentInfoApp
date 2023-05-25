@@ -44,6 +44,8 @@ class SearchPartView: UIView {
     private var subSection: SubSection = .getStockMarketIndex
     private var now_section_idx: Int = 0
     private var now_subSection_idx: Int = 0
+    private var startDate: Date?
+    private var endDate: Date?
     
     private let scrollView = UIScrollView()
     private let contentView = UIView()
@@ -66,6 +68,8 @@ class SearchPartView: UIView {
     private let requestButton = UIButton()
     private let blankView2 = UIView()
     private let searchPartCV = SearchPartCollectionView(frame: .zero, collectionViewLayout: SearchPartCollectionViewLayout())
+    private let startDateDatePicker = UIDatePicker()
+    private let endDateDatePicker = UIDatePicker()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -74,22 +78,9 @@ class SearchPartView: UIView {
         NotificationCenter.default.addObserver(self, selector: #selector(chartSubSectionDidChanged(_:)), name: .DidTapItemSubSectionCell_Chart, object: nil)
         attribute()
         layout()
-    }
-    //section cell 선택이 바뀌었을 때 호출될 함수
-    @objc func chartSectionDidChanged(_ notification: Notification){
-        guard let clickedIdx = notification.userInfo?["idx"] as? Int else { return }
-        now_section_idx = clickedIdx
-        now_subSection_idx = 0
 
-        print("SearchPartView에서도 section이 바뀜 : ", now_section_idx, now_subSection_idx)
     }
-    
-    //section cell 선택이 바뀌었을 때 호출될 함수
-    @objc func chartSubSectionDidChanged(_ notification: Notification){
-        guard let clickedIdx = notification.userInfo?["idx"] as? Int else { return }
-        now_subSection_idx = clickedIdx
-        print("SearchPartView에서도 subSection이 바뀜 : ", now_section_idx, now_subSection_idx)
-    }
+
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -140,6 +131,35 @@ class SearchPartView: UIView {
         requestButton.backgroundColor = UIColor(red: 170/255, green: 190/255, blue: 250/255, alpha: 1)
         requestButton.setTitle("조회", for: .normal)
         requestButton.titleLabel?.font = .systemFont(ofSize: 20.0, weight: .bold)
+        
+        self.startDateDatePicker.maximumContentSizeCategory = .extraLarge
+        self.startDateDatePicker.datePickerMode = .date
+        self.startDateDatePicker.preferredDatePickerStyle = .inline
+        // for에는 어떤 event가 일어났을 때 action에 정의한 메서드를 호출할 것인지
+        // 첫 번째 parameter에는 target
+        self.startDateDatePicker.addTarget(
+            self,
+            action: #selector(startDateDatePickerValueDidChange(_:) ),
+            for: .valueChanged
+        )
+        //연-월-일 순으로 + 한글
+        self.startDateDatePicker.locale = Locale(identifier: "ko-KR")
+        //dateTextField를 눌렀을 때, keyboard가 아닌 datePicker가 나오게 된다!
+        self.startDateTextField.inputView = self.startDateDatePicker
+        
+        self.endDateDatePicker.datePickerMode = .date
+        self.endDateDatePicker.preferredDatePickerStyle = .inline
+        //for에는 어떤 event가 일어났을 때 action에 정의한 메서드를 호출할 것인지
+        // 첫 번째 parameter에는 target
+        self.endDateDatePicker.addTarget(
+            self,
+            action: #selector(endDateDatePickerValueDidChange(_:) ),
+            for: .valueChanged
+        )
+        //연-월-일 순으로 + 한글
+        self.endDateDatePicker.locale = Locale(identifier: "ko-KR")
+        //dateTextField를 눌렀을 때, keyboard가 아닌 datePicker가 나오게 된다!
+        self.endDateTextField.inputView = self.endDateDatePicker
     }
     
     func layout(){
@@ -241,6 +261,10 @@ class SearchPartView: UIView {
     func reloadViewBySection(){
         //섹션, subSection값을 이용해 테마 변경
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.endEditing(true)
+    }
 }
 
 extension SearchPartView{
@@ -284,3 +308,61 @@ extension SearchPartView{
 //    }
 }
 
+// #Selector 함수들
+extension SearchPartView {
+    //section cell 선택이 바뀌었을 때 호출될 함수
+    @objc func chartSectionDidChanged(_ notification: Notification){
+        guard let clickedIdx = notification.userInfo?["idx"] as? Int else { return }
+        now_section_idx = clickedIdx
+        now_subSection_idx = 0
+        print("SearchPartView에서도 section이 바뀜 : ", now_section_idx, now_subSection_idx)
+        
+        self.itemNmTextField.text = ""
+        self.startDateTextField.text = ""
+        self.endDateTextField.text = ""
+        self.startDate = nil
+        self.endDate = nil
+    }
+    
+    //section cell 선택이 바뀌었을 때 호출될 함수
+    @objc func chartSubSectionDidChanged(_ notification: Notification){
+        guard let clickedIdx = notification.userInfo?["idx"] as? Int else { return }
+        now_subSection_idx = clickedIdx
+        print("SearchPartView에서도 subSection이 바뀜 : ", now_section_idx, now_subSection_idx)
+        
+        self.itemNmTextField.text = ""
+        self.startDateTextField.text = ""
+        self.endDateTextField.text = ""
+        self.startDate = nil
+        self.endDate = nil
+    }
+    
+    //datePicker 선택값이 달라지면 호출될 메서드
+    @objc func startDateDatePickerValueDidChange(_ datePicker: UIDatePicker){
+        //날짜, text를 반환해주는 역할
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy 년 MM월 dd일(EEEEE)"
+//        formatter.dateFormat = "yyyyMMdd"
+        formatter.locale = Locale(identifier: "ko_KR")
+
+        self.startDate = datePicker.date
+        self.startDateTextField.text = formatter.string(from: datePicker.date)
+        // 다른 날짜를 선택해도,키보드로 텍스트를 입력받은 것이 아니기 때문에 dateTextFieldDidChange가 #selector에서 정상적으로 호출되지 않는다. 따라서 pick한 날짜가 변하면, .editingChanged 이벤트를 인위적으로 발생시켜준다.
+        self.endDateTextField.sendActions(for: .editingChanged)
+        self.endEditing(true)
+    }
+    
+    //datePicker 선택값이 달라지면 호출될 메서드
+    @objc func endDateDatePickerValueDidChange(_ datePicker: UIDatePicker){
+        //날짜, text를 반환해주는 역할
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy 년 MM월 dd일(EEEEE)"
+        formatter.locale = Locale(identifier: "ko_KR")
+
+        self.endDate = datePicker.date
+        self.endDateTextField.text = formatter.string(from: datePicker.date)
+        // 다른 날짜를 선택해도,키보드로 텍스트를 입력받은 것이 아니기 때문에 dateTextFieldDidChange가 #selector에서 정상적으로 호출되지 않는다. 따라서 pick한 날짜가 변하면, .editingChanged 이벤트를 인위적으로 발생시켜준다.
+        self.endDateTextField.sendActions(for: .editingChanged)
+        self.endEditing(true)
+    }
+}
