@@ -68,8 +68,8 @@ class SearchPartView: UIView {
     private let requestButton = UIButton()
     private let blankView2 = UIView()
     private let searchPartCV = SearchPartCollectionView(frame: .zero, collectionViewLayout: SearchPartCollectionViewLayout())
-    private let startDateDatePicker = UIDatePicker()
-    private let endDateDatePicker = UIDatePicker()
+    private let startDateDatePicker = SearchDatePicker()
+    private let endDateDatePicker = SearchDatePicker()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -132,9 +132,6 @@ class SearchPartView: UIView {
         requestButton.setTitle("조회", for: .normal)
         requestButton.titleLabel?.font = .systemFont(ofSize: 20.0, weight: .bold)
         
-        self.startDateDatePicker.maximumContentSizeCategory = .extraLarge
-        self.startDateDatePicker.datePickerMode = .date
-        self.startDateDatePicker.preferredDatePickerStyle = .inline
         // for에는 어떤 event가 일어났을 때 action에 정의한 메서드를 호출할 것인지
         // 첫 번째 parameter에는 target
         self.startDateDatePicker.addTarget(
@@ -142,25 +139,38 @@ class SearchPartView: UIView {
             action: #selector(startDateDatePickerValueDidChange(_:) ),
             for: .valueChanged
         )
-        //연-월-일 순으로 + 한글
-        self.startDateDatePicker.locale = Locale(identifier: "ko-KR")
         //dateTextField를 눌렀을 때, keyboard가 아닌 datePicker가 나오게 된다!
         self.startDateTextField.inputView = self.startDateDatePicker
         
-        self.endDateDatePicker.datePickerMode = .date
-        self.endDateDatePicker.preferredDatePickerStyle = .inline
-        //for에는 어떤 event가 일어났을 때 action에 정의한 메서드를 호출할 것인지
-        // 첫 번째 parameter에는 target
         self.endDateDatePicker.addTarget(
             self,
             action: #selector(endDateDatePickerValueDidChange(_:) ),
             for: .valueChanged
         )
-        //연-월-일 순으로 + 한글
-        self.endDateDatePicker.locale = Locale(identifier: "ko-KR")
         //dateTextField를 눌렀을 때, keyboard가 아닌 datePicker가 나오게 된다!
         self.endDateTextField.inputView = self.endDateDatePicker
+        
+        
+        let doneBT = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(self.pickerDone))
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let cancelBT = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(self.pickerDone))
+
+        let toolBar = UIToolbar()
+        toolBar.tintColor = .systemBrown
+        toolBar.isTranslucent = true
+        toolBar.sizeToFit()
+        toolBar.setItems([cancelBT,flexibleSpace,doneBT], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        
+        startDateTextField.inputAccessoryView = toolBar
+        endDateTextField.inputAccessoryView = toolBar
+        itemNmTextField.inputAccessoryView = toolBar
+        
+        
     }
+        @objc func pickerDone(){
+            self.endEditing(true)
+        }
     
     func layout(){
         self.addSubview(scrollView)

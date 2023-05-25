@@ -20,6 +20,7 @@
 		8C44E0432A03886100342F45 /* ChartSectionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C44E0422A03886100342F45 /* ChartSectionCollectionViewCell.swift */; };
 		8C44E0452A03887000342F45 /* ChartSectionCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C44E0442A03887000342F45 /* ChartSectionCollectionViewLayout.swift */; };
 		8C507D6C2A1C939100035FBD /* HomeContentsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C507D6B2A1C939100035FBD /* HomeContentsData.swift */; };
+		8C5BB7DA2A1EE5D5007467B6 /* SearchDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5BB7D92A1EE5D5007467B6 /* SearchDatePicker.swift */; };
 		8C5E2AD529F797D600C6061E /* ApiListTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5E2AD429F797D600C6061E /* ApiListTableView.swift */; };
 		8C5E2AD729F797EB00C6061E /* ApiListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5E2AD629F797EB00C6061E /* ApiListTableViewCell.swift */; };
 		8C8250142A02098E002B8A3B /* UrlSearchTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8250132A02098E002B8A3B /* UrlSearchTableView.swift */; };
@@ -90,6 +91,7 @@
 		8C44E0422A03886100342F45 /* ChartSectionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartSectionCollectionViewCell.swift; sourceTree = "<group>"; };
 		8C44E0442A03887000342F45 /* ChartSectionCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartSectionCollectionViewLayout.swift; sourceTree = "<group>"; };
 		8C507D6B2A1C939100035FBD /* HomeContentsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeContentsData.swift; sourceTree = "<group>"; };
+		8C5BB7D92A1EE5D5007467B6 /* SearchDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDatePicker.swift; sourceTree = "<group>"; };
 		8C5E2AD429F797D600C6061E /* ApiListTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiListTableView.swift; sourceTree = "<group>"; };
 		8C5E2AD629F797EB00C6061E /* ApiListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiListTableViewCell.swift; sourceTree = "<group>"; };
 		8C8250132A02098E002B8A3B /* UrlSearchTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlSearchTableView.swift; sourceTree = "<group>"; };
@@ -194,6 +196,23 @@
 				8C44E0442A03887000342F45 /* ChartSectionCollectionViewLayout.swift */,
 			);
 			path = ChartSectionCV;
+			sourceTree = "<group>";
+		};
+		8C5BB7D72A1EE5A0007467B6 /* SubComponents */ = {
+			isa = PBXGroup;
+			children = (
+				8C5BB7D82A1EE5AF007467B6 /* DatePicker */,
+				8C31BEAD2A1DA157006D2405 /* SearchPartCV */,
+			);
+			path = SubComponents;
+			sourceTree = "<group>";
+		};
+		8C5BB7D82A1EE5AF007467B6 /* DatePicker */ = {
+			isa = PBXGroup;
+			children = (
+				8C5BB7D92A1EE5D5007467B6 /* SearchDatePicker.swift */,
+			);
+			path = DatePicker;
 			sourceTree = "<group>";
 		};
 		8C5E2AD329F7976900C6061E /* SubComponents */ = {
@@ -480,7 +499,7 @@
 			isa = PBXGroup;
 			children = (
 				8C31BEAB2A1D98C4006D2405 /* SearchPartView.swift */,
-				8C31BEAD2A1DA157006D2405 /* SearchPartCV */,
+				8C5BB7D72A1EE5A0007467B6 /* SubComponents */,
 			);
 			path = SearchPart;
 			sourceTree = "<group>";
@@ -643,6 +662,7 @@
 				8C44E0452A03887000342F45 /* ChartSectionCollectionViewLayout.swift in Sources */,
 				A53EA68F29624D3600F0E24A /* AppDelegate.swift in Sources */,
 				A53EA6A329624EBE00F0E24A /* MainTabBarController.swift in Sources */,
+				8C5BB7DA2A1EE5D5007467B6 /* SearchDatePicker.swift in Sources */,
 				8C82501C2A023130002B8A3B /* UrlSearchTextFieldView.swift in Sources */,
 				8C507D6C2A1C939100035FBD /* HomeContentsData.swift in Sources */,
 				8C86904D2A1B2D4300528FB2 /* ItemSubSectionCollectionViewLayout.swift in Sources */,
