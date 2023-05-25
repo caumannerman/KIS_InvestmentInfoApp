@@ -175,5 +175,9 @@ class UrlCommonState {
     func setUrlStarred(urlStarred: [Bool]){
         self.urlsStarred = urlStarred
     }
+    
+    func setFirstUrlWhileSearching(searchUrl: String){
+        self.urlsArr[0] = searchUrl
+    }
 
 }

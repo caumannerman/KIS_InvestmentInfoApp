@@ -18,8 +18,6 @@ class UrlSearchTableViewCell: UITableViewCell {
     private let starButton = UIImageView()
     private let searchButton = UIButton()
     
-    
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         attribute()
@@ -31,6 +29,7 @@ class UrlSearchTableViewCell: UITableViewCell {
     }
     
     private func attribute(){
+        self.selectionStyle = .none
         contentView.layer.borderWidth = 1
         contentView.layer.borderColor = UIColor(red: 100/255.0, green: 100/255.0, blue: 100/255.0, alpha: 1.0).cgColor
         contentView.layer.cornerRadius = 6

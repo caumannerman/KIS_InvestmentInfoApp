@@ -24,6 +24,8 @@ class UrlSearchTableView: UITableView {
         
         //Cell에서 즐찾 버튼이 변경됐다는 신호를 받아주는 친구.
         NotificationCenter.default.addObserver(self, selector: #selector(didChangeUrlStar(_:)), name: .DidChangeUrlStar, object: nil)
+        //현재 검색하고있는 텍스트 받아와서 reload해야됨
+        NotificationCenter.default.addObserver(self, selector: #selector(getUrlSearchText(_:)), name: .sendUrlSearchText, object: nil)
         
     }
     
@@ -60,6 +62,10 @@ class UrlSearchTableView: UITableView {
        
         self.reloadData()
     }
+    @objc func getUrlSearchText(_ notification: Notification) {
+        print("Notification getUrlSearchText")       
+        self.reloadData()
+    }
 }
 
 extension UrlSearchTableView: UITableViewDelegate{
@@ -84,7 +90,7 @@ extension UrlSearchTableView: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "UrlSearchTableViewCell", for: indexPath) as? UrlSearchTableViewCell else { return UITableViewCell()}
-        cell.selectionStyle = .none
+        
         cell.setup(title: scoms.urlsAlias[indexPath.row], url: scoms.urlsArr[indexPath.row], isStar: scoms.urlsStarred[indexPath.row], rowNum: indexPath.row)
        
         return cell

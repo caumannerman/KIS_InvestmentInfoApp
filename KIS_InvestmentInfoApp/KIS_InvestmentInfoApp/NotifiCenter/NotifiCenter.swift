@@ -53,5 +53,8 @@ extension Notification.Name {
     // SendSearchResult와 반대로, 검색결과 CollectionView에서 cell을 클릭했을 때,
     // 그 index를 SearchPartView로 보내기 위한 신호
     static let SendSelectedSearchResultCell = Notification.Name("SendSelectedSearchResultCell")
+    
+    //URL검색에서 검색창에 써놓은 텍스트를 tableView에 띄우기 위함
+    static let sendUrlSearchText = Notification.Name("sendUrlSearchText")
 }
 
