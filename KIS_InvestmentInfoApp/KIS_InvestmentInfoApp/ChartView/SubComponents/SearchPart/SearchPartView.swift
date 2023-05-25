@@ -41,6 +41,12 @@ enum SubSection {
 
 class SearchPartView: UIView {
     
+    private var section: Section = .MarketIndexInfoService
+    private var subSection: SubSection = .getStockMarketIndex
+    private var now_section_idx: Int = 0
+    private var now_subSection_idx: Int = 0
+    private var startDate: Date?
+    private var endDate: Date?
     var imsi_title: [(String, String)] = [("item1", "sub"), ("item2", "sub"), ("item3", "sub"), ("item4", "sub"), ("item15", "sub"), ("item16", "sub"), ("item17", "sub"), ("item18", "sub"), ("item19", "sub"), ("item121", "sub"), ("item122", "sub"), ("item123", "sub"), ("item124", "sub"), ("item135", "sub") ]
   
     var imsi_title_toshow: [(String, String)] = []
@@ -64,12 +70,7 @@ class SearchPartView: UIView {
     private var loprInfoArr: [SiteView] = []
     
     
-    private var section: Section = .MarketIndexInfoService
-    private var subSection: SubSection = .getStockMarketIndex
-    private var now_section_idx: Int = 0
-    private var now_subSection_idx: Int = 0
-    private var startDate: Date?
-    private var endDate: Date?
+    
     // ---------------------========================----------------========================--------------------- //
     
     
@@ -86,6 +87,9 @@ class SearchPartView: UIView {
     }()
     private let itemNmLabel = UILabel()
     private let itemNmTextField = UITextField()
+    private let blankView0 = UIView()
+    private let searchPartCV = SearchPartCollectionView(frame: .zero, collectionViewLayout: SearchPartCollectionViewLayout())
+    
     private let startDateLabel = UILabel()
     private let startDateTextField = UITextField()
     private let startDateDatePicker = SearchDatePicker()
@@ -121,8 +125,6 @@ class SearchPartView: UIView {
     private let hide_save_stackView = UIStackView()
     private let hideChartButton = UIButton()
     private let saveButton = UIButton()
-
-    private let searchPartCV = SearchPartCollectionView(frame: .zero, collectionViewLayout: SearchPartCollectionViewLayout())
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -131,6 +133,10 @@ class SearchPartView: UIView {
         NotificationCenter.default.addObserver(self, selector: #selector(chartSubSectionDidChanged(_:)), name: .DidTapItemSubSectionCell_Chart, object: nil)
         attribute()
         layout()
+        
+        collectionView.isHidden = true
+        hide_save_stackView.isHidden = true
+        searchPartCV.isHidden = true
     }
     
     required init?(coder: NSCoder) {
@@ -149,6 +155,7 @@ class SearchPartView: UIView {
         itemNmTextField.placeholder = "항목명 입력"
         itemNmTextField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: itemNmTextField.frame.height))
         itemNmTextField.leftViewMode = .always
+        itemNmTextField.autocapitalizationType = .none
         itemNmTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
             
         startDateLabel.backgroundColor = .systemBackground
@@ -256,7 +263,7 @@ class SearchPartView: UIView {
             $0.edges.equalToSuperview()
         }
         
-        [ itemNmLabel, itemNmTextField, startDateLabel, startDateTextField, endDateLabel, endDateTextField, blankView, collectionView, blankView20, hide_save_stackView, blankView2, requestButton, blankView3, searchPartCV ].forEach{
+        [ itemNmLabel, itemNmTextField, blankView0, searchPartCV, startDateLabel, startDateTextField, endDateLabel, endDateTextField, blankView, collectionView, blankView20, hide_save_stackView, blankView2, requestButton, blankView3 ].forEach{
             stackView.addArrangedSubview($0)
         }
         
@@ -271,6 +278,16 @@ class SearchPartView: UIView {
             $0.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(34)
             $0.trailing.equalToSuperview()
+        }
+        
+        blankView0.snp.makeConstraints{
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(14)
+        }
+        
+        searchPartCV.snp.makeConstraints{
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(600)
         }
         
         startDateLabel.snp.makeConstraints{
@@ -344,11 +361,7 @@ class SearchPartView: UIView {
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(20)
         }
-        searchPartCV.snp.makeConstraints{
-            $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalToSuperview()
-            $0.height.equalTo(1000)
-        }
+        
     }
     
     
@@ -430,9 +443,15 @@ extension SearchPartView {
         print(textField.text)
         
         let now_text: String = textField.text ?? ""
-        filterByKeyword(keyword: now_text)
-        NotificationCenter.default.post(name:.SendSearchResult, object: .none, userInfo: ["searchResult": imsi_title_toshow])
-        
+        if textField.text == nil || textField.text == "" {
+            searchPartCV.isHidden = true
+        }else {
+            searchPartCV.isHidden = false
+            filterByKeyword(keyword: now_text)
+            NotificationCenter.default.post(name:.SendSearchResult, object: .none, userInfo: ["searchResult": imsi_title_toshow])
+        }
+       
+       
     }
     
     func filterByKeyword(keyword: String){

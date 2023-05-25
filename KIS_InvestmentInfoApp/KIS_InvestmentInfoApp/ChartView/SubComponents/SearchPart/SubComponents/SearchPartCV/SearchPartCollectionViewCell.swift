@@ -17,7 +17,6 @@ final class SearchPartCollectionViewCell: UICollectionViewCell{
         super.init(frame: frame)
         attribute()
         layout()
-
     }
     
     required init?(coder: NSCoder) {
@@ -26,11 +25,11 @@ final class SearchPartCollectionViewCell: UICollectionViewCell{
     
 
     private func attribute(){
-        layer.borderWidth = 2
+        layer.borderWidth = 1
         layer.borderColor = UIColor(red: 170/255, green: 170/255, blue: 200/255, alpha: 1.0).cgColor
         layer.cornerRadius = 10.0
         self.backgroundColor = .white
-       
+        
         titleLabel.backgroundColor = .white
         titleLabel.textColor = .black
         titleLabel.font = .systemFont(ofSize: 32.0, weight: .bold)
@@ -46,11 +45,14 @@ final class SearchPartCollectionViewCell: UICollectionViewCell{
         [ titleLabel, subtitleLabel ].forEach{ addSubview($0)}
         
         titleLabel.snp.makeConstraints{
-            $0.top.leading.trailing.equalToSuperview()
+            $0.trailing.equalToSuperview()
+            $0.top.equalToSuperview().inset(10)
+            $0.leading.equalToSuperview().inset(20)
         }
-        
         subtitleLabel.snp.makeConstraints{
-            $0.leading.trailing.bottom.equalToSuperview()
+            $0.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(10)
+            $0.leading.equalToSuperview().inset(20)
         }
     }
     
@@ -58,6 +60,5 @@ final class SearchPartCollectionViewCell: UICollectionViewCell{
         self.titleLabel.text = title
         self.subtitleLabel.text = subtitle
     }
-  
 }
 

@@ -49,7 +49,7 @@ class SearchPartCollectionView: UICollectionView {
         self.showsVerticalScrollIndicator = true
         self.layer.borderWidth = 0
  
-        self.backgroundColor = UIColor(red: 240/255, green: 240/255, blue: 240/255, alpha: 1.0)
+        self.backgroundColor = UIColor(red: 250/255, green: 250/255, blue: 250/255, alpha: 1.0)
 
         self.dataSource = self
         self.delegate = self
@@ -61,7 +61,6 @@ extension SearchPartCollectionView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return title.count
     }
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SearchPartCollectionViewCell", for: indexPath) as? SearchPartCollectionViewCell else { return UICollectionViewCell() }
