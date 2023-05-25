@@ -41,6 +41,10 @@ enum SubSection {
 
 class SearchPartView: UIView {
     
+    var imsi_title: [(String, String)] = [("item1", "sub"), ("item2", "sub"), ("item3", "sub"), ("item4", "sub"), ("item15", "sub"), ("item16", "sub"), ("item17", "sub"), ("item18", "sub"), ("item19", "sub"), ("item121", "sub"), ("item122", "sub"), ("item123", "sub"), ("item124", "sub"), ("item135", "sub") ]
+  
+    var imsi_title_toshow: [(String, String)] = []
+    
     private var apiResultStr = ""
     // 이것이 json String을 이용해 최종적으로 얻은 배열이라고 생각하고 개발중
     private var jsonResultArr: [[String]] = DummyClass.getJsonResultArr()
@@ -84,17 +88,16 @@ class SearchPartView: UIView {
     private let itemNmTextField = UITextField()
     private let startDateLabel = UILabel()
     private let startDateTextField = UITextField()
+    private let startDateDatePicker = SearchDatePicker()
     private let endDateLabel = UILabel()
     private let endDateTextField = UITextField()
+    private let endDateDatePicker = SearchDatePicker()
     private let blankView = UIView()
     private let requestButton = UIButton()
     private let blankView20 = UIView()
     private let blankView2 = UIView()
     private let blankView3 = UIView()
-    private let searchPartCV = SearchPartCollectionView(frame: .zero, collectionViewLayout: SearchPartCollectionViewLayout())
-    private let startDateDatePicker = SearchDatePicker()
-    private let endDateDatePicker = SearchDatePicker()
-
+    
     private lazy var collectionView: UICollectionView = {
         let layout = GridLayout()
         layout.cellHeight = 44
@@ -119,6 +122,7 @@ class SearchPartView: UIView {
     private let hideChartButton = UIButton()
     private let saveButton = UIButton()
 
+    private let searchPartCV = SearchPartCollectionView(frame: .zero, collectionViewLayout: SearchPartCollectionViewLayout())
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -127,10 +131,7 @@ class SearchPartView: UIView {
         NotificationCenter.default.addObserver(self, selector: #selector(chartSubSectionDidChanged(_:)), name: .DidTapItemSubSectionCell_Chart, object: nil)
         attribute()
         layout()
-       
-
     }
-
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -200,8 +201,6 @@ class SearchPartView: UIView {
         saveButton.setTitleColor(.white, for: .normal)
         saveButton.titleLabel?.font = .systemFont(ofSize: 20.0, weight: .bold)
         saveButton.addTarget(self, action: #selector(savefunc), for: .touchUpInside)
-
-        
         
         // for에는 어떤 event가 일어났을 때 action에 정의한 메서드를 호출할 것인지
         // 첫 번째 parameter에는 target
@@ -236,8 +235,6 @@ class SearchPartView: UIView {
         startDateTextField.inputAccessoryView = toolBar
         endDateTextField.inputAccessoryView = toolBar
         itemNmTextField.inputAccessoryView = toolBar
-        
-        
     }
         @objc func pickerDone(){
             self.endEditing(true)
@@ -370,47 +367,6 @@ class SearchPartView: UIView {
     }
 }
 
-extension SearchPartView{
-//    private func requestAPI(url: String, keyword: String){
-//        //addingPercentEncoding은 한글(영어 이외의 값) 이 url에 포함되었을 때 오류나는 것을 막아준다.
-//        AF.request(url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
-//            .responseDecodable(of: IS_StockPriceInfo.self){ [weak self] response in
-//                // success 이외의 응답을 받으면, else문에 걸려 함수 종료
-//                guard
-//                    let self = self,
-//                    case .success(let data) = response.result else { return }
-//                print("실패 아니면 여기 나와야함!!!")
-//                
-//                let now_arr = data.response.body.items.item
-//                //데이터 받아옴
-//                self.itemsArr = now_arr.map{ now_item -> (String, String) in
-//                    //여기서 각 변수들이 nil, 혹은 nil이 아닌 값일 수 있는데,
-//                    // nil이 아닌 것들만 가지고 title을 정하고 , 나머지를 이어붙여 subtitle을 만든다
-//                    let title: String = ((now_item.oilCtg != nil ? now_item.oilCtg : now_item.idxNm) != nil ? now_item.idxNm : now_item.itmsNm) ?? "제목없음"
-//                    
-//                    
-//                    var subtitle: String = ""
-//                    [(now_item.idxCsf, ""), (now_item.prdCtg, "상품분류 : "), (now_item.mrktCtg, ""), (now_item.epyItmsCnt, "채용종목수 : "), (now_item.ytm, "만기수익률 : "), (now_item.cnvt, "채권지수 볼록성 : "), (now_item.trqu, "포함종목 거래량 총합 : "), (now_item.trPrc, "포함종목 거래대금 총합 : "), (now_item.bssIdxIdxNm, "기초지수 명칭 : "), (now_item.udasAstNm, "기초자산 명칭 : "),  (now_item.strnCd, "코드 : "), (now_item.isinCd, "국제 채권 식별번호 : ")].forEach {
-//                        if $0.0 != nil {
-//                            subtitle += $0.1 + $0.0! + " / "
-//                        }
-//                    }
-//                    subtitle.removeLast()
-//                    subtitle.removeLast()
-//                    subtitle.removeLast()
-//                    
-//                    
-//                    let temp = ( title, subtitle )
-//                    return temp
-//                }
-//                //테이블 뷰 다시 그려줌
-//                self.showMode = .all
-//                self.tableView.reloadData()
-//            }
-//            .resume()
-//    }
-}
-
 // #Selector 함수들
 extension SearchPartView {
     //section cell 선택이 바뀌었을 때 호출될 함수
@@ -474,9 +430,21 @@ extension SearchPartView {
         print(textField.text)
         
         let now_text: String = textField.text ?? ""
-//        self.requestAPI(url: "", keyword: now_text)
-        searchPartCV.reloadData()
+        filterByKeyword(keyword: now_text)
+        NotificationCenter.default.post(name:.SendSearchResult, object: .none, userInfo: ["searchResult": imsi_title_toshow])
+        
     }
+    
+    func filterByKeyword(keyword: String){
+        imsi_title_toshow = imsi_title.filter {
+            if $0.0.contains(keyword) {
+               return true
+            }
+            return false
+        }
+        
+    }
+    
     @objc func requestfunc(){
         print("requestfunc 버튼 클릭")
         self.requestAPI(itemName: self.itemNmTextField.text, startDate: self.startDate, endDate: self.endDate)

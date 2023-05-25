@@ -18,10 +18,25 @@ class SearchPartCollectionView: UICollectionView {
 
         bind()
         attribute()
+        NotificationCenter.default.addObserver(self, selector: #selector(getSearchResult(_:)), name: .SendSearchResult, object: nil)
+        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func getSearchResult(_ notification: Notification){
+        print("Notification SendSearchResult")
+        guard let now_dict = notification.userInfo as? Dictionary<String, Any> else { return }
+        guard let now_data = now_dict["searchResult"] as? [(String, String)] else {return}
+      
+        title = now_data.map{
+            return $0.0
+        }
+        subtitle = now_data.map{$0.1}
+        self.reloadData()
+        
     }
     
     private func bind(){

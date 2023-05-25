@@ -46,5 +46,9 @@ extension Notification.Name {
     // 해당 이름을 MarketCollectionView로 넘겨주기 위함
     // MarketCollectionView에서는 해당 cell을 추가한다.
     static let AddNewItemOnMarketCV = Notification.Name("AddNewItemOnMarketCV")
+    
+    
+    //SearchPartView에서, 검색어를 검색하고, 그에 알맞은 항목들만, 하단의 collectionView( SearchPartCollectionView)에 보내줘야하기 때문에,
+    static let SendSearchResult = Notification.Name("SendSearchResult")
 }
 
