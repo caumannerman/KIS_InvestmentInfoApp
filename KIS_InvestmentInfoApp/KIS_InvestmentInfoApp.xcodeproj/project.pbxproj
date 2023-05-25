@@ -215,6 +215,15 @@
 			path = DatePicker;
 			sourceTree = "<group>";
 		};
+		8C5BB7DD2A1EF40E007467B6 /* ShowDataCollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				A5D1BC12296982480045045B /* ShowDataViewCollectionViewCell.swift */,
+				A5D1BC7F296BD3480045045B /* GridCollectionViewLayout.swift */,
+			);
+			path = ShowDataCollectionView;
+			sourceTree = "<group>";
+		};
 		8C5E2AD329F7976900C6061E /* SubComponents */ = {
 			isa = PBXGroup;
 			children = (
@@ -468,8 +477,7 @@
 			isa = PBXGroup;
 			children = (
 				A5558005296273B000919868 /* ShowDataViewController.swift */,
-				A5D1BC12296982480045045B /* ShowDataViewCollectionViewCell.swift */,
-				A5D1BC7F296BD3480045045B /* GridCollectionViewLayout.swift */,
+				8C5BB7DD2A1EF40E007467B6 /* ShowDataCollectionView */,
 				A555800829627B4600919868 /* SubComponents */,
 				A5D1BC93296C26450045045B /* Entity */,
 				A5FB4AE9296D7EE700ADD977 /* JsonToArr */,

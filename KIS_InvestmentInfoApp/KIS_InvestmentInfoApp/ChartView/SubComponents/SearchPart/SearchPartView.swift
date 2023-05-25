@@ -40,16 +40,37 @@ enum SubSection {
 
 class SearchPartView: UIView {
     
+    private var apiResultStr = ""
+    // 이것이 json String을 이용해 최종적으로 얻은 배열이라고 생각하고 개발중
+    private var jsonResultArr: [[String]] = DummyClass.getJsonResultArr()
+    
+    private var isClickedArr_row: [Bool] = [true, false, false, true, false, false, false, true, true, false, true, false, false, false, true, false, true, false, false, true]
+    private var isClickedArr_col: [Bool] = [false, false,true, true, false, false, false, true, false, false, true, true, ]
+    var api_result: String = ""
+    
+    // 원하는 기간의 주가정보를 받아와 저장할 배열
+    private var securityDataArr: [SecurityDataCellData] = []
+    // Identifiable 프로토콜을 따르는 [SecurityInfo] 배열, SwiftUI view로 넘겨줘야함
+    private var securityInfoArr: [SecurityInfo] = []
+    // SiteView를 따르는 것 시가/종가/ 최저가 /최고가
+    private var mkpInfoArr: [SiteView] = []
+    private var clprInfoArr: [SiteView] = []
+    private var hiprInfoArr: [SiteView] = []
+    private var loprInfoArr: [SiteView] = []
+    
+    
     private var section: Section = .MarketIndexInfoService
     private var subSection: SubSection = .getStockMarketIndex
     private var now_section_idx: Int = 0
     private var now_subSection_idx: Int = 0
     private var startDate: Date?
     private var endDate: Date?
+    // ---------------------========================----------------========================--------------------- //
+    
     
     private let scrollView = UIScrollView()
     private let contentView = UIView()
-
+    
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -66,10 +87,37 @@ class SearchPartView: UIView {
     private let endDateTextField = UITextField()
     private let blankView = UIView()
     private let requestButton = UIButton()
+    private let blankView20 = UIView()
     private let blankView2 = UIView()
+    private let blankView3 = UIView()
     private let searchPartCV = SearchPartCollectionView(frame: .zero, collectionViewLayout: SearchPartCollectionViewLayout())
     private let startDateDatePicker = SearchDatePicker()
     private let endDateDatePicker = SearchDatePicker()
+
+    private lazy var collectionView: UICollectionView = {
+        let layout = GridLayout()
+        layout.cellHeight = 44
+        layout.cellWidths = Array(repeating: CGFloat(120), count: jsonResultArr[0].count + 1)
+        let cv = UICollectionView(frame: self.bounds, collectionViewLayout: layout)
+        
+        cv.isDirectionalLockEnabled = true
+        cv.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
+        cv.register(ShowDataViewCollectionViewCell.self, forCellWithReuseIdentifier: "ShowDataViewCollectionViewCell")
+        cv.dataSource = self
+        cv.delegate = self
+        cv.showsHorizontalScrollIndicator = true
+        cv.backgroundColor = .systemBackground
+        cv.layer.borderWidth = 1.0
+        cv.layer.borderColor = UIColor.lightGray.cgColor
+        cv.backgroundColor = .yellow
+        return cv
+    }()
+    
+    private let hide_save_stackView = UIStackView()
+    private let hideChartButton = UIButton()
+    private let saveButton = UIButton()
+
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -131,6 +179,27 @@ class SearchPartView: UIView {
         requestButton.backgroundColor = UIColor(red: 170/255, green: 190/255, blue: 250/255, alpha: 1)
         requestButton.setTitle("조회", for: .normal)
         requestButton.titleLabel?.font = .systemFont(ofSize: 20.0, weight: .bold)
+        requestButton.addTarget(self, action: #selector(requestfunc), for: .touchUpInside)
+        
+        hideChartButton.layer.cornerRadius = 8.0
+        hideChartButton.layer.borderWidth = 2.0
+        hideChartButton.layer.borderColor = UIColor(red: 195/255, green: 215/255, blue: 255/255, alpha: 1).cgColor
+        hideChartButton.backgroundColor = UIColor(red: 170/255, green: 190/255, blue: 250/255, alpha: 1)
+        hideChartButton.setTitle("숨기기", for: .normal)
+        hideChartButton.setTitleColor(.white, for: .normal)
+        hideChartButton.titleLabel?.font = .systemFont(ofSize: 20.0, weight: .bold)
+        hideChartButton.addTarget(self, action: #selector(hidefunc), for: .touchUpInside)
+        
+        saveButton.layer.cornerRadius = 8.0
+        saveButton.layer.borderWidth = 2.0
+        saveButton.layer.borderColor = UIColor(red: 195/255, green: 215/255, blue: 255/255, alpha: 1).cgColor
+        saveButton.backgroundColor = UIColor(red: 170/255, green: 190/255, blue: 250/255, alpha: 1)
+        saveButton.setTitle("CSV 저장", for: .normal)
+        saveButton.setTitleColor(.white, for: .normal)
+        saveButton.titleLabel?.font = .systemFont(ofSize: 20.0, weight: .bold)
+        saveButton.addTarget(self, action: #selector(savefunc), for: .touchUpInside)
+
+        
         
         // for에는 어떤 event가 일어났을 때 action에 정의한 메서드를 호출할 것인지
         // 첫 번째 parameter에는 target
@@ -188,7 +257,7 @@ class SearchPartView: UIView {
             $0.edges.equalToSuperview()
         }
         
-        [ itemNmLabel, itemNmTextField, startDateLabel, startDateTextField, endDateLabel, endDateTextField, blankView, requestButton, blankView2, searchPartCV ].forEach{
+        [ itemNmLabel, itemNmTextField, startDateLabel, startDateTextField, endDateLabel, endDateTextField, blankView, collectionView, blankView20, hide_save_stackView, blankView2, requestButton, blankView3, searchPartCV ].forEach{
             stackView.addArrangedSubview($0)
         }
         
@@ -234,14 +303,45 @@ class SearchPartView: UIView {
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(20)
         }
-        requestButton.snp.makeConstraints{
-            $0.leading.equalTo(itemNmLabel.snp.leading)
-            $0.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(46)
-            $0.trailing.equalToSuperview()
+        
+        collectionView.snp.makeConstraints{
+            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.height.equalTo(400)
+        }
+        blankView20.snp.makeConstraints{
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(10)
         }
         
+        hide_save_stackView.snp.makeConstraints{
+            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.height.equalTo(46)
+        }
+        
+        [hideChartButton, saveButton].forEach {
+            hide_save_stackView.addSubview($0)
+        }
+        
+        hideChartButton.snp.makeConstraints{
+            $0.leading.top.bottom.equalToSuperview()
+            $0.width.equalTo((UIScreen.main.bounds.width - 40) / 2 - 6)
+        }
+        
+        saveButton.snp.makeConstraints{
+            $0.trailing.top.bottom.equalToSuperview()
+            $0.width.equalTo((UIScreen.main.bounds.width - 40) / 2 - 6)
+        }
         blankView2.snp.makeConstraints{
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(10)
+        }
+        
+        requestButton.snp.makeConstraints{
+            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.height.equalTo(46)
+        }
+        
+        blankView3.snp.makeConstraints{
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(20)
         }
@@ -250,15 +350,6 @@ class SearchPartView: UIView {
             $0.bottom.equalToSuperview()
             $0.height.equalTo(1000)
         }
-    }
-    
-    //request 보내는 것과 연동해야함 itemNmTextField
-    @objc func textFieldDidChange(_ textField: UITextField){
-        print(textField.text)
-        
-        let now_text: String = textField.text ?? ""
-//        self.requestAPI(url: "", keyword: now_text)
-        searchPartCV.reloadData()
     }
     
     
@@ -375,4 +466,239 @@ extension SearchPartView {
         self.endDateTextField.sendActions(for: .editingChanged)
         self.endEditing(true)
     }
+    
+    //request 보내는 것과 연동해야함 itemNmTextField
+    @objc func textFieldDidChange(_ textField: UITextField){
+        print(textField.text)
+        
+        let now_text: String = textField.text ?? ""
+//        self.requestAPI(url: "", keyword: now_text)
+        searchPartCV.reloadData()
+    }
+    @objc func requestfunc(){
+        print("requestfunc 버튼 클릭")
+    }
+    
+    @objc func hidefunc(){
+        print("hide 버튼 클릭")
+    }
+    @objc func savefunc(){
+        print("저장 버튼 클릭")
+    }
+    
 }
+
+
+extension SearchPartView: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+//        return records.count
+        return self.jsonResultArr.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        return records[section].count
+        return self.jsonResultArr[0].count + 1
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ShowDataViewCollectionViewCell", for: indexPath) as? ShowDataViewCollectionViewCell else { return UICollectionViewCell() }
+        let isFirstRow: Bool = (indexPath.section == 0)
+        let isFirstColumn: Bool = (indexPath.row == 0)
+
+
+        if !isFirstColumn{
+            let now_title: String = jsonResultArr[indexPath.section][indexPath.row - 1]
+            if isFirstRow{
+                cell.setup(isFirstRow: isFirstRow, isFirstColumn: isFirstColumn, title: now_title, isClicked: isClickedArr_col[indexPath.row - 1], rowIdx: -1, colIdx: indexPath.row - 1)
+            }// FirstColumn도 FirstRow도 아닌 경우는 클릭 X
+            else{
+                cell.setup(isFirstRow: isFirstRow, isFirstColumn: isFirstColumn, title: now_title, isClicked: false, rowIdx: -3, colIdx: -3)
+            }
+
+//            cell.setup(isFirstRow: isFirstRow, isFirstColumn: isFirstColumn, title: "sct = " + String(indexPath.section) + "idx = " + String(indexPath.item))
+        }
+        //FirstColumn인 경우
+        else{
+            //여기는 firstCol이자 firstRow이므로
+            if isFirstRow{
+                cell.setup(isFirstRow: isFirstRow, isFirstColumn: isFirstColumn, title: String(indexPath.section), isClicked: false, rowIdx: 0, colIdx: 0)
+            }
+            else{
+                cell.setup(isFirstRow: isFirstRow, isFirstColumn: isFirstColumn, title: String(indexPath.section), isClicked: isClickedArr_row[indexPath.section - 1], rowIdx: indexPath.section - 1, colIdx: -2)
+            }
+
+        }
+//        cell.setRecord(records[indexPath.section][indexPath.item])
+        return cell
+    }
+}
+
+extension SearchPartView{
+    //(itemCode: String, startDate: Date?, endDate: Date?) 매개변수 부분 이걸로 바꿔야함
+    private func requestAPI(itemName: String?, startDate: Date?, endDate: Date?) {
+
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMdd"
+        formatter.locale = Locale(identifier: "ko_KR")
+
+        var sDateText: String = ""
+        var eDateText: String = ""
+        var nowName: String = ""
+
+        if startDate == nil || endDate == nil{
+            sDateText = "20221201"
+            eDateText = "20221231"
+
+            //입력 안했을 시에 default로 입력할 기간
+            self.startDate = formatter.date(from: sDateText)
+            self.endDate = formatter.date(from: eDateText)
+
+            let formatter_show = DateFormatter()
+            formatter_show.dateFormat = "yyyy 년 MM월 dd일(EEEEE)"
+    //        formatter.dateFormat = "yyyyMMdd"
+            formatter_show.locale = Locale(identifier: "ko_KR")
+
+            self.startDateTextField.text = formatter_show.string(from: self.startDate!)
+            self.endDateTextField.text = formatter_show.string(from: self.endDate!)
+        }else{
+            sDateText = formatter.string(from: startDate!)
+            eDateText = formatter.string(from: endDate!)
+        }
+
+        if itemName == nil || itemName == ""{
+            nowName = "한국금융지주"
+            self.itemNmTextField.text = nowName
+        }else{
+            nowName = itemName!.trimmingCharacters(in: .whitespaces)
+        }
+
+        let newnewurl = "http://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo" + "?numOfRows=365&resultType=json&serviceKey=qN5jfsV7vfaF2TeYh%2FOLDD09pgcK88uLTsJ3puwH509%2F4MATwRtVgcW6NkKfgfSyWoFvKmlywh8e8vVssBcfKA%3D%3D&itmsNm=" + nowName + "&beginBasDt=" + sDateText + "&endBasDt=" + eDateText
+
+        print("url = " + newnewurl)
+        let encoded = newnewurl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed.union( CharacterSet(["%"])))
+        print(encoded)
+
+        //addingPercentEncoding은 한글(영어 이외의 값) 이 url에 포함되었을 때 오류나는 것을 막아준다.
+        AF.request(newnewurl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed.union( CharacterSet(["%"]))) ?? "")
+            .responseDecodable(of: SecurityResponse.self){ [weak self] response in
+                // success 이외의 응답을 받으면, else문에 걸려 함수 종료
+
+                print(response)
+
+                guard let self = self,
+                    case .success(let data) = response.result else {
+                    print("실패ㅜㅜ")
+                          return }
+
+                print("실패 아니면 여기 나와야함!!! ")
+                //데이터 받아옴
+                // [SecurityData] 형태임
+                let now_arr = data.response.body.items.item
+
+                self.securityDataArr = now_arr.map{ sd -> SecurityDataCellData in
+                    let temp = SecurityDataCellData(basDt: sd.basDt, strnCd: sd.srtnCd, itmsNm: sd.itmsNm, mrktCtg: sd.mrktCtg, mkp: sd.mkp, clpr: sd.clpr, hipr: sd.hipr, lopr: sd.lopr)
+                    return temp
+                }
+                // Identifiable인 SecurityInfo 배열에 방금 받아온 json으로 값을 채움
+                self.securityInfoArr = now_arr.map{ sd -> SecurityInfo in
+                    let temp = SecurityInfo(basDt: sd.basDt ?? "20220101", strnCd: sd.srtnCd ?? "071050", itmsNm: sd.itmsNm ?? "한국금융지주", mrktCtg: sd.mrktCtg ?? "KOSPI", mkp: sd.mkp ?? "57600", clpr: sd.clpr ?? "58600", hipr: sd.hipr ?? "58600", lopr: sd.lopr ?? "55600")
+                    return temp
+                }
+//                print("받아온 배열 (최종)")
+
+//                print(self.securityDataArr)
+
+                let formatterr = DateFormatter()
+                formatterr.dateFormat = "yyyyMMdd"
+                formatterr.locale = Locale(identifier: "ko_KR")
+
+//                mkpInfoArr, clprInfoArr, hiprInfoArr, loprInfoArr
+                self.mkpInfoArr = self.securityInfoArr.map{ item -> SiteView in
+                    let temp = SiteView(hour: formatter.date(from: item.basDt)!, views: Double(item.mkp)!)
+                    return temp
+                }
+                self.clprInfoArr = self.securityInfoArr.map{ item -> SiteView in
+                    let temp = SiteView(hour: formatter.date(from: item.basDt)!, views:  Double(item.clpr)!)
+                    return temp
+                }
+                self.hiprInfoArr = self.securityInfoArr.map{ item -> SiteView in
+                    let temp = SiteView(hour: formatter.date(from: item.basDt)!, views:  Double(item.hipr)!)
+                    return temp
+                }
+                self.loprInfoArr = self.securityInfoArr.map{ item -> SiteView in
+                    let temp = SiteView(hour: formatter.date(from: item.basDt)!, views:  Double(item.lopr)!)
+                    return temp
+                }
+            }
+            .resume()
+    }
+
+     //String으로 하는 것
+    private func requestAPI2(itemName: String?, startDate: Date?, endDate: Date?) {
+
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMdd"
+        formatter.locale = Locale(identifier: "ko_KR")
+
+        var sDateText: String = ""
+        var eDateText: String = ""
+        var nowName: String = ""
+
+        if startDate == nil || endDate == nil{
+            sDateText = "20221201"
+            eDateText = "20221231"
+
+            //입력 안했을 시에 default로 입력할 기간
+            self.startDate = formatter.date(from: sDateText)
+            self.endDate = formatter.date(from: eDateText)
+
+            let formatter_show = DateFormatter()
+            formatter_show.dateFormat = "yyyy 년 MM월 dd일(EEEEE)"
+    //        formatter.dateFormat = "yyyyMMdd"
+            formatter_show.locale = Locale(identifier: "ko_KR")
+
+            self.startDateTextField.text = formatter_show.string(from: self.startDate!)
+            self.endDateTextField.text = formatter_show.string(from: self.endDate!)
+        }else{
+            sDateText = formatter.string(from: startDate!)
+            eDateText = formatter.string(from: endDate!)
+        }
+
+        if itemName == nil || itemName == ""{
+            nowName = "한국금융지주"
+            self.itemNmTextField.text = nowName
+        }else{
+            nowName = itemName!.trimmingCharacters(in: .whitespaces)
+        }
+
+        let newnewurl = "http://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo" + "?numOfRows=365&resultType=json&serviceKey=qN5jfsV7vfaF2TeYh%2FOLDD09pgcK88uLTsJ3puwH509%2F4MATwRtVgcW6NkKfgfSyWoFvKmlywh8e8vVssBcfKA%3D%3D&itmsNm=" + nowName + "&beginBasDt=" + sDateText + "&endBasDt=" + eDateText
+
+        print("url = " + newnewurl)
+        let encoded = newnewurl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed.union( CharacterSet(["%"])))
+        print(encoded)
+        //addingPercentEncoding은 한글(영어 이외의 값) 이 url에 포함되었을 때 오류나는 것을 막아준다.
+
+        let aaa = AF.request(newnewurl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed.union( CharacterSet(["%"]))) ?? "")
+            .response(){ [weak self] response in
+                guard
+                    let self = self,
+                    case .success(let data) = response.result else { return }
+                //str이, 받아온 json을 형태 그대로 STring으로 만든 것이다.
+                let str = String(decoding: data!, as: UTF8.self)
+                self.apiResultStr = str
+                self.jsonResultArr = JsonParser.jsonToArr2(jsonString: str)
+                print(self.jsonResultArr)
+                self.isClickedArr_col = Array(repeating: false, count: self.jsonResultArr[0].count)
+                self.isClickedArr_row = Array(repeating: false, count: self.jsonResultArr.count - 1)
+
+
+//                //테이블 뷰 다시 그려줌
+                self.collectionView.isHidden = false
+                self.collectionView.reloadData()
+            }
+            .resume()
+    }
+}
+
+
+
