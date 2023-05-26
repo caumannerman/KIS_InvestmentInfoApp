@@ -301,8 +301,7 @@ extension ItemSelectionViewController: UITextFieldDelegate {
 
 extension ItemSelectionViewController{
     private func requestAPI(url: String){ //
-        
-//        let url = "http://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo" + "?numOfRows=30&resultType=json&serviceKey=qN5jfsV7vfaF2TeYh%2FOLDD09pgcK88uLTsJ3puwH509%2F4MATwRtVgcW6NkKfgfSyWoFvKmlywh8e8vVssBcfKA%3D%3D" + "&basDt=20230525"
+    
         let encoded = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed.union( CharacterSet(["%"])))
         print("encode된 url string : ", encoded)
         //addingPercentEncoding은 한글(영어 이외의 값) 이 url에 포함되었을 때 오류나는 것을 막아준다.
@@ -341,6 +340,11 @@ extension ItemSelectionViewController{
                 self.tableView.reloadData()
             }
             .resume()
+    }
+    
+    private func requestAPI_ForSearch(url: String, keyword: String){ //
+        
+        
     }
 }
 
