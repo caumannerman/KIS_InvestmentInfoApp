@@ -20,9 +20,9 @@ class HomeContentsData {
         return contentsSubtitle
     }
     
-    
-    
-    
-    
+    static func addNewItem(item: (String, String)) {
+        contentsTitle.append(item.0)
+        contentsSubtitle.append(item.1)
+    }
     
 }

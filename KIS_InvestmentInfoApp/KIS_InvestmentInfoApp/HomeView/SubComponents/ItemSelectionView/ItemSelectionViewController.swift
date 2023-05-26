@@ -243,7 +243,8 @@ extension ItemSelectionViewController: UITableViewDelegate {
         switch self.showMode {
         case .all:
             print( itemsArr[indexPath.row] )
-            NotificationCenter.default.post(name:.AddNewItemOnMarketCV, object: .none, userInfo: ["item": itemsArr[indexPath.row].0])
+            HomeContentsData.addNewItem(item: (itemsArr[indexPath.row].0, itemsArr[indexPath.row].1))
+            NotificationCenter.default.post(name:.AddNewItemOnMarketCV, object: .none)
             self.dismiss(animated: true)
         case .keyword:
             print(itemsArrToShow[indexPath.row])

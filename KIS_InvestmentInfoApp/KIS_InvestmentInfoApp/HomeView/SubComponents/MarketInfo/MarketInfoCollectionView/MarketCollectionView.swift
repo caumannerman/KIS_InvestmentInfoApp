@@ -31,10 +31,13 @@ class MarketCollectionView: UICollectionView {
     }
     
     @objc func addNewItemOnMarketCV(_ notification: Notification){
-        guard let now_dict = notification.userInfo as? Dictionary<String, Any> else { return }
+//        guard let now_dict = notification.userInfo as? Dictionary<String, Any> else { return }
         print("신호 받음!!!")
-        print(now_dict)
-        guard let now_item = now_dict["item"] as? String else { return }
+        contents = HomeContentsData.getContentsTitle()
+        contentsSubtitle = HomeContentsData.getContentsSubtitle()
+        cellSize.append((1,1))
+//        print(now_dict)
+//        guard let now_item = now_dict["item"] as? String else { return }
         
 //        contents.append(now_item)
 //        cellSize.append((1, 1))
