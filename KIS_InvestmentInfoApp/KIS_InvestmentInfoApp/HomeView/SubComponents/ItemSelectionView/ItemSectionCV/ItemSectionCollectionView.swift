@@ -34,7 +34,7 @@ class ItemSectionCollectionView: UICollectionView {
         self.showsHorizontalScrollIndicator = true
         self.layer.borderWidth = 0
         self.layer.borderColor = UIColor.lightGray.cgColor
-        self.backgroundColor = UIColor(red: 250/255, green: 250/255, blue: 250/255, alpha: 1.0)
+        self.backgroundColor = UIColor(red: 230/255, green: 236/255, blue: 250/255, alpha: 1.0)
 //        self.isPagingEnabled = true
         self.dataSource = self
         self.delegate = self        
@@ -58,8 +58,8 @@ extension ItemSectionCollectionView: UICollectionViewDataSource{
 extension ItemSectionCollectionView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-        let cellWidth = sections[indexPath.row].size(withAttributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 28, weight: .regular)]).width + 30
-        return CGSize(width: cellWidth, height: 50)
+        let cellWidth = sections[indexPath.row].size(withAttributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 34, weight: .regular)]).width + 30
+        return CGSize(width: cellWidth, height: 60)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

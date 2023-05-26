@@ -40,7 +40,7 @@ class ItemSubSectionCollectionView: UICollectionView {
         self.showsHorizontalScrollIndicator = true
         self.layer.borderWidth = 0
         self.layer.borderColor = UIColor.lightGray.cgColor
-        self.backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)
+        self.backgroundColor = UIColor(red: 242/255, green: 242/255, blue: 242/255, alpha: 1.0)
 //        self.isPagingEnabled = true
         self.dataSource = self
         self.delegate = self
@@ -49,7 +49,7 @@ class ItemSubSectionCollectionView: UICollectionView {
     func setup(idx: Int) {
         self.subSections = MarketInfoData.getMarketSubSections(idx: idx)
         self.subSectionsIsSelected = Array(repeating: false, count: MarketInfoData.getMarketSubSectionsCount(idx: idx))
-        subSectionsIsSelected[0] = true
+//        subSectionsIsSelected[0] = true
         now_subSection_idx = 0
     }
     
@@ -75,8 +75,8 @@ extension ItemSubSectionCollectionView: UICollectionViewDataSource{
 extension ItemSubSectionCollectionView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-        let cellWidth = subSections[indexPath.row].size(withAttributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 18, weight: .regular)]).width + 50
-        return CGSize(width: cellWidth, height: 50)
+        let cellWidth = subSections[indexPath.row].size(withAttributes: [NSAttributedString.Key.font : UIFont.systemFont(ofSize: 22, weight: .regular)]).width + 50
+        return CGSize(width: cellWidth, height: 60)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

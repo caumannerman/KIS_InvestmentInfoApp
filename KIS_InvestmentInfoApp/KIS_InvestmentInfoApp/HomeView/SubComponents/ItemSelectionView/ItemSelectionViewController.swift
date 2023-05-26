@@ -21,9 +21,10 @@ class ItemSelectionViewController: UIViewController {
     private var selected_subSection_idx: Int = -1
 
     private var showMode: ShowMode = .all
-    private let textField: UITextField = UITextField()
+   
     private let sectionCV: UICollectionView = ItemSectionCollectionView(frame: .zero, collectionViewLayout: ItemSectionCollectionViewLayout())
     private let subSectionCV = ItemSubSectionCollectionView(frame: .zero, collectionViewLayout: ItemSubSectionCollectionViewLayout())
+    private let textField: UITextField = UITextField()
     private let tableView: UITableView = UITableView()
     
     private let itemsUrl: [String] = [
@@ -33,7 +34,7 @@ class ItemSelectionViewController: UIViewController {
     "https://apis.data.go.kr/1160100/service/GetDerivativeProductInfoService/getStockFuturesPriceInfo?serviceKey=qN5jfsV7vfaF2TeYh%2FOLDD09pgcK88uLTsJ3puwH509%2F4MATwRtVgcW6NkKfgfSyWoFvKmlywh8e8vVssBcfKA%3D%3D&resultType=json"
     ]
    
-    private var itemsArr: [(String, String)] = [("item","detail")]
+    private var itemsArr: [(String, String)] = [("섹션을 선택해주세요","섹션 선택 후 검색이 가능합니다")]
     
     private var itemsArrToShow: [(String, String)] = []
     
@@ -65,6 +66,10 @@ class ItemSelectionViewController: UIViewController {
         view.backgroundColor = UIColor(red: 100/255, green: 100/255, blue: 100/255, alpha: 0.0)
         NotificationCenter.default.addObserver(self, selector: #selector(didTapItemSectionCell(_:)), name: .DidTapItemSectionCell, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didTapItemSubSectionCell(_:)), name: .DidTapItemSubSectionCell, object: nil)
+//        textField.isHidden = true
+        textField.snp.updateConstraints{
+            $0.height.equalTo(0)
+        }
     }
     
     //section을 선택했을 경우
@@ -83,10 +88,15 @@ class ItemSelectionViewController: UIViewController {
         subSectionCV.setup(idx: now_idx)
         subSectionCV.reloadData()
         
+        itemsArr.removeAll()
+        tableView.reloadData()
+        textField.snp.updateConstraints{
+            $0.height.equalTo(0)
+        }
         subSectionCV.snp.updateConstraints{
             $0.top.equalTo(sectionCV.snp.bottom)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(60)
+            $0.height.equalTo(80)
         }
     }
     
@@ -105,6 +115,10 @@ class ItemSelectionViewController: UIViewController {
         let now_url: String = MarketInfoData.getMarketSubSectionsUrl(row: selected_section_idx, col: selected_subSection_idx)
         
         requestAPI(url: now_url)
+//        textField.isHidden = false
+        textField.snp.updateConstraints{
+            $0.height.equalTo(60)
+        }
     }
     
     
@@ -112,10 +126,10 @@ class ItemSelectionViewController: UIViewController {
     func attribute(){
         self.view.backgroundColor = .systemBackground
         
-        textField.backgroundColor = UIColor(red: 236/255, green: 236/255, blue: 236/255, alpha: 1.0)
+        textField.backgroundColor = UIColor(red: 250/255, green: 250/255, blue: 255/255, alpha: 1.0)
         textField.layer.borderWidth = 2.0
-        textField.layer.borderColor = UIColor(red: 55/255, green: 55/255, blue: 55/255, alpha: 1.0).cgColor
-        textField.layer.cornerRadius = 12.0
+        textField.layer.borderColor = UIColor(red: 220/255, green: 220/255, blue: 220/255, alpha: 1.0).cgColor
+        textField.layer.cornerRadius = 2.0
         textField.placeholder = "추가하고싶은 item 혹은 item 설명 키워드"
         
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: textField.frame.height))
@@ -195,17 +209,12 @@ class ItemSelectionViewController: UIViewController {
     
     func layout(){
         
-        [textField, sectionCV, subSectionCV, tableView].forEach{
+        [ sectionCV, subSectionCV, textField, tableView].forEach{
             view.addSubview($0)
         }
         
-        textField.snp.makeConstraints{
-            $0.top.leading.trailing.equalToSuperview()
-            $0.height.equalTo(60)
-        }
-        
         sectionCV.snp.makeConstraints{
-            $0.top.equalTo(textField.snp.bottom)
+            $0.top.leading.trailing.equalToSuperview()
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(80)
         }
@@ -216,8 +225,14 @@ class ItemSelectionViewController: UIViewController {
             $0.height.equalTo(0)
         }
         
-        tableView.snp.makeConstraints{
+        textField.snp.makeConstraints{
             $0.top.equalTo(subSectionCV.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(60)
+        }
+        
+        tableView.snp.makeConstraints{
+            $0.top.equalTo(textField.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
