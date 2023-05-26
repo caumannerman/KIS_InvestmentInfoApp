@@ -25,15 +25,15 @@ class MarketCollectionViewCell: UICollectionViewCell {
     
     
     private func attribute(){
-        layer.borderWidth = 2
-        layer.borderColor = UIColor(red: 100/255, green: 100/255, blue: 100/255, alpha: 1.0).cgColor
+        layer.borderWidth = 3
+        layer.borderColor = UIColor(red: 160/255, green: 170/255, blue: 240/255, alpha: 1.0).cgColor
         layer.cornerRadius = 10.0
         layer.borderWidth = 3.0
        
         self.backgroundColor = .systemBackground
         
         titleLabel.font = .systemFont(ofSize: 32.0, weight: .bold)
-        titleLabel.textColor = .blue
+        titleLabel.textColor = .darkGray
         titleLabel.textAlignment = .center
     }
     
@@ -46,7 +46,8 @@ class MarketCollectionViewCell: UICollectionViewCell {
         }
         subTitleLabel.snp.makeConstraints{
             $0.top.equalTo(titleLabel.snp.bottom)
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.equalToSuperview().inset(10)
+            $0.trailing.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
 //        marketCVCellCollectionView.snp.makeConstraints{

@@ -64,12 +64,12 @@ class HomeViewController: UIViewController {
     private func changeCategory(_ isMarket: Bool){
         if isMarket{
             urlSearchButton.layer.borderWidth = 0
-            marketButton.layer.borderWidth = 3
+            marketButton.layer.borderWidth = 5
 //            marketButton.backgroundColor = UIColor(red: 230/255.0, green: 230/255.0, blue: 230/255.0, alpha: 1.0)
             urlSearchButton.backgroundColor = .white
         }else {
             marketButton.layer.borderWidth = 0
-            urlSearchButton.layer.borderWidth = 3
+            urlSearchButton.layer.borderWidth = 5
             marketButton.backgroundColor = .white
 //            urlSearchButton.backgroundColor = UIColor(red: 214/255.0, green: 214/255.0, blue: 214/255.0, alpha: 1.0)
         }
@@ -228,7 +228,7 @@ class HomeViewController: UIViewController {
         
         marketButton.backgroundColor = .white
         marketButton.setTitle("시장정보", for: .normal)
-        marketButton.titleLabel?.font = .systemFont(ofSize: 28, weight: .bold)
+        marketButton.titleLabel?.font = .systemFont(ofSize: 34, weight: .bold)
         marketButton.setTitleColor(.black, for: .normal)
         marketButton.addTarget(self, action: #selector(didTapMarketButton), for: .touchUpInside)
         marketButton.layer.cornerRadius = 12.0
@@ -237,7 +237,7 @@ class HomeViewController: UIViewController {
         
         urlSearchButton.backgroundColor = .white
         urlSearchButton.setTitle("URL검색", for: .normal)
-        urlSearchButton.titleLabel?.font = .systemFont(ofSize: 28, weight: .bold)
+        urlSearchButton.titleLabel?.font = .systemFont(ofSize: 34, weight: .bold)
         urlSearchButton.setTitleColor(.black, for: .normal)
         urlSearchButton.addTarget(self, action: #selector(didTapUrlSearchButton), for: .touchUpInside)
         urlSearchButton.layer.cornerRadius = 12.0
