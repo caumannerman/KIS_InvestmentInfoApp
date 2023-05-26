@@ -77,7 +77,9 @@ class ItemSelectionViewController: UIViewController {
         //이를 저장해두는 이유는, subSection까지 선택했을 때 두 정보를 이용하여 url을 특정하고,
         // 그 응답으로 받은 내용들을 tableView에 뿌려야하기 때문.
         self.selected_section_idx = now_idx
-
+        self.selected_subSection_idx = 0
+        
+        // 선택된 섹션에 맞는 subSection 목록으로 바꾸는 과정
         subSectionCV.setup(idx: now_idx)
         subSectionCV.reloadData()
         
@@ -102,7 +104,8 @@ class ItemSelectionViewController: UIViewController {
         //여기서 위의 두 idx를 이용하여 알맞은 url을 호출하고, 받은 응답을 tableVIew에 업데이트해주어야함
         let now_url: String = MarketInfoData.getMarketSubSectionsUrl(row: selected_section_idx, col: selected_subSection_idx)
         
-        requestAPI(url: now_url)
+//        requestAPI(url: now_url)
+        requestAPI()
     }
     
     
@@ -284,15 +287,20 @@ extension ItemSelectionViewController: UITextFieldDelegate {
 
 
 extension ItemSelectionViewController{
-    private func requestAPI(url: String){
+    private func requestAPI(){ //url: String
         
+        let url = "http://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo" + "?numOfRows=365&resultType=json&serviceKey=qN5jfsV7vfaF2TeYh%2FOLDD09pgcK88uLTsJ3puwH509%2F4MATwRtVgcW6NkKfgfSyWoFvKmlywh8e8vVssBcfKA%3D%3D&itmsNm=" + "한국금융지주" + "&beginBasDt=" + "20230501" + "&endBasDt=" + "20230524"
+        let encoded = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed.union( CharacterSet(["%"])))
+        print("encode된 url string : ", encoded)
         //addingPercentEncoding은 한글(영어 이외의 값) 이 url에 포함되었을 때 오류나는 것을 막아준다.
-        AF.request(url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "")
+        AF.request(encoded ?? "")
             .responseDecodable(of: IS_StockPriceInfo.self){ [weak self] response in
                 // success 이외의 응답을 받으면, else문에 걸려 함수 종료
                 guard
                     let self = self,
-                    case .success(let data) = response.result else { return }
+                    case .success(let data) = response.result else {
+                    print("실패ㅜㅜ")
+                    return }
                 print("실패 아니면 여기 나와야함!!!")
                 
                 let now_arr = data.response.body.items.item
@@ -313,9 +321,7 @@ extension ItemSelectionViewController{
                     subtitle.removeLast()
                     subtitle.removeLast()
                     
-                    
-                    let temp = ( title, subtitle )
-                    return temp
+                    return ( title, subtitle )
                 }
                 //테이블 뷰 다시 그려줌
                 self.showMode = .all

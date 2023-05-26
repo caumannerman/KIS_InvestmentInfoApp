@@ -9,8 +9,15 @@ import UIKit
 import SnapKit
 import Alamofire
 
+enum ButtonMode{
+    case GetData
+    case SaveData
+}
+
 class ShowDataViewController: UIViewController {
     
+    
+    private var buttonMode: ButtonMode = .GetData
     // ----------------------------------------------------------------------------- 저장 시 Alert 관련 -----
     //저장할 파일의 이름을 담을 변수
     private var saveFileName: String = ""
@@ -206,25 +213,25 @@ class ShowDataViewController: UIViewController {
     func attribute(){
         view.backgroundColor = .systemBackground
 
-        get_save_view.backgroundColor = UIColor(red: 236/255.0, green: 236/255.0, blue: 236/255.0, alpha: 1.0)
+        get_save_view.backgroundColor = UIColor(red: 210/255.0, green: 220/255.0, blue: 250/255.0, alpha: 1.0)
         
         callDataButton.backgroundColor = .white
         callDataButton.setTitle("데이터 불러오기", for: .normal)
         callDataButton.titleLabel?.font = .systemFont(ofSize: 28, weight: .bold)
         callDataButton.setTitleColor(.black, for: .normal)
-        callDataButton.addTarget(self, action: #selector(getfunc), for: .touchUpInside)
+        callDataButton.addTarget(self, action: #selector(get_or_save_func), for: .touchUpInside)
         callDataButton.layer.cornerRadius = 12.0
         callDataButton.layer.borderWidth = 3.0
         callDataButton.layer.borderColor = UIColor.lightGray.cgColor
         
-        saveCsvButton.backgroundColor = .white
-        saveCsvButton.setTitle("저장하기", for: .normal)
-        saveCsvButton.titleLabel?.font = .systemFont(ofSize: 28, weight: .bold)
-        saveCsvButton.setTitleColor(.black, for: .normal)
-        saveCsvButton.addTarget(self, action: #selector(savefunc), for: .touchUpInside)
-        saveCsvButton.layer.cornerRadius = 12.0
-        saveCsvButton.layer.borderWidth = 3.0
-        saveCsvButton.layer.borderColor = UIColor.lightGray.cgColor
+//        saveCsvButton.backgroundColor = .white
+//
+//        saveCsvButton.titleLabel?.font = .systemFont(ofSize: 28, weight: .bold)
+//        saveCsvButton.setTitleColor(.black, for: .normal)
+//        saveCsvButton.addTarget(self, action: #selector(savefunc), for: .touchUpInside)
+//        saveCsvButton.layer.cornerRadius = 12.0
+//        saveCsvButton.layer.borderWidth = 3.0
+//        saveCsvButton.layer.borderColor = UIColor.lightGray.cgColor
     }
     
     func layout(){
@@ -240,15 +247,15 @@ class ShowDataViewController: UIViewController {
             
 //            $0.top.equalTo(getDataButton.snp.bottom)
             $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.leading.equalToSuperview()
-            $0.trailing.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(100)
 //            $0.width.equalTo(scrollView.snp.width)
         }
         get_save_view.snp.makeConstraints{
             $0.top.equalTo(collectionView.snp.bottom)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(100)
+//            $0.height.equalTo(100)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide)
         }
 
         [callDataButton, saveCsvButton].forEach{
@@ -258,30 +265,39 @@ class ShowDataViewController: UIViewController {
         callDataButton.snp.makeConstraints{
             $0.top.bottom.equalToSuperview().inset(6)
             $0.leading.equalToSuperview().inset(10)
-            $0.width.equalTo((UIScreen.main.bounds.width - 40) / 2 )
+         
+//            $0.trailing.equalTo( get_save_view.snp.center).offset(-10)
+//            $0.width.equalTo((UIScreen.main.bounds.midY - 40) / 2 )
+            $0.trailing.equalToSuperview().inset(10)
         }
         
-        saveCsvButton.snp.makeConstraints{
-            $0.top.bottom.equalToSuperview().inset(6)
-            $0.trailing.equalToSuperview().inset(10)
-            $0.width.equalTo((UIScreen.main.bounds.width - 40) / 2 )
-        }
+//        saveCsvButton.snp.makeConstraints{
+//            $0.top.bottom.equalToSuperview().inset(6)
+//            $0.trailing.equalToSuperview().inset(10)
+//
+//            $0.leading.equalTo(callDataButton.snp.center )
+////            $0.leading.equalTo( get_save_view.snp.center).offset(10)
+////            $0.width.equalTo((UIScreen.main.bounds.width - 40) / 2 )
+//        }
     }
 
-    @objc func getfunc(){
-        print("호출 버튼 클릭")
-//        let result = GetERNetwork().getErData()
-        requestAPI()
-        print("호출완료!!!!")
-//        print(result)
-    }
-    
-    @objc func savefunc(){
-        print("저장 버튼 클릭")
-        self.present(alert, animated: true){
-            print("alert 띄움")
+    @objc func get_or_save_func(){
+        switch buttonMode {
+        case .GetData:
+            print("호출 버튼 클릭")
+    //        let result = GetERNetwork().getErData()
+            requestAPI()
+            print("호출완료!!!!")
+            buttonMode = .SaveData
+            callDataButton.setTitle("저장하기", for: .normal)
+        default:
+            print("저장 버튼 클릭")
+            self.present(alert, animated: true){
+                print("alert 띄움")
+            }
         }
     }
+    
     
     func sliceArrayAndReturnCSVString(s: [[String]], isCheck_col: [Bool], isCheck_row: [Bool] ) -> String{
         
