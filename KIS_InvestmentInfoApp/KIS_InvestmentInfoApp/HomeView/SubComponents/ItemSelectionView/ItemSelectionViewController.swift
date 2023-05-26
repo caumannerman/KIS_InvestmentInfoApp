@@ -66,10 +66,7 @@ class ItemSelectionViewController: UIViewController {
         view.backgroundColor = UIColor(red: 100/255, green: 100/255, blue: 100/255, alpha: 0.0)
         NotificationCenter.default.addObserver(self, selector: #selector(didTapItemSectionCell(_:)), name: .DidTapItemSectionCell, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didTapItemSubSectionCell(_:)), name: .DidTapItemSubSectionCell, object: nil)
-//        textField.isHidden = true
-        textField.snp.updateConstraints{
-            $0.height.equalTo(0)
-        }
+        
     }
     
     //section을 선택했을 경우
@@ -90,7 +87,10 @@ class ItemSelectionViewController: UIViewController {
         
         itemsArr.removeAll()
         tableView.reloadData()
+        textField.isHidden = true
         textField.snp.updateConstraints{
+            $0.top.equalTo(subSectionCV.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(0)
         }
         subSectionCV.snp.updateConstraints{
@@ -115,8 +115,10 @@ class ItemSelectionViewController: UIViewController {
         let now_url: String = MarketInfoData.getMarketSubSectionsUrl(row: selected_section_idx, col: selected_subSection_idx)
         
         requestAPI(url: now_url)
-//        textField.isHidden = false
+        textField.isHidden = false
         textField.snp.updateConstraints{
+            $0.top.equalTo(subSectionCV.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(60)
         }
     }
@@ -180,11 +182,7 @@ class ItemSelectionViewController: UIViewController {
 //    }
     @objc func textFieldDidChange(_ textField: UITextField){
         print(textField.text)
-        subSectionCV.snp.updateConstraints{
-            $0.top.equalTo(sectionCV.snp.bottom)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(0)
-        }
+        
         let now_text: String = textField.text ?? ""
         if textField.text == nil || textField.text == "" {
             self.textField.rightViewMode = .never
@@ -228,7 +226,7 @@ class ItemSelectionViewController: UIViewController {
         textField.snp.makeConstraints{
             $0.top.equalTo(subSectionCV.snp.bottom)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(60)
+            $0.height.equalTo(0)
         }
         
         tableView.snp.makeConstraints{
