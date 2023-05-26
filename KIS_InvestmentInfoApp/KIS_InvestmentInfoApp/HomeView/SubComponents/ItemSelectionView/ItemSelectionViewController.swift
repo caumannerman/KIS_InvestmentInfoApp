@@ -104,8 +104,7 @@ class ItemSelectionViewController: UIViewController {
         //여기서 위의 두 idx를 이용하여 알맞은 url을 호출하고, 받은 응답을 tableVIew에 업데이트해주어야함
         let now_url: String = MarketInfoData.getMarketSubSectionsUrl(row: selected_section_idx, col: selected_subSection_idx)
         
-//        requestAPI(url: now_url)
-        requestAPI()
+        requestAPI(url: now_url)
     }
     
     
@@ -287,9 +286,9 @@ extension ItemSelectionViewController: UITextFieldDelegate {
 
 
 extension ItemSelectionViewController{
-    private func requestAPI(){ //url: String
+    private func requestAPI(url: String){ //
         
-        let url = "http://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo" + "?numOfRows=365&resultType=json&serviceKey=qN5jfsV7vfaF2TeYh%2FOLDD09pgcK88uLTsJ3puwH509%2F4MATwRtVgcW6NkKfgfSyWoFvKmlywh8e8vVssBcfKA%3D%3D&itmsNm=" + "한국금융지주" + "&beginBasDt=" + "20230501" + "&endBasDt=" + "20230524"
+//        let url = "http://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo" + "?numOfRows=30&resultType=json&serviceKey=qN5jfsV7vfaF2TeYh%2FOLDD09pgcK88uLTsJ3puwH509%2F4MATwRtVgcW6NkKfgfSyWoFvKmlywh8e8vVssBcfKA%3D%3D" + "&basDt=20230525"
         let encoded = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed.union( CharacterSet(["%"])))
         print("encode된 url string : ", encoded)
         //addingPercentEncoding은 한글(영어 이외의 값) 이 url에 포함되었을 때 오류나는 것을 막아준다.
@@ -312,7 +311,7 @@ extension ItemSelectionViewController{
                     
                     
                     var subtitle: String = ""
-                    [(now_item.idxCsf, ""), (now_item.prdCtg, "상품분류 : "), (now_item.mrktCtg, ""), (now_item.epyItmsCnt, "채용종목수 : "), (now_item.ytm, "만기수익률 : "), (now_item.cnvt, "채권지수 볼록성 : "), (now_item.trqu, "포함종목 거래량 총합 : "), (now_item.trPrc, "포함종목 거래대금 총합 : "), (now_item.bssIdxIdxNm, "기초지수 명칭 : "), (now_item.udasAstNm, "기초자산 명칭 : "),  (now_item.strnCd, "코드 : "), (now_item.isinCd, "국제 채권 식별번호 : ")].forEach {
+                    [(now_item.idxCsf, ""), (now_item.prdCtg, "상품분류 : "), (now_item.mrktCtg, ""), (now_item.epyItmsCnt, "채용종목수 : "), (now_item.ytm, "만기수익률 : "), (now_item.cnvt, "채권지수 볼록성 : "), (now_item.trqu, "체결수량 총합 : "), (now_item.trPrc, "거래대금 총합 : "), (now_item.bssIdxIdxNm, "기초지수 명칭 : "), (now_item.udasAstNm, "기초자산 명칭 : "),  (now_item.strnCd, "코드 : "), (now_item.isinCd, "국제 식별번호 : ")].forEach {
                         if $0.0 != nil {
                             subtitle += $0.1 + $0.0! + " / "
                         }
