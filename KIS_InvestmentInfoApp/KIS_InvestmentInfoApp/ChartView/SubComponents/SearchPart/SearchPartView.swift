@@ -568,6 +568,9 @@ extension SearchPartView: UICollectionViewDataSource, UICollectionViewDelegateFl
 //        cell.setRecord(records[indexPath.section][indexPath.item])
         return cell
     }
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        <#code#>
+//    }
 }
 
 //@objc func getSelectedSearchResultCell(_ notification: Notification){
