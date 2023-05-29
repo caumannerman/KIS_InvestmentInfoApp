@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import SnapKit
 
 class ShowDataViewCollectionViewCell: UICollectionViewCell{
     
@@ -14,6 +14,9 @@ class ShowDataViewCollectionViewCell: UICollectionViewCell{
     private var rowNum: Int = -1
     private var colNum: Int = -1
     private var isClicked: Bool = false
+    
+    private var isFirstRow: Bool = false
+    private var isFirstCol: Bool = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -46,16 +49,29 @@ class ShowDataViewCollectionViewCell: UICollectionViewCell{
     }
     
     @objc func btnClicked(){
-        if self.isClicked{
-            self.titleButton.backgroundColor = UIColor(red: 230 / 255.0, green: 230 / 255.0, blue: 230 / 255.0, alpha: 1.0)
+        if self.isFirstCol || self.isFirstRow && (isFirstCol != isFirstRow){
+            if self.isClicked{
+                self.titleButton.backgroundColor = UIColor(red: 230 / 255.0, green: 230 / 255.0, blue: 230 / 255.0, alpha: 1.0)
+            }
+            else{
+                self.titleButton.backgroundColor = UIColor(red: 153 / 460.0, green: 280 / 460.0, blue: 459 / 460.0, alpha: 1.0)
+            }
+            self.isClicked = !self.isClicked
+           
+            //버튼 클릭 시, 버튼클릭여부 Bool 값을 반대로 바꾸라고 신호를 보내줘야함
+            NotificationCenter.default.post(name: .cellColorChange, object: nil, userInfo: ["row": rowNum, "col": colNum])
         }
-        else{
-            self.titleButton.backgroundColor = UIColor(red: 153 / 460.0, green: 280 / 460.0, blue: 459 / 460.0, alpha: 1.0)
+        else {
+            let alert = UIAlertController(title: "상세보기", message: titleButton.titleLabel?.text ?? "X", preferredStyle: .alert)
+            
+            let okAction = UIAlertAction(title: "확인", style: .default) { _ in
+                alert.dismiss(animated: true)
+                 }
+            alert.addAction(okAction)
+            
+            let now_vc = UIApplication.topViewController()!
+            now_vc.present(alert, animated: true)
         }
-        self.isClicked = !self.isClicked
-       
-        //버튼 클릭 시, 버튼클릭여부 Bool 값을 반대로 바꾸라고 신호를 보내줘야함
-        NotificationCenter.default.post(name: .cellColorChange, object: nil, userInfo: ["row": rowNum, "col": colNum])
     }
     
    
@@ -65,6 +81,9 @@ class ShowDataViewCollectionViewCell: UICollectionViewCell{
     func setup(isFirstRow: Bool, isFirstColumn: Bool, title: String, isClicked: Bool, rowIdx: Int, colIdx: Int){
         self.rowNum = rowIdx
         self.colNum = colIdx
+        self.isFirstRow = isFirstRow
+        self.isFirstCol = isFirstColumn
+        
         if isFirstRow && isFirstColumn{
             titleButton.setTitle("선택", for: .normal)
             titleButton.isEnabled = false
@@ -83,7 +102,8 @@ class ShowDataViewCollectionViewCell: UICollectionViewCell{
         else{
             //이미 비활되어있으므로, title만 바꿔주면 됨
             titleButton.setTitle(title, for: .normal)
-            titleButton.isEnabled = false
+//            titleButton.isEnabled = false
+            titleButton.isEnabled = true
         }
         
         self.isClicked = isClicked
@@ -98,3 +118,19 @@ class ShowDataViewCollectionViewCell: UICollectionViewCell{
     
 }
 
+extension UIApplication {
+    class func topViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
+        if let nav = base as? UINavigationController {
+            return topViewController(base: nav.visibleViewController)
+        }
+        if let tab = base as? UITabBarController {
+            if let selected = tab.selectedViewController {
+                return topViewController(base: selected)
+            }
+        }
+        if let presented = base?.presentedViewController {
+            return topViewController(base: presented)
+        }
+        return base
+    }
+}

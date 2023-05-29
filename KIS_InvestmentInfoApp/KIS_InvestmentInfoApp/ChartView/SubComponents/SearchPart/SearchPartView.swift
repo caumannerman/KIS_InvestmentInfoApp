@@ -54,8 +54,8 @@ class SearchPartView: UIView {
     // 이것이 json String을 이용해 최종적으로 얻은 배열이라고 생각하고 개발중
     private var jsonResultArr: [[String]] = DummyClass.getJsonResultArr()
     
-    private var isClickedArr_row: [Bool] = [true, false, false, true, false, false, false, true, true, false, true, false, false, false, true, false, true, false, false, true]
-    private var isClickedArr_col: [Bool] = [false, false,true, true, false, false, false, true, false, false, true, true, ]
+    private var isClickedArr_row: [Bool] = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
+    private var isClickedArr_col: [Bool] = [false, false,false, false, false, false, false, false, false, false, false, false ]
     var api_result: String = ""
     
     // 원하는 기간의 주가정보를 받아와 저장할 배열

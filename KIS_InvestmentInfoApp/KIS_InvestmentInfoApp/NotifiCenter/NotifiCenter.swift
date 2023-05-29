@@ -59,6 +59,9 @@ extension Notification.Name {
     
     static let market_url_changed = Notification.Name("market_url_changed")
     
+    //ShowDataViewCollectionViewCell에서 버튼을 클릭했을 때, 짤린 텍스트를 모두 보여줄 수 있는 창을 띄워주기위함
+    // button.text를 userInfo로 보내준다.
+    static let ChartCellClicked = Notification.Name("ChartCellClicked")
     
 }
 
