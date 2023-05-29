@@ -14,7 +14,7 @@ class MarketCollectionView: UICollectionView {
 //    private var contents: [String] = HomeContentsData.getContentsTitle()
 //    private var contentsSubtitle: [String] = HomeContentsData.getContentsSubtitle()
     
-    private var cellSize: Array<(Int, Int)> = [(1,1), (1,1), (1,1), (2,2), (1,1), (1,1), (1,1), (1,1)]
+    private var cellSize: Array<(Int, Int)> = [(1,1), (1,1), (1,1), (2,2), (1,2), (3,3), (1,2), (2,2), (3, 3), (2, 2), (1, 2), (1, 1), (1, 1), (1, 1), (3, 3), (1, 1), (1, 1), (1, 1), (1, 1), (1, 1), (1, 1), (1, 1), (1, 1), (1, 1), (1, 1), (1, 1), (1, 1), (1, 1), (1, 1), (1, 1), (1, 1), (1, 1) ]
     private final let UNIT_WIDTH: Int = Int(( UIScreen.main.bounds.width - 40 ) / 3)
     
     
@@ -105,6 +105,7 @@ extension MarketCollectionView: UICollectionViewDelegateFlowLayout {
 
         print("Clicked CV cell")
    
+
         NotificationCenter.default.post(name:.DidTapMarketInfoCell, object: .none, userInfo: ["title": hcoms.itemTitle[indexPath.row], "subTitle": hcoms.itemSubTitle[indexPath.row], "section": hcoms.itemSection[indexPath.row], "subSection": hcoms.itemSubSection[indexPath.row]])
     }
 }
@@ -115,13 +116,21 @@ extension MarketCollectionView: UICollectionViewDelegate {
         true
     }
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-//        print("전 : ", contents)
-//        let item = contents.remove(at: sourceIndexPath.row)
-//        print("제거중 : ", contents)
-//        contents.insert(item, at: destinationIndexPath.row)
-//        cellSize[destinationIndexPath.row].0 = 1
-//        print("후 : ", contents)
-//        print(sourceIndexPath.item.z)
+
+        let title = hcoms.itemTitle.remove(at: sourceIndexPath.row)
+        hcoms.itemTitle.insert(title, at: destinationIndexPath.row)
+        
+        let subTitle = hcoms.itemSubTitle.remove(at: sourceIndexPath.row)
+        hcoms.itemSubTitle.insert(subTitle, at: destinationIndexPath.row)
+        
+        let section = hcoms.itemSection.remove(at: sourceIndexPath.row)
+        hcoms.itemSection.insert(section, at: destinationIndexPath.row)
+        
+        let subSection = hcoms.itemSubSection.remove(at: sourceIndexPath.row)
+        hcoms.itemSubSection.insert(subSection, at: destinationIndexPath.row)
+
+
+        print(sourceIndexPath.item)
         self.reloadData()
     }
 }

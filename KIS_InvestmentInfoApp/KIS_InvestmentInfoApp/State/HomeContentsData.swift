@@ -15,6 +15,7 @@ class HomeContentsData {
     var itemSubTitle: [String] = ["+ 버튼을 눌러 항목을 추가해주세요"]
     var itemSection: [Int] = [-1]
     var itemSubSection: [Int] = [-1]
+
     
     private init(){
         print("HomeState Init")
