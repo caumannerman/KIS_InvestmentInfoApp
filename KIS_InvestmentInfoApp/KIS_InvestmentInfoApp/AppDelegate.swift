@@ -35,6 +35,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //여기서 UrlState를 UserDefualts에  저장해야함.
         let urlState = UrlCommonState.getInstance()
         urlState.saveDataOnUserDafaults()
+        
+        //HomeItem도 관리해야함
+        let homeItemState = HomeContentsData.getInstance()
+        homeItemState.saveDataOnUserDafaults()
         print("Background진입 후 url데이터 저장 완료")
         
     }
@@ -43,6 +47,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //여기서 UrlState를 UserDefualts에  저장해야함.
         let urlState = UrlCommonState.getInstance()
         urlState.saveDataOnUserDafaults()
+        
+        //HomeItem도 관리해야함
+        let homeItemState = HomeContentsData.getInstance()
+        homeItemState.saveDataOnUserDafaults()
         print("applicationWillTerminate진입 후 url데이터 저장 완료")
     }
     

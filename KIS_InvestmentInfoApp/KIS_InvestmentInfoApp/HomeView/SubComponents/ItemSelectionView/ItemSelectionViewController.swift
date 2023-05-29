@@ -243,12 +243,15 @@ extension ItemSelectionViewController: UITableViewDelegate {
         switch self.showMode {
         case .all:
             print( itemsArr[indexPath.row] )
-            HomeContentsData.addNewItem(item: (itemsArr[indexPath.row].0, itemsArr[indexPath.row].1))
+            let hcoms: HomeContentsData = HomeContentsData.getInstance()
+            hcoms.addNewItem(item: (itemsArr[indexPath.row].0, itemsArr[indexPath.row].1, "임시url"))
             NotificationCenter.default.post(name:.AddNewItemOnMarketCV, object: .none)
             self.dismiss(animated: true)
         case .keyword:
             print(itemsArrToShow[indexPath.row])
-            NotificationCenter.default.post(name:.AddNewItemOnMarketCV, object: .none, userInfo: ["item": itemsArrToShow[indexPath.row].0])
+            let hcoms: HomeContentsData = HomeContentsData.getInstance()
+            hcoms.addNewItem(item: (itemsArr[indexPath.row].0, itemsArr[indexPath.row].1, "임시url"))
+            NotificationCenter.default.post(name:.AddNewItemOnMarketCV, object: .none)
             self.dismiss(animated: true)
         }
     }

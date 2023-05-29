@@ -118,6 +118,7 @@ class HomeViewController: UIViewController {
         let isFT = isFirstTime()
         print(isFT)
         // 앱 실행이 처음이라면
+        // Url관련 데이터들과 Home에 item을 추가하라는 cell을 추가해줘야한다.
         if isFT{
             UserDefaults.standard.set(DummyClass.getFirstUrl(), forKey: "urls")
             
@@ -125,15 +126,19 @@ class HomeViewController: UIViewController {
             
             UserDefaults.standard.set(DummyClass.getFirstUrlStarred(), forKey: "urlStarred")
             
+            UserDefaults.standard.set(DummyClass.getFirstHomeItemTitle(), forKey: "homeContentsTitle")
+            
+            UserDefaults.standard.set(DummyClass.getFirstHomeItemSubtitle(), forKey: "homeContentsSubTitle")
+            
+            UserDefaults.standard.set(DummyClass.getFirstHomeItemUrl(), forKey: "homeContentsUrl")
            // isValid는 저장해둘 것이 아니라 그때그떄 네트워크로 정보를 받아 판단해야함
         }
         
         let scoms = UrlCommonState.getInstance()
         scoms.getDataFromUserDefaults()
-        print(scoms.getUrls())
-        print(scoms.getUrlAlias())
-        print(scoms.getUrlStarred())
-        print("success")
+        let hcoms = HomeContentsData.getInstance()
+        hcoms.getDataFromUserDefaults()
+        
         setNavigationItems()
         
         bind()

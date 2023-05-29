@@ -56,4 +56,20 @@ class DummyClass {
         return firstUrlStarred
     }
     
+    // ------------ Home Item 초기화를 위한 변수들 -----------//
+    private static let firstHomeItemTitle: [String] = ["항목추가 방법"]
+    static func getFirstHomeItemTitle() -> [String]  {
+        return firstHomeItemTitle
+    }
+    
+    private static let firstHomeItemSubtitle: [String] = ["+ 버튼을 눌러 항목을 추가해주세요"]
+    static func getFirstHomeItemSubtitle() -> [String] {
+        return firstHomeItemSubtitle
+    }
+    
+    private static let firstHomeItemUrl: [String] = [""]
+    static func getFirstHomeItemUrl() -> [String] {
+        return firstHomeItemUrl
+    }
+    
 }

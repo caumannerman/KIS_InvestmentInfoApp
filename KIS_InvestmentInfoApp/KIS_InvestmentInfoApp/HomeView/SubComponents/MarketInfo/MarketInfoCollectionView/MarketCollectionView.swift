@@ -10,8 +10,9 @@ import SnapKit
 
 class MarketCollectionView: UICollectionView {
     
-    private var contents: [String] = HomeContentsData.getContentsTitle()
-    private var contentsSubtitle: [String] = HomeContentsData.getContentsSubtitle()
+    private let hcoms = HomeContentsData.getInstance()
+//    private var contents: [String] = HomeContentsData.getContentsTitle()
+//    private var contentsSubtitle: [String] = HomeContentsData.getContentsSubtitle()
     
     private var cellSize: Array<(Int, Int)> = [(1,1), (1,1), (1,1), (2,2), (1,1), (1,1), (1,1), (1,1)]
     private final let UNIT_WIDTH: Int = Int(( UIScreen.main.bounds.width - 40 ) / 3)
@@ -31,16 +32,21 @@ class MarketCollectionView: UICollectionView {
     }
     
     @objc func addNewItemOnMarketCV(_ notification: Notification){
-//        guard let now_dict = notification.userInfo as? Dictionary<String, Any> else { return }
-        print("신호 받음!!!")
-        contents = HomeContentsData.getContentsTitle()
-        contentsSubtitle = HomeContentsData.getContentsSubtitle()
-        cellSize.append((1,1))
-//        print(now_dict)
-//        guard let now_item = now_dict["item"] as? String else { return }
-        
-//        contents.append(now_item)
-//        cellSize.append((1, 1))
+////        guard let now_dict = notification.userInfo as? Dictionary<String, Any> else { return }
+        print("addNewItemOnMarketCV신호 받음!!!")
+//        contents = HomeContentsData.getContentsTitle()
+//        contentsSubtitle = HomeContentsData.getContentsSubtitle()
+//        cellSize.append((1,1))
+////        print(now_dict)
+////        guard let now_item = now_dict["item"] as? String else { return }
+//
+////        contents.append(now_item)
+////        cellSize.append((1, 1))
+        ///
+        let hcoms: HomeContentsData = HomeContentsData.getInstance()
+        print(hcoms.contentsTitle)
+        print(hcoms.contentsSubtitle)
+        print(hcoms.contentsUrl)
         self.reloadData()
     }
     
@@ -70,12 +76,13 @@ class MarketCollectionView: UICollectionView {
 
 extension MarketCollectionView: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return contents.count
+        return hcoms.getContentsCount()
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MarketCollectionViewCell", for: indexPath) as? MarketCollectionViewCell else { return UICollectionViewCell() }
-        cell.setup(title: contents[indexPath.row], subtitle: contentsSubtitle[indexPath.row])
+        
+        cell.setup(title: hcoms.contentsTitle[indexPath.row], subtitle: hcoms.contentsSubtitle[indexPath.row])
         return cell
     }
     
@@ -90,10 +97,12 @@ extension MarketCollectionView: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(contents[indexPath.row])
+//        print(contents[indexPath.row])
+        let url = hcoms.getContentsUrl()[indexPath.row]
         print("Clicked CV cell")
-        
-        NotificationCenter.default.post(name:.DidTapMarketInfoCell, object: .none, userInfo: ["idx": contents[indexPath.row]])
+        print(url)
+//
+//        NotificationCenter.default.post(name:.DidTapMarketInfoCell, object: .none, userInfo: ["idx": contents[indexPath.row]])
     }
 }
 
