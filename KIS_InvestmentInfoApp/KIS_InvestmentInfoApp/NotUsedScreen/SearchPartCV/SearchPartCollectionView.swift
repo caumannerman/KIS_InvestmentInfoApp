@@ -35,8 +35,7 @@ class SearchPartCollectionView: UICollectionView {
             return $0.0
         }
         subtitle = now_data.map{$0.1}
-        self.reloadData()
-        
+//        self.reloadData()
     }
     
     private func bind(){
@@ -81,5 +80,6 @@ extension SearchPartCollectionView: UICollectionViewDelegateFlowLayout {
         NotificationCenter.default.post(name:.SendSelectedSearchResultCell, object: .none, userInfo: ["searchResultIndex": indexPath.row])
         
     }
+  
 }
 

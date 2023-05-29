@@ -27,8 +27,8 @@ class ItemSelectionViewController: UIViewController {
     private let textField: UITextField = UITextField()
     private let tableView: UITableView = UITableView()
    
-    private var itemsArr: [(String, String)] = [("섹션을 선택해주세요","섹션 선택 후 검색이 가능합니다")]
-    private var itemsArrToShow: [(String, String)] = []
+    private var itemsArr: [(String, String, (Int, Int))] = [("섹션을 선택해주세요","섹션 선택 후 검색이 가능합니다", (-1,-1))]
+    private var itemsArrToShow: [(String, String, (Int, Int))] = []
     
     
     private lazy var clearButton: UIView = {
@@ -98,7 +98,7 @@ class ItemSelectionViewController: UIViewController {
     @objc func didTapItemSubSectionCell(_ notification: Notification){
         print("Notification didTapItem'Sub'SectionCell Received at VC")
         guard let now_dict = notification.userInfo as? Dictionary<String, Any> else { return }
-        guard let now_idx = now_dict["idx"] as? Int else {return}
+        guard let now_idx = now_dict["idx"] as? Int else { return }
 
         //이를 저장해두는 이유는, subSection까지 선택했을 때 두 정보를 이용하여 url을 특정하고,
         // 그 응답으로 받은 내용들을 tableView에 뿌려야하기 때문.
@@ -234,13 +234,14 @@ extension ItemSelectionViewController: UITableViewDelegate {
         case .all:
             print( itemsArr[indexPath.row] )
             let hcoms: HomeContentsData = HomeContentsData.getInstance()
-            hcoms.addNewItem(item: (itemsArr[indexPath.row].0, itemsArr[indexPath.row].1, "임시url"))
+            hcoms.addNewItem(item: itemsArr[indexPath.row])
             NotificationCenter.default.post(name:.AddNewItemOnMarketCV, object: .none)
             self.dismiss(animated: true)
         case .keyword:
             print(itemsArrToShow[indexPath.row])
             let hcoms: HomeContentsData = HomeContentsData.getInstance()
-            hcoms.addNewItem(item: (itemsArrToShow[indexPath.row].0, itemsArrToShow[indexPath.row].1, "임시url"))
+            hcoms.addNewItem(item: itemsArrToShow[indexPath.row])
+                             
             NotificationCenter.default.post(name:.AddNewItemOnMarketCV, object: .none)
             self.dismiss(animated: true)
         }
@@ -293,7 +294,7 @@ extension ItemSelectionViewController: UITextFieldDelegate {
 
 
 extension ItemSelectionViewController{
-    private func requestAPI(url: String){ //
+    private func requestAPI(url: String){
     
         let encoded = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed.union( CharacterSet(["%"])))
         print("encode된 url string : ", encoded)
@@ -310,7 +311,7 @@ extension ItemSelectionViewController{
                 
                 let now_arr = data.response.body.items.item
                 //데이터 받아옴
-                self.itemsArr = now_arr.map{ now_item -> (String, String) in
+                self.itemsArr = now_arr.map{ now_item -> (String, String, (Int, Int)) in
                     //여기서 각 변수들이 nil, 혹은 nil이 아닌 값일 수 있는데,
                     // nil이 아닌 것들만 가지고 title을 정하고 , 나머지를 이어붙여 subtitle을 만든다
                     let title: String = ((now_item.oilCtg != nil ? now_item.oilCtg : now_item.idxNm) != nil ? now_item.idxNm : now_item.itmsNm) ?? "제목없음"
@@ -326,7 +327,7 @@ extension ItemSelectionViewController{
                     subtitle.removeLast()
                     subtitle.removeLast()
                     
-                    return ( title, subtitle )
+                    return ( title, subtitle, (self.selected_section_idx, self.selected_subSection_idx) )
                 }
                 //테이블 뷰 다시 그려줌
                 self.showMode = .all
@@ -353,7 +354,7 @@ extension ItemSelectionViewController{
                     
                     let now_arr = data.response.body.items.item
                     //데이터 받아옴
-                    self.itemsArrToShow = now_arr.map{ now_item -> (String, String) in
+                    self.itemsArrToShow = now_arr.map{ now_item -> (String, String, (Int, Int)) in
                         //여기서 각 변수들이 nil, 혹은 nil이 아닌 값일 수 있는데,
                         // nil이 아닌 것들만 가지고 title을 정하고 , 나머지를 이어붙여 subtitle을 만든다
                         let title: String = ((now_item.oilCtg != nil ? now_item.oilCtg : now_item.idxNm) != nil ? now_item.idxNm : now_item.itmsNm) ?? "제목없음"
@@ -369,7 +370,7 @@ extension ItemSelectionViewController{
                         subtitle.removeLast()
                         subtitle.removeLast()
                         
-                        return ( title, subtitle )
+                        return ( title, subtitle, (self.selected_section_idx, self.selected_subSection_idx))
                     }
                     //테이블 뷰 다시 그려줌
                     self.showMode = .keyword

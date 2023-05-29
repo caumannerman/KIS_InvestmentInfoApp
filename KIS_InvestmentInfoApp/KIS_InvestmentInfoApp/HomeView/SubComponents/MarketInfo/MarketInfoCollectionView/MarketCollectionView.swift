@@ -44,9 +44,9 @@ class MarketCollectionView: UICollectionView {
 ////        cellSize.append((1, 1))
         ///
         let hcoms: HomeContentsData = HomeContentsData.getInstance()
-        print(hcoms.contentsTitle)
-        print(hcoms.contentsSubtitle)
-        print(hcoms.contentsUrl)
+//        print(hcoms.contentsTitle)
+//        print(hcoms.contentsSubtitle)
+//        print(hcoms.contentsUrl)
         self.reloadData()
     }
     
@@ -82,7 +82,7 @@ extension MarketCollectionView: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MarketCollectionViewCell", for: indexPath) as? MarketCollectionViewCell else { return UICollectionViewCell() }
         
-        cell.setup(title: hcoms.contentsTitle[indexPath.row], subtitle: hcoms.contentsSubtitle[indexPath.row])
+        cell.setup(title: hcoms.itemTitle[indexPath.row], subtitle: hcoms.itemSubTitle[indexPath.row])
         return cell
     }
     
@@ -97,12 +97,15 @@ extension MarketCollectionView: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        print(contents[indexPath.row])
-        let url = hcoms.getContentsUrl()[indexPath.row]
+        print("현재 클릭한 cell")
+        print(hcoms.itemTitle[indexPath.row])
+        print(hcoms.itemSubTitle[indexPath.row])
+        print(hcoms.itemSection[indexPath.row])
+        print(hcoms.itemSubSection[indexPath.row])
+
         print("Clicked CV cell")
-        print(url)
-//
-//        NotificationCenter.default.post(name:.DidTapMarketInfoCell, object: .none, userInfo: ["idx": contents[indexPath.row]])
+   
+        NotificationCenter.default.post(name:.DidTapMarketInfoCell, object: .none, userInfo: ["title": hcoms.itemTitle[indexPath.row], "subTitle": hcoms.itemSubTitle[indexPath.row], "section": hcoms.itemSection[indexPath.row], "subSection": hcoms.itemSubSection[indexPath.row]])
     }
 }
 

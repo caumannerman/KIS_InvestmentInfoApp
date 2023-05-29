@@ -202,7 +202,6 @@
 			isa = PBXGroup;
 			children = (
 				8C5BB7D82A1EE5AF007467B6 /* DatePicker */,
-				8C31BEAD2A1DA157006D2405 /* SearchPartCV */,
 			);
 			path = SubComponents;
 			sourceTree = "<group>";
@@ -246,6 +245,7 @@
 		8C8250172A0209FA002B8A3B /* NotUsedScreen */ = {
 			isa = PBXGroup;
 			children = (
+				8C31BEAD2A1DA157006D2405 /* SearchPartCV */,
 				A5558002296257F300919868 /* UrlSearchViewController.swift */,
 				8CF7E15A2A0CB40A001C23B7 /* MyLoadingView.swift */,
 				8C31BEB42A1DC6E1006D2405 /* Former_ChartViewController.swift */,

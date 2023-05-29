@@ -61,15 +61,22 @@ class DummyClass {
     static func getFirstHomeItemTitle() -> [String]  {
         return firstHomeItemTitle
     }
-    
-    private static let firstHomeItemSubtitle: [String] = ["+ 버튼을 눌러 항목을 추가해주세요"]
-    static func getFirstHomeItemSubtitle() -> [String] {
-        return firstHomeItemSubtitle
+
+    private static let firstHomeItemSubTitle: [String] = ["+ 버튼을 눌러 항목을 추가해주세요"]
+    static func getFirstHomeItemSubTitle() -> [String] {
+        return firstHomeItemSubTitle
+    }
+
+    private static let firstHomeItemSection: [Int] = [-1]
+    static func getFirstHomeItemSection() -> [Int] {
+        return firstHomeItemSection
     }
     
-    private static let firstHomeItemUrl: [String] = [""]
-    static func getFirstHomeItemUrl() -> [String] {
-        return firstHomeItemUrl
+    private static let firstHomeItemSubSection: [Int] = [-1]
+    static func getFirstHomeItemSubSection() -> [Int] {
+        return firstHomeItemSubSection
     }
+    
+   
     
 }

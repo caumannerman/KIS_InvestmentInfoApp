@@ -126,11 +126,14 @@ class HomeViewController: UIViewController {
             
             UserDefaults.standard.set(DummyClass.getFirstUrlStarred(), forKey: "urlStarred")
             
-            UserDefaults.standard.set(DummyClass.getFirstHomeItemTitle(), forKey: "homeContentsTitle")
+            UserDefaults.standard.set(DummyClass.getFirstHomeItemTitle(), forKey: "homeItemTitle")
+
+            UserDefaults.standard.set(DummyClass.getFirstHomeItemSubTitle(), forKey: "homeItemSubTitle")
             
-            UserDefaults.standard.set(DummyClass.getFirstHomeItemSubtitle(), forKey: "homeContentsSubTitle")
+            UserDefaults.standard.set(DummyClass.getFirstHomeItemSection(), forKey: "homeItemSection")
             
-            UserDefaults.standard.set(DummyClass.getFirstHomeItemUrl(), forKey: "homeContentsUrl")
+            UserDefaults.standard.set(DummyClass.getFirstHomeItemSubSection(), forKey: "homeItemSubSection")
+
            // isValid는 저장해둘 것이 아니라 그때그떄 네트워크로 정보를 받아 판단해야함
         }
         
@@ -170,8 +173,14 @@ class HomeViewController: UIViewController {
     
     @objc func didTapMarketInfoCell(_ notification: Notification){
         print("Notification DidTapMarketInfoCell")
-//        guard let now_dict = notification.userInfo as? Dictionary<String, Any> else { return }
-//        guard let now_url = now_dict["url"] as? String else {return}
+        guard let now_dict = notification.userInfo as? Dictionary<String, Any> else { return }
+        guard let now_title = now_dict["title"] as? String else {return}
+        guard let now_subTitle = now_dict["subTitle"] as? String else {return}
+        guard let now_section = now_dict["section"] as? Int else {return}
+        guard let now_subSection = now_dict["subSection"] as? Int else {return}
+        print(now_title, now_subTitle, now_section, now_subSection)
+        
+        
         let detail_vc = MarketInfoDetailViewController()
         self.navigationController?.isNavigationBarHidden = false
         detail_vc.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext

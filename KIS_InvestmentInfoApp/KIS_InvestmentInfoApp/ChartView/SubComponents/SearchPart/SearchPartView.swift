@@ -47,9 +47,8 @@ class SearchPartView: UIView {
     private var now_subSection_idx: Int = 0
     private var startDate: Date?
     private var endDate: Date?
-    var imsi_title: [(String, String)] = [("item1", "sub"), ("item2", "sub"), ("item3", "sub"), ("item4", "sub"), ("item15", "sub"), ("item16", "sub"), ("item17", "sub"), ("item18", "sub"), ("item19", "sub"), ("item121", "sub"), ("item122", "sub"), ("item123", "sub"), ("item124", "sub"), ("item135", "sub") ]
-  
-    var imsi_title_toshow: [(String, String)] = []
+
+    var arrsToShow: [(String, String)] = []
     
     private var apiResultStr = ""
     // 이것이 json String을 이용해 최종적으로 얻은 배열이라고 생각하고 개발중
@@ -88,8 +87,10 @@ class SearchPartView: UIView {
     private let itemNmLabel = UILabel()
     private let itemNmTextField = UITextField()
     private let blankView0 = UIView()
-    private let searchPartCV = SearchPartCollectionView(frame: .zero, collectionViewLayout: SearchPartCollectionViewLayout())
-    
+//    private let searchPartCV = SearchPartCollectionView(frame: .zero, collectionViewLayout: SearchPartCollectionViewLayout())
+    private let tableView: UITableView = UITableView()
+    private let hideTableStackView = UIStackView()
+    private let hideTableButton: UIButton = UIButton()
     private let startDateLabel = UILabel()
     private let startDateTextField = UITextField()
     private let startDateDatePicker = SearchDatePicker()
@@ -131,14 +132,15 @@ class SearchPartView: UIView {
         self.backgroundColor = UIColor(red: 200/255, green: 220/255, blue: 250/255, alpha: 1.0)
         NotificationCenter.default.addObserver(self, selector: #selector(chartSectionDidChanged(_:)), name: .DidTapUnClickedCell, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(chartSubSectionDidChanged(_:)), name: .DidTapItemSubSectionCell_Chart, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(getSelectedSearchResultCell(_:)), name: .SendSelectedSearchResultCell, object: nil)
+     
         attribute()
         layout()
-        
+        hideTableStackView.isHidden = true
+        hideTableButton.isHidden = true
         collectionView.isHidden = true
         hide_save_stackView.isHidden = true
         blankView0.isHidden = true
-        searchPartCV.isHidden = true
+        tableView.isHidden = true
     }
     
     required init?(coder: NSCoder) {
@@ -159,6 +161,11 @@ class SearchPartView: UIView {
         itemNmTextField.leftViewMode = .always
         itemNmTextField.autocapitalizationType = .none
         itemNmTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.backgroundColor = .systemBackground
+        
             
         startDateLabel.backgroundColor = .systemBackground
         startDateLabel.text = "차트조회 시작일"
@@ -192,6 +199,15 @@ class SearchPartView: UIView {
         requestButton.setTitle("조회", for: .normal)
         requestButton.titleLabel?.font = .systemFont(ofSize: 20.0, weight: .bold)
         requestButton.addTarget(self, action: #selector(requestfunc), for: .touchUpInside)
+        
+        hideTableButton.layer.cornerRadius = 6
+        hideTableButton.layer.borderWidth = 2.0
+        hideTableButton.layer.borderColor = UIColor.darkGray.cgColor
+        hideTableButton.backgroundColor = UIColor(red: 195/255, green: 215/255, blue: 255/255, alpha: 1)
+        hideTableButton.setTitle("숨기기", for: .normal)
+        hideTableButton.titleLabel?.font = .systemFont(ofSize: 12.0, weight: .bold)
+        hideTableButton.addTarget(self, action: #selector(hideTablefunc), for: .touchUpInside)
+        hideTableButton.setTitleColor(.black, for: .normal)
         
         hideChartButton.layer.cornerRadius = 8.0
         hideChartButton.layer.borderWidth = 2.0
@@ -230,20 +246,24 @@ class SearchPartView: UIView {
         self.endDateTextField.inputView = self.endDateDatePicker
         
         
-        let doneBT = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(self.pickerDone))
-        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let cancelBT = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(self.pickerDone))
+       
 
-        let toolBar = UIToolbar()
-        toolBar.tintColor = .systemBrown
-        toolBar.isTranslucent = true
-        toolBar.sizeToFit()
-        toolBar.setItems([cancelBT,flexibleSpace,doneBT], animated: false)
-        toolBar.isUserInteractionEnabled = true
+        let toolBar1 = UIToolbar()
+        let toolBar2 = UIToolbar()
+
+        [toolBar1, toolBar2].forEach {
+            let doneBT = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(self.pickerDone))
+            let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+            let cancelBT = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(self.pickerDone))
+            $0.tintColor = .systemBrown
+            $0.isTranslucent = true
+            $0.sizeToFit()
+            $0.setItems([cancelBT,flexibleSpace,doneBT], animated: false)
+            $0.isUserInteractionEnabled = true
+        }
         
-        startDateTextField.inputAccessoryView = toolBar
-        endDateTextField.inputAccessoryView = toolBar
-        itemNmTextField.inputAccessoryView = toolBar
+        startDateTextField.inputAccessoryView = toolBar1
+        endDateTextField.inputAccessoryView = toolBar2
     }
         @objc func pickerDone(){
             self.endEditing(true)
@@ -265,7 +285,7 @@ class SearchPartView: UIView {
             $0.edges.equalToSuperview()
         }
         
-        [ itemNmLabel, itemNmTextField, blankView0, searchPartCV, startDateLabel, startDateTextField, endDateLabel, endDateTextField, blankView, collectionView, blankView20, hide_save_stackView, blankView2, requestButton, blankView3 ].forEach{
+        [ itemNmLabel, itemNmTextField, blankView0, tableView, hideTableStackView, startDateLabel, startDateTextField, endDateLabel, endDateTextField, blankView, collectionView, blankView20, hide_save_stackView, blankView2, requestButton, blankView3 ].forEach{
             stackView.addArrangedSubview($0)
         }
         
@@ -279,7 +299,7 @@ class SearchPartView: UIView {
             $0.leading.equalTo(itemNmLabel.snp.leading)
             $0.trailing.equalToSuperview().inset(20)
             $0.height.equalTo(34)
-            $0.trailing.equalToSuperview()
+            
         }
         
         blankView0.snp.makeConstraints{
@@ -287,9 +307,22 @@ class SearchPartView: UIView {
             $0.height.equalTo(14)
         }
         
-        searchPartCV.snp.makeConstraints{
+        tableView.snp.makeConstraints{
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(600)
+            $0.height.equalTo(300)
+        }
+        
+        hideTableStackView.snp.makeConstraints{
+            $0.leading.equalTo(itemNmLabel.snp.leading)
+            $0.trailing.equalToSuperview().inset(20)
+            $0.height.equalTo(30)
+        }
+        
+        hideTableStackView.addSubview(hideTableButton)
+        hideTableButton.snp.makeConstraints{
+            $0.trailing.equalToSuperview()
+            $0.height.equalToSuperview()
+            $0.width.equalTo(80)
         }
         
         startDateLabel.snp.makeConstraints{
@@ -365,6 +398,8 @@ class SearchPartView: UIView {
         }
         
     }
+    
+    
     
     
     func setupBySection(section: Section, subSection: SubSection){
@@ -443,29 +478,23 @@ extension SearchPartView {
     //request 보내는 것과 연동해야함 itemNmTextField
     @objc func textFieldDidChange(_ textField: UITextField){
         print(textField.text)
-        
-        let now_text: String = textField.text ?? ""
+    
         if textField.text == nil || textField.text == "" {
             blankView0.isHidden = true
-            searchPartCV.isHidden = true
+            tableView.isHidden = true
+            hideTableStackView.isHidden = true
+            hideTableButton.isHidden = true
         }else {
             blankView0.isHidden = false
-            searchPartCV.isHidden = false
-            filterByKeyword(keyword: now_text)
-            NotificationCenter.default.post(name:.SendSearchResult, object: .none, userInfo: ["searchResult": imsi_title_toshow])
+            tableView.isHidden = false
+            hideTableStackView.isHidden = false
+            hideTableButton.isHidden = false
+            let now_url: String = MarketInfoData.getMarketSubSectionsUrl(row: now_section_idx, col: now_subSection_idx) +
+            ( now_section_idx == 1 ? "&likeIdxNm=" : ( now_section_idx == 2 && now_subSection_idx == 0 ? "&oilCtg=" : "&likeItmsNm=")) + textField.text!
+            print(textField.text!)
+            requestAPI_ForSearch(url: now_url)
         }
-       
-       
-    }
-    
-    func filterByKeyword(keyword: String){
-        imsi_title_toshow = imsi_title.filter {
-            if $0.0.contains(keyword) {
-               return true
-            }
-            return false
-        }
-        
+//        tableView.reloadData()
     }
     
     @objc func requestfunc(){
@@ -483,18 +512,15 @@ extension SearchPartView {
         hide_save_stackView.isHidden = true
     }
     
-    @objc func savefunc(){
-        print("저장 버튼 클릭")
+    @objc func hideTablefunc(){
+        print("hideTable clicked")
+        hideTableStackView.isHidden = true
+        hideTableButton.isHidden = true
+        tableView.isHidden = true
     }
     
-    
-    @objc func getSelectedSearchResultCell(_ notification: Notification){
-        print("Notification SendSearchResult")
-        guard let now_dict = notification.userInfo as? Dictionary<String, Any> else { return }
-        guard let now_idx = now_dict["searchResultIndex"] as? Int else {return}
-      
-        itemNmTextField.text = self.imsi_title[now_idx].0 + " / " + self.imsi_title[now_idx].1
-        searchPartCV.isHidden = true
+    @objc func savefunc(){
+        print("저장 버튼 클릭")
     }
     
 }
@@ -544,6 +570,42 @@ extension SearchPartView: UICollectionViewDataSource, UICollectionViewDelegateFl
     }
 }
 
+//@objc func getSelectedSearchResultCell(_ notification: Notification){
+//    print("Notification SendSearchResult")
+//    guard let now_dict = notification.userInfo as? Dictionary<String, Any> else { return }
+//    guard let now_idx = now_dict["searchResultIndex"] as? Int else {return}
+//
+//    itemNmTextField.text = self.arrsToShow[now_idx].0 + " / " + self.arrsToShow[now_idx].1
+//    tableView.isHidden = true
+//}
+
+extension SearchPartView: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return arrsToShow.count
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "Cell")
+        
+        cell.textLabel?.text = arrsToShow[indexPath.row].0
+        cell.detailTextLabel?.text = arrsToShow[indexPath.row].1
+        
+        cell.selectionStyle = .none
+        return cell
+    }
+}
+
+extension SearchPartView: UITableViewDelegate {
+   
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+            print( arrsToShow[indexPath.row] )
+        itemNmTextField.text = arrsToShow[indexPath.row].0 + " / " + arrsToShow[indexPath.row].1
+            tableView.isHidden = true
+        hideTableStackView.isHidden = true
+        hideTableButton.isHidden = true
+        
+    }
+}
 extension SearchPartView{
     //(itemCode: String, startDate: Date?, endDate: Date?) 매개변수 부분 이걸로 바꿔야함
     private func requestAPI(itemName: String?, startDate: Date?, endDate: Date?) {
@@ -708,6 +770,51 @@ extension SearchPartView{
                 self.collectionView.reloadData()
             }
             .resume()
+    }
+    
+    
+    // keyword로 검색하여 SearchPartCollectionView를 검색
+    private func requestAPI_ForSearch(url: String){ //
+        
+        
+            let encoded = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed.union( CharacterSet(["%"])))
+            print("encode된 url string : ", encoded)
+            //addingPercentEncoding은 한글(영어 이외의 값) 이 url에 포함되었을 때 오류나는 것을 막아준다.
+            AF.request(encoded ?? "")
+                .responseDecodable(of: IS_StockPriceInfo.self){ [weak self] response in
+                    // success 이외의 응답을 받으면, else문에 걸려 함수 종료
+                    guard
+                        let self = self,
+                        case .success(let data) = response.result else {
+                        print("실패ㅜㅜ")
+                        return }
+                    print("실패 아니면 여기 나와야함!!!")
+                    
+                    let now_arr = data.response.body.items.item
+                    print("지금의 url : ",url)
+                    print(now_arr)
+                    //데이터 받아옴
+                    self.arrsToShow = now_arr.map{ now_item -> (String, String) in
+                        //여기서 각 변수들이 nil, 혹은 nil이 아닌 값일 수 있는데,
+                        // nil이 아닌 것들만 가지고 title을 정하고 , 나머지를 이어붙여 subtitle을 만든다
+                        let title: String = ((now_item.oilCtg != nil ? now_item.oilCtg : now_item.idxNm) != nil ? now_item.idxNm : now_item.itmsNm) ?? "제목없음"
+                        
+                        
+                        var subtitle: String = ""
+                        [(now_item.idxCsf, ""), (now_item.prdCtg, "상품분류 : "), (now_item.mrktCtg, ""), (now_item.epyItmsCnt, "채용종목수 : "), (now_item.ytm, "만기수익률 : "), (now_item.cnvt, "채권지수 볼록성 : "), (now_item.trqu, "체결수량 총합 : "), (now_item.trPrc, "거래대금 총합 : "), (now_item.bssIdxIdxNm, "기초지수 명칭 : "), (now_item.udasAstNm, "기초자산 명칭 : "),  (now_item.strnCd, "코드 : "), (now_item.isinCd, "국제 식별번호 : ")].forEach {
+                            if $0.0 != nil {
+                                subtitle += $0.1 + $0.0! + " / "
+                            }
+                        }
+                        subtitle.removeLast()
+                        subtitle.removeLast()
+                        subtitle.removeLast()
+                        
+                        return ( title, subtitle )
+                    }
+                    self.tableView.reloadData()
+                }
+                .resume()
     }
 }
 
