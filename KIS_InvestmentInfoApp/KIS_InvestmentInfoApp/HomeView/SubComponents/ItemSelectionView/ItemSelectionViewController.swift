@@ -26,16 +26,8 @@ class ItemSelectionViewController: UIViewController {
     private let subSectionCV = ItemSubSectionCollectionView(frame: .zero, collectionViewLayout: ItemSubSectionCollectionViewLayout())
     private let textField: UITextField = UITextField()
     private let tableView: UITableView = UITableView()
-    
-    private let itemsUrl: [String] = [
-    "https://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo?serviceKey=qN5jfsV7vfaF2TeYh%2FOLDD09pgcK88uLTsJ3puwH509%2F4MATwRtVgcW6NkKfgfSyWoFvKmlywh8e8vVssBcfKA%3D%3D&resultType=json", "https://apis.data.go.kr/1160100/service/GetMarketIndexInfoService/getStockMarketIndex?serviceKey=qN5jfsV7vfaF2TeYh%2FOLDD09pgcK88uLTsJ3puwH509%2F4MATwRtVgcW6NkKfgfSyWoFvKmlywh8e8vVssBcfKA%3D%3D&resultType=json", "https://apis.data.go.kr/1160100/service/GetGeneralProductInfoService/getOilPriceInfo?serviceKey=qN5jfsV7vfaF2TeYh%2FOLDD09pgcK88uLTsJ3puwH509%2F4MATwRtVgcW6NkKfgfSyWoFvKmlywh8e8vVssBcfKA%3D%3D&resultType=json",
-    "https://apis.data.go.kr/1160100/service/GetSecuritiesProductInfoService/getETFPriceInfo?serviceKey=qN5jfsV7vfaF2TeYh%2FOLDD09pgcK88uLTsJ3puwH509%2F4MATwRtVgcW6NkKfgfSyWoFvKmlywh8e8vVssBcfKA%3D%3D&resultType=json",
-    "https://apis.data.go.kr/1160100/service/GetBondSecuritiesInfoService/getBondPriceInfo?serviceKey=qN5jfsV7vfaF2TeYh%2FOLDD09pgcK88uLTsJ3puwH509%2F4MATwRtVgcW6NkKfgfSyWoFvKmlywh8e8vVssBcfKA%3D%3D&resultType=json",
-    "https://apis.data.go.kr/1160100/service/GetDerivativeProductInfoService/getStockFuturesPriceInfo?serviceKey=qN5jfsV7vfaF2TeYh%2FOLDD09pgcK88uLTsJ3puwH509%2F4MATwRtVgcW6NkKfgfSyWoFvKmlywh8e8vVssBcfKA%3D%3D&resultType=json"
-    ]
    
     private var itemsArr: [(String, String)] = [("섹션을 선택해주세요","섹션 선택 후 검색이 가능합니다")]
-    
     private var itemsArrToShow: [(String, String)] = []
     
     
@@ -87,6 +79,8 @@ class ItemSelectionViewController: UIViewController {
         
         itemsArr.removeAll()
         tableView.reloadData()
+        textField.text = nil
+        textField.endEditing(true)
         textField.isHidden = true
         textField.snp.updateConstraints{
             $0.top.equalTo(subSectionCV.snp.bottom)
@@ -115,6 +109,8 @@ class ItemSelectionViewController: UIViewController {
         let now_url: String = MarketInfoData.getMarketSubSectionsUrl(row: selected_section_idx, col: selected_subSection_idx)
         
         requestAPI(url: now_url)
+        textField.text = nil
+        textField.endEditing(true)
         textField.isHidden = false
         textField.snp.updateConstraints{
             $0.top.equalTo(subSectionCV.snp.bottom)
@@ -190,19 +186,13 @@ class ItemSelectionViewController: UIViewController {
         }else {
             self.textField.rightViewMode = .whileEditing
             self.showMode = .keyword
-            filterByKeyword(keyword: now_text)
+            
+            let now_url: String = MarketInfoData.getMarketSubSectionsUrl(row: selected_section_idx, col: selected_subSection_idx) +
+            ( selected_section_idx == 1 ? "&likeIdxNm=" : ( selected_section_idx == 2 && selected_subSection_idx == 0 ? "&oilCtg=" : "&likeItmsNm=")) + textField.text!
+            
+            requestAPI_ForSearch(url: now_url)
         }
         tableView.reloadData()
-    }
-    
-    // 어떤 String을 매개변수로 전달받았을 때, 해당 String이 item이름 혹은 item 설명에 포함되어있는지 체크하고 해당하는 것들만 추려준다.
-    func filterByKeyword(keyword: String){
-        itemsArrToShow = itemsArr.filter{
-            if $0.0.contains(keyword) || $0.1.contains(keyword) {
-               return true
-            }
-            return false
-        }
     }
     
     func layout(){
@@ -250,7 +240,7 @@ extension ItemSelectionViewController: UITableViewDelegate {
         case .keyword:
             print(itemsArrToShow[indexPath.row])
             let hcoms: HomeContentsData = HomeContentsData.getInstance()
-            hcoms.addNewItem(item: (itemsArr[indexPath.row].0, itemsArr[indexPath.row].1, "임시url"))
+            hcoms.addNewItem(item: (itemsArrToShow[indexPath.row].0, itemsArrToShow[indexPath.row].1, "임시url"))
             NotificationCenter.default.post(name:.AddNewItemOnMarketCV, object: .none)
             self.dismiss(animated: true)
         }
@@ -345,9 +335,47 @@ extension ItemSelectionViewController{
             .resume()
     }
     
-    private func requestAPI_ForSearch(url: String, keyword: String){ //
+    private func requestAPI_ForSearch(url: String){ //
         
         
+            let encoded = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed.union( CharacterSet(["%"])))
+            print("encode된 url string : ", encoded)
+            //addingPercentEncoding은 한글(영어 이외의 값) 이 url에 포함되었을 때 오류나는 것을 막아준다.
+            AF.request(encoded ?? "")
+                .responseDecodable(of: IS_StockPriceInfo.self){ [weak self] response in
+                    // success 이외의 응답을 받으면, else문에 걸려 함수 종료
+                    guard
+                        let self = self,
+                        case .success(let data) = response.result else {
+                        print("실패ㅜㅜ")
+                        return }
+                    print("실패 아니면 여기 나와야함!!!")
+                    
+                    let now_arr = data.response.body.items.item
+                    //데이터 받아옴
+                    self.itemsArrToShow = now_arr.map{ now_item -> (String, String) in
+                        //여기서 각 변수들이 nil, 혹은 nil이 아닌 값일 수 있는데,
+                        // nil이 아닌 것들만 가지고 title을 정하고 , 나머지를 이어붙여 subtitle을 만든다
+                        let title: String = ((now_item.oilCtg != nil ? now_item.oilCtg : now_item.idxNm) != nil ? now_item.idxNm : now_item.itmsNm) ?? "제목없음"
+                        
+                        
+                        var subtitle: String = ""
+                        [(now_item.idxCsf, ""), (now_item.prdCtg, "상품분류 : "), (now_item.mrktCtg, ""), (now_item.epyItmsCnt, "채용종목수 : "), (now_item.ytm, "만기수익률 : "), (now_item.cnvt, "채권지수 볼록성 : "), (now_item.trqu, "체결수량 총합 : "), (now_item.trPrc, "거래대금 총합 : "), (now_item.bssIdxIdxNm, "기초지수 명칭 : "), (now_item.udasAstNm, "기초자산 명칭 : "),  (now_item.strnCd, "코드 : "), (now_item.isinCd, "국제 식별번호 : ")].forEach {
+                            if $0.0 != nil {
+                                subtitle += $0.1 + $0.0! + " / "
+                            }
+                        }
+                        subtitle.removeLast()
+                        subtitle.removeLast()
+                        subtitle.removeLast()
+                        
+                        return ( title, subtitle )
+                    }
+                    //테이블 뷰 다시 그려줌
+                    self.showMode = .keyword
+                    self.tableView.reloadData()
+                }
+                .resume()
     }
 }
 
