@@ -10,39 +10,39 @@ import UIKit
 import Alamofire
 import SnapKit
 
-enum Section{
-    case StockSecuritiesInfoService
-    case MarketIndexInfoService
-    case GeneralProductInfoService
-    case SecuritiesProductInfoService
-    case BondSecuritiesInfoService
-    case DerivativeProductInfoService
-}
-
-enum SubSection {
-    case getStockPriceInfo
-    case getPreemptiveRightCertificatePriceInfo
-    case getSecuritiesPriceInfo
-    case getPreemptiveRightSecuritiesPriceInfo
-    case getStockMarketIndex
-    case getBondMarketIndex
-    case getDerivationProductMarketIndex
-    case getOilPriceInfo
-    case getGoldPriceInfo
-    case getCertifiedEmissionReductionPriceInfo
-    case getETFPriceInfo
-    case getETNPriceInfo
-    case getELWPriceInfo
-    case getBondPriceInfo
-    case getStockFuturesPriceInfo
-    case getOptionsPriceInfo
-}
+//enum Section{
+//    case StockSecuritiesInfoService
+//    case MarketIndexInfoService
+//    case GeneralProductInfoService
+//    case SecuritiesProductInfoService
+//    case BondSecuritiesInfoService
+//    case DerivativeProductInfoService
+//}
+//
+//enum SubSection {
+//    case getStockPriceInfo
+//    case getPreemptiveRightCertificatePriceInfo
+//    case getSecuritiesPriceInfo
+//    case getPreemptiveRightSecuritiesPriceInfo
+//    case getStockMarketIndex
+//    case getBondMarketIndex
+//    case getDerivationProductMarketIndex
+//    case getOilPriceInfo
+//    case getGoldPriceInfo
+//    case getCertifiedEmissionReductionPriceInfo
+//    case getETFPriceInfo
+//    case getETNPriceInfo
+//    case getELWPriceInfo
+//    case getBondPriceInfo
+//    case getStockFuturesPriceInfo
+//    case getOptionsPriceInfo
+//}
 
 
 class SearchPartView: UIView {
     
-    private var section: Section = .MarketIndexInfoService
-    private var subSection: SubSection = .getStockMarketIndex
+//    private var section: Section = .MarketIndexInfoService
+//    private var subSection: SubSection = .getStockMarketIndex
     private var now_section_idx: Int = 0
     private var now_subSection_idx: Int = 0
     private var startDate: Date?
@@ -402,15 +402,15 @@ class SearchPartView: UIView {
     
     
     
-    func setupBySection(section: Section, subSection: SubSection){
-        self.section = section
-        self.subSection = subSection
-        reloadViewBySection()
-    }
-    
-    func reloadViewBySection(){
-        //섹션, subSection값을 이용해 테마 변경
-    }
+//    func setupBySection(section: Section, subSection: SubSection){
+//        self.section = section
+//        self.subSection = subSection
+//        reloadViewBySection()
+//    }
+//
+//    func reloadViewBySection(){
+//        //섹션, subSection값을 이용해 테마 변경
+//    }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.endEditing(true)
@@ -489,7 +489,7 @@ extension SearchPartView {
             tableView.isHidden = false
             hideTableStackView.isHidden = false
             hideTableButton.isHidden = false
-            let now_url: String = MarketInfoData.getMarketSubSectionsUrl(row: now_section_idx, col: now_subSection_idx) +
+            let now_url: String = MarketInfoData.getMarketSubSectionsUrl(row: now_section_idx, col: now_subSection_idx) + MarketInfoData.getBaseDate() +
             ( now_section_idx == 1 ? "&likeIdxNm=" : ( now_section_idx == 2 && now_subSection_idx == 0 ? "&oilCtg=" : "&likeItmsNm=")) + textField.text!
             print(textField.text!)
             requestAPI_ForSearch(url: now_url)
@@ -599,8 +599,8 @@ extension SearchPartView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
             print( arrsToShow[indexPath.row] )
-        itemNmTextField.text = arrsToShow[indexPath.row].0 + " / " + arrsToShow[indexPath.row].1
-            tableView.isHidden = true
+        itemNmTextField.text = arrsToShow[indexPath.row].0
+        tableView.isHidden = true
         hideTableStackView.isHidden = true
         hideTableButton.isHidden = true
         
@@ -619,8 +619,8 @@ extension SearchPartView{
         var nowName: String = ""
 
         if startDate == nil || endDate == nil{
-            sDateText = "20221201"
-            eDateText = "20221231"
+            sDateText = "20230501"
+            eDateText = "20230531"
 
             //입력 안했을 시에 default로 입력할 기간
             self.startDate = formatter.date(from: sDateText)
@@ -642,9 +642,12 @@ extension SearchPartView{
             nowName = "한국금융지주"
             self.itemNmTextField.text = nowName
         }else{
-            nowName = itemName!.trimmingCharacters(in: .whitespaces)
+//            nowName = itemName!.trimmingCharacters(in: .whitespaces)
+            // 공백이 있는 항목명도 있을 수 있다.
+            nowName = itemName!
         }
 
+        
         let newnewurl = "http://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo" + "?numOfRows=365&resultType=json&serviceKey=qN5jfsV7vfaF2TeYh%2FOLDD09pgcK88uLTsJ3puwH509%2F4MATwRtVgcW6NkKfgfSyWoFvKmlywh8e8vVssBcfKA%3D%3D&itmsNm=" + nowName + "&beginBasDt=" + sDateText + "&endBasDt=" + eDateText
 
         print("url = " + newnewurl)
@@ -718,8 +721,8 @@ extension SearchPartView{
         var nowName: String = ""
 
         if startDate == nil || endDate == nil{
-            sDateText = "20221201"
-            eDateText = "20221231"
+            sDateText = "20230501"
+            eDateText = "20230531"
 
             //입력 안했을 시에 default로 입력할 기간
             self.startDate = formatter.date(from: sDateText)
@@ -741,13 +744,16 @@ extension SearchPartView{
             nowName = "한국금융지주"
             self.itemNmTextField.text = nowName
         }else{
-            nowName = itemName!.trimmingCharacters(in: .whitespaces)
+//            nowName = itemName!.trimmingCharacters(in: .whitespaces)
+            nowName = itemName!
         }
-
-        let newnewurl = "http://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo" + "?numOfRows=365&resultType=json&serviceKey=qN5jfsV7vfaF2TeYh%2FOLDD09pgcK88uLTsJ3puwH509%2F4MATwRtVgcW6NkKfgfSyWoFvKmlywh8e8vVssBcfKA%3D%3D&itmsNm=" + nowName + "&beginBasDt=" + sDateText + "&endBasDt=" + eDateText
+        
+        let newnewurl = MarketInfoData.getMarketSubSectionsUrl(row: now_section_idx, col: now_subSection_idx) + "&itmsNm=" + nowName + "&beginBasDt=" + sDateText + "&endBasDt=" + eDateText
+        
+//        let newnewurl = "http://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo" + "?numOfRows=365&resultType=json&serviceKey=qN5jfsV7vfaF2TeYh%2FOLDD09pgcK88uLTsJ3puwH509%2F4MATwRtVgcW6NkKfgfSyWoFvKmlywh8e8vVssBcfKA%3D%3D&itmsNm=" + nowName + "&beginBasDt=" + sDateText + "&endBasDt=" + eDateText
 
         print("url = " + newnewurl)
-        let encoded = newnewurl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed.union( CharacterSet(["%"])))
+        let encoded = newnewurl.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed.union( CharacterSet(["%"]) ))
         print(encoded)
         //addingPercentEncoding은 한글(영어 이외의 값) 이 url에 포함되었을 때 오류나는 것을 막아준다.
 

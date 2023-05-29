@@ -106,7 +106,7 @@ class ItemSelectionViewController: UIViewController {
 
         print(selected_section_idx, selected_subSection_idx)
         //여기서 위의 두 idx를 이용하여 알맞은 url을 호출하고, 받은 응답을 tableVIew에 업데이트해주어야함
-        let now_url: String = MarketInfoData.getMarketSubSectionsUrl(row: selected_section_idx, col: selected_subSection_idx)
+        let now_url: String = MarketInfoData.getMarketSubSectionsUrl(row: selected_section_idx, col: selected_subSection_idx) + MarketInfoData.getBaseDate()
         
         requestAPI(url: now_url)
         textField.text = nil
@@ -187,7 +187,7 @@ class ItemSelectionViewController: UIViewController {
             self.textField.rightViewMode = .whileEditing
             self.showMode = .keyword
             
-            let now_url: String = MarketInfoData.getMarketSubSectionsUrl(row: selected_section_idx, col: selected_subSection_idx) +
+            let now_url: String = MarketInfoData.getMarketSubSectionsUrl(row: selected_section_idx, col: selected_subSection_idx) + MarketInfoData.getBaseDate() +
             ( selected_section_idx == 1 ? "&likeIdxNm=" : ( selected_section_idx == 2 && selected_subSection_idx == 0 ? "&oilCtg=" : "&likeItmsNm=")) + textField.text!
             
             requestAPI_ForSearch(url: now_url)

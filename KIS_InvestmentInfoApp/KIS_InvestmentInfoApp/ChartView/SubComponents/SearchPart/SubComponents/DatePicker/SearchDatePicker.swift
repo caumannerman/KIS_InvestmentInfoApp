@@ -16,8 +16,10 @@ class SearchDatePicker: UIDatePicker {
         preferredDatePickerStyle = .inline
         //연-월-일 순으로 + 한글
         locale = Locale(identifier: "ko-KR")
+      
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+   
 }
