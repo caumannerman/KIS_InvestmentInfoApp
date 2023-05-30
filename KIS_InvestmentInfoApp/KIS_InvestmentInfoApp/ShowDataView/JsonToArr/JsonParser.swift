@@ -428,7 +428,7 @@ class JsonParser {
                                          "response/body/items/item/stLstgCnt" : "상장좌수",
                                          "response/body/items/item/exertPric" : "권리행사가격",
                                          "response/body/items/item/subtPdSttgDt" : "존속기간 시작일",
-                                         "response/body/items/item/subtPdEdDt" : "존속기간 종료일ㄹ",
+                                         "response/body/items/item/subtPdEdDt" : "존속기간 종료일",
                                          "response/body/items/item/lstgScrtCnt" : "상장증권수",
                                          "response/body/items/item/lsYrEdVsFltRt" : "전년말대비 등락율",
                                          "response/body/items/item/basPntm" : "지수산출 시점",

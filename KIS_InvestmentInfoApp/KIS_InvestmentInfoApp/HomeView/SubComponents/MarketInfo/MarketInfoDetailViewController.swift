@@ -13,7 +13,7 @@ import Alamofire
 class MarketInfoDetailViewController: UIViewController {
     
     private var url: String = ""
-    
+    private var apiResult: [ValueForLineChartCellData] = []
     
     private let alphaView: UIButton = UIButton()
     
@@ -22,35 +22,31 @@ class MarketInfoDetailViewController: UIViewController {
     
     private lazy var marketInfoHostingController1: UIHostingController = {
         
-        let hostingController = UIHostingController( rootView: TradingChartView(dailyData: [100.1, 103.2, 107.2, 102.1, 104.2, 108.2, 10.1, 101.2, 10.2, 100.1, 103.2, 105.2, 100.1, 103.2, 105.2, 100.1, 103.2, 105.2,100.1, 103.2, 107.2, 102.1, 104.2, 108.2, 10.1, 101.2, 10.2, 100.1, 103.2, 105.2, 100.1, 103.2, 105.2, 100.1, 103.2, 105.2,100.1, 103.2, 107.2, 102.1, 104.2, 108.2, 10.1, 101.2, 10.2, 100.1, 103.2, 105.2, 100.1, 103.2, 105.2, 100.1, 103.2, 105.2,100.1, 103.2, 107.2, 102.1, 104.2, 108.2, 10.1, 101.2, 10.2, 100.1, 103.2, 105.2, 100.1, 103.2, 105.2, 100.1, 103.2, 105.2,100.1, 103.2, 107.2, 102.1, 104.2, 108.2, 10.1, 101.2, 10.2, 100.1, 103.2, 105.2, 100.1, 103.2, 105.2, 100.1, 103.2, 105.2], weeklyData: [100.0, 105.2,101.0, 105.2,100.0, 105.2,100.0, 105.2,100.0, 105.2, 0, 0, 0], monthlyData: [110.0, 115.2,111.0, 115.2,110.0, 125.2,120.0, 125.2,120.0, 125.2], startDate: Date(), endDate: Date() ) )
+        let hostingController = UIHostingController( rootView: TradingChartView(dailyData: Array(repeating: 0.0, count: 90), startDate: Date(), endDate: Date(), name: "항목명" ) )
         
         if #available(iOS 16.0, *) {
             hostingController.sizingOptions = .preferredContentSize
         } else {
             // Fallback on earlier versions
         }
-//        hostingController.modalPresentationStyle = .popover
-//        self.present(hostingController, animated: true)
-//        addChild(hostingController)
+
         hostingController.view.translatesAutoresizingMaskIntoConstraints = false
 
         return hostingController
     }()
     
-    private let marketInfoHostingController2 = UIHostingController(rootView: MarketInfoView())
-    private let marketInfoHostingController3 = UIHostingController(rootView: MarketInfoView())
-    private let marketInfoHostingController4 = UIHostingController(rootView: MarketInfoView())
-    private let marketInfoHostingController5 = UIHostingController(rootView: MarketInfoView())
-    private let marketInfoHostingController6 = UIHostingController(rootView: MarketInfoView())
+    private var marketInfoHostingController2 = UIHostingController(rootView: MarketInfoView())
+    private var marketInfoHostingController3 = UIHostingController(rootView: MarketInfoView())
+    private var marketInfoHostingController4 = UIHostingController(rootView: MarketInfoView())
+    private var marketInfoHostingController5 = UIHostingController(rootView: MarketInfoView())
+    private var marketInfoHostingController6 = UIHostingController(rootView: MarketInfoView())
     
     init(title: String, subTitle: String, section: Int, subSection: Int){
         super.init(nibName: nil, bundle: nil)
         attribute()
         layout()
         print(title, subTitle, section, subSection)
-        let now_url = MarketInfoData.getMarketSubSectionsUrl(row: section, col: subSection) +  ( section == 1 ? "&idxNm=" : ( section == 2 && subSection == 0 ? "&oilCtg=" : "&itmsNm=")) + ( title != "제목없음" ? title : "")
-        
-        print(now_url)
+        self.url = MarketInfoData.getMarketSubSectionsUrl(row: section, col: subSection) +  ( section == 1 ? "&idxNm=" : ( section == 2 && subSection == 0 ? "&oilCtg=" : "&itmsNm=")) + ( title != "제목없음" ? title : "")
     }
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -70,6 +66,32 @@ class MarketInfoDetailViewController: UIViewController {
         view.backgroundColor = UIColor(red: 100/255, green: 100/255, blue: 100/255, alpha: 0.0)
     }
     
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        requestAPI(url: self.url)
+        print("api 호출 끝 appear")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3){
+            self.marketInfoHostingController1.view.snp.removeConstraints()
+            self.marketInfoHostingController1 = UIHostingController( rootView: TradingChartView(dailyData: self.apiResult.map{ a -> Double in
+                return Double(a.clpr ?? "0.0") ?? 0.0
+            }, startDate: Date(), endDate: Date(), name: "name!!" ) )
+            
+            if #available(iOS 16.0, *) {
+                self.marketInfoHostingController1.sizingOptions = .preferredContentSize
+            }
+            self.addChild(self.marketInfoHostingController1)
+            self.marketInfoHostingController1.view.translatesAutoresizingMaskIntoConstraints = false
+            
+            self.restView.addSubview(self.marketInfoHostingController1.view)
+            self.marketInfoHostingController1.view.snp.makeConstraints{
+                $0.top.leading.equalToSuperview().inset(10)
+                $0.width.equalTo((UIScreen.main.bounds.width - 30 ) / 2)
+                $0.height.equalTo(UIScreen.main.bounds.height / 4)
+            }
+        }
+        
+    }
     func attribute(){
         
         alphaView.backgroundColor = UIColor(red: 100/255, green: 100/255, blue: 100/255, alpha: 0.1)
@@ -162,7 +184,7 @@ extension MarketInfoDetailViewController{
         print("encode된 url string : ", encoded)
         //addingPercentEncoding은 한글(영어 이외의 값) 이 url에 포함되었을 때 오류나는 것을 막아준다.
         AF.request(encoded ?? "")
-            .responseDecodable(of: IS_StockPriceInfo.self){ [weak self] response in
+            .responseDecodable(of: ValueForLineChart.self){ [weak self] response in
                 // success 이외의 응답을 받으면, else문에 걸려 함수 종료
                 guard
                     let self = self,
@@ -170,31 +192,19 @@ extension MarketInfoDetailViewController{
                     print("실패ㅜㅜ")
                     return }
                 print("실패 아니면 여기 나와야함!!!")
-                
+               
                 let now_arr = data.response.body.items.item
                 //데이터 받아옴
-                self.itemsArr = now_arr.map{ now_item -> (String, String, (Int, Int)) in
+                self.apiResult = now_arr.map{ now_item -> ValueForLineChartCellData in
                     //여기서 각 변수들이 nil, 혹은 nil이 아닌 값일 수 있는데,
                     // nil이 아닌 것들만 가지고 title을 정하고 , 나머지를 이어붙여 subtitle을 만든다
-                    let title: String = ((now_item.oilCtg != nil ? now_item.oilCtg : now_item.idxNm) != nil ? now_item.idxNm : now_item.itmsNm) ?? "제목없음"
                     
+                    let now_cellData: ValueForLineChartCellData = ValueForLineChartCellData(mkp: now_item.mkp, clpr: now_item.clpr, hipr: now_item.hipr, lopr: now_item.lopr, vs: now_item.vs, fltRt: now_item.fltRt, trqu: now_item.trqu, trPrc: now_item.trPrc, purRgtScrtItmsClpr: now_item.purRgtScrtItmsClpr, exertPric: now_item.exertPric, basIdx: now_item.basIdx, yrWRcrdHgst: now_item.yrWRcrdHgst, yrWRcrdLwst: now_item.yrWRcrdLwst, totBnfIdxClpr: now_item.totBnfIdxClpr, totBnfIdxVs: now_item.totBnfIdxVs, nPrcIdxClpr: now_item.nPrcIdxClpr, nPrcIdxVs: now_item.nPrcIdxVs, zrRinvIdxClpr: now_item.zrRinvIdxClpr, zrRinvIdxVs: now_item.zrRinvIdxVs, clRinvIdxClpr: now_item.clRinvIdxClpr, clRinvIdxVs: now_item.clRinvIdxVs, mrktPrcIdxClpr: now_item.mrktPrcIdxClpr, mrktPrcIdxVs: now_item.mrktPrcIdxVs, cnvt: now_item.cnvt, nav: now_item.nav, nPptTotAmt: now_item.nPptTotAmt, bssIdxClpr: now_item.bssIdxClpr, hiprPrc: now_item.hiprPrc, loprPrc: now_item.loprPrc, clprPrc: now_item.clprPrc, clprVs: now_item.clprVs, clprBnfRt: now_item.clprBnfRt, sptPrc: now_item.sptPrc, stmPrc: now_item.stmPrc, opnint: now_item.opnint, iptVlty: now_item.iptVlty)
                     
-                    var subtitle: String = ""
-                    [(now_item.idxCsf, ""), (now_item.prdCtg, "상품분류 : "), (now_item.mrktCtg, ""), (now_item.epyItmsCnt, "채용종목수 : "), (now_item.ytm, "만기수익률 : "), (now_item.cnvt, "채권지수 볼록성 : "), (now_item.trqu, "체결수량 총합 : "), (now_item.trPrc, "거래대금 총합 : "), (now_item.bssIdxIdxNm, "기초지수 명칭 : "), (now_item.udasAstNm, "기초자산 명칭 : "),  (now_item.strnCd, "코드 : "), (now_item.isinCd, "국제 식별번호 : ")].forEach {
-                        if $0.0 != nil {
-                            subtitle += $0.1 + $0.0! + " / "
-                        }
-                    }
-                    subtitle.removeLast()
-                    subtitle.removeLast()
-                    subtitle.removeLast()
-                    
-                    return ( title, subtitle, (self.selected_section_idx, self.selected_subSection_idx) )
+                    return now_cellData
                 }
-                //테이블 뷰 다시 그려줌
-                self.showMode = .all
-                self.tableView.reloadData()
             }
             .resume()
+        print("api끝!")
     }
 }
