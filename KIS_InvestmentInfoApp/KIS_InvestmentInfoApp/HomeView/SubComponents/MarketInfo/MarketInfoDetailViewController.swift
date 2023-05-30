@@ -8,9 +8,12 @@
 import UIKit
 import SnapKit
 import SwiftUI
-import Charts
+import Alamofire
 
 class MarketInfoDetailViewController: UIViewController {
+    
+    private var url: String = ""
+    
     
     private let alphaView: UIButton = UIButton()
     
@@ -45,6 +48,9 @@ class MarketInfoDetailViewController: UIViewController {
         attribute()
         layout()
         print(title, subTitle, section, subSection)
+        let now_url = MarketInfoData.getMarketSubSectionsUrl(row: section, col: subSection) +  ( section == 1 ? "&idxNm=" : ( section == 2 && subSection == 0 ? "&oilCtg=" : "&itmsNm=")) + ( title != "제목없음" ? title : "")
+        
+        print(now_url)
     }
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -146,5 +152,49 @@ class MarketInfoDetailViewController: UIViewController {
             $0.height.equalTo(UIScreen.main.bounds.height / 4)
         }
 
+    }
+}
+
+extension MarketInfoDetailViewController{
+    private func requestAPI(url: String){
+    
+        let encoded = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed.union( CharacterSet(["%"])))
+        print("encode된 url string : ", encoded)
+        //addingPercentEncoding은 한글(영어 이외의 값) 이 url에 포함되었을 때 오류나는 것을 막아준다.
+        AF.request(encoded ?? "")
+            .responseDecodable(of: IS_StockPriceInfo.self){ [weak self] response in
+                // success 이외의 응답을 받으면, else문에 걸려 함수 종료
+                guard
+                    let self = self,
+                    case .success(let data) = response.result else {
+                    print("실패ㅜㅜ")
+                    return }
+                print("실패 아니면 여기 나와야함!!!")
+                
+                let now_arr = data.response.body.items.item
+                //데이터 받아옴
+                self.itemsArr = now_arr.map{ now_item -> (String, String, (Int, Int)) in
+                    //여기서 각 변수들이 nil, 혹은 nil이 아닌 값일 수 있는데,
+                    // nil이 아닌 것들만 가지고 title을 정하고 , 나머지를 이어붙여 subtitle을 만든다
+                    let title: String = ((now_item.oilCtg != nil ? now_item.oilCtg : now_item.idxNm) != nil ? now_item.idxNm : now_item.itmsNm) ?? "제목없음"
+                    
+                    
+                    var subtitle: String = ""
+                    [(now_item.idxCsf, ""), (now_item.prdCtg, "상품분류 : "), (now_item.mrktCtg, ""), (now_item.epyItmsCnt, "채용종목수 : "), (now_item.ytm, "만기수익률 : "), (now_item.cnvt, "채권지수 볼록성 : "), (now_item.trqu, "체결수량 총합 : "), (now_item.trPrc, "거래대금 총합 : "), (now_item.bssIdxIdxNm, "기초지수 명칭 : "), (now_item.udasAstNm, "기초자산 명칭 : "),  (now_item.strnCd, "코드 : "), (now_item.isinCd, "국제 식별번호 : ")].forEach {
+                        if $0.0 != nil {
+                            subtitle += $0.1 + $0.0! + " / "
+                        }
+                    }
+                    subtitle.removeLast()
+                    subtitle.removeLast()
+                    subtitle.removeLast()
+                    
+                    return ( title, subtitle, (self.selected_section_idx, self.selected_subSection_idx) )
+                }
+                //테이블 뷰 다시 그려줌
+                self.showMode = .all
+                self.tableView.reloadData()
+            }
+            .resume()
     }
 }
