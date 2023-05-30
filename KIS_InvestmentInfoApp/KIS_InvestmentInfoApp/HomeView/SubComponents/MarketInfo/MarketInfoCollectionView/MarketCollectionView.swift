@@ -14,7 +14,7 @@ class MarketCollectionView: UICollectionView {
 //    private var contents: [String] = HomeContentsData.getContentsTitle()
 //    private var contentsSubtitle: [String] = HomeContentsData.getContentsSubtitle()
     
-    private var cellSize: Array<(Int, Int)> = [(1,1), (1,1), (1,1), (2,2), (1,2), (3,3), (1,2), (2,2), (3, 3), (2, 2), (1, 2), (1, 1), (1, 1), (1, 1), (3, 3), (1, 1), (1, 1), (1, 1), (1, 1), (1, 1), (1, 1), (1, 1), (1, 1), (1, 1), (1, 1), (1, 1), (1, 1), (1, 1), (1, 1), (1, 1), (1, 1), (1, 1) ]
+    private var cellSize: Array<(Int, Int)> = [(1,2), (1,2), (1,2), (2,2), (1,2), (3,3), (1,2), (2,2), (3, 3), (2, 2), (1, 2), (1, 2), (1, 2), (1, 2), (3, 3), (1, 2), (1, 2), (1, 2), (1, 2), (1, 2), (1, 2), (1, 2), (1, 2), (1, 2), (1, 2), (1, 2), (1, 2), (1, 2), (1, 2), (1, 2), (1, 2), (1, 2) ]
     private final let UNIT_WIDTH: Int = Int(( UIScreen.main.bounds.width - 40 ) / 3)
     
     

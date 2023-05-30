@@ -15,6 +15,7 @@ enum MarketCellShowMode {
 
 class MarketCollectionViewCell: UICollectionViewCell {
     
+
     private var showMode: MarketCellShowMode = .Simple
     private var title: String = ""
     private var subTitle: String = ""
@@ -24,6 +25,7 @@ class MarketCollectionViewCell: UICollectionViewCell {
     
     private let modeButton = UIButton()
     private let titleLabel = UILabel()
+    private let scrollView = UIScrollView()
     private let subTitleLabel = UILabel()
 //    private let marketCVCellCollectionView = MarketCVCellCollectionView(frame: .zero, collectionViewLayout: MarketCVCellCollectionViewLayout())
     
@@ -31,6 +33,7 @@ class MarketCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         attribute()
         layout()
+
     }
     
     required init?(coder: NSCoder) {
@@ -55,9 +58,14 @@ class MarketCollectionViewCell: UICollectionViewCell {
         modeButton.backgroundColor = .white
         modeButton.addTarget(self, action: #selector(modeButtonClicked), for: .touchUpInside)
         
+        scrollView.showsHorizontalScrollIndicator = false
         titleLabel.font = .systemFont(ofSize: 32.0, weight: .bold)
         titleLabel.textColor = .darkGray
         titleLabel.textAlignment = .center
+        
+        subTitleLabel.font = .systemFont(ofSize: 20.0, weight: .bold)
+        subTitleLabel.textColor = .darkGray
+        subTitleLabel.textAlignment = .left
     }
     @objc func modeButtonClicked(){
         print("clicked")
@@ -65,16 +73,47 @@ class MarketCollectionViewCell: UICollectionViewCell {
         case .Simple:
             self.showMode = .AllTextData
             modeButton.setTitle("all", for: .normal)
+            changeLayoutByMode()
         case .AllTextData:
             self.showMode = .price3Chart
             modeButton.setTitle("chart", for: .normal)
+            changeLayoutByMode()
         case .price3Chart:
             self.showMode = .Simple
             modeButton.setTitle("simple", for: .normal)
+            changeLayoutByMode()
+        }
+    }
+    
+    private func changeLayoutByMode(){
+        switch self.showMode {
+        case .Simple:
+            titleLabel.isHidden = false
+            titleLabel.font = .systemFont(ofSize: 32.0, weight: .bold)
+            titleLabel.snp.removeConstraints()
+            titleLabel.snp.makeConstraints{
+                $0.leading.trailing.equalToSuperview().inset(10)
+                $0.centerY.equalToSuperview().offset(-20)
+            }
+            
+            scrollView.isHidden = false
+            
+        case .AllTextData:
+            titleLabel.font = .systemFont(ofSize: 16, weight: .bold)
+            titleLabel.snp.removeConstraints()
+            scrollView.isHidden = true
+            addSubview(titleLabel)
+            titleLabel.snp.makeConstraints{
+                $0.leading.top.equalToSuperview().inset(10)
+            }
+            
+           
+        case .price3Chart:
+            titleLabel.isHidden = true
         }
     }
     private func layout(){
-        [ modeButton, titleLabel, subTitleLabel ].forEach{ addSubview($0)}
+        [ modeButton, titleLabel, scrollView ].forEach{ addSubview($0)}
         
         modeButton.snp.makeConstraints{
             $0.top.trailing.equalToSuperview().inset(6)
@@ -83,19 +122,21 @@ class MarketCollectionViewCell: UICollectionViewCell {
         }
         
         titleLabel.snp.makeConstraints{
-            $0.top.equalTo(modeButton.snp.bottom)
-            $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(30)
+//            $0.top.equalTo(modeButton.snp.bottom)
+            $0.leading.trailing.equalToSuperview().inset(10)
+            $0.centerY.equalToSuperview().offset(-20)
+            
         }
+        scrollView.snp.makeConstraints{
+            $0.top.equalTo(titleLabel.snp.bottom).offset(26)
+            $0.leading.trailing.equalToSuperview().inset(10)
+            $0.bottom.equalToSuperview().inset(6)
+        }
+        scrollView.addSubview(subTitleLabel)
         subTitleLabel.snp.makeConstraints{
-            $0.top.equalTo(titleLabel.snp.bottom)
-            $0.leading.equalToSuperview().inset(10)
-            $0.trailing.equalToSuperview()
-            $0.bottom.equalToSuperview()
+            $0.edges.equalToSuperview()
         }
-//        marketCVCellCollectionView.snp.makeConstraints{
-//            $0.edges.equalToSuperview().inset(12)
-//        }
+
     }
     
     func setup(title: String, subtitle: String, section: Int, subSection: Int){
@@ -109,3 +150,4 @@ class MarketCollectionViewCell: UICollectionViewCell {
     }
     
 }
+
