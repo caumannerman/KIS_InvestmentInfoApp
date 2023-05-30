@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Alamofire
+import SwiftUI
 
 enum MarketCellShowMode {
     case Simple
@@ -18,15 +19,16 @@ enum MarketCellShowMode {
 class MarketCollectionViewCell: UICollectionViewCell {
     
 
+    private let terms: [String] = Array(MarketInfoData.r_dict.values)
     private var showMode: MarketCellShowMode = .Simple
     private var url: String = ""
     private var apiResult: [ValueForAllCellData] = []
-    private var apiResultToShow: [(String, String)] = []
+    private var apiResultToShow: [Double] = []
     private var title: String = ""
     private var subTitle: String = ""
     private var section: Int = 0
     private var subSection: Int = 0
-    
+    private var chartName: String = ""
     
     private let modeButton = UIButton()
     private let titleLabel = UILabel()
@@ -34,6 +36,16 @@ class MarketCollectionViewCell: UICollectionViewCell {
     private let subTitleLabel = UILabel()
 
     private let tableView = UITableView()
+    
+    private let uiView = UIView()
+    private var marketInfoHostingController1: UIHostingController = {
+        let hostingController = UIHostingController( rootView: TradingChartView(dailyData: Array(repeating: 0.0, count: 90), startDate: Date(), endDate: Date(), name: "로딩중..." ) )
+        if #available(iOS 16.0, *) {
+            hostingController.sizingOptions = .preferredContentSize
+        }
+        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+        return hostingController
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -102,6 +114,11 @@ class MarketCollectionViewCell: UICollectionViewCell {
     private func changeLayoutByMode(){
         switch self.showMode {
         case .Simple:
+            self.uiView.removeFromSuperview()
+            self.marketInfoHostingController1.view.removeFromSuperview()
+            self.marketInfoHostingController1.view.isHidden = true
+            self.uiView.isHidden = true
+//            self.uiView.snp.removeConstraints()
             titleLabel.isHidden = false
             titleLabel.font = .systemFont(ofSize: 32.0, weight: .bold)
             titleLabel.snp.removeConstraints()
@@ -126,11 +143,35 @@ class MarketCollectionViewCell: UICollectionViewCell {
                 $0.top.equalTo(modeButton.snp.bottom).offset(8)
                 $0.leading.trailing.bottom.equalToSuperview().inset(10)
             }
-            requestAPI(url: self.url)
+            
             
            
         case .price3Chart:
-            tableView.isHidden = true
+            
+           
+                self.tableView.isHidden = true
+                self.marketInfoHostingController1.view.isHidden = false
+                self.uiView.isHidden = false
+            self.marketInfoHostingController1 = UIHostingController( rootView: TradingChartView(dailyData: self.apiResultToShow, startDate: Date(), endDate: Date(), name: "" ) )
+                
+                if #available(iOS 16.0, *) {
+                    self.marketInfoHostingController1.sizingOptions = .preferredContentSize
+                }
+            
+            self.addSubview(self.uiView)
+            self.uiView.snp.makeConstraints{
+                $0.top.equalTo(self.modeButton.snp.bottom).offset(40)
+                $0.leading.trailing.bottom.equalToSuperview().inset(40)
+            }
+                self.uiView.addSubview(self.marketInfoHostingController1.view)
+                self.marketInfoHostingController1.view.translatesAutoresizingMaskIntoConstraints = false
+                self.marketInfoHostingController1.view.snp.makeConstraints{
+                    $0.top.bottom.equalToSuperview().inset(20)
+                    $0.leading.trailing.equalToSuperview()
+                }
+                
+                
+            
         }
     }
     private func layout(){
@@ -169,6 +210,7 @@ class MarketCollectionViewCell: UICollectionViewCell {
         self.section = section
         self.subSection = subSection
         self.url = MarketInfoData.getMarketSubSectionsUrl(row: section, col: subSection) +  ( section == 1 ? "&idxNm=" : ( section == 2 && subSection == 0 ? "&oilCtg=" : "&itmsNm=")) + ( title != "제목없음" ? title : "")
+        print("setup한 url", self.url)
     }
     
 }
@@ -178,6 +220,13 @@ class MarketCollectionViewCell: UICollectionViewCell {
 extension MarketCollectionViewCell: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        requestAPI(url: self.url, term: terms[indexPath.row])
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4){
+            self.showMode = .price3Chart
+            self.modeButton.setTitle("chart", for: .normal)
+            self.changeLayoutByMode()
+        }
     }
 }
 
@@ -188,7 +237,7 @@ extension MarketCollectionViewCell: UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "Cell")
        
-        cell.textLabel?.text = Array(MarketInfoData.r_dict.values)[indexPath.row]
+        cell.textLabel?.text = terms[indexPath.row]
        
         cell.selectionStyle = .none
         return cell
@@ -197,7 +246,7 @@ extension MarketCollectionViewCell: UITableViewDataSource{
 
 
 extension MarketCollectionViewCell{
-    private func requestAPI(url: String){
+    private func requestAPI(url: String, term: String){
     
         let encoded = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed.union( CharacterSet(["%"])))
         print("encode된 url string : ", encoded)
@@ -221,6 +270,30 @@ extension MarketCollectionViewCell{
                     let now_cellData: ValueForAllCellData = ValueForAllCellData(basDt: now_item.basDt, srtnCd: now_item.srtnCd, itmsNm: now_item.itmsNm, mrktCtg: now_item.mrktCtg, mkp: now_item.mkp, clpr: now_item.clpr, hipr: now_item.hipr, lopr: now_item.lopr, vs: now_item.vs, fltRt: now_item.fltRt, trqu: now_item.trqu, trPrc: now_item.trPrc, lstgStCnt: now_item.lstgStCnt, isinCd: now_item.isinCd, mrktTotAmt: now_item.mrktTotAmt, nstIssPrc: now_item.nstIssPrc, dltDt: now_item.dltDt, purRgtScrtItmsCd: now_item.purRgtScrtItmsCd, purRgtScrtItmsNm: now_item.purRgtScrtItmsNm, purRgtScrtItmsClpr: now_item.purRgtScrtItmsClpr, stLstgCnt: now_item.stLstgCnt, exertPric: now_item.exertPric, subtPdSttgDt: now_item.subtPdSttgDt, subtPdEdDt: now_item.subtPdEdDt, lstgScrtCnt: now_item.lstgScrtCnt, lsYrEdVsFltRt: now_item.lsYrEdVsFltRt, basPntm: now_item.basPntm, basIdx: now_item.basIdx, idxCsf: now_item.idxCsf, idxNm: now_item.idxNm, epyItmsCnt: now_item.epyItmsCnt, lstgMrktTotAmt: now_item.lstgMrktTotAmt, lsYrEdVsFltRg: now_item.lsYrEdVsFltRg, yrWRcrdHgst: now_item.yrWRcrdHgst, yrWRcrdHgstDt: now_item.yrWRcrdHgstDt, yrWRcrdLwst: now_item.yrWRcrdLwst, yrWRcrdLwstDt: now_item.yrWRcrdLwstDt, totBnfIdxClpr: now_item.totBnfIdxClpr, totBnfIdxVs: now_item.totBnfIdxVs, nPrcIdxClpr: now_item.nPrcIdxClpr, nPrcIdxVs: now_item.nPrcIdxVs, zrRinvIdxClpr: now_item.zrRinvIdxClpr, zrRinvIdxVs: now_item.zrRinvIdxVs, clRinvIdxClpr: now_item.clRinvIdxClpr, clRinvIdxVs: now_item.clRinvIdxVs, mrktPrcIdxClpr: now_item.mrktPrcIdxClpr, mrktPrcIdxVs: now_item.mrktPrcIdxVs, durt: now_item.durt, cnvt: now_item.cnvt, ytm: now_item.ytm, wtAvgPrcCptn: now_item.wtAvgPrcCptn, wtAvgPrcDisc: now_item.wtAvgPrcDisc, oilCtg: now_item.oilCtg, nav: now_item.nav, nPptTotAmt: now_item.nPptTotAmt, bssIdxIdxNm: now_item.bssIdxIdxNm, bssIdxClpr: now_item.bssIdxClpr, indcValTotAmt: now_item.indcValTotAmt, indcVal: now_item.indcVal, udasAstNm: now_item.udasAstNm, udasAstClpr: now_item.udasAstClpr, mkpBnfRt: now_item.mkpBnfRt, hiprPrc: now_item.hiprPrc, hiprBnfRt: now_item.hiprBnfRt, loprPrc: now_item.loprPrc, loprBnfRt: now_item.loprBnfRt, xpYrCnt: now_item.xpYrCnt, itmsCtg: now_item.itmsCtg, clprPrc: now_item.clprPrc, clprVs: now_item.clprVs, clprBnfRt: now_item.clprBnfRt, prdCtg: now_item.prdCtg, sptPrc: now_item.sptPrc, stmPrc: now_item.stmPrc, opnint: now_item.opnint, nxtDdBsPrc: now_item.nxtDdBsPrc, iptVlty: now_item.iptVlty)
                     
                     return now_cellData
+                }
+                if term == "최고가" {
+                    self.apiResultToShow = self.apiResult.map{ a -> Double in
+                        return Double(a.hipr ?? "0.0") ?? 0.0
+                    }
+                    self.chartName = "최고가"
+                }
+                else if term == "최저가" {
+                    self.apiResultToShow = self.apiResult.map{ a -> Double in
+                        return Double(a.lopr ?? "0.0") ?? 0.0
+                    }
+                    self.chartName = "최저가"
+                }
+                else if term == "종가" {
+                    self.apiResultToShow = self.apiResult.map{ a -> Double in
+                        return Double(a.clpr ?? "0.0") ?? 0.0
+                    }
+                    self.chartName = "종가"
+                }
+                else if term == "시가" {
+                    self.apiResultToShow = self.apiResult.map{ a -> Double in
+                        return Double(a.mkp ?? "0.0") ?? 0.0
+                    }
+                    self.chartName = "시가"
                 }
             
                 
