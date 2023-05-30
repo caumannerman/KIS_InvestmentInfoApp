@@ -181,7 +181,7 @@ class HomeViewController: UIViewController {
         print(now_title, now_subTitle, now_section, now_subSection)
         
         
-        let detail_vc = MarketInfoDetailViewController()
+        let detail_vc = MarketInfoDetailViewController(title: now_title, subTitle: now_subTitle, section: now_section, subSection: now_subSection)
         self.navigationController?.isNavigationBarHidden = false
         detail_vc.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
   

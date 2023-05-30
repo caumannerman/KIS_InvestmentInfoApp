@@ -17,17 +17,39 @@ class MarketInfoDetailViewController: UIViewController {
     private let restView: UIView = UIView()
     
     
-    private let marketInfoHostingController1 = UIHostingController(rootView: MarketInfoView())
+    private lazy var marketInfoHostingController1: UIHostingController = {
+        
+        let hostingController = UIHostingController( rootView: TradingChartView(dailyData: [100.1, 103.2, 107.2, 102.1, 104.2, 108.2, 10.1, 101.2, 10.2, 100.1, 103.2, 105.2, 100.1, 103.2, 105.2, 100.1, 103.2, 105.2,100.1, 103.2, 107.2, 102.1, 104.2, 108.2, 10.1, 101.2, 10.2, 100.1, 103.2, 105.2, 100.1, 103.2, 105.2, 100.1, 103.2, 105.2,100.1, 103.2, 107.2, 102.1, 104.2, 108.2, 10.1, 101.2, 10.2, 100.1, 103.2, 105.2, 100.1, 103.2, 105.2, 100.1, 103.2, 105.2,100.1, 103.2, 107.2, 102.1, 104.2, 108.2, 10.1, 101.2, 10.2, 100.1, 103.2, 105.2, 100.1, 103.2, 105.2, 100.1, 103.2, 105.2,100.1, 103.2, 107.2, 102.1, 104.2, 108.2, 10.1, 101.2, 10.2, 100.1, 103.2, 105.2, 100.1, 103.2, 105.2, 100.1, 103.2, 105.2], weeklyData: [100.0, 105.2,101.0, 105.2,100.0, 105.2,100.0, 105.2,100.0, 105.2, 0, 0, 0], monthlyData: [110.0, 115.2,111.0, 115.2,110.0, 125.2,120.0, 125.2,120.0, 125.2], startDate: Date(), endDate: Date() ) )
+        
+        if #available(iOS 16.0, *) {
+            hostingController.sizingOptions = .preferredContentSize
+        } else {
+            // Fallback on earlier versions
+        }
+//        hostingController.modalPresentationStyle = .popover
+//        self.present(hostingController, animated: true)
+//        addChild(hostingController)
+        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+
+        return hostingController
+    }()
+    
     private let marketInfoHostingController2 = UIHostingController(rootView: MarketInfoView())
     private let marketInfoHostingController3 = UIHostingController(rootView: MarketInfoView())
     private let marketInfoHostingController4 = UIHostingController(rootView: MarketInfoView())
     private let marketInfoHostingController5 = UIHostingController(rootView: MarketInfoView())
     private let marketInfoHostingController6 = UIHostingController(rootView: MarketInfoView())
     
-    
+    init(title: String, subTitle: String, section: Int, subSection: Int){
+        super.init(nibName: nil, bundle: nil)
+        attribute()
+        layout()
+        print(title, subTitle, section, subSection)
+    }
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        print("원래 생성자")
         attribute()
         layout()
     }
@@ -47,10 +69,10 @@ class MarketInfoDetailViewController: UIViewController {
         alphaView.backgroundColor = UIColor(red: 100/255, green: 100/255, blue: 100/255, alpha: 0.1)
         alphaView.addTarget(self, action: #selector(backTo), for: .touchUpInside)
         
-        restView.backgroundColor = .systemMint
+        restView.backgroundColor = UIColor(red: 200/255, green: 220/255, blue: 250/255, alpha: 0.7)
         
         [ marketInfoHostingController1, marketInfoHostingController2, marketInfoHostingController3, marketInfoHostingController4, marketInfoHostingController5, marketInfoHostingController6].forEach{
-            $0.sizingOptions = .preferredContentSize
+//            $0.sizingOptions = .preferredContentSize
             $0.view.layer.borderWidth = 2.0
             $0.view.layer.borderColor = UIColor.black.cgColor
             $0.view.layer.cornerRadius = 10

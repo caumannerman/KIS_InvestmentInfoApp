@@ -10,6 +10,7 @@
 		8C017D5829FB4861009EAC37 /* MarketInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C017D5729FB4861009EAC37 /* MarketInfoView.swift */; };
 		8C017D5A29FB4FF5009EAC37 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C017D5929FB4FF5009EAC37 /* HomeViewController.swift */; };
 		8C017D5C29FBA0E6009EAC37 /* UrlSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C017D5B29FBA0E6009EAC37 /* UrlSearchView.swift */; };
+		8C302B462A2584A0001AA8C9 /* TradingChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C302B452A2584A0001AA8C9 /* TradingChartView.swift */; };
 		8C31BEAC2A1D98C4006D2405 /* SearchPartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C31BEAB2A1D98C4006D2405 /* SearchPartView.swift */; };
 		8C31BEAF2A1DA17C006D2405 /* SearchPartCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C31BEAE2A1DA17C006D2405 /* SearchPartCollectionView.swift */; };
 		8C31BEB12A1DA189006D2405 /* SearchPartCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C31BEB02A1DA189006D2405 /* SearchPartCollectionViewLayout.swift */; };
@@ -81,6 +82,7 @@
 		8C017D5729FB4861009EAC37 /* MarketInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketInfoView.swift; sourceTree = "<group>"; };
 		8C017D5929FB4FF5009EAC37 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		8C017D5B29FBA0E6009EAC37 /* UrlSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlSearchView.swift; sourceTree = "<group>"; };
+		8C302B452A2584A0001AA8C9 /* TradingChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradingChartView.swift; sourceTree = "<group>"; };
 		8C31BEAB2A1D98C4006D2405 /* SearchPartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPartView.swift; sourceTree = "<group>"; };
 		8C31BEAE2A1DA17C006D2405 /* SearchPartCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPartCollectionView.swift; sourceTree = "<group>"; };
 		8C31BEB02A1DA189006D2405 /* SearchPartCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPartCollectionViewLayout.swift; sourceTree = "<group>"; };
@@ -257,6 +259,7 @@
 			isa = PBXGroup;
 			children = (
 				8C017D5729FB4861009EAC37 /* MarketInfoView.swift */,
+				8C302B452A2584A0001AA8C9 /* TradingChartView.swift */,
 			);
 			path = SwiftUI;
 			sourceTree = "<group>";
@@ -633,6 +636,7 @@
 				A53EA6A529624EFD00F0E24A /* TestViewController.swift in Sources */,
 				8C31BEAC2A1D98C4006D2405 /* SearchPartView.swift in Sources */,
 				8C86903F2A1AECC900528FB2 /* ItemSectionCollectionViewCell.swift in Sources */,
+				8C302B462A2584A0001AA8C9 /* TradingChartView.swift in Sources */,
 				A5557FF1296250BE00919868 /* GetERNetwork.swift in Sources */,
 				8C31BEAF2A1DA17C006D2405 /* SearchPartCollectionView.swift in Sources */,
 				A55580112962957B00919868 /* ButtonListViewLayout.swift in Sources */,
