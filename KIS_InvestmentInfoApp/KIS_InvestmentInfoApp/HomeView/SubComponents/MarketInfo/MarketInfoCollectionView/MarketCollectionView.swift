@@ -82,7 +82,7 @@ extension MarketCollectionView: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MarketCollectionViewCell", for: indexPath) as? MarketCollectionViewCell else { return UICollectionViewCell() }
         
-        cell.setup(title: hcoms.itemTitle[indexPath.row], subtitle: hcoms.itemSubTitle[indexPath.row])
+        cell.setup(title: hcoms.itemTitle[indexPath.row], subtitle: hcoms.itemSubTitle[indexPath.row], section: hcoms.itemSection[indexPath.row], subSection: hcoms.itemSubSection[indexPath.row])
         return cell
     }
     
