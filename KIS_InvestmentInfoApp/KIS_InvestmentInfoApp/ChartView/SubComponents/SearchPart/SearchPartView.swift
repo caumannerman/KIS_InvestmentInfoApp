@@ -10,45 +10,23 @@ import UIKit
 import Alamofire
 import SnapKit
 
-//enum Section{
-//    case StockSecuritiesInfoService
-//    case MarketIndexInfoService
-//    case GeneralProductInfoService
-//    case SecuritiesProductInfoService
-//    case BondSecuritiesInfoService
-//    case DerivativeProductInfoService
-//}
-//
-//enum SubSection {
-//    case getStockPriceInfo
-//    case getPreemptiveRightCertificatePriceInfo
-//    case getSecuritiesPriceInfo
-//    case getPreemptiveRightSecuritiesPriceInfo
-//    case getStockMarketIndex
-//    case getBondMarketIndex
-//    case getDerivationProductMarketIndex
-//    case getOilPriceInfo
-//    case getGoldPriceInfo
-//    case getCertifiedEmissionReductionPriceInfo
-//    case getETFPriceInfo
-//    case getETNPriceInfo
-//    case getELWPriceInfo
-//    case getBondPriceInfo
-//    case getStockFuturesPriceInfo
-//    case getOptionsPriceInfo
-//}
-
-
 class SearchPartView: UIView {
-    
-//    private var section: Section = .MarketIndexInfoService
-//    private var subSection: SubSection = .getStockMarketIndex
+
     private var now_section_idx: Int = 0
     private var now_subSection_idx: Int = 0
     private var startDate: Date?
     private var endDate: Date?
 
     var arrsToShow: [(String, String)] = []
+    
+    
+    //저장할 파일의 이름을 담을 변수
+    private var saveFileName: String = ""
+    //저장 파일 이름 받아올 UIAlert
+    private let alert = UIAlertController(title: "파일 제목", message: "저장할 파일의 이름을 입력해주세요", preferredStyle: .alert)
+    private var ok = UIAlertAction()
+    private var cancel = UIAlertAction()
+    
     
     private var apiResultStr = ""
     // 이것이 json String을 이용해 최종적으로 얻은 배열이라고 생각하고 개발중
@@ -106,7 +84,7 @@ class SearchPartView: UIView {
     private lazy var collectionView: UICollectionView = {
         let layout = GridLayout()
         layout.cellHeight = 44
-        layout.cellWidths = Array(repeating: CGFloat(120), count: jsonResultArr[0].count + 1)
+        layout.cellWidths = Array(repeating: CGFloat(160), count: jsonResultArr[0].count + 1)
         let cv = UICollectionView(frame: self.bounds, collectionViewLayout: layout)
         
         cv.isDirectionalLockEnabled = true
@@ -130,9 +108,30 @@ class SearchPartView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = UIColor(red: 200/255, green: 220/255, blue: 250/255, alpha: 1.0)
+        NotificationCenter.default.addObserver(self, selector: #selector(changeCellColor(_:)), name: .cellColorChange, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(chartSectionDidChanged(_:)), name: .DidTapUnClickedCell, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(chartSubSectionDidChanged(_:)), name: .DidTapItemSubSectionCell_Chart, object: nil)
      
+        alert.addTextField{
+            $0.placeholder = "저장 파일명을 입력하세요"
+            $0.isSecureTextEntry = false
+        }
+        ok = UIAlertAction(title: "OK", style: .default){
+            action in print("OK")
+            // 저장할 파일 ㅇ제목을 받고
+            self.saveFileName = self.alert.textFields?[0].text ?? "Untitled"
+            print("저장 파일 이름 = ")
+            print(self.saveFileName)
+            //TODO: 아래에서 핸드폰에 csv를 저장해야함
+            print("저장!!!!")
+            let resultString = self.sliceArrayAndReturnCSVString(s: self.jsonResultArr, isCheck_col: self.isClickedArr_col, isCheck_row: self.isClickedArr_row )
+            self.createCSV(csvString: resultString)
+        }
+        cancel = UIAlertAction(title: "Cancel", style: .destructive)
+        alert.addAction(ok)
+        alert.addAction(cancel)
+        
+        
         attribute()
         layout()
         hideTableStackView.isHidden = true
@@ -142,6 +141,96 @@ class SearchPartView: UIView {
         blankView0.isHidden = true
         tableView.isHidden = true
     }
+    
+    private func createCSV(csvString: String) {
+        print("Start Exporting ...")
+        
+        let fileManager = FileManager.default
+        
+        let folderName = "KIS_Finance_Info"
+//        let csvFileName = "myCSVFile.csv"
+        
+        // 폴더 생성 documentDirectory userDomainMask
+        let documentUrl = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let directoryUrl = documentUrl.appendingPathComponent(folderName)
+        do {
+            try fileManager.createDirectory(atPath: directoryUrl.path, withIntermediateDirectories: true, attributes: nil)
+        }
+        catch let error as NSError {
+            print("폴더 생성 에러: \(error)")
+        }
+        
+        // csv 파일 생성
+        let fileUrl = directoryUrl.appendingPathComponent(saveFileName + ".csv")
+        let fileData = csvString.data(using: .utf8)
+        
+        do {
+            try fileData?.write(to: fileUrl)
+            
+            print("Writing CSV to: \(fileUrl.path)")
+        }
+        catch let error as NSError {
+            print("CSV파일 생성 에러!: \(error)")
+        }
+    }
+    
+    @objc func changeCellColor(_ notification: NSNotification){
+        
+        print(notification.userInfo!["row"]!)
+        print(notification.userInfo!["col"]!)
+        
+        let now_row = notification.userInfo!["row"] as? Int
+        let now_col = notification.userInfo!["col"] as? Int
+        
+        print(type(of:notification.userInfo!["row"]!))
+        print(type(of:notification.userInfo!["col"]!))
+        //첫 행인 경우
+        if now_row == -1{
+          isClickedArr_col[now_col!] = !isClickedArr_col[now_col!]
+        }// 첫 열인 경우
+        else if now_col == -2 {
+            isClickedArr_row[now_row!] = !isClickedArr_row[now_row!]
+        }
+        
+        print("isClickedArr_row 는!!!!!")
+        print(isClickedArr_row)
+        print("isClickedArr_col 는!!!!!")
+        print(isClickedArr_col)
+    }
+    
+    func sliceArrayAndReturnCSVString(s: [[String]], isCheck_col: [Bool], isCheck_row: [Bool] ) -> String{
+        
+        var result: String = ""
+
+        for i in 0 ..< s.count{
+            if i > 0 && !isCheck_row[i - 1]{
+                continue
+            }
+            for j in 0 ..< s[0].count{
+                if i == 0 {
+                    if isCheck_col[j]{
+                        result += String(s[i][j])
+                        if j != s[0].count - 1{
+                            result += ","
+                        }
+                    }
+                }
+                else{
+                    if isCheck_col[j] {
+                        result += String(s[i][j])
+                        if j != s[0].count - 1{
+                            result += ","
+                        }
+                    }
+                }
+            }
+            result += "\n"
+        }
+        return result
+    }
+    
+    
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -521,6 +610,9 @@ extension SearchPartView {
     
     @objc func savefunc(){
         print("저장 버튼 클릭")
+        let now_vc = UIApplication.topViewController()!
+        now_vc.present(alert, animated: true)
+        
     }
     
 }
