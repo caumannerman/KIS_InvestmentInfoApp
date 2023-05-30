@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import SnapKit
+import Alamofire
 
 enum MarketCellShowMode {
     case Simple
@@ -161,3 +163,35 @@ class MarketCollectionViewCell: UICollectionViewCell {
     
 }
 
+
+extension MarketCollectionViewCell{
+    private func requestAPI(url: String){
+    
+        let encoded = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed.union( CharacterSet(["%"])))
+        print("encode된 url string : ", encoded)
+        //addingPercentEncoding은 한글(영어 이외의 값) 이 url에 포함되었을 때 오류나는 것을 막아준다.
+        AF.request(encoded ?? "")
+            .responseDecodable(of: ValueForLineChart.self){ [weak self] response in
+                // success 이외의 응답을 받으면, else문에 걸려 함수 종료
+                guard
+                    let self = self,
+                    case .success(let data) = response.result else {
+                    print("실패ㅜㅜ")
+                    return }
+                print("실패 아니면 여기 나와야함!!!")
+               
+                let now_arr = data.response.body.items.item
+                //데이터 받아옴
+                self.apiResult = now_arr.map{ now_item -> ValueForLineChartCellData in
+                    //여기서 각 변수들이 nil, 혹은 nil이 아닌 값일 수 있는데,
+                    // nil이 아닌 것들만 가지고 title을 정하고 , 나머지를 이어붙여 subtitle을 만든다
+                    
+                    let now_cellData: ValueForLineChartCellData = ValueForLineChartCellData(mkp: now_item.mkp, clpr: now_item.clpr, hipr: now_item.hipr, lopr: now_item.lopr, vs: now_item.vs, fltRt: now_item.fltRt, trqu: now_item.trqu, trPrc: now_item.trPrc, purRgtScrtItmsClpr: now_item.purRgtScrtItmsClpr, exertPric: now_item.exertPric, basIdx: now_item.basIdx, yrWRcrdHgst: now_item.yrWRcrdHgst, yrWRcrdLwst: now_item.yrWRcrdLwst, totBnfIdxClpr: now_item.totBnfIdxClpr, totBnfIdxVs: now_item.totBnfIdxVs, nPrcIdxClpr: now_item.nPrcIdxClpr, nPrcIdxVs: now_item.nPrcIdxVs, zrRinvIdxClpr: now_item.zrRinvIdxClpr, zrRinvIdxVs: now_item.zrRinvIdxVs, clRinvIdxClpr: now_item.clRinvIdxClpr, clRinvIdxVs: now_item.clRinvIdxVs, mrktPrcIdxClpr: now_item.mrktPrcIdxClpr, mrktPrcIdxVs: now_item.mrktPrcIdxVs, cnvt: now_item.cnvt, nav: now_item.nav, nPptTotAmt: now_item.nPptTotAmt, bssIdxClpr: now_item.bssIdxClpr, hiprPrc: now_item.hiprPrc, loprPrc: now_item.loprPrc, clprPrc: now_item.clprPrc, clprVs: now_item.clprVs, clprBnfRt: now_item.clprBnfRt, sptPrc: now_item.sptPrc, stmPrc: now_item.stmPrc, opnint: now_item.opnint, iptVlty: now_item.iptVlty)
+                    
+                    return now_cellData
+                }
+            }
+            .resume()
+        print("api끝!")
+    }
+}
