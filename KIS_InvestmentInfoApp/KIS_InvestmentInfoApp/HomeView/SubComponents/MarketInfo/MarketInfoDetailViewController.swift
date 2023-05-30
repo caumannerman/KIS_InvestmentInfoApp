@@ -20,26 +20,55 @@ class MarketInfoDetailViewController: UIViewController {
     private let restView: UIView = UIView()
     
     
-    private lazy var marketInfoHostingController1: UIHostingController = {
-        
-        let hostingController = UIHostingController( rootView: TradingChartView(dailyData: Array(repeating: 0.0, count: 90), startDate: Date(), endDate: Date(), name: "항목명" ) )
-        
+    private var marketInfoHostingController1: UIHostingController = {
+        let hostingController = UIHostingController( rootView: TradingChartView(dailyData: Array(repeating: 0.0, count: 90), startDate: Date(), endDate: Date(), name: "로딩중..." ) )
         if #available(iOS 16.0, *) {
             hostingController.sizingOptions = .preferredContentSize
-        } else {
-            // Fallback on earlier versions
         }
-
         hostingController.view.translatesAutoresizingMaskIntoConstraints = false
-
         return hostingController
     }()
     
-    private var marketInfoHostingController2 = UIHostingController(rootView: MarketInfoView())
-    private var marketInfoHostingController3 = UIHostingController(rootView: MarketInfoView())
-    private var marketInfoHostingController4 = UIHostingController(rootView: MarketInfoView())
-    private var marketInfoHostingController5 = UIHostingController(rootView: MarketInfoView())
-    private var marketInfoHostingController6 = UIHostingController(rootView: MarketInfoView())
+    private var marketInfoHostingController2: UIHostingController = {
+        let hostingController = UIHostingController( rootView: TradingChartView(dailyData: Array(repeating: 0.0, count: 90), startDate: Date(), endDate: Date(), name: "로딩중..." ) )
+        if #available(iOS 16.0, *) {
+            hostingController.sizingOptions = .preferredContentSize
+        }
+        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+        return hostingController
+    }()
+    private var marketInfoHostingController3: UIHostingController = {
+        let hostingController = UIHostingController( rootView: TradingChartView(dailyData: Array(repeating: 0.0, count: 90), startDate: Date(), endDate: Date(), name: "로딩중..." ) )
+        if #available(iOS 16.0, *) {
+            hostingController.sizingOptions = .preferredContentSize
+        }
+        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+        return hostingController
+    }()
+    private var marketInfoHostingController4: UIHostingController = {
+        let hostingController = UIHostingController( rootView: TradingChartView(dailyData: Array(repeating: 0.0, count: 90), startDate: Date(), endDate: Date(), name: "로딩중..." ) )
+        if #available(iOS 16.0, *) {
+            hostingController.sizingOptions = .preferredContentSize
+        }
+        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+        return hostingController
+    }()
+    private var marketInfoHostingController5: UIHostingController = {
+        let hostingController = UIHostingController( rootView: TradingChartView(dailyData: Array(repeating: 0.0, count: 90), startDate: Date(), endDate: Date(), name: "로딩중..." ) )
+        if #available(iOS 16.0, *) {
+            hostingController.sizingOptions = .preferredContentSize
+        }
+        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+        return hostingController
+    }()
+    private var marketInfoHostingController6: UIHostingController = {
+        let hostingController = UIHostingController( rootView: TradingChartView(dailyData: Array(repeating: 0.0, count: 90), startDate: Date(), endDate: Date(), name: "로딩중..." ) )
+        if #available(iOS 16.0, *) {
+            hostingController.sizingOptions = .preferredContentSize
+        }
+        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+        return hostingController
+    }()
     
     init(title: String, subTitle: String, section: Int, subSection: Int){
         super.init(nibName: nil, bundle: nil)
@@ -54,6 +83,7 @@ class MarketInfoDetailViewController: UIViewController {
         print("원래 생성자")
         attribute()
         layout()
+  
     }
     
     required init?(coder: NSCoder) {
@@ -69,13 +99,14 @@ class MarketInfoDetailViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        
         requestAPI(url: self.url)
         print("api 호출 끝 appear")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3){
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4){
             self.marketInfoHostingController1.view.snp.removeConstraints()
             self.marketInfoHostingController1 = UIHostingController( rootView: TradingChartView(dailyData: self.apiResult.map{ a -> Double in
                 return Double(a.clpr ?? "0.0") ?? 0.0
-            }, startDate: Date(), endDate: Date(), name: "name!!" ) )
+            }, startDate: Date(), endDate: Date(), name: "종가" ) )
             
             if #available(iOS 16.0, *) {
                 self.marketInfoHostingController1.sizingOptions = .preferredContentSize
@@ -86,6 +117,110 @@ class MarketInfoDetailViewController: UIViewController {
             self.restView.addSubview(self.marketInfoHostingController1.view)
             self.marketInfoHostingController1.view.snp.makeConstraints{
                 $0.top.leading.equalToSuperview().inset(10)
+                $0.width.equalTo((UIScreen.main.bounds.width - 30 ) / 2)
+                $0.height.equalTo(UIScreen.main.bounds.height / 4)
+            }
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4){
+            self.marketInfoHostingController2.view.snp.removeConstraints()
+            self.marketInfoHostingController2 = UIHostingController( rootView: TradingChartView(dailyData: self.apiResult.map{ a -> Double in
+                return Double(a.hipr ?? "0.0") ?? 0.0
+            }, startDate: Date(), endDate: Date(), name: "고가" ) )
+            
+            if #available(iOS 16.0, *) {
+                self.marketInfoHostingController2.sizingOptions = .preferredContentSize
+            }
+            self.addChild(self.marketInfoHostingController2)
+            self.marketInfoHostingController2.view.translatesAutoresizingMaskIntoConstraints = false
+            
+            self.restView.addSubview(self.marketInfoHostingController2.view)
+            self.marketInfoHostingController2.view.snp.makeConstraints{
+                $0.top.trailing.equalToSuperview().inset(10)
+                $0.width.equalTo((UIScreen.main.bounds.width - 30 ) / 2)
+                $0.height.equalTo(UIScreen.main.bounds.height / 4)
+            }
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4){
+            self.marketInfoHostingController3.view.snp.removeConstraints()
+            self.marketInfoHostingController3 = UIHostingController( rootView: TradingChartView(dailyData: self.apiResult.map{ a -> Double in
+                return Double(a.lopr ?? "0.0") ?? 0.0
+            }, startDate: Date(), endDate: Date(), name: "저가" ) )
+            
+            if #available(iOS 16.0, *) {
+                self.marketInfoHostingController3.sizingOptions = .preferredContentSize
+            }
+            self.addChild(self.marketInfoHostingController3)
+            self.marketInfoHostingController3.view.translatesAutoresizingMaskIntoConstraints = false
+            
+            self.restView.addSubview(self.marketInfoHostingController3.view)
+            self.marketInfoHostingController3.view.snp.makeConstraints{
+                $0.top.equalTo(self.marketInfoHostingController1.view.snp.bottom).offset(10)
+                $0.leading.equalToSuperview().inset(10)
+                $0.width.equalTo((UIScreen.main.bounds.width - 30 ) / 2)
+                $0.height.equalTo(UIScreen.main.bounds.height / 4)
+            }
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4){
+            self.marketInfoHostingController4.view.snp.removeConstraints()
+            self.marketInfoHostingController4 = UIHostingController( rootView: TradingChartView(dailyData: self.apiResult.map{ a -> Double in
+                return Double(a.vs ?? "0.0") ?? 0.0
+            }, startDate: Date(), endDate: Date(), name: "전일대비등락" ) )
+            
+            if #available(iOS 16.0, *) {
+                self.marketInfoHostingController4.sizingOptions = .preferredContentSize
+            }
+            self.addChild(self.marketInfoHostingController4)
+            self.marketInfoHostingController4.view.translatesAutoresizingMaskIntoConstraints = false
+            
+            self.restView.addSubview(self.marketInfoHostingController4.view)
+            self.marketInfoHostingController4.view.snp.makeConstraints{
+                $0.top.equalTo(self.marketInfoHostingController2.view.snp.bottom).offset(10)
+                $0.trailing.equalToSuperview().inset(10)
+                $0.width.equalTo((UIScreen.main.bounds.width - 30 ) / 2)
+                $0.height.equalTo(UIScreen.main.bounds.height / 4)
+            }
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4){
+            self.marketInfoHostingController5.view.snp.removeConstraints()
+            self.marketInfoHostingController5 = UIHostingController( rootView: TradingChartView(dailyData: self.apiResult.map{ a -> Double in
+                return Double(a.trqu ?? "0.0") ?? 0.0
+            }, startDate: Date(), endDate: Date(), name: "체결량 총합" ) )
+            
+            if #available(iOS 16.0, *) {
+                self.marketInfoHostingController5.sizingOptions = .preferredContentSize
+            }
+            self.addChild(self.marketInfoHostingController5)
+            self.marketInfoHostingController5.view.translatesAutoresizingMaskIntoConstraints = false
+            
+            self.restView.addSubview(self.marketInfoHostingController5.view)
+            self.marketInfoHostingController5.view.snp.makeConstraints{
+                $0.top.equalTo(self.marketInfoHostingController3.view.snp.bottom).offset(10)
+                $0.leading.equalToSuperview().inset(10)
+                $0.width.equalTo((UIScreen.main.bounds.width - 30 ) / 2)
+                $0.height.equalTo(UIScreen.main.bounds.height / 4)
+            }
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 4){
+            self.marketInfoHostingController6.view.snp.removeConstraints()
+            self.marketInfoHostingController6 = UIHostingController( rootView: TradingChartView(dailyData: self.apiResult.map{ a -> Double in
+                return Double(a.trPrc ?? "0.0") ?? 0.0
+            }, startDate: Date(), endDate: Date(), name: "포함종목 거래대금 총합" ) )
+            
+            if #available(iOS 16.0, *) {
+                self.marketInfoHostingController6.sizingOptions = .preferredContentSize
+            }
+            self.addChild(self.marketInfoHostingController6)
+            self.marketInfoHostingController6.view.translatesAutoresizingMaskIntoConstraints = false
+            
+            self.restView.addSubview(self.marketInfoHostingController6.view)
+            self.marketInfoHostingController6.view.snp.makeConstraints{
+                $0.top.equalTo(self.marketInfoHostingController4.view.snp.bottom).offset(10)
+                $0.trailing.equalToSuperview().inset(10)
                 $0.width.equalTo((UIScreen.main.bounds.width - 30 ) / 2)
                 $0.height.equalTo(UIScreen.main.bounds.height / 4)
             }
