@@ -46,6 +46,8 @@
 		8CB01B982A0E06740023BB39 /* MarketCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB01B972A0E06740023BB39 /* MarketCollectionViewCell.swift */; };
 		8CCE74D72A08A540002B34D2 /* NotifiCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCE74D62A08A540002B34D2 /* NotifiCenter.swift */; };
 		8CCE74DA2A08BE26002B34D2 /* UrlCommonState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CCE74D92A08BE26002B34D2 /* UrlCommonState.swift */; };
+		8CD398AD2A266881004F483E /* ValueForAll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD398AC2A266881004F483E /* ValueForAll.swift */; };
+		8CD398AF2A266891004F483E /* ValueForAllCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD398AE2A266891004F483E /* ValueForAllCellData.swift */; };
 		8CD5AEB62A11C2F500E0BD1A /* MarketInfoDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD5AEB52A11C2F500E0BD1A /* MarketInfoDetailViewController.swift */; };
 		8CF7E15B2A0CB40A001C23B7 /* MyLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF7E15A2A0CB40A001C23B7 /* MyLoadingView.swift */; };
 		8CF7E15E2A0CB4FF001C23B7 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 8CF7E15D2A0CB4FF001C23B7 /* Lottie */; };
@@ -119,6 +121,8 @@
 		8CB01B972A0E06740023BB39 /* MarketCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketCollectionViewCell.swift; sourceTree = "<group>"; };
 		8CCE74D62A08A540002B34D2 /* NotifiCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotifiCenter.swift; sourceTree = "<group>"; };
 		8CCE74D92A08BE26002B34D2 /* UrlCommonState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlCommonState.swift; sourceTree = "<group>"; };
+		8CD398AC2A266881004F483E /* ValueForAll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueForAll.swift; sourceTree = "<group>"; };
+		8CD398AE2A266891004F483E /* ValueForAllCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueForAllCellData.swift; sourceTree = "<group>"; };
 		8CD5AEB52A11C2F500E0BD1A /* MarketInfoDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketInfoDetailViewController.swift; sourceTree = "<group>"; };
 		8CF7E15A2A0CB40A001C23B7 /* MyLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLoadingView.swift; sourceTree = "<group>"; };
 		A5200E6829658CAC00FBFCAF /* ButtonListViewCellCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonListViewCellCell.swift; sourceTree = "<group>"; };
@@ -170,6 +174,8 @@
 			children = (
 				8C302B482A258C8F001AA8C9 /* ValueForLineChart.swift */,
 				8C302B4A2A258D1B001AA8C9 /* ValueForLineChartCellData.swift */,
+				8CD398AC2A266881004F483E /* ValueForAll.swift */,
+				8CD398AE2A266891004F483E /* ValueForAllCellData.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -660,6 +666,7 @@
 				8C86904B2A1B2D3B00528FB2 /* ItemSubSectionCollectionViewCell.swift in Sources */,
 				8C86904F2A1B3BBC00528FB2 /* MarketInfoData.swift in Sources */,
 				8C017D5829FB4861009EAC37 /* MarketInfoView.swift in Sources */,
+				8CD398AF2A266891004F483E /* ValueForAllCellData.swift in Sources */,
 				A5D1BC8D296BE8220045045B /* SwiftUIChartView.swift in Sources */,
 				8C302B4B2A258D1B001AA8C9 /* ValueForLineChartCellData.swift in Sources */,
 				A5FB4AE8296D7E6000ADD977 /* JsonParser.swift in Sources */,
@@ -695,6 +702,7 @@
 				8C5E2AD729F797EB00C6061E /* ApiListTableViewCell.swift in Sources */,
 				A5557FFC2962579F00919868 /* MyFilesViewController.swift in Sources */,
 				A53EA69129624D3600F0E24A /* SceneDelegate.swift in Sources */,
+				8CD398AD2A266881004F483E /* ValueForAll.swift in Sources */,
 				A53D3E882967A2A90030C6A3 /* SecurityResponse.swift in Sources */,
 				A5557FFA2962578F00919868 /* ChartViewController.swift in Sources */,
 				8C8FC5462A148FD900D97342 /* MarketCVCellCollectionViewCell.swift in Sources */,

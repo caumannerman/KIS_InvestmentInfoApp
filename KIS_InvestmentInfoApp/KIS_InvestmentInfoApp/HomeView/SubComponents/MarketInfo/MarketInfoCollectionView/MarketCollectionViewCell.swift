@@ -27,7 +27,8 @@ class MarketCollectionViewCell: UICollectionViewCell {
     private let titleLabel = UILabel()
     private let scrollView = UIScrollView()
     private let subTitleLabel = UILabel()
-//    private let marketCVCellCollectionView = MarketCVCellCollectionView(frame: .zero, collectionViewLayout: MarketCVCellCollectionViewLayout())
+
+    private let tableView = UITableView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -66,6 +67,9 @@ class MarketCollectionViewCell: UICollectionViewCell {
         subTitleLabel.font = .systemFont(ofSize: 20.0, weight: .bold)
         subTitleLabel.textColor = .darkGray
         subTitleLabel.textAlignment = .left
+        
+        tableView.backgroundColor = .yellow
+        tableView.isHidden = true
     }
     @objc func modeButtonClicked(){
         print("clicked")
@@ -106,10 +110,16 @@ class MarketCollectionViewCell: UICollectionViewCell {
             titleLabel.snp.makeConstraints{
                 $0.leading.top.equalToSuperview().inset(10)
             }
+            tableView.isHidden = false
+            addSubview(tableView)
+            tableView.snp.makeConstraints{
+                $0.top.equalTo(modeButton.snp.bottom).offset(8)
+                $0.leading.trailing.bottom.equalToSuperview().inset(10)
+            }
             
            
         case .price3Chart:
-            titleLabel.isHidden = true
+            tableView.isHidden = true
         }
     }
     private func layout(){
