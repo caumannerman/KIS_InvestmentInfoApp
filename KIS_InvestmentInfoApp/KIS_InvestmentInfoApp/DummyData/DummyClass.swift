@@ -45,12 +45,12 @@ class DummyClass {
         return firstHomeItemSubTitle
     }
 
-    private static let firstHomeItemSection: [Int] = [-1]
+    private static let firstHomeItemSection: [Int] = [0]
     static func getFirstHomeItemSection() -> [Int] {
         return firstHomeItemSection
     }
     
-    private static let firstHomeItemSubSection: [Int] = [-1]
+    private static let firstHomeItemSubSection: [Int] = [0]
     static func getFirstHomeItemSubSection() -> [Int] {
         return firstHomeItemSubSection
     }

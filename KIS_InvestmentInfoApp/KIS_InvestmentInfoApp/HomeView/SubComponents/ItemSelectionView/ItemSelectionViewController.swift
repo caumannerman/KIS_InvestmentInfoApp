@@ -17,8 +17,8 @@ enum ShowMode {
 
 class ItemSelectionViewController: UIViewController {
     
-    private var selected_section_idx: Int = -1
-    private var selected_subSection_idx: Int = -1
+    private var selected_section_idx: Int = 0
+    private var selected_subSection_idx: Int = 0
 
     private var showMode: ShowMode = .all
    
@@ -27,7 +27,7 @@ class ItemSelectionViewController: UIViewController {
     private let textField: UITextField = UITextField()
     private let tableView: UITableView = UITableView()
    
-    private var itemsArr: [(String, String, (Int, Int))] = [("섹션을 선택해주세요","섹션 선택 후 검색이 가능합니다", (-1,-1))]
+    private var itemsArr: [(String, String, (Int, Int))] = [("섹션을 선택해주세요","섹션 선택 후 검색이 가능합니다", (0, 0))]
     private var itemsArrToShow: [(String, String, (Int, Int))] = []
     
     

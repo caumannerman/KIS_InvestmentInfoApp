@@ -13,8 +13,8 @@ class HomeContentsData {
     
     var itemTitle: [String] =  ["+ 버튼을 눌러 항목추가" ]
     var itemSubTitle: [String] = ["+ 버튼을 눌러 항목을 추가해주세요"]
-    var itemSection: [Int] = [-1]
-    var itemSubSection: [Int] = [-1]
+    var itemSection: [Int] = [0]
+    var itemSubSection: [Int] = [0]
 
     
     private init(){
@@ -34,8 +34,8 @@ class HomeContentsData {
 //        contentsUrl = UserDefaults.standard.array(forKey: "homeContentsUrl") as? [String] ?? ["No Url"]
         itemTitle =  UserDefaults.standard.array(forKey: "homeItemTitle") as? [String] ?? ["no Item"]
         itemSubTitle = UserDefaults.standard.array(forKey: "homeItemSubTitle") as? [String] ?? ["no Item"]
-        itemSection = UserDefaults.standard.array(forKey: "homeItemSection") as? [Int] ?? [-1]
-        itemSubSection = UserDefaults.standard.array(forKey: "homeItemSubSection") as? [Int] ?? [-1]
+        itemSection = UserDefaults.standard.array(forKey: "homeItemSection") as? [Int] ?? [0]
+        itemSubSection = UserDefaults.standard.array(forKey: "homeItemSubSection") as? [Int] ?? [0]
         print("UserDefaults에서 정보 갖고오기 끝")
     }
     

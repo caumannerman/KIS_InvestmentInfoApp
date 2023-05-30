@@ -19,10 +19,13 @@ class MarketCollectionViewCell: UICollectionViewCell {
     
 
     private var showMode: MarketCellShowMode = .Simple
+    private var url: String = ""
+    private var apiResult: [ValueForAllCellData] = []
+    private var apiResultToShow: [(String, String)] = []
     private var title: String = ""
     private var subTitle: String = ""
-    private var section: Int = -1
-    private var subSection: Int = -1
+    private var section: Int = 0
+    private var subSection: Int = 0
     
     
     private let modeButton = UIButton()
@@ -36,6 +39,7 @@ class MarketCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         attribute()
         layout()
+        
 
     }
     
@@ -70,8 +74,12 @@ class MarketCollectionViewCell: UICollectionViewCell {
         subTitleLabel.textColor = .darkGray
         subTitleLabel.textAlignment = .left
         
-        tableView.backgroundColor = .yellow
+        tableView.backgroundColor = .lightGray
         tableView.isHidden = true
+        tableView.dataSource = self
+        tableView.delegate = self
+
+        tableView.rowHeight = 30
     }
     @objc func modeButtonClicked(){
         print("clicked")
@@ -118,6 +126,7 @@ class MarketCollectionViewCell: UICollectionViewCell {
                 $0.top.equalTo(modeButton.snp.bottom).offset(8)
                 $0.leading.trailing.bottom.equalToSuperview().inset(10)
             }
+            requestAPI(url: self.url)
             
            
         case .price3Chart:
@@ -159,8 +168,31 @@ class MarketCollectionViewCell: UICollectionViewCell {
         self.subTitle = subtitle
         self.section = section
         self.subSection = subSection
+        self.url = MarketInfoData.getMarketSubSectionsUrl(row: section, col: subSection) +  ( section == 1 ? "&idxNm=" : ( section == 2 && subSection == 0 ? "&oilCtg=" : "&itmsNm=")) + ( title != "제목없음" ? title : "")
     }
     
+}
+
+
+
+extension MarketCollectionViewCell: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
+}
+
+extension MarketCollectionViewCell: UITableViewDataSource{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return MarketInfoData.r_dict.count
+    }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "Cell")
+       
+        cell.textLabel?.text = Array(MarketInfoData.r_dict.values)[indexPath.row]
+       
+        cell.selectionStyle = .none
+        return cell
+    }
 }
 
 
@@ -171,7 +203,7 @@ extension MarketCollectionViewCell{
         print("encode된 url string : ", encoded)
         //addingPercentEncoding은 한글(영어 이외의 값) 이 url에 포함되었을 때 오류나는 것을 막아준다.
         AF.request(encoded ?? "")
-            .responseDecodable(of: ValueForLineChart.self){ [weak self] response in
+            .responseDecodable(of: ValueForAll.self){ [weak self] response in
                 // success 이외의 응답을 받으면, else문에 걸려 함수 종료
                 guard
                     let self = self,
@@ -182,14 +214,17 @@ extension MarketCollectionViewCell{
                
                 let now_arr = data.response.body.items.item
                 //데이터 받아옴
-                self.apiResult = now_arr.map{ now_item -> ValueForLineChartCellData in
+                self.apiResult = now_arr.map{ now_item -> ValueForAllCellData in
                     //여기서 각 변수들이 nil, 혹은 nil이 아닌 값일 수 있는데,
                     // nil이 아닌 것들만 가지고 title을 정하고 , 나머지를 이어붙여 subtitle을 만든다
                     
-                    let now_cellData: ValueForLineChartCellData = ValueForLineChartCellData(mkp: now_item.mkp, clpr: now_item.clpr, hipr: now_item.hipr, lopr: now_item.lopr, vs: now_item.vs, fltRt: now_item.fltRt, trqu: now_item.trqu, trPrc: now_item.trPrc, purRgtScrtItmsClpr: now_item.purRgtScrtItmsClpr, exertPric: now_item.exertPric, basIdx: now_item.basIdx, yrWRcrdHgst: now_item.yrWRcrdHgst, yrWRcrdLwst: now_item.yrWRcrdLwst, totBnfIdxClpr: now_item.totBnfIdxClpr, totBnfIdxVs: now_item.totBnfIdxVs, nPrcIdxClpr: now_item.nPrcIdxClpr, nPrcIdxVs: now_item.nPrcIdxVs, zrRinvIdxClpr: now_item.zrRinvIdxClpr, zrRinvIdxVs: now_item.zrRinvIdxVs, clRinvIdxClpr: now_item.clRinvIdxClpr, clRinvIdxVs: now_item.clRinvIdxVs, mrktPrcIdxClpr: now_item.mrktPrcIdxClpr, mrktPrcIdxVs: now_item.mrktPrcIdxVs, cnvt: now_item.cnvt, nav: now_item.nav, nPptTotAmt: now_item.nPptTotAmt, bssIdxClpr: now_item.bssIdxClpr, hiprPrc: now_item.hiprPrc, loprPrc: now_item.loprPrc, clprPrc: now_item.clprPrc, clprVs: now_item.clprVs, clprBnfRt: now_item.clprBnfRt, sptPrc: now_item.sptPrc, stmPrc: now_item.stmPrc, opnint: now_item.opnint, iptVlty: now_item.iptVlty)
+                    let now_cellData: ValueForAllCellData = ValueForAllCellData(basDt: now_item.basDt, srtnCd: now_item.srtnCd, itmsNm: now_item.itmsNm, mrktCtg: now_item.mrktCtg, mkp: now_item.mkp, clpr: now_item.clpr, hipr: now_item.hipr, lopr: now_item.lopr, vs: now_item.vs, fltRt: now_item.fltRt, trqu: now_item.trqu, trPrc: now_item.trPrc, lstgStCnt: now_item.lstgStCnt, isinCd: now_item.isinCd, mrktTotAmt: now_item.mrktTotAmt, nstIssPrc: now_item.nstIssPrc, dltDt: now_item.dltDt, purRgtScrtItmsCd: now_item.purRgtScrtItmsCd, purRgtScrtItmsNm: now_item.purRgtScrtItmsNm, purRgtScrtItmsClpr: now_item.purRgtScrtItmsClpr, stLstgCnt: now_item.stLstgCnt, exertPric: now_item.exertPric, subtPdSttgDt: now_item.subtPdSttgDt, subtPdEdDt: now_item.subtPdEdDt, lstgScrtCnt: now_item.lstgScrtCnt, lsYrEdVsFltRt: now_item.lsYrEdVsFltRt, basPntm: now_item.basPntm, basIdx: now_item.basIdx, idxCsf: now_item.idxCsf, idxNm: now_item.idxNm, epyItmsCnt: now_item.epyItmsCnt, lstgMrktTotAmt: now_item.lstgMrktTotAmt, lsYrEdVsFltRg: now_item.lsYrEdVsFltRg, yrWRcrdHgst: now_item.yrWRcrdHgst, yrWRcrdHgstDt: now_item.yrWRcrdHgstDt, yrWRcrdLwst: now_item.yrWRcrdLwst, yrWRcrdLwstDt: now_item.yrWRcrdLwstDt, totBnfIdxClpr: now_item.totBnfIdxClpr, totBnfIdxVs: now_item.totBnfIdxVs, nPrcIdxClpr: now_item.nPrcIdxClpr, nPrcIdxVs: now_item.nPrcIdxVs, zrRinvIdxClpr: now_item.zrRinvIdxClpr, zrRinvIdxVs: now_item.zrRinvIdxVs, clRinvIdxClpr: now_item.clRinvIdxClpr, clRinvIdxVs: now_item.clRinvIdxVs, mrktPrcIdxClpr: now_item.mrktPrcIdxClpr, mrktPrcIdxVs: now_item.mrktPrcIdxVs, durt: now_item.durt, cnvt: now_item.cnvt, ytm: now_item.ytm, wtAvgPrcCptn: now_item.wtAvgPrcCptn, wtAvgPrcDisc: now_item.wtAvgPrcDisc, oilCtg: now_item.oilCtg, nav: now_item.nav, nPptTotAmt: now_item.nPptTotAmt, bssIdxIdxNm: now_item.bssIdxIdxNm, bssIdxClpr: now_item.bssIdxClpr, indcValTotAmt: now_item.indcValTotAmt, indcVal: now_item.indcVal, udasAstNm: now_item.udasAstNm, udasAstClpr: now_item.udasAstClpr, mkpBnfRt: now_item.mkpBnfRt, hiprPrc: now_item.hiprPrc, hiprBnfRt: now_item.hiprBnfRt, loprPrc: now_item.loprPrc, loprBnfRt: now_item.loprBnfRt, xpYrCnt: now_item.xpYrCnt, itmsCtg: now_item.itmsCtg, clprPrc: now_item.clprPrc, clprVs: now_item.clprVs, clprBnfRt: now_item.clprBnfRt, prdCtg: now_item.prdCtg, sptPrc: now_item.sptPrc, stmPrc: now_item.stmPrc, opnint: now_item.opnint, nxtDdBsPrc: now_item.nxtDdBsPrc, iptVlty: now_item.iptVlty)
                     
                     return now_cellData
                 }
+            
+                
+              
             }
             .resume()
         print("api끝!")

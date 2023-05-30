@@ -129,7 +129,7 @@ class MarketInfoData {
         ]
     ]
     
-    private static let r_dict: [String : String] = ["basDt" : "날짜",
+     static let r_dict: [String : String] = ["basDt" : "날짜",
                                  "srtnCd" : "종목코드",
                                  "itmsNm" : "항목명", "mrktCtg" : "시장명", "mkp" : "시가", "clpr" : "종가", "hipr" : "최고가", "lopr" : "최저가",
                                  "vs" : "전일대비등락",
