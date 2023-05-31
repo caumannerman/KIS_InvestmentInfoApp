@@ -11,9 +11,6 @@ import SnapKit
 
 class UrlSearchView: UIView {
 
-
-    private let alert = UIAlertController(title: "api별칭 입력", message: "별칭을 입력해주세요", preferredStyle: .alert)
-    private var ok = UIAlertAction()
     
     private let urlSearchTextFieldView = UrlSearchTextFieldView()
     private let urlSearchTableView = UrlSearchTableView()
@@ -53,6 +50,7 @@ class UrlSearchView: UIView {
             urlSearchTextFieldView.snp.updateConstraints{
                 $0.height.equalTo(80)
             }
+            
         }
     }
     

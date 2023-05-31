@@ -203,7 +203,7 @@ class WebViewController: UIViewController, WKNavigationDelegate,
     override func viewDidLoad() {
         super.viewDidLoad()
         print("vdl")
-        let sURL = "https://www.google.com/"
+        let sURL = "https://fisis.fss.or.kr/fss/fsiview/indexw_ng.html"
         let uURL = URL(string: sURL)
         var request = URLRequest(url: uURL!)
         webView.load(request)

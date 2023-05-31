@@ -53,12 +53,14 @@ class HomeViewController: UIViewController {
         NotificationCenter.default.post(name:.market_url_changed, object: .none, userInfo: ["marketOrUrl": 0])
     }
     
+    
     @objc func didTapUrlSearchButton(){
         print("didTap UrlSearchButton")
         isMarket = false
         changeCategory(isMarket)
         changeUI_byCategory(isMarket)
         NotificationCenter.default.post(name:.market_url_changed, object: .none, userInfo: ["marketOrUrl": 1])
+        
     }
     
     private func changeCategory(_ isMarket: Bool){
@@ -115,6 +117,8 @@ class HomeViewController: UIViewController {
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+       
+        
         let isFT = isFirstTime()
         print(isFT)
         // 앱 실행이 처음이라면

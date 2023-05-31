@@ -48,7 +48,7 @@ class UrlSearchTextFieldView: UIView {
         urlSearchTextField.textColor = .darkGray
         urlSearchTextField.autocapitalizationType = .none
         urlSearchTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-        
+       
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 10, height: urlSearchTextField.frame.height))
         urlSearchTextField.leftView = paddingView
         urlSearchTextField.leftViewMode = .always
