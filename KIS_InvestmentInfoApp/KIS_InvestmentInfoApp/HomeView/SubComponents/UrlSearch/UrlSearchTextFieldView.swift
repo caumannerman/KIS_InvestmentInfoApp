@@ -12,7 +12,7 @@ import SnapKit
 class UrlSearchTextFieldView: UIView {
     
     private let ucoms: UrlCommonState = UrlCommonState.getInstance()
-    private let urlSearchTextField = UITextField()
+    let urlSearchTextField = UITextField()
     
     override init(frame: CGRect) {
         super.init(frame: frame)

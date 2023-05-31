@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Alamofire
+import WebKit
 
 class ApiListTableViewCell: UITableViewCell {
     
@@ -31,6 +32,9 @@ class ApiListTableViewCell: UITableViewCell {
         
         if !self.isValid {
             print("갱신하시겠습니까?")
+            NotificationCenter.default.post(name:.PushWebView, object: .none)
+
+            
         }
        
     }
@@ -184,3 +188,24 @@ class ApiListTableViewCell: UITableViewCell {
     }
 }
 
+class WebViewController: UIViewController, WKNavigationDelegate,
+    WKUIDelegate {
+
+    var webView: WKWebView!
+
+    override func loadView() {
+        super.loadView()
+        print("load view")
+        webView = WKWebView(frame: self.view.frame)
+        self.view = self.webView!
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        print("vdl")
+        let sURL = "https://www.google.com/"
+        let uURL = URL(string: sURL)
+        var request = URLRequest(url: uURL!)
+        webView.load(request)
+    }
+}

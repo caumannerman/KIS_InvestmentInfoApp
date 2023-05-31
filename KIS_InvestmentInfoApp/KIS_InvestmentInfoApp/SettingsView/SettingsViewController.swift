@@ -21,7 +21,7 @@ final class SettingsViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +31,7 @@ final class SettingsViewController: UIViewController {
         setupNavigationItems()
         setupLayout()
         print("SettingsView의 viewDidLoad 시점 테스트")
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(pushWebView(_:)), name: .PushWebView, object: nil)
         
         
         
@@ -40,6 +40,11 @@ final class SettingsViewController: UIViewController {
     @objc func DidChangeUrlStarInSettings(_ notification: Notification){
         print("SettingsViewCon reload됨")
         apitableView.reloadData()
+        
+    }
+    @objc func pushWebView(_ notification: Notification){
+        let wvc = WebViewController()
+        self.navigationController?.pushViewController(wvc, animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {

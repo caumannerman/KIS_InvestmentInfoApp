@@ -63,5 +63,7 @@ extension Notification.Name {
     // button.text를 userInfo로 보내준다.
     static let ChartCellClicked = Notification.Name("ChartCellClicked")
     
+    static let PushWebView = Notification.Name("PushWebView")
+    
 }
 
